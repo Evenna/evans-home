@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evans · 后台日志</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 故障效果层 -->
+  <div id="scanlines"></div>
+  <div id="glitch-overlay"></div>
+
+  <!-- 胸针光效（主界面才显示） -->
+  <div id="brooch" style="display:none"></div>
+
+  <!-- ============================================================
+       阶段一：序曲
+       ============================================================ -->
+  <div id="intro">
+    <div id="breath-dot"></div>
+    <div id="typewriter"></div>
+  </div>
+
+  <!-- ============================================================
+       阶段二+三：主界面
+       ============================================================ -->
+  <div id="main">
+
+    <!-- 顶部状态栏 -->
+    <div id="statusbar">
+      <span class="status-label">Evans Runtime Log</span>
+      <span class="status-sep">·</span>
+      <span><span class="status-dot"></span>屏幕1 连接</span>
+      <span><span class="status-dot"></span>屏幕2 连接</span>
+      <span id="status-scene">当前场景：空闲</span>
+    </div>
+
+    <!-- 内容区 -->
+    <div id="content">
+
+      <!-- 左侧：数据流 -->
+      <div id="stream-container">
+
+        <!-- Evans 对话层（故障后叠加在数据流上） -->
+        <div id="evans-overlay">
+          <div id="evans-speech"></div>
+        </div>
+
+        <!-- 数据流本体 -->
+        <div id="stream">
+          <div id="stream-inner"></div>
+        </div>
+
+      </div>
+
+      <!-- 右侧：预览面板 -->
+      <div id="preview">
+
+        <div id="preview-empty">
+          将鼠标移到左侧数据流的任意一行<br>
+          <br>
+          ·&nbsp; 高亮行来自真实场景<br>
+          ·&nbsp; 点击可触发双屏动画<br>
+          ·&nbsp; 有一行几乎看不见
+        </div>
+
+        <div id="preview-content">
+          <div>
+            <div id="preview-scene-id" class="preview-scene-id"></div>
+            <div id="preview-title" class="preview-title"></div>
+            <div id="preview-actor" class="preview-actor"></div>
+          </div>
+          <div class="preview-divider"></div>
+          <div>
+            <div class="preview-label">核心能力</div>
+            <div id="preview-ability" class="preview-ability"></div>
+          </div>
+          <div class="preview-divider"></div>
+          <div>
+            <div class="preview-label">金句</div>
+            <div id="preview-quote" class="preview-quote"></div>
+          </div>
+          <div id="preview-action" class="preview-action"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
