@@ -122,15 +122,61 @@ html, body {
   pointer-events: none;
 }
 
-/* 呼吸光点 */
-#breath-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--gold);
-  margin-bottom: 72px;
-  animation: breathe 3.5s ease-in-out infinite;
+/* Evans 头像呼吸光晕 */
+#evans-avatar-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 60px;
   flex-shrink: 0;
+}
+
+#evans-avatar-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  animation: ring-breathe 3.5s ease-in-out infinite;
+}
+
+#evans-avatar {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(7,8,10,0.95) 40%, rgba(7,8,10,0.6) 100%);
+  animation: avatar-breathe 3.5s ease-in-out infinite;
+}
+
+#evans-avatar svg {
+  width: 52px;
+  height: 52px;
+}
+
+@keyframes ring-breathe {
+  0%, 100% {
+    opacity: 0.15;
+    box-shadow: 0 0 6px rgba(200,169,110,0.08);
+    border-color: rgba(200,169,110,0.15);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 18px rgba(200,169,110,0.18), 0 0 40px rgba(160,180,140,0.08);
+    border-color: rgba(200,169,110,0.4);
+  }
+}
+
+@keyframes avatar-breathe {
+  0%, 100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 4px rgba(160,200,150,0.06);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(160,200,150,0.12);
+  }
 }
 
 @keyframes breathe {

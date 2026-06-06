@@ -22,8 +22,26 @@
        阶段一：序曲
        ============================================================ -->
   <div id="intro">
-    <!-- 呼吸光点 -->
-    <div id="breath-dot"></div>
+    <!-- Evans 头像呼吸光晕 -->
+    <div id="evans-avatar-wrap">
+      <div id="evans-avatar-ring"></div>
+      <div id="evans-avatar">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="av-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a8c8b0"/>
+              <stop offset="100%" stop-color="#e8dcc8"/>
+            </linearGradient>
+          </defs>
+          <!-- 简约脸型 + E 字母 -->
+          <circle cx="32" cy="20" r="12" fill="none" stroke="url(#av-grad)" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="32" cy="20" r="8" fill="none" stroke="url(#av-grad)" stroke-width="0.6" opacity="0.4"/>
+          <text x="32" y="25" text-anchor="middle" font-family="serif" font-size="10" fill="url(#av-grad)" opacity="0.85">E</text>
+          <!-- 肩膀弧线 -->
+          <path d="M16 52 Q16 32 32 32 Q48 32 48 52" fill="none" stroke="url(#av-grad)" stroke-width="0.8" opacity="0.35"/>
+        </svg>
+      </div>
+    </div>
 
     <!-- 中心打字机区 -->
     <div id="typewriter-wrap">
