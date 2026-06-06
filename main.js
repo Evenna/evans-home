@@ -1,60 +1,128 @@
 import { STREAM_DATA, SCENE_META } from './data/stream.js';
+import * as THREE from 'three';
 
 // ============================================================
-// 噪声粒子画布
+// 3D 粒子系统
 // ============================================================
 
-function initNoiseCanvas() {
-  const canvas = document.getElementById('noise-canvas');
+let scene3d, camera, renderer, particleSystem;
+let clock3d;
+
+function initParticles3D() {
+  const container = document.getElementById('noise-canvas');
+  // 替换成 Three.js renderer
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  scene3d = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
+  camera.position.z = 30;
+
+  renderer = new THREE.WebGLRenderer({
+    canvas: container,
+    alpha: true,
+    antialias: true,
+  });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // 粒子几何体
+  const PARTICLE_COUNT = 600;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(PARTICLE_COUNT * 3);
+  const colors = new Float32Array(PARTICLE_COUNT * 3);
+  const sizes = new Float32Array(PARTICLE_COUNT);
+
+  // 颜色：暗青、暗金、白
+  const c1 = new THREE.Color('#3a6a5a');  // 暗青
+  const c2 = new THREE.Color('#6a5830');  // 暗金
+  const c3 = new THREE.Color('#e8e6e0');  // 白
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    // 球形分布，半径 15~20
+    const radius = 14 + Math.random() * 8;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+
+    positions[i * 3]     = radius * Math.sin(phi) * Math.cos(theta);
+    positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+    positions[i * 3 + 2] = radius * Math.cos(phi);
+
+    // 随机颜色混合
+    const r = Math.random();
+    let color;
+    if (r < 0.5)       color = c1.clone().multiplyScalar(0.3 + Math.random() * 0.5);
+    else if (r < 0.78) color = c2.clone().multiplyScalar(0.3 + Math.random() * 0.4);
+    else               color = c3.clone().multiplyScalar(0.08 + Math.random() * 0.08);
+
+    colors[i * 3]     = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
+
+    sizes[i] = 0.3 + Math.random() * 1.2;
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+  // 圆形粒子纹理（程序化生成）
+  const canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
   const ctx = canvas.getContext('2d');
+  const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  gradient.addColorStop(0, 'rgba(255,255,255,1)');
+  gradient.addColorStop(0.15, 'rgba(255,255,255,0.8)');
+  gradient.addColorStop(0.4, 'rgba(255,255,255,0.2)');
+  gradient.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 32, 32);
 
-  let w, h;
-  const particles = [];
-  const PARTICLE_COUNT = 120;
+  const spriteTexture = new THREE.CanvasTexture(canvas);
 
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
+  const material = new THREE.PointsMaterial({
+    size: 0.25,
+    map: spriteTexture,
+    vertexColors: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    transparent: true,
+    opacity: 0.7,
+  });
+
+  particleSystem = new THREE.Points(geometry, material);
+  scene3d.add(particleSystem);
+
+  clock3d = new THREE.Clock();
+
+  // resize
+  window.addEventListener('resize', () => {
+    const w2 = window.innerWidth;
+    const h2 = window.innerHeight;
+    renderer.setSize(w2, h2);
+    camera.aspect = w2 / h2;
+    camera.updateProjectionMatrix();
+  });
+
+  // 动画循环
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const delta = clock3d.getDelta();
+    const t = performance.now() * 0.001;
+
+    // 整体缓慢旋转
+    particleSystem.rotation.y += delta * 0.04;
+    particleSystem.rotation.x += delta * 0.02;
+
+    // 呼吸缩放
+    const breathe = 1 + Math.sin(t * 0.6) * 0.04;
+    particleSystem.scale.set(breathe, breathe, breathe);
+
+    renderer.render(scene3d, camera);
   }
-
-  class Particle {
-    constructor() { this.reset(true); }
-    reset(randomY = false) {
-      this.x = Math.random() * w;
-      this.y = randomY ? Math.random() * h : h + 10;
-      this.size = Math.random() * 1.2 + 0.2;
-      this.speedY = -(Math.random() * 0.3 + 0.05);
-      this.speedX = (Math.random() - 0.5) * 0.08;
-      this.opacity = Math.random() * 0.25 + 0.03;
-      // 颜色：暗青 / 暗金 / 白
-      const r = Math.random();
-      if (r < 0.5)       this.color = `rgba(80, 160, 130, ${this.opacity})`;
-      else if (r < 0.75) this.color = `rgba(180, 150, 90, ${this.opacity})`;
-      else               this.color = `rgba(200, 200, 190, ${this.opacity * 0.5})`;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.y < -10) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    }
-  }
-
-  resize();
-  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
-  window.addEventListener('resize', () => { resize(); });
-
-  function loop() {
-    ctx.clearRect(0, 0, w, h);
-    for (const p of particles) { p.update(); p.draw(); }
-    requestAnimationFrame(loop);
-  }
-  loop();
+  animate();
 }
 
 // ============================================================
@@ -434,6 +502,6 @@ function startAppend() {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  initNoiseCanvas();
+  initParticles3D();
   runIntro().catch(console.error);
 });
