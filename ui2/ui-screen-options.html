@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evans · 第三选项</title>
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #07080a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .desktop-frame {
+      width: 420px;
+      padding: 20px 16px 28px;
+    }
+
+    /* ── 卡片 ── */
+    .card {
+      position: relative;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 22px 22px 24px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+      pointer-events: none;
+    }
+
+    /* ── 顶部 ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 6px;
+    }
+
+    .header-icon {
+      font-size: 20px;
+      color: #7eb8e8;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .context-line {
+      font-size: 12px;
+      color: #a0a0b0;
+      margin-bottom: 18px;
+      padding-left: 29px;
+      line-height: 1.5;
+    }
+
+    /* ── 分割线 ── */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0 0 16px;
+    }
+
+    /* ── 选项列表 ── */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 14px 15px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+      transition: opacity 0.5s cubic-bezier(0.34,1.56,0.64,1),
+                  transform 0.5s cubic-bezier(0.34,1.56,0.64,1),
+                  background 0.2s, border-color 0.2s;
+    }
+
+    .option.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* highlighted C */
+    .option.highlight {
+      background: rgba(126,184,232,0.09);
+      border-color: rgba(126,184,232,0.30);
+    }
+
+    .option:not(.highlight):hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.13);
+    }
+
+    .option-letter {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #a0a0b0;
+      flex-shrink: 0;
+      letter-spacing: 0;
+    }
+
+    .option.highlight .option-letter {
+      background: rgba(126,184,232,0.15);
+      border-color: rgba(126,184,232,0.28);
+      color: #7eb8e8;
+    }
+
+    .option-body { flex: 1; min-width: 0; }
+
+    .option-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+    }
+
+    .option-action {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .tag-recommend {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(126,184,232,0.15);
+      color: #7eb8e8;
+      border: 1px solid rgba(126,184,232,0.28);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .option-desc {
+      font-size: 12px;
+      color: #a0a0b0;
+      line-height: 1.55;
+    }
+
+    .option-desc .sep {
+      display: inline-block;
+      margin: 0 5px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── 底部引语 ── */
+    .quote-wrap {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 2px solid rgba(126,184,232,0.35);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.2s,
+                  transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.2s;
+    }
+    .quote-wrap.visible { opacity: 1; transform: translateY(0); }
+
+    .quote-text {
+      font-size: 12px;
+      color: #a0a0b0;
+      line-height: 1.7;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop-frame">
+    <div class="card">
+
+      <!-- 顶部 -->
+      <div class="header">
+        <span class="header-icon"><i class="ph ph-scales"></i></span>
+        <span class="header-title">Evans · 你还可以这样选</span>
+      </div>
+      <p class="context-line">关于这份工作邀约——</p>
+
+      <div class="divider"></div>
+
+      <!-- 选项列表 -->
+      <div class="options">
+
+        <!-- A -->
+        <div class="option" id="optA">
+          <div class="option-letter">A</div>
+          <div class="option-body">
+            <div class="option-header">
+              <span class="option-action">直接拒绝</span>
+            </div>
+            <div class="option-desc">
+              不影响现有关系
+              <span class="sep">/</span>
+              但机会彻底关闭，无法反悔
+            </div>
+          </div>
+        </div>
+
+        <!-- B -->
+        <div class="option" id="optB">
+          <div class="option-letter">B</div>
+          <div class="option-body">
+            <div class="option-header">
+              <span class="option-action">立刻接受</span>
+            </div>
+            <div class="option-desc">
+              快速推进入职流程
+              <span class="sep">/</span>
+              需协调当前项目收尾，时间较紧张
+            </div>
+          </div>
+        </div>
+
+        <!-- C 推荐 -->
+        <div class="option highlight" id="optC">
+          <div class="option-letter">C</div>
+          <div class="option-body">
+            <div class="option-header">
+              <span class="option-action">要求两周后再决定</span>
+              <span class="tag-recommend">推荐</span>
+            </div>
+            <div class="option-desc">
+              先与团队深度了解
+              <span class="sep">/</span>
+              他们通常接受此安排 · 你的选择权保留更长
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 底部引语 -->
+      <div class="quote-wrap" id="quote">
+        <p class="quote-text">「它不告诉你怎么选，它告诉你，你还可以怎么选。」</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const opts = ['optA', 'optB', 'optC'];
+    opts.forEach((id, i) => {
+      setTimeout(() => {
+        document.getElementById(id).classList.add('visible');
+      }, 200 + i * 200);
+    });
+
+    setTimeout(() => {
+      document.getElementById('quote').classList.add('visible');
+    }, 300);
+  </script>
+</body>
+</html>

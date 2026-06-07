@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans — 音波可视化</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #07080a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    position: relative;
+    width: 340px;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 20px 22px 20px;
+    overflow: hidden;
+    opacity: 0;
+    animation: cardIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.15s forwards;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  }
+
+  /* Top row */
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .playing-left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #a0a0b0;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .playing-left i {
+    font-size: 14px;
+    color: #7eb8e8;
+  }
+
+  .timer {
+    font-size: 12px;
+    color: #a0a0b0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+
+  /* Waveform */
+  .waveform-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    gap: 3px;
+    margin-bottom: 18px;
+  }
+
+  .bar {
+    width: 3px;
+    border-radius: 2px;
+    background: #7eb8e8;
+    opacity: 0.7;
+    will-change: height;
+    transition: height 0.12s ease;
+  }
+
+  /* Bottom label */
+  .bottom-label {
+    font-size: 11px;
+    color: #a0a0b0;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes cardIn {
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top-row">
+    <div class="playing-left">
+      <i class="ph ph-speaker-high"></i>
+      <span>正在播放</span>
+    </div>
+    <div class="timer" id="timer">0:12</div>
+  </div>
+
+  <div class="waveform-wrap" id="waveform"></div>
+
+  <div class="bottom-label">陈兰 · 2019年留</div>
+</div>
+
+<script>
+  // Build 32 bars
+  const waveform = document.getElementById('waveform');
+  const NUM_BARS = 32;
+  const MIN_H = 5;
+  const MAX_H = 43;
+  const bars = [];
+
+  for (let i = 0; i < NUM_BARS; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = MIN_H + 'px';
+    // Slight width variation for organic feel
+    const w = [2, 3, 3, 3, 4, 3, 3, 2][i % 8];
+    bar.style.width = w + 'px';
+    waveform.appendChild(bar);
+    bars.push(bar);
+  }
+
+  // Animate waveform — each bar gets its own random oscillation
+  const phases = bars.map(() => Math.random() * Math.PI * 2);
+  const speeds = bars.map(() => 1.8 + Math.random() * 2.4);
+  const amplitudes = bars.map((_, i) => {
+    // Center bars are taller
+    const dist = Math.abs(i - NUM_BARS / 2) / (NUM_BARS / 2);
+    return 0.35 + (1 - dist * dist) * 0.65;
+  });
+
+  let startTime = null;
+
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    const t = (ts - startTime) / 1000;
+
+    bars.forEach((bar, i) => {
+      const raw = Math.sin(t * speeds[i] + phases[i]) * 0.5 + 0.5;
+      const noise = Math.sin(t * speeds[i] * 2.3 + phases[i] * 1.7) * 0.15;
+      const val = Math.max(0, Math.min(1, raw + noise));
+      const h = MIN_H + (MAX_H - MIN_H) * val * amplitudes[i];
+      bar.style.height = h.toFixed(1) + 'px';
+      // Subtle opacity variation
+      bar.style.opacity = (0.45 + val * 0.55).toFixed(2);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+
+  // Timer — count up from 0:12
+  let seconds = 12;
+  const timerEl = document.getElementById('timer');
+
+  setInterval(() => {
+    seconds++;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    timerEl.textContent = m + ':' + String(s).padStart(2, '0');
+  }, 1000);
+</script>
+</body>
+</html>

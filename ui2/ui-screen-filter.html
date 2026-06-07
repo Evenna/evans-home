@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evans · 信息过滤</title>
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #07080a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .screen-frame {
+      width: 480px;
+      padding: 20px 16px 28px;
+    }
+
+    /* ── 卡片 ── */
+    .card {
+      position: relative;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 20px 22px 22px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+      pointer-events: none;
+    }
+
+    /* ── 统计行 ── */
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-all {
+      font-size: 15px;
+      font-weight: 500;
+      color: #a0a0b0;
+      text-decoration: line-through;
+      text-decoration-color: rgba(160,160,176,0.5);
+    }
+
+    .stat-arrow {
+      font-size: 18px;
+      color: #7eb8e8;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .stat-important {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #a0a0b0;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stat-label i { font-size: 15px; color: #7eb8e8; }
+
+    /* ── 分割线 ── */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0 0 14px;
+    }
+
+    /* ── 消息列表 ── */
+    .msg-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .msg-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                  transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .msg-item.visible { opacity: 1; transform: translateY(0); }
+
+    /* filtered */
+    .msg-item.filtered {
+      opacity: 0;
+      background: rgba(255,255,255,0.02);
+    }
+    .msg-item.filtered.visible {
+      opacity: 0.38;
+    }
+    .msg-item.filtered .msg-title,
+    .msg-item.filtered .msg-body {
+      text-decoration: line-through;
+      text-decoration-color: rgba(160,160,176,0.4);
+      color: #a0a0b0;
+    }
+
+    .msg-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      color: #a0a0b0;
+    }
+
+    .msg-item:not(.filtered) .msg-avatar {
+      background: rgba(126,184,232,0.12);
+      border-color: rgba(126,184,232,0.2);
+      color: #7eb8e8;
+    }
+
+    .msg-content { flex: 1; min-width: 0; }
+
+    .msg-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 3px;
+    }
+
+    .msg-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tag {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+    }
+
+    .tag-important {
+      background: rgba(126,184,232,0.18);
+      color: #7eb8e8;
+      border: 1px solid rgba(126,184,232,0.3);
+    }
+
+    .tag-filtered {
+      background: rgba(255,255,255,0.06);
+      color: #a0a0b0;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .msg-body {
+      font-size: 12px;
+      color: #a0a0b0;
+      line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── 底部 ── */
+    .footer {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s cubic-bezier(0.34,1.56,0.64,1) 1.4s,
+                  transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 1.4s;
+    }
+    .footer.visible { opacity: 1; transform: translateY(0); }
+
+    .footer-icon {
+      font-size: 16px;
+      color: #a0a0b0;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: #a0a0b0;
+    }
+
+    .footer-btn {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 500;
+      color: #7eb8e8;
+      background: rgba(126,184,232,0.10);
+      border: 1px solid rgba(126,184,232,0.20);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .footer-btn:hover { background: rgba(126,184,232,0.18); }
+  </style>
+</head>
+<body>
+  <div class="screen-frame">
+    <div class="card">
+
+      <!-- 统计行 -->
+      <div class="stat-row">
+        <span class="stat-all">138条</span>
+        <span class="stat-arrow"><i class="ph ph-funnel"></i></span>
+        <span class="stat-important">5条重要</span>
+        <span class="stat-label"><i class="ph ph-check"></i> 过滤完成</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 消息列表 -->
+      <div class="msg-list">
+
+        <!-- ① 重要 -->
+        <div class="msg-item" id="msg1">
+          <div class="msg-avatar"><i class="ph ph-user"></i></div>
+          <div class="msg-content">
+            <div class="msg-header">
+              <span class="msg-title">导师</span>
+              <span class="tag tag-important">重要</span>
+            </div>
+            <div class="msg-body">周五组会改到10点，请确认出席时间</div>
+          </div>
+        </div>
+
+        <!-- ② 重要 -->
+        <div class="msg-item" id="msg2">
+          <div class="msg-avatar"><i class="ph ph-heart"></i></div>
+          <div class="msg-content">
+            <div class="msg-header">
+              <span class="msg-title">妈妈</span>
+              <span class="tag tag-important">重要</span>
+            </div>
+            <div class="msg-body">今晚有空视频吗，好久没见了</div>
+          </div>
+        </div>
+
+        <!-- ③ 已过滤 -->
+        <div class="msg-item filtered" id="msg3">
+          <div class="msg-avatar"><i class="ph ph-megaphone"></i></div>
+          <div class="msg-content">
+            <div class="msg-header">
+              <span class="msg-title">京东618</span>
+              <span class="tag tag-filtered">已过滤</span>
+            </div>
+            <div class="msg-body">超级大促最后24小时，全场满200减100…</div>
+          </div>
+        </div>
+
+        <!-- ④ 已过滤 -->
+        <div class="msg-item filtered" id="msg4">
+          <div class="msg-avatar"><i class="ph ph-bell"></i></div>
+          <div class="msg-content">
+            <div class="msg-header">
+              <span class="msg-title">推送通知</span>
+              <span class="tag tag-filtered">已过滤</span>
+            </div>
+            <div class="msg-body">您的外卖已送达，请前往取餐点自取</div>
+          </div>
+        </div>
+
+        <!-- ⑤ 已过滤 -->
+        <div class="msg-item filtered" id="msg5">
+          <div class="msg-avatar"><i class="ph ph-envelope"></i></div>
+          <div class="msg-content">
+            <div class="msg-header">
+              <span class="msg-title">招商银行</span>
+              <span class="tag tag-filtered">已过滤</span>
+            </div>
+            <div class="msg-body">尊贵用户，您的信用额度已提升至…</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 底部 -->
+      <div class="footer" id="footer">
+        <span class="footer-icon"><i class="ph ph-archive"></i></span>
+        <span class="footer-text">133条已归档</span>
+        <button class="footer-btn">查看归档</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const msgs = ['msg1','msg2','msg3','msg4','msg5'];
+    msgs.forEach((id, i) => {
+      setTimeout(() => {
+        document.getElementById(id).classList.add('visible');
+      }, 150 + i * 180);
+    });
+
+    setTimeout(() => {
+      document.getElementById('footer').classList.add('visible');
+    }, 300);
+  </script>
+</body>
+</html>

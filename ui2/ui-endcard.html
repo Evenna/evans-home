@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans — Lifelong.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    overflow: hidden;
+  }
+
+  .endcard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    text-align: center;
+  }
+
+  /* Line 1 — Evans */
+  .line-1 {
+    font-family: 'Noto Serif SC', Georgia, serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 0s;
+    margin-bottom: 14px;
+  }
+
+  /* Line 2 — Lifelong. */
+  .line-2 {
+    font-family: 'Noto Serif SC', Georgia, serif;
+    font-size: 36px;
+    font-weight: 300;
+    font-style: italic;
+    color: #a0a0b0;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 1.5s;
+    margin-bottom: 22px;
+  }
+
+  /* Line 3 — 陪你一生的 AI 共生体 */
+  .line-3 {
+    font-size: 12px;
+    color: #5a5a6a;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 3s;
+    margin-bottom: 40px;
+  }
+
+  /* Dots */
+  .dots {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards;
+    animation-delay: 4.5s;
+  }
+
+  .dot {
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .dot.filled {
+    color: #ffffff;
+    font-size: 8px;
+  }
+
+  .dot.empty {
+    color: #3a3a4a;
+    font-size: 8px;
+  }
+
+  .dot-sep {
+    color: #2a2a38;
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="endcard">
+  <div class="line-1">Evans</div>
+  <div class="line-2">Lifelong.</div>
+  <div class="line-3">陪你一生的 AI 共生体</div>
+  <div class="dots">
+    <span class="dot filled">&#9679;</span>
+    <span class="dot-sep">·</span>
+    <span class="dot empty">&#9675;</span>
+    <span class="dot-sep">·</span>
+    <span class="dot empty">&#9675;</span>
+  </div>
+</div>
+</body>
+</html>

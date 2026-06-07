@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans · 代际翻译</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #07080a;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    height: 360px;
+    background: radial-gradient(ellipse, rgba(126,184,232,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .phone-frame {
+    width: 375px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Main card */
+  .card {
+    position: relative;
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 20px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+    animation: cardIn 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 14px; right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    pointer-events: none;
+  }
+
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Header */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+  }
+
+  .header-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: rgba(126,184,232,0.1);
+    border: 1px solid rgba(126,184,232,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .header-icon-wrap i {
+    font-size: 16px;
+    color: #7eb8e8;
+  }
+
+  .header-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.01em;
+  }
+
+  /* Original message bubble */
+  .msg-bubble-wrap {
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: fadeUp 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.5s forwards;
+  }
+
+  .msg-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #a0a0b0;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .msg-bubble {
+    display: inline-block;
+    max-width: 100%;
+    padding: 10px 13px;
+    border-radius: 13px 13px 13px 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 12px;
+    color: rgba(180,180,196,0.85);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Translation card */
+  .translate-card {
+    position: relative;
+    border-radius: 14px;
+    background: rgba(126,184,232,0.05);
+    border: 1px solid rgba(126,184,232,0.22);
+    padding: 14px 15px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.75s forwards;
+  }
+
+  .translate-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10px; right: 10px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(126,184,232,0.3), transparent);
+  }
+
+  .translate-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 11px;
+  }
+
+  .translate-header i {
+    font-size: 13px;
+    color: #7eb8e8;
+  }
+
+  .translate-header-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7eb8e8;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .translate-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .translate-line {
+    font-size: 13.5px;
+    color: #d0d0e0;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: lineIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+
+  .translate-line:nth-child(1) { animation-delay: 1.0s; }
+  .translate-line:nth-child(2) { animation-delay: 1.2s; }
+  .translate-line:nth-child(3) {
+    animation-delay: 1.4s;
+    color: #7eb8e8;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  @keyframes lineIn {
+    from { opacity: 0; transform: translateX(-4px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Bottom section */
+  .bottom-section {
+    opacity: 0;
+    animation: fadeIn 0.4s ease 1.65s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .reply-prompt {
+    font-size: 12.5px;
+    color: #a0a0b0;
+    text-align: center;
+    margin-bottom: 11px;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 9px;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: 11px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    text-align: center;
+    transition: background 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background: rgba(255,255,255,0.18);
+  }
+
+  .btn-secondary {
+    flex: 1;
+    padding: 11px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+    color: #a0a0b0;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    text-align: center;
+    transition: background 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="card">
+    <!-- Header -->
+    <div class="card-header">
+      <div class="header-icon-wrap">
+        <i class="ph ph-translate"></i>
+      </div>
+      <span class="header-title">Evans · 帮你读懂</span>
+    </div>
+
+    <!-- Original message bubble -->
+    <div class="msg-bubble-wrap">
+      <div class="msg-label">原始消息</div>
+      <div class="msg-bubble">妈我最近在搞K8s迁移，周末估计要on call，你别等我吃饭了</div>
+    </div>
+
+    <!-- Translation card -->
+    <div class="translate-card">
+      <div class="translate-header">
+        <i class="ph ph-info"></i>
+        <span class="translate-header-text">Evans 解读</span>
+      </div>
+      <div class="translate-lines">
+        <div class="translate-line">儿子这周末要加班，让你不要等他吃饭。</div>
+        <div class="translate-line">K8s 是他工作上的技术，不用担心。</div>
+        <div class="translate-line">他还是很想你的。</div>
+      </div>
+    </div>
+
+    <!-- Bottom reply prompt -->
+    <div class="bottom-section">
+      <div class="reply-prompt">需要我帮你回复吗？</div>
+      <div class="btn-row">
+        <button class="btn-primary">帮我回复</button>
+        <button class="btn-secondary">我自己写</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

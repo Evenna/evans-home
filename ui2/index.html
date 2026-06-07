@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans UI 浮层 v2 — 总览</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07080a;
+    color: #e8e6e0;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    min-height: 100vh;
+    padding: 60px 40px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .header h1 {
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    color: #a0a0b0;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .header h2 {
+    font-family: Georgia, 'Noto Serif SC', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: 0.06em;
+  }
+  .header .sub {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #5a5a6a;
+    letter-spacing: 0.08em;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: #5a5a6a;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-top: 48px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: block;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 12px; right: 12px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  }
+  .card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+  }
+  .card-meta {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: #5a5a6a;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-meta i { font-size: 12px; color: #7eb8e8; }
+  .card-title {
+    font-size: 15px;
+    color: #e8e6e0;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #5a5a6a;
+    line-height: 1.6;
+  }
+  .card-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+  .badge-blue { background: rgba(126,184,232,0.12); color: #7eb8e8; border: 1px solid rgba(126,184,232,0.2); }
+  .badge-teal { background: rgba(106,200,176,0.12); color: #6ac8b0; border: 1px solid rgba(106,200,176,0.2); }
+  .badge-white { background: rgba(255,255,255,0.06); color: #a0a0b0; border: 1px solid rgba(255,255,255,0.1); }
+
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 11px;
+    color: #3a3a4a;
+    letter-spacing: 0.12em;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Evans · UI Overlays v2</h1>
+  <h2>浮层总览</h2>
+  <p class="sub">14 个组件 · iOS 玻璃风格 · 用于 16:9 视频后期合成</p>
+</div>
+
+<!-- 人物标注 -->
+<div class="section-label"><i class="ph ph-user"></i> 人物卡片</div>
+<div class="grid">
+  <a class="card" href="ui-char-liming.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-user-circle"></i> 镜头 08A · 左下角叠加</div>
+    <div class="card-title">李明</div>
+    <div class="card-desc">28岁 · 产品经理 · 上海<br>首次出场人物标注</div>
+    <span class="card-badge badge-white">CHAR</span>
+  </a>
+  <a class="card" href="ui-char-chenjianguo.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-user-circle"></i> 镜头 12A · 左下角叠加</div>
+    <div class="card-title">陈建国</div>
+    <div class="card-desc">68岁 · 退休工程师 · 武汉<br>首次出场人物标注</div>
+    <span class="card-badge badge-white">CHAR</span>
+  </a>
+</div>
+
+<!-- 幕章 -->
+<div class="section-label"><i class="ph ph-film-strip"></i> 幕章标题</div>
+<div class="grid">
+  <a class="card" href="ui-chapter-title.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-text-t"></i> 各幕切换时全屏叠加</div>
+    <div class="card-title">幕章标题板</div>
+    <div class="card-desc">5种幕章样式 · 从左侧滑入<br>序章 / 硬件 / 提效 / 在你左右 / 克制</div>
+    <span class="card-badge badge-white">TITLE</span>
+  </a>
+</div>
+
+<!-- 产品 -->
+<div class="section-label"><i class="ph ph-cube"></i> 产品展示</div>
+<div class="grid">
+  <a class="card" href="ui-specs.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-cpu"></i> 镜头 05 · 硬件细节幕</div>
+    <div class="card-title">硬件参数浮层</div>
+    <div class="card-desc">6项参数 · 2×3 网格<br>23g · 六轴IMU · 四麦克风 · 36h续航</div>
+    <span class="card-badge badge-blue">SPECS</span>
+  </a>
+</div>
+
+<!-- 功能屏幕 -->
+<div class="section-label"><i class="ph ph-device-mobile"></i> 屏幕内容 UI</div>
+<div class="grid">
+  <a class="card" href="ui-screen-dispatch.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-lightning"></i> 镜头 08B · 手机屏幕合成</div>
+    <div class="card-title">跨工具调度</div>
+    <div class="card-desc">三步流程 · 进度动画<br>李明地铁场景</div>
+    <span class="card-badge badge-blue">PHONE</span>
+  </a>
+  <a class="card" href="ui-screen-filter.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-funnel"></i> 镜头 09B · 电脑屏幕合成</div>
+    <div class="card-title">信息过滤</div>
+    <div class="card-desc">138条 → 5条重要<br>林涵宿舍场景</div>
+    <span class="card-badge badge-blue">LAPTOP</span>
+  </a>
+  <a class="card" href="ui-screen-options.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-scales"></i> 镜头 10B · 桌面合成</div>
+    <div class="card-title">第三选项</div>
+    <div class="card-desc">三方案 A/B/C · C推荐高亮<br>苏婷窗边场景</div>
+    <span class="card-badge badge-blue">DESK</span>
+  </a>
+  <a class="card" href="ui-screen-home.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-house"></i> 镜头 11B · 右下角小浮层</div>
+    <div class="card-title">家居协同</div>
+    <div class="card-desc">4项家居动作依次打勾<br>李明回家场景</div>
+    <span class="card-badge badge-teal">HOME</span>
+  </a>
+  <a class="card" href="ui-screen-fraud.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-warning"></i> 镜头 12B · 手机屏合成</div>
+    <div class="card-title">防诈骗拦截</div>
+    <div class="card-desc">三条风险信号 · 双按钮决策<br>陈建国接诈骗电话</div>
+    <span class="card-badge badge-blue">PHONE</span>
+  </a>
+  <a class="card" href="ui-screen-capsule.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-graph"></i> 镜头 14B · iPad屏合成</div>
+    <div class="card-title">时间胶囊 · 关系记忆</div>
+    <div class="card-desc">关系图谱 · 陈兰留言播放<br>陈建国捧iPad场景</div>
+    <span class="card-badge badge-teal">IPAD</span>
+  </a>
+  <a class="card" href="ui-screen-translate.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-translate"></i> 镜头 15B · 手机屏合成</div>
+    <div class="card-title">代际翻译</div>
+    <div class="card-desc">原始消息 → Evans解读三层<br>慧芳看手机场景</div>
+    <span class="card-badge badge-blue">PHONE</span>
+  </a>
+</div>
+
+<!-- 特殊叙事 -->
+<div class="section-label"><i class="ph ph-music-note"></i> 特殊叙事元素</div>
+<div class="grid">
+  <a class="card" href="ui-waveform.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-speaker-high"></i> 镜头 14D · 叠加音箱画面</div>
+    <div class="card-title">音波可视化</div>
+    <div class="card-desc">32条动态音波 · 计时器<br>陈兰录音播放</div>
+    <span class="card-badge badge-teal">AUDIO</span>
+  </a>
+  <a class="card" href="ui-silence.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-minus"></i> 镜头 16B · 全屏黑场</div>
+    <div class="card-title">静默字幕</div>
+    <div class="card-desc">逐字淡入 · 纯黑背景<br>「沉默是它经过判断后的主动选择」</div>
+    <span class="card-badge badge-white">TITLE</span>
+  </a>
+  <a class="card" href="ui-endcard.html" target="_blank">
+    <div class="card-meta"><i class="ph ph-dot-outline-duotone"></i> 镜头 19 · 落版</div>
+    <div class="card-title">落版字幕</div>
+    <div class="card-desc">Evans · Lifelong. · 副题<br>三行依次渐显 + 胸针灯点</div>
+    <span class="card-badge badge-white">END</span>
+  </a>
+</div>
+
+<div class="footer">Evans UI Overlays v2 · 14 components · iOS glass aesthetic · No emoji · Phosphor Icons</div>
+
+</body>
+</html>

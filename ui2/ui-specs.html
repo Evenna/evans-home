@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans — 技术规格</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #07080a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    overflow: hidden;
+  }
+
+  .overlay {
+    width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+  }
+
+  .header-brand {
+    font-family: Georgia, 'Noto Serif SC', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+
+  .header-sub {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: #a0a0b0;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Spec Card */
+  .spec-card {
+    position: relative;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 22px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  .spec-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  }
+
+  .spec-card.visible {
+    animation: cardIn 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+
+  .spec-card:nth-child(1) { animation-delay: 0.25s; }
+  .spec-card:nth-child(2) { animation-delay: 0.35s; }
+  .spec-card:nth-child(3) { animation-delay: 0.45s; }
+  .spec-card:nth-child(4) { animation-delay: 0.55s; }
+  .spec-card:nth-child(5) { animation-delay: 0.65s; }
+  .spec-card:nth-child(6) { animation-delay: 0.75s; }
+
+  .spec-icon {
+    font-size: 20px;
+    color: #7eb8e8;
+    line-height: 1;
+  }
+
+  .spec-value {
+    font-size: 26px;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  .spec-label {
+    font-size: 11px;
+    color: #a0a0b0;
+    letter-spacing: 0.04em;
+  }
+
+  /* Subtle bottom glow accent */
+  .spec-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 40px;
+    background: radial-gradient(ellipse, rgba(126,184,232,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</style>
+</head>
+<body>
+<div class="overlay">
+  <div class="header">
+    <div class="header-brand">Evans</div>
+    <div class="header-sub">技术规格</div>
+  </div>
+
+  <div class="grid">
+    <div class="spec-card visible" style="animation-delay:0.25s">
+      <i class="ph ph-scales spec-icon"></i>
+      <div class="spec-value">23 g</div>
+      <div class="spec-label">主体重量</div>
+    </div>
+    <div class="spec-card visible" style="animation-delay:0.35s">
+      <i class="ph ph-compass spec-icon"></i>
+      <div class="spec-value">6轴 IMU</div>
+      <div class="spec-label">姿态感知</div>
+    </div>
+    <div class="spec-card visible" style="animation-delay:0.45s">
+      <i class="ph ph-microphone spec-icon"></i>
+      <div class="spec-value">四麦克风</div>
+      <div class="spec-label">阵列收音</div>
+    </div>
+    <div class="spec-card visible" style="animation-delay:0.55s">
+      <i class="ph ph-heartbeat spec-icon"></i>
+      <div class="spec-value">多模态</div>
+      <div class="spec-label">生理传感</div>
+    </div>
+    <div class="spec-card visible" style="animation-delay:0.65s">
+      <i class="ph ph-cpu spec-icon"></i>
+      <div class="spec-value">端侧 NPU</div>
+      <div class="spec-label">低功耗推理</div>
+    </div>
+    <div class="spec-card visible" style="animation-delay:0.75s">
+      <i class="ph ph-battery-charging spec-icon"></i>
+      <div class="spec-value">36 h</div>
+      <div class="spec-label">续航时长</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
