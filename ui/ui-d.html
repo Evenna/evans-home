@@ -1,151 +1,323 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UI-D · 时间胶囊</title>
+<title>UI-D · 家居协同 · Evans</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
-    background: #07080a;
-    display: flex; align-items: center; justify-content: center;
     min-height: 100vh;
-    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    background: #07080a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
   }
 
+  /* 背景微粒光晕 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse at center,
+      rgba(200, 169, 110, 0.06) 0%,
+      rgba(58, 138, 114, 0.04) 40%,
+      transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 360px;
+    animation: cardEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(32px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+
+  /* 毛玻璃卡片 */
   .card {
-    width: 420px;
-    background: rgba(14,16,20,0.95);
-    border: 1px solid rgba(200,169,110,0.2);
-    border-radius: 20px;
-    padding: 24px 26px;
-    box-shadow: 0 0 40px rgba(200,169,110,0.04), 0 8px 32px rgba(0,0,0,0.65);
-    animation: cardIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
-    opacity: 0; transform: translateY(14px);
+    position: relative;
+    background: rgba(18, 20, 26, 0.96);
+    border-radius: 22px;
+    border: 1px solid rgba(200, 169, 110, 0.18);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 28px 26px 24px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 24px 64px rgba(0,0,0,0.72),
+      0 2px 16px rgba(200,169,110,0.08);
   }
-  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
 
-  .header { display:flex; align-items:center; gap:9px; margin-bottom:20px; }
-  .dot { width:7px; height:7px; border-radius:50%; background:#c8a96e; flex-shrink:0;
-         animation:breathe 2.2s ease-in-out infinite; }
-  @keyframes breathe{0%,100%{opacity:1;box-shadow:0 0 5px rgba(200,169,110,0.7);}50%{opacity:0.4;box-shadow:none;}}
-  .header-label { font-size:11px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
-
-  .person-row {
-    display:flex; align-items:center; gap:14px;
-    padding:12px 0;
-    border-bottom:1px solid rgba(255,255,255,0.04);
-    opacity:0; animation:rowIn 0.5s ease forwards;
+  /* 顶部金光微渐变 */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(200,169,110,0.5) 30%,
+      rgba(200,169,110,0.8) 50%,
+      rgba(200,169,110,0.5) 70%,
+      transparent 100%);
   }
-  .person-row:last-child { border-bottom:none; }
-  .person-row:nth-child(1){animation-delay:0.3s;}
-  .person-row:nth-child(2){animation-delay:0.6s;}
-  .person-row:nth-child(3){animation-delay:0.9s;}
 
-  @keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
-
-  .avatar {
-    width:40px; height:40px; border-radius:12px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    font-size:15px; color:#e8e6e0; font-weight:500;
+  /* 右上角光晕 */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(200,169,110,0.07) 0%, transparent 65%);
+    pointer-events: none;
   }
-  .avatar.lan  { background:linear-gradient(135deg,#3a5248,#5a4020); }
-  .avatar.jun  { background:linear-gradient(135deg,#2a4a6a,#1a3040); }
-  .avatar.memo { background:linear-gradient(135deg,#3a3228,#5a4a30); font-size:17px; }
 
-  .info { flex:1; }
-  .name { font-size:13px; color:#e8e6e0; font-weight:500; margin-bottom:4px; }
-  .detail { font-size:11px; color:#555; line-height:1.6; }
-  .detail .hi { color:#c8a96e; }
-  .detail .teal { color:#3a6a5a; }
-
-  .right { flex-shrink:0; text-align:right; }
-  .year  { font-size:10px; padding:2px 9px; border-radius:5px;
-           background:rgba(58,106,90,0.15); color:#3a6a5a; margin-bottom:4px; display:inline-block; }
-  .sub-label { font-size:9px; color:#333; display:block; margin-top:3px; }
-
-  /* 播放按钮特殊样式 */
-  .play-btn {
-    display:flex; align-items:center; gap:6px;
-    font-size:11px; padding:5px 12px; border-radius:7px;
-    background:rgba(200,169,110,0.1);
-    border:1px solid rgba(200,169,110,0.25);
-    color:#c8a96e; cursor:pointer;
-    transition:all 0.2s;
-    opacity:0; animation:fadeBtn 0.4s ease 1.4s forwards;
+  /* 头部 */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
   }
-  @keyframes fadeBtn{to{opacity:1;}}
-  .play-btn:hover { background:rgba(200,169,110,0.18); }
-  .play-btn .play-icon { font-size:9px; }
 
-  /* 底部情绪提示 */
-  .footer-quote {
-    margin-top:18px; padding-top:14px;
-    border-top:1px solid rgba(255,255,255,0.04);
-    font-size:12px; color:#3a4a42; line-height:1.7; font-style:italic;
-    opacity:0; animation:fadeIn 0.5s ease 1.6s forwards;
+  .header-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, rgba(200,169,110,0.22) 0%, rgba(200,169,110,0.08) 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(200,169,110,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
   }
-  @keyframes fadeIn{to{opacity:1;}}
-  .footer-quote .quote-hi { color:#3a5a4a; }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .header-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #c8a96e;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .header-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #e8e6e0;
+    letter-spacing: -0.01em;
+  }
+
+  /* 分割线 */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15) 30%, rgba(200,169,110,0.15) 70%, transparent);
+    margin-bottom: 18px;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.18s both;
+  }
+
+  /* 动作列表 */
+  .action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .action-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.055);
+    opacity: 0;
+    animation: itemEntrance 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+
+  .action-item:nth-child(1) { animation-delay: 0.28s; }
+  .action-item:nth-child(2) { animation-delay: 0.40s; }
+  .action-item:nth-child(3) { animation-delay: 0.52s; }
+  .action-item:nth-child(4) { animation-delay: 0.64s; }
+
+  @keyframes itemEntrance {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .action-icon-wrap {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .action-icon-wrap.warm  { background: rgba(200,169,110,0.14); }
+  .action-icon-wrap.cool  { background: rgba(58,138,114,0.14); }
+  .action-icon-wrap.heat  { background: rgba(200,120,70,0.12); }
+  .action-icon-wrap.night { background: rgba(100,100,160,0.12); }
+
+  .action-text {
+    flex: 1;
+  }
+
+  .action-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8e6e0;
+    line-height: 1.3;
+  }
+
+  .action-value {
+    font-size: 12px;
+    color: #6a6a7a;
+    margin-top: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  /* 完成勾 */
+  .check-mark {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3a8a72 0%, #2d7a62 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(58,138,114,0.35);
+    opacity: 0;
+    animation: checkPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+
+  .action-item:nth-child(1) .check-mark { animation-delay: 0.52s; }
+  .action-item:nth-child(2) .check-mark { animation-delay: 0.64s; }
+  .action-item:nth-child(3) .check-mark { animation-delay: 0.76s; }
+  .action-item:nth-child(4) .check-mark { animation-delay: 0.88s; }
+
+  @keyframes checkPop {
+    from { opacity: 0; transform: scale(0.4); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .check-mark svg {
+    width: 11px; height: 11px;
+    stroke: #fff;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* 底部语句 */
+  .footer-line {
+    text-align: center;
+    font-size: 12.5px;
+    color: #6a6a7a;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    padding-top: 4px;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.0s both;
+  }
+
+  .footer-line em {
+    font-style: normal;
+    color: rgba(200,169,110,0.7);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="header">
-    <div class="dot"></div>
-    <span class="header-label">Evans · 关系记忆</span>
-  </div>
 
-  <div class="person-rows">
-    <div class="person-row">
-      <div class="avatar lan">兰</div>
-      <div class="info">
-        <div class="name">陈兰（妻）</div>
-        <div class="detail">
-          忌日 <span class="hi">11月3日</span> &nbsp;·&nbsp;
-          共同记忆 <span class="hi">2,847</span> 条
-        </div>
-      </div>
-      <div class="right">
-        <span class="year">相识 43 年</span>
+<div class="card-wrapper">
+  <div class="card">
+
+    <div class="card-header">
+      <div class="header-icon">🏠</div>
+      <div class="header-text">
+        <span class="header-label">Evans</span>
+        <span class="header-title">已为你准备好</span>
       </div>
     </div>
 
-    <div class="person-row">
-      <div class="avatar jun">军</div>
-      <div class="info">
-        <div class="name">陈军（儿子）</div>
-        <div class="detail">
-          上次通话 <span class="hi">3天前</span> &nbsp;·&nbsp;
-          <span class="teal">北京</span> · 程序员
+    <div class="divider"></div>
+
+    <div class="action-list">
+
+      <div class="action-item">
+        <div class="action-icon-wrap warm">💡</div>
+        <div class="action-text">
+          <div class="action-name">灯光已调至 38% 暖光</div>
+          <div class="action-value">客厅 · 2700K 色温</div>
+        </div>
+        <div class="check-mark">
+          <svg viewBox="0 0 12 12"><polyline points="2,6.5 5,9.5 10,3"/></svg>
         </div>
       </div>
-      <div class="right">
-        <span class="year">相识 38 年</span>
+
+      <div class="action-item">
+        <div class="action-icon-wrap cool">❄️</div>
+        <div class="action-text">
+          <div class="action-name">空调已开启 26°C</div>
+          <div class="action-value">制冷模式 · 自动风速</div>
+        </div>
+        <div class="check-mark">
+          <svg viewBox="0 0 12 12"><polyline points="2,6.5 5,9.5 10,3"/></svg>
+        </div>
       </div>
+
+      <div class="action-item">
+        <div class="action-icon-wrap heat">☕</div>
+        <div class="action-text">
+          <div class="action-name">热水壶已开始加热</div>
+          <div class="action-value">预计 4 分钟后沸腾</div>
+        </div>
+        <div class="check-mark">
+          <svg viewBox="0 0 12 12"><polyline points="2,6.5 5,9.5 10,3"/></svg>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-icon-wrap night">🌙</div>
+        <div class="action-text">
+          <div class="action-name">窗帘已拉上</div>
+          <div class="action-value">遮光帘 · 100% 闭合</div>
+        </div>
+        <div class="check-mark">
+          <svg viewBox="0 0 12 12"><polyline points="2,6.5 5,9.5 10,3"/></svg>
+        </div>
+      </div>
+
     </div>
 
-    <div class="person-row">
-      <div class="avatar memo">♪</div>
-      <div class="info">
-        <div class="name">时间胶囊 · 陈兰留言</div>
-        <div class="detail">
-          录制于 <span class="hi">2019年9月</span> &nbsp;·&nbsp;
-          时长 <span class="hi">2分14秒</span>
-        </div>
-      </div>
-      <div class="right">
-        <div class="play-btn">
-          <span class="play-icon">▶</span>
-          播放
-        </div>
-      </div>
+    <div class="footer-line">
+      你刚进门，<em>它已经知道你需要什么。</em>
     </div>
-  </div>
 
-  <div class="footer-quote">
-    「她说，如果有一天你一个人，就让它陪着你。」
   </div>
 </div>
+
 </body>
 </html>

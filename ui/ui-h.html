@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-H · 代际翻译</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #07080a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    padding: 24px;
+  }
+
+  .card {
+    background: rgba(18, 20, 26, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(200, 169, 110, 0.15);
+    border-radius: 22px;
+    padding: 0;
+    width: 100%;
+    max-width: 390px;
+    box-shadow:
+      0 0 0 0.5px rgba(200,169,110,0.07),
+      0 12px 40px rgba(0,0,0,0.80),
+      0 4px 12px rgba(0,0,0,0.55),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+    animation: cardIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+  }
+
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Evans Header Bar */
+  .evans-header {
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.05);
+    background: rgba(200,169,110,0.04);
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.28s forwards;
+  }
+  .evans-orb {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 36%, rgba(200,169,110,0.28), rgba(200,169,110,0.06));
+    border: 0.5px solid rgba(200,169,110,0.30);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: #c8a96e;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 0 12px rgba(200,169,110,0.10);
+  }
+  .evans-title-wrap { flex: 1; }
+  .evans-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #c8a96e;
+    letter-spacing: 0.03em;
+  }
+  .evans-sub {
+    font-size: 11px;
+    color: #6a6a7a;
+    margin-top: 1px;
+    letter-spacing: 0.01em;
+  }
+  .evans-badge {
+    font-size: 10px;
+    color: rgba(58,138,114,0.85);
+    background: rgba(58,138,114,0.10);
+    border: 0.5px solid rgba(58,138,114,0.22);
+    border-radius: 20px;
+    padding: 3px 9px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Content area */
+  .content { padding: 18px 20px; }
+
+  /* Original message block */
+  .section-label {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.40s forwards;
+  }
+  .label-original { color: #6a6a7a; }
+  .label-line {
+    flex: 1;
+    height: 0.5px;
+    background: rgba(255,255,255,0.06);
+  }
+  .label-source {
+    font-size: 10px;
+    color: rgba(106,106,122,0.55);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .wechat-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    background: rgba(106,106,122,0.22);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7px; color: rgba(106,106,122,0.6);
+  }
+
+  .original-bubble {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 14px 14px 14px 4px;
+    padding: 13px 15px;
+    font-size: 13.5px;
+    color: rgba(232,230,224,0.55);
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: fadeUp 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.52s forwards;
+    position: relative;
+  }
+  .original-bubble .tech-word {
+    color: rgba(232,230,224,0.32);
+    text-decoration: underline;
+    text-decoration-color: rgba(232,230,224,0.15);
+    text-decoration-style: dotted;
+  }
+
+  /* Divider with arrow */
+  .translate-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 0 10px;
+    opacity: 0;
+    animation: fadeUp 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.64s forwards;
+  }
+  .arrow-line {
+    flex: 1;
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.18));
+  }
+  .arrow-line.r {
+    background: linear-gradient(90deg, rgba(200,169,110,0.18), transparent);
+  }
+  .arrow-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.10);
+    border: 0.5px solid rgba(200,169,110,0.24);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .arrow-icon svg { width: 12px; height: 12px; }
+
+  /* Translation section label */
+  .label-translated {
+    color: rgba(200,169,110,0.70);
+    opacity: 0;
+    animation: fadeUp 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.70s forwards;
+  }
+
+  /* Translated bubble */
+  .translated-bubble {
+    background: rgba(200,169,110,0.07);
+    border: 0.5px solid rgba(200,169,110,0.20);
+    border-radius: 14px 14px 14px 4px;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    color: #e8e6e0;
+    line-height: 1.78;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.80s forwards;
+    position: relative;
+  }
+  .translated-bubble .key-info {
+    color: #c8a96e;
+    font-weight: 500;
+  }
+  .translated-bubble::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #c8a96e, rgba(200,169,110,0.3));
+    border-radius: 3px 0 0 3px;
+    opacity: 0.5;
+  }
+
+  /* Bottom CTA */
+  .cta-section {
+    border-top: 0.5px solid rgba(255,255,255,0.05);
+    padding: 16px 20px;
+    background: rgba(200,169,110,0.03);
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.94s forwards;
+  }
+  .cta-question {
+    font-size: 12.5px;
+    color: rgba(232,230,224,0.55);
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  .cta-btn {
+    flex: 1;
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    letter-spacing: 0.01em;
+    border: none;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .cta-btn:hover { transform: scale(1.03) translateY(-1px); }
+  .cta-btn-primary {
+    background: rgba(200,169,110,0.14);
+    border: 0.5px solid rgba(200,169,110,0.35);
+    color: #c8a96e;
+    font-weight: 500;
+  }
+  .cta-btn-primary:hover {
+    background: rgba(200,169,110,0.22);
+    border-color: rgba(200,169,110,0.55);
+  }
+  .cta-btn-secondary {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.09);
+    color: rgba(232,230,224,0.50);
+  }
+  .cta-btn-secondary:hover {
+    background: rgba(255,255,255,0.07);
+    color: rgba(232,230,224,0.70);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <!-- Evans Header -->
+  <div class="evans-header">
+    <div class="evans-orb">E</div>
+    <div class="evans-title-wrap">
+      <div class="evans-name">Evans</div>
+      <div class="evans-sub">帮你读懂</div>
+    </div>
+    <div class="evans-badge">代际翻译</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Original message label -->
+    <div class="section-label label-original">
+      <span>原始消息</span>
+      <div class="label-line"></div>
+      <div class="label-source">
+        <div class="wechat-dot">微</div>
+        <span>儿子 陈军</span>
+      </div>
+    </div>
+
+    <!-- Original bubble -->
+    <div class="original-bubble">
+      妈，我最近在搞 <span class="tech-word">K8s 迁移</span>，这周末估计要 <span class="tech-word">on call</span>，可能会半夜被 <span class="tech-word">alert</span> 叫起来处理 <span class="tech-word">pod</span> 的问题。周末就不回去了，你别等我吃饭，让爸自己弄吧，或者你叫个 <span class="tech-word">外卖</span>，我 <span class="tech-word">push</span> 完代码再给你打电话。
+    </div>
+
+    <!-- Arrow transition -->
+    <div class="translate-arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-icon">
+        <svg viewBox="0 0 12 12" fill="none">
+          <path d="M6 2v8M3 7l3 3 3-3" stroke="#c8a96e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="arrow-line r"></div>
+    </div>
+
+    <!-- Translated label -->
+    <div class="section-label label-translated" style="animation-delay:0.70s;">
+      <span>Evans 帮你理解的意思</span>
+      <div class="label-line" style="background:linear-gradient(90deg,rgba(200,169,110,0.15),transparent);"></div>
+    </div>
+
+    <!-- Translated bubble -->
+    <div class="translated-bubble">
+      <span class="key-info">儿子这周末要加班</span>，让你<span class="key-info">别等他吃饭</span>。他说的「K8s」和「on call」都是工作上的技术事务，<span class="key-info">不用担心</span>。他忙完之后会给你打电话。
+    </div>
+  </div>
+
+  <!-- CTA Bottom -->
+  <div class="cta-section">
+    <div class="cta-question">需要我帮你回复吗？</div>
+    <div class="cta-buttons">
+      <button class="cta-btn cta-btn-primary">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 9.5l10-7.5-5 9-1.5-3.5L1 9.5z" fill="#c8a96e"/>
+        </svg>
+        好的，帮我回
+      </button>
+      <button class="cta-btn cta-btn-secondary">我自己来</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

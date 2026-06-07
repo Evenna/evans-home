@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-G · 时间胶囊</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #07080a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    padding: 24px;
+  }
+
+  .card {
+    background: rgba(18, 20, 26, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(200, 169, 110, 0.18);
+    border-radius: 22px;
+    padding: 28px 24px 22px;
+    width: 100%;
+    max-width: 390px;
+    box-shadow:
+      0 0 0 0.5px rgba(200,169,110,0.08),
+      0 8px 32px rgba(0,0,0,0.72),
+      0 2px 8px rgba(0,0,0,0.48),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    animation: cardIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+  }
+
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.25s forwards;
+  }
+  .header-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, rgba(200,169,110,0.22), rgba(200,169,110,0.08));
+    border: 0.5px solid rgba(200,169,110,0.35);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .header-icon svg { width: 14px; height: 14px; }
+  .header-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #c8a96e;
+    letter-spacing: 0.04em;
+  }
+  .header-dot {
+    width: 4px; height: 4px;
+    background: rgba(200,169,110,0.4);
+    border-radius: 50%;
+    margin-left: auto;
+  }
+
+  /* Divider */
+  .divider {
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.14), transparent);
+    margin-bottom: 16px;
+  }
+
+  /* Row */
+  .person-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.04);
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  .person-row:last-of-type { border-bottom: none; }
+  .person-row:nth-child(1) { animation: rowIn 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.38s forwards; }
+  .person-row:nth-child(2) { animation: rowIn 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.50s forwards; }
+  .person-row:nth-child(3) { animation: rowIn 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.62s forwards; }
+
+  @keyframes rowIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeSlideIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Avatar */
+  .avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .avatar-wife {
+    background: linear-gradient(135deg, rgba(200,169,110,0.20), rgba(200,169,110,0.08));
+    border: 1px solid rgba(200,169,110,0.30);
+    color: #c8a96e;
+  }
+  .avatar-son {
+    background: linear-gradient(135deg, rgba(58,138,114,0.20), rgba(58,138,114,0.08));
+    border: 1px solid rgba(58,138,114,0.30);
+    color: #3a8a72;
+  }
+  .avatar-capsule {
+    background: linear-gradient(135deg, rgba(200,169,110,0.12), rgba(58,138,114,0.08));
+    border: 1px solid rgba(200,169,110,0.20);
+    color: rgba(200,169,110,0.7);
+    font-size: 18px;
+  }
+  .avatar-badge {
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 14px; height: 14px;
+    background: #c8a96e;
+    border-radius: 50%;
+    border: 1.5px solid #12141a;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .avatar-badge svg { width: 7px; height: 7px; }
+
+  /* Info */
+  .person-info { flex: 1; min-width: 0; }
+  .person-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #e8e6e0;
+    margin-bottom: 5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .person-tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+  .tag-wife {
+    background: rgba(200,169,110,0.12);
+    color: #c8a96e;
+    border: 0.5px solid rgba(200,169,110,0.22);
+  }
+  .tag-son {
+    background: rgba(58,138,114,0.12);
+    color: #3a8a72;
+    border: 0.5px solid rgba(58,138,114,0.22);
+  }
+  .person-meta {
+    font-size: 12px;
+    color: #6a6a7a;
+    line-height: 1.5;
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .meta-sep {
+    width: 2px; height: 2px;
+    background: rgba(106,106,122,0.5);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .meta-highlight {
+    color: rgba(200,169,110,0.65);
+    font-size: 11.5px;
+  }
+
+  /* Play button */
+  .play-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.10);
+    border: 0.5px solid rgba(200,169,110,0.28);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .play-btn:hover {
+    background: rgba(200,169,110,0.18);
+    border-color: rgba(200,169,110,0.50);
+    transform: scale(1.06);
+  }
+  .play-btn svg { width: 13px; height: 13px; margin-left: 2px; }
+
+  /* Duration chip */
+  .duration-chip {
+    font-size: 11px;
+    color: rgba(200,169,110,0.55);
+    background: rgba(200,169,110,0.06);
+    border: 0.5px solid rgba(200,169,110,0.14);
+    border-radius: 20px;
+    padding: 2px 8px;
+  }
+
+  /* Footer quote */
+  .footer-quote {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: rgba(200,169,110,0.05);
+    border: 0.5px solid rgba(200,169,110,0.12);
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.78s forwards;
+  }
+  .quote-mark {
+    font-size: 20px;
+    color: rgba(200,169,110,0.30);
+    line-height: 1;
+    font-family: Georgia, serif;
+    margin-bottom: 4px;
+  }
+  .quote-text {
+    font-size: 12.5px;
+    color: rgba(232,230,224,0.55);
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+  .quote-text em {
+    color: rgba(200,169,110,0.70);
+    font-style: normal;
+  }
+
+  /* Waveform */
+  .waveform {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 18px;
+  }
+  .wave-bar {
+    width: 2.5px;
+    background: rgba(200,169,110,0.35);
+    border-radius: 2px;
+    animation: wavePulse 1.2s ease-in-out infinite;
+  }
+  .wave-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .wave-bar:nth-child(2) { height: 12px; animation-delay: 0.1s; }
+  .wave-bar:nth-child(3) { height: 9px; animation-delay: 0.2s; }
+  .wave-bar:nth-child(4) { height: 15px; animation-delay: 0.3s; }
+  .wave-bar:nth-child(5) { height: 8px; animation-delay: 0.15s; }
+  .wave-bar:nth-child(6) { height: 11px; animation-delay: 0.25s; }
+  .wave-bar:nth-child(7) { height: 6px; animation-delay: 0.05s; }
+  @keyframes wavePulse {
+    0%, 100% { opacity: 0.35; transform: scaleY(1); }
+    50% { opacity: 0.70; transform: scaleY(1.25); }
+  }
+
+  .person-rows-wrapper { margin-bottom: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="#c8a96e" stroke-width="1"/>
+        <path d="M7 4.5V7.2L8.8 9" stroke="#c8a96e" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="header-title">关系图谱 · 时间胶囊</span>
+    <div class="header-dot"></div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- Person rows -->
+  <div class="person-rows-wrapper">
+    <!-- Row 1: 陈兰 -->
+    <div class="person-row">
+      <div class="avatar avatar-wife">
+        兰
+        <div class="avatar-badge">
+          <svg viewBox="0 0 7 7" fill="#07080a"><path d="M3.5 1.5C2.7 1.5 2 2.2 2 3s.7 1.5 1.5 1.5S5 3.8 5 3 4.3 1.5 3.5 1.5zm0 3.5C2.1 5 1 5.7 1 6.5h5c0-.8-1.1-1.5-2.5-1.5z"/></svg>
+        </div>
+      </div>
+      <div class="person-info">
+        <div class="person-name">
+          陈兰
+          <span class="person-tag tag-wife">妻</span>
+        </div>
+        <div class="person-meta">
+          <span class="meta-highlight">忌日 11月3日</span>
+          <span class="meta-sep"></span>
+          <span>共同记忆 2847 条</span>
+          <span class="meta-sep"></span>
+          <span>相识 43 年</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: 陈军 -->
+    <div class="person-row">
+      <div class="avatar avatar-son">军</div>
+      <div class="person-info">
+        <div class="person-name">
+          陈军
+          <span class="person-tag tag-son">儿子</span>
+        </div>
+        <div class="person-meta">
+          <span>上次通话 3 天前</span>
+          <span class="meta-sep"></span>
+          <span>北京 · 程序员</span>
+          <span class="meta-sep"></span>
+          <span>相识 38 年</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: 时间胶囊 -->
+    <div class="person-row" style="border-bottom:none;">
+      <div class="avatar avatar-capsule">▶</div>
+      <div class="person-info">
+        <div class="person-name" style="font-size:14px;">
+          时间胶囊 · 陈兰留言
+        </div>
+        <div class="person-meta" style="gap:8px; margin-top:4px;">
+          <span>录制于 2019年9月</span>
+          <span class="meta-sep"></span>
+          <div class="waveform">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <span class="duration-chip">2:14</span>
+        </div>
+      </div>
+      <div class="play-btn">
+        <svg viewBox="0 0 13 13" fill="#c8a96e">
+          <path d="M3 2.5l7.5 4L3 10.5V2.5z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer quote -->
+  <div class="footer-quote">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">她说，如果有一天你<em>一个人</em>，就让它<em>陪着你</em>。</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Evans UI Overlays · Preview</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #07080a;
+    color: #e8e6e0;
+    font-family: -apple-system, 'PingFang SC', sans-serif;
+    padding: 48px 40px;
+  }
+  .page-title {
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 8px;
+  }
+  h1 { font-size: 28px; font-weight: 300; color: #e8e6e0; margin-bottom: 6px; }
+  .sub { font-size: 13px; color: #444; margin-bottom: 48px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  a { text-decoration: none; }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px 22px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    background: rgba(200,169,110,0.06);
+    border-color: rgba(200,169,110,0.25);
+    transform: translateY(-2px);
+  }
+  .card-id { font-size:10px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }
+  .card-title { font-size:15px; color:#e8e6e0; font-weight:500; margin-bottom:4px; }
+  .card-scene { font-size:11px; color:#444; margin-bottom:12px; }
+  .card-tag {
+    display:inline-block; font-size:10px; padding:2px 9px; border-radius:5px;
+    background:rgba(58,106,90,0.18); color:#3a6a5a;
+  }
+  .card-tag.amber { background:rgba(200,169,110,0.12); color:#c8a96e; }
+  .card-tag.muted { background:rgba(255,255,255,0.04); color:#333; }
+
+  .section-label {
+    font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:#333; margin: 36px 0 14px;
+  }
+  .section-label:first-of-type { margin-top:0; }
+</style>
+</head>
+<body>
+  <div class="page-title">Evans · Production</div>
+  <h1>UI Overlay Previews</h1>
+  <div class="sub">全片 12 个浮层 · iOS 风格暗金配色 · 点击查看</div>
+
+  <div class="section-label">功能浮层 — 屏幕合成</div>
+  <div class="grid">
+    <a href="ui-a.html">
+      <div class="card">
+        <div class="card-id">UI-A · 镜头 08B</div>
+        <div class="card-title">跨工具调度</div>
+        <div class="card-scene">李明 · 地铁晨间 · 手机屏</div>
+        <span class="card-tag">功能演示</span>
+      </div>
+    </a>
+    <a href="ui-b.html">
+      <div class="card">
+        <div class="card-id">UI-B · 镜头 09B</div>
+        <div class="card-title">信息过滤</div>
+        <div class="card-scene">林涵 · 宿舍开机 · 电脑屏</div>
+        <span class="card-tag">功能演示</span>
+      </div>
+    </a>
+    <a href="ui-c.html">
+      <div class="card">
+        <div class="card-id">UI-C · 镜头 10B</div>
+        <div class="card-title">第三选项</div>
+        <div class="card-scene">苏婷 · 窗边办公 · 桌面屏</div>
+        <span class="card-tag amber">核心理念</span>
+      </div>
+    </a>
+    <a href="ui-d.html">
+      <div class="card">
+        <div class="card-id">UI-D · 镜头 11B</div>
+        <div class="card-title">家居协同</div>
+        <div class="card-scene">李明 · 回家 · 智能家居</div>
+        <span class="card-tag">功能演示</span>
+      </div>
+    </a>
+    <a href="ui-e.html">
+      <div class="card">
+        <div class="card-id">UI-E · 镜头 12B</div>
+        <div class="card-title">防诈骗拦截</div>
+        <div class="card-scene">陈建国 · 接诈骗电话 · 手机屏</div>
+        <span class="card-tag amber">情感高潮</span>
+      </div>
+    </a>
+    <a href="ui-f.html">
+      <div class="card">
+        <div class="card-id">UI-F · 镜头 13B</div>
+        <div class="card-title">深夜关怀</div>
+        <div class="card-scene">李明 · 深夜伏案 · 环境感知</div>
+        <span class="card-tag">情感演示</span>
+      </div>
+    </a>
+    <a href="ui-g.html">
+      <div class="card">
+        <div class="card-id">UI-G · 镜头 14B</div>
+        <div class="card-title">时间胶囊</div>
+        <div class="card-scene">陈建国 · iPad · 关系图谱</div>
+        <span class="card-tag amber">情感高潮</span>
+      </div>
+    </a>
+    <a href="ui-h.html">
+      <div class="card">
+        <div class="card-id">UI-H · 镜头 15B</div>
+        <div class="card-title">代际翻译</div>
+        <div class="card-scene">慧芳 · 看手机 · 消息转译</div>
+        <span class="card-tag">功能演示</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">叙事浮层 — 画面叠加</div>
+  <div class="grid">
+    <a href="ui-i.html">
+      <div class="card">
+        <div class="card-id">UI-I · 各幕开场</div>
+        <div class="card-title">场景标签</div>
+        <div class="card-scene">人物介绍 · 幕名 · 时间地点</div>
+        <span class="card-tag muted">叙事辅助</span>
+      </div>
+    </a>
+    <a href="ui-j.html">
+      <div class="card">
+        <div class="card-id">UI-J · 镜头 05</div>
+        <div class="card-title">硬件参数</div>
+        <div class="card-scene">产品细节 · 技术规格浮层</div>
+        <span class="card-tag muted">产品信息</span>
+      </div>
+    </a>
+    <a href="ui-k.html">
+      <div class="card">
+        <div class="card-id">UI-K · 镜头 16B</div>
+        <div class="card-title">静默黑场</div>
+        <div class="card-scene">克制幕 · 纯黑 · 完全静音</div>
+        <span class="card-tag amber">核心理念</span>
+      </div>
+    </a>
+    <a href="ui-l.html">
+      <div class="card">
+        <div class="card-id">UI-L · 镜头 19</div>
+        <div class="card-title">落版</div>
+        <div class="card-scene">品牌结尾 · Evans · Lifelong.</div>
+        <span class="card-tag muted">品牌</span>
+      </div>
+    </a>
+  </div>
+</body>
+</html>

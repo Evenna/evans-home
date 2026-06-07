@@ -1,194 +1,504 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UI-A · 跨工具调度</title>
+<title>Evans · 跨工具调度</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     background: #07080a;
-    display: flex; align-items: center; justify-content: center;
     min-height: 100vh;
-    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 背景装饰光晕 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(ellipse, rgba(200,169,110,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 360px;
   }
 
   .card {
-    width: 380px;
-    background: rgba(14,16,20,0.95);
-    border: 1px solid rgba(200,169,110,0.25);
-    border-radius: 20px;
-    padding: 24px 26px 22px;
-    box-shadow: 0 0 40px rgba(200,169,110,0.06), 0 8px 32px rgba(0,0,0,0.6);
-    animation: cardIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-    opacity: 0; transform: translateY(18px);
-  }
-  @keyframes cardIn {
-    to { opacity: 1; transform: translateY(0); }
+    position: relative;
+    background: rgba(18, 20, 26, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 22px;
+    border: 1px solid rgba(200, 169, 110, 0.18);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 0.5px rgba(200,169,110,0.08),
+      0 24px 60px rgba(0,0,0,0.6),
+      0 8px 24px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    animation: cardEnter 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
   }
 
-  .header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 20px;
+  /* 顶部金色光带 */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 30%, rgba(200,169,110,0.8) 50%, rgba(200,169,110,0.5) 70%, transparent);
   }
-  .dot-indicator {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #c8a96e;
+
+  @keyframes cardEnter {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 20px 22px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3a8a72;
+    box-shadow: 0 0 0 0 rgba(58,138,114,0.6);
     animation: breathe 2s ease-in-out infinite;
     flex-shrink: 0;
   }
+
   @keyframes breathe {
-    0%,100% { opacity: 1; box-shadow: 0 0 6px rgba(200,169,110,0.8); }
-    50% { opacity: 0.5; box-shadow: 0 0 2px rgba(200,169,110,0.3); }
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(58,138,114,0.6);
+      opacity: 1;
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(58,138,114,0);
+      opacity: 0.85;
+    }
   }
-  .header-text {
-    font-size: 11px; color: #c8a96e;
-    letter-spacing: 0.12em; text-transform: uppercase;
+
+  .header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8e6e0;
+    letter-spacing: 0.2px;
+  }
+
+  .header-title span {
+    color: #c8a96e;
+  }
+
+  .clock {
+    font-size: 13px;
     font-weight: 500;
-  }
-  .header-time {
-    margin-left: auto;
-    font-size: 10px; color: #444;
+    color: #6a6a7a;
+    letter-spacing: 0.5px;
     font-variant-numeric: tabular-nums;
   }
 
-  .steps { display: flex; flex-direction: column; gap: 0; }
+  /* ── Steps ── */
+  .steps {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
 
   .step {
-    display: flex; align-items: flex-start; gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
     opacity: 0;
-    animation: stepIn 0.5s ease forwards;
+    transform: translateX(-16px);
   }
-  .step:last-child { border-bottom: none; }
-  .step:nth-child(1) { animation-delay: 0.3s; }
-  .step:nth-child(2) { animation-delay: 0.7s; }
-  .step:nth-child(3) { animation-delay: 1.1s; }
 
-  @keyframes stepIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
+  .step:nth-child(1) { animation: stepEnter 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.4s forwards; }
+  .step:nth-child(2) { animation: stepEnter 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.55s forwards; }
+  .step:nth-child(3) { animation: stepEnter 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.7s forwards; }
+
+  @keyframes stepEnter {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-connector {
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    width: 1px;
+    height: calc(100% + 12px);
+    background: linear-gradient(180deg, rgba(200,169,110,0.25), rgba(200,169,110,0.05));
+  }
+
+  .step:last-child .step-connector { display: none; }
+
+  .step-icon-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   .step-icon {
-    width: 28px; height: 28px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; flex-shrink: 0; margin-top: 1px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    position: relative;
+    z-index: 1;
   }
-  .step-icon.done   { background: rgba(58,106,90,0.2); }
-  .step-icon.active { background: rgba(200,169,110,0.12); }
-  .step-icon.wait   { background: rgba(255,255,255,0.04); }
 
-  .step-body { flex: 1; }
-  .step-title {
-    font-size: 13px; line-height: 1.45;
-    font-weight: 500;
+  .step.done .step-icon {
+    background: rgba(58,138,114,0.15);
+    border: 1px solid rgba(58,138,114,0.35);
   }
-  .step-title.done   { color: #4a5a52; text-decoration: line-through; }
-  .step-title.active { color: #e8e6e0; }
-  .step-title.wait   { color: #333; }
+
+  .step.active .step-icon {
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.4);
+  }
+
+  .step-content {
+    flex: 1;
+    padding-bottom: 20px;
+  }
+
+  .step-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6a6a7a;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+  }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8e6e0;
+    letter-spacing: 0.1px;
+    line-height: 1.3;
+  }
+
+  .step.done .step-title {
+    color: #4a4a5a;
+    text-decoration: line-through;
+    text-decoration-color: rgba(58,138,114,0.5);
+    text-decoration-thickness: 1px;
+  }
+
+  .step.done .step-label {
+    color: #3a4a42;
+  }
+
+  .step.active .step-title {
+    color: #e8e6e0;
+  }
 
   .step-sub {
-    font-size: 11px; margin-top: 3px; line-height: 1.5;
+    font-size: 12px;
+    color: #5a5a6a;
+    margin-top: 3px;
+    line-height: 1.4;
   }
-  .step-sub.done   { color: #2e3a34; }
-  .step-sub.active { color: #c8a96e; }
-  .step-sub.wait   { color: #2a2a2a; }
 
-  .status-badge {
-    flex-shrink: 0; margin-top: 3px;
-    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+  .step.done .step-sub {
+    color: #3a3a4a;
   }
-  .status-badge.done   { background: rgba(58,106,90,0.15); color: #3a6a5a; }
-  .status-badge.active { background: rgba(200,169,110,0.1); color: #c8a96e; }
-  .status-badge.wait   { background: rgba(255,255,255,0.03); color: #333; }
 
-  /* 进度条（active step） */
+  /* 完成勾 */
+  .check-icon { color: #3a8a72; }
+  .active-icon { color: #c8a96e; }
+
+  /* 进度条 */
+  .progress-wrap {
+    margin-top: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    height: 3px;
+    overflow: hidden;
+  }
+
   .progress-bar {
-    height: 2px; background: rgba(255,255,255,0.06);
-    border-radius: 2px; margin-top: 8px; overflow: hidden;
-    opacity: 0; animation: barShow 0.3s ease 1.5s forwards;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #c8a96e, #e0c080);
+    border-radius: 4px;
+    animation: progressGrow 2.5s cubic-bezier(0.25,0.46,0.45,0.94) 1.2s forwards;
+    box-shadow: 0 0 8px rgba(200,169,110,0.4);
   }
-  @keyframes barShow { to { opacity: 1; } }
-  .progress-fill {
-    height: 100%; width: 0; background: #c8a96e; border-radius: 2px;
-    animation: fillBar 3s ease 1.6s forwards;
-  }
-  @keyframes fillBar { to { width: 62%; } }
 
-  /* 底部提示 */
+  @keyframes progressGrow {
+    0%   { width: 0%; }
+    40%  { width: 55%; }
+    70%  { width: 68%; }
+    100% { width: 72%; }
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
+  .progress-text {
+    font-size: 11px;
+    color: #6a6a7a;
+  }
+
+  .progress-pct {
+    font-size: 11px;
+    color: #c8a96e;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 撰写预览 */
+  .draft-preview {
+    margin-top: 8px;
+    background: rgba(200,169,110,0.05);
+    border: 1px solid rgba(200,169,110,0.12);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+
+  .draft-line {
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(200,169,110,0.15);
+    margin-bottom: 5px;
+  }
+
+  .draft-line:last-child { margin-bottom: 0; }
+  .draft-line:nth-child(1) { width: 85%; }
+  .draft-line:nth-child(2) { width: 70%; }
+  .draft-line:nth-child(3) { width: 60%; }
+
+  .draft-cursor {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: #c8a96e;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 0 22px;
+  }
+
+  /* ── Footer ── */
   .footer {
-    margin-top: 18px; padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    display: flex; align-items: center; justify-content: space-between;
-    opacity: 0; animation: fadeIn 0.4s ease 1.8s forwards;
+    padding: 16px 22px 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 1s forwards;
   }
-  @keyframes fadeIn { to { opacity: 1; } }
-  .footer-text { font-size: 11px; color: #555; }
-  .confirm-btn {
-    font-size: 11px; padding: 5px 14px; border-radius: 6px;
-    background: rgba(200,169,110,0.12);
-    border: 1px solid rgba(200,169,110,0.3);
-    color: #c8a96e; cursor: pointer;
-    transition: background 0.2s;
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(8px); }
   }
-  .confirm-btn:hover { background: rgba(200,169,110,0.2); }
+
+  .footer-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .footer-meta {
+    font-size: 11.5px;
+    color: #4a4a5a;
+    letter-spacing: 0.2px;
+  }
+
+  .footer-meta strong {
+    color: #6a6a7a;
+  }
+
+  .send-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(200,169,110,0.18), rgba(200,169,110,0.10));
+    border: 1px solid rgba(200,169,110,0.35);
+    border-radius: 14px;
+    color: #c8a96e;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .send-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,169,110,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .send-btn:hover::before { opacity: 1; }
+  .send-btn:hover {
+    border-color: rgba(200,169,110,0.55);
+    box-shadow: 0 4px 20px rgba(200,169,110,0.15);
+    transform: translateY(-1px);
+  }
+
+  .send-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-icon { margin-right: 6px; font-size: 14px; }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="header">
-    <div class="dot-indicator"></div>
-    <span class="header-text">Evans · 正在协调</span>
-    <span class="header-time" id="clock"></span>
-  </div>
 
-  <div class="steps">
-    <div class="step">
-      <div class="step-icon done">✓</div>
-      <div class="step-body">
-        <div class="step-title done">识别会议邀约意图</div>
-        <div class="step-sub done">来自 王总 · 主题「Q3 复盘」</div>
+<div class="card-wrapper">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="pulse-dot"></div>
+        <div class="header-title"><span>Evans</span> · 正在协调</div>
       </div>
-      <div class="status-badge done">完成</div>
+      <div class="clock" id="clock">--:--:--</div>
     </div>
 
-    <div class="step">
-      <div class="step-icon done">✓</div>
-      <div class="step-body">
-        <div class="step-title done">检查日历空档</div>
-        <div class="step-sub done">明日 14:00–15:00 可用</div>
+    <!-- Steps -->
+    <div class="steps">
+
+      <!-- Step 1: Done -->
+      <div class="step done">
+        <div class="step-icon-wrap">
+          <div class="step-icon"><span class="check-icon">✓</span></div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">步骤 1 · 已完成</div>
+          <div class="step-title">识别会议邀约</div>
+          <div class="step-sub">来自 wangpeng@company.com · 周四 14:00</div>
+        </div>
       </div>
-      <div class="status-badge done">完成</div>
+
+      <!-- Step 2: Done -->
+      <div class="step done">
+        <div class="step-icon-wrap">
+          <div class="step-icon"><span class="check-icon">✓</span></div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">步骤 2 · 已完成</div>
+          <div class="step-title">检查日历空档</div>
+          <div class="step-sub">周四 14:00–15:00 无冲突</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Active -->
+      <div class="step active">
+        <div class="step-icon-wrap">
+          <div class="step-icon"><span class="active-icon">✦</span></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">步骤 3 · 进行中</div>
+          <div class="step-title">起草确认邮件<span class="draft-cursor"></span></div>
+          <div class="progress-wrap">
+            <div class="progress-bar"></div>
+          </div>
+          <div class="progress-label">
+            <span class="progress-text">正在生成草稿…</span>
+            <span class="progress-pct" id="pct">0%</span>
+          </div>
+          <div class="draft-preview">
+            <div class="draft-line"></div>
+            <div class="draft-line"></div>
+            <div class="draft-line"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="step">
-      <div class="step-icon active">✉</div>
-      <div class="step-body">
-        <div class="step-title active">起草确认邮件</div>
-        <div class="step-sub active">等待你确认后发送</div>
-        <div class="progress-bar"><div class="progress-fill"></div></div>
-      </div>
-      <div class="status-badge active">进行中</div>
-    </div>
-  </div>
+    <div class="divider"></div>
 
-  <div class="footer">
-    <span class="footer-text">邮件草稿已就绪</span>
-    <div class="confirm-btn">确认发送</div>
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-info">
+        <span class="footer-meta">收件人：<strong>wangpeng@company.com</strong></span>
+        <span class="footer-meta">草稿就绪后可发送</span>
+      </div>
+      <button class="send-btn">
+        <span class="btn-icon">↑</span>确认发送
+      </button>
+    </div>
+
   </div>
 </div>
 
 <script>
+  // 实时时钟
   function updateClock() {
     const now = new Date();
     const h = String(now.getHours()).padStart(2,'0');
     const m = String(now.getMinutes()).padStart(2,'0');
-    document.getElementById('clock').textContent = h + ':' + m;
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
   }
   updateClock();
-  setInterval(updateClock, 30000);
+  setInterval(updateClock, 1000);
+
+  // 进度百分比动画
+  let pctEl = document.getElementById('pct');
+  let pct = 0;
+  setTimeout(() => {
+    const iv = setInterval(() => {
+      if (pct >= 72) { clearInterval(iv); return; }
+      pct += Math.random() > 0.6 ? 2 : 1;
+      if (pct > 72) pct = 72;
+      pctEl.textContent = pct + '%';
+    }, 60);
+  }, 1200);
 </script>
 </body>
 </html>

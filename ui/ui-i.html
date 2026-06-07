@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-I · 场景标签</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #07080a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    padding: 32px 24px;
+  }
+
+  .stage-container {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ---- 共用动效 ---- */
+  .scene-card {
+    opacity: 0;
+    animation: cardReveal 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  .scene-card:nth-child(1) { animation-delay: 0.10s; }
+  .scene-card:nth-child(2) { animation-delay: 0.24s; }
+  .scene-card:nth-child(3) { animation-delay: 0.38s; }
+  .scene-card:nth-child(4) { animation-delay: 0.52s; }
+  .scene-card:nth-child(5) { animation-delay: 0.66s; }
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+
+  /* ==============================
+     CARD 1 — 左下角小标签 (序章)
+  ============================== */
+  .card-1 {
+    position: relative;
+    height: 140px;
+    border-radius: 18px;
+    background: rgba(18,20,26,0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.65);
+  }
+  .card-1 .bg-number {
+    position: absolute;
+    right: 24px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 100px;
+    font-weight: 700;
+    color: rgba(200,169,110,0.06);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+    font-family: Georgia, serif;
+  }
+  .card-1 .corner-tag {
+    position: absolute;
+    bottom: 18px; left: 20px;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .act-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+  }
+  .act-chapter {
+    font-size: 11px;
+    color: rgba(106,106,122,0.7);
+    letter-spacing: 0.04em;
+  }
+  .card-1 .person-intro {
+    position: absolute;
+    top: 50%; left: 20px;
+    transform: translateY(-50%);
+  }
+  .intro-name {
+    font-size: 26px;
+    font-weight: 300;
+    color: #e8e6e0;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .intro-detail {
+    font-size: 13px;
+    color: #6a6a7a;
+    letter-spacing: 0.02em;
+  }
+  .intro-detail span {
+    color: rgba(200,169,110,0.60);
+  }
+
+  /* ==============================
+     CARD 2 — 居中大字 (硬件)
+  ============================== */
+  .card-2 {
+    height: 120px;
+    border-radius: 22px;
+    background: rgba(18,20,26,0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(200,169,110,0.14);
+    box-shadow:
+      0 0 0 0.5px rgba(200,169,110,0.06),
+      0 8px 32px rgba(0,0,0,0.65),
+      inset 0 0 40px rgba(200,169,110,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-2 .center-content {
+    text-align: center;
+    z-index: 1;
+  }
+  .brand-giant {
+    font-size: 38px;
+    font-weight: 200;
+    color: #e8e6e0;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .brand-sub {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #c8a96e;
+    letter-spacing: 0.25em;
+    opacity: 0.75;
+  }
+  .brand-dot {
+    display: inline-block;
+    width: 3px; height: 3px;
+    background: rgba(200,169,110,0.40);
+    border-radius: 50%;
+    margin: 0 8px;
+    vertical-align: middle;
+  }
+  .card-2 .glow-orb {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .card-2 .act2-tag {
+    position: absolute;
+    left: 18px; bottom: 12px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(106,106,122,0.45);
+  }
+
+  /* ==============================
+     CARD 3 — 三人并列 (提效)
+  ============================== */
+  .card-3 {
+    border-radius: 20px;
+    background: rgba(18,20,26,0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(58,138,114,0.14);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.65);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-3-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .act-chip {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(58,138,114,0.7);
+    background: rgba(58,138,114,0.09);
+    border: 0.5px solid rgba(58,138,114,0.20);
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+  .act3-title {
+    font-size: 11px;
+    color: rgba(232,230,224,0.35);
+    letter-spacing: 0.04em;
+  }
+  .people-grid {
+    display: flex;
+    gap: 12px;
+  }
+  .person-chip {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .chip-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .chip-avatar-1 { background: rgba(58,138,114,0.15); border: 0.5px solid rgba(58,138,114,0.28); color: #3a8a72; }
+  .chip-avatar-2 { background: rgba(200,169,110,0.12); border: 0.5px solid rgba(200,169,110,0.25); color: #c8a96e; }
+  .chip-avatar-3 { background: rgba(138,58,100,0.12); border: 0.5px solid rgba(138,58,100,0.25); color: rgba(200,120,150,0.80); }
+  .chip-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e6e0;
+    margin-bottom: 3px;
+  }
+  .chip-age {
+    font-size: 11px;
+    color: #6a6a7a;
+    margin-bottom: 2px;
+  }
+  .chip-role {
+    font-size: 10.5px;
+    color: rgba(106,106,122,0.60);
+  }
+
+  /* ==============================
+     CARD 4 — 右上角小标注 (在你左右)
+  ============================== */
+  .card-4 {
+    height: 100px;
+    border-radius: 18px;
+    background: rgba(18,20,26,0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-4 .quote-text-main {
+    font-size: 16px;
+    color: rgba(232,230,224,0.75);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+    z-index: 1;
+    flex: 1;
+  }
+  .card-4 .quote-text-main em {
+    font-style: normal;
+    color: #c8a96e;
+    font-weight: 400;
+  }
+  .card-4 .top-right-tag {
+    position: absolute;
+    top: 14px; right: 16px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.45);
+    background: rgba(200,169,110,0.07);
+    border: 0.5px solid rgba(200,169,110,0.15);
+    border-radius: 20px;
+    padding: 3px 9px;
+  }
+  .card-4 .vertical-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, rgba(200,169,110,0.35), transparent);
+  }
+
+  /* ==============================
+     CARD 5 — 全宽悼念式 (陪你)
+  ============================== */
+  .card-5 {
+    border-radius: 20px;
+    background: rgba(18,20,26,0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(200,169,110,0.10);
+    box-shadow:
+      0 0 0 0.5px rgba(200,169,110,0.05),
+      0 12px 40px rgba(0,0,0,0.72),
+      inset 0 0 60px rgba(200,169,110,0.02);
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-5-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .act5-chip {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+  }
+  .act5-num {
+    font-size: 10px;
+    color: rgba(106,106,122,0.35);
+    font-family: Georgia, serif;
+    letter-spacing: 0.04em;
+  }
+  .card-5-name {
+    font-size: 28px;
+    font-weight: 200;
+    color: #e8e6e0;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .card-5-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-size: 12px;
+    color: rgba(106,106,122,0.70);
+    letter-spacing: 0.03em;
+  }
+  .meta-sep-5 {
+    font-size: 12px;
+    color: rgba(106,106,122,0.28);
+  }
+  .meta-item-note {
+    font-size: 11.5px;
+    color: rgba(200,169,110,0.45);
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+  .card-5 .subtle-gradient {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 120px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.03));
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="stage-container">
+
+  <!-- CARD 1：第一幕·序章 -->
+  <div class="scene-card card-1">
+    <div class="bg-number">一</div>
+    <div class="person-intro">
+      <div class="intro-name">陈建国</div>
+      <div class="intro-detail"><span>67岁</span> · 退休工程师 · 武汉</div>
+    </div>
+    <div class="corner-tag">
+      <div class="act-label">第一幕</div>
+      <div class="act-chapter">序章</div>
+    </div>
+  </div>
+
+  <!-- CARD 2：第二幕·硬件 -->
+  <div class="scene-card card-2">
+    <div class="glow-orb"></div>
+    <div class="center-content">
+      <div class="brand-giant">Evans</div>
+      <div class="brand-sub">
+        23克
+        <span class="brand-dot"></span>
+        陪你一生
+      </div>
+    </div>
+    <div class="act2-tag">第二幕 · 硬件</div>
+  </div>
+
+  <!-- CARD 3：第三幕·提效 -->
+  <div class="scene-card card-3">
+    <div class="card-3-header">
+      <div class="act-chip">第三幕 · 提效</div>
+      <div class="act3-title">三个人，三种生活</div>
+    </div>
+    <div class="people-grid">
+      <div class="person-chip">
+        <div class="chip-avatar chip-avatar-1">明</div>
+        <div class="chip-name">李明</div>
+        <div class="chip-age">28岁</div>
+        <div class="chip-role">产品经理 · 上海</div>
+      </div>
+      <div class="person-chip">
+        <div class="chip-avatar chip-avatar-2">涵</div>
+        <div class="chip-name">林涵</div>
+        <div class="chip-age">22岁</div>
+        <div class="chip-role">研究生 · 北京</div>
+      </div>
+      <div class="person-chip">
+        <div class="chip-avatar chip-avatar-3">婷</div>
+        <div class="chip-name">苏婷</div>
+        <div class="chip-age">35岁</div>
+        <div class="chip-role">创业者 · 深圳</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4：第四幕·在你左右 -->
+  <div class="scene-card card-4">
+    <div class="vertical-bar"></div>
+    <div class="quote-text-main">
+      AI的边界：<em>整体优于局部</em>
+    </div>
+    <div class="top-right-tag">第四幕 · 在你左右</div>
+  </div>
+
+  <!-- CARD 5：第五幕·陪你 -->
+  <div class="scene-card card-5">
+    <div class="subtle-gradient"></div>
+    <div class="card-5-top">
+      <div class="act5-chip">第五幕 · 陪你</div>
+      <div class="act5-num">Act V</div>
+    </div>
+    <div class="card-5-name">陈建国</div>
+    <div class="card-5-meta">
+      <span class="meta-item">独居</span>
+      <span class="meta-sep-5">·</span>
+      <span class="meta-item-note">他的妻子陈兰于两年前离世</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

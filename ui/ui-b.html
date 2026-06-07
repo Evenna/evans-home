@@ -1,144 +1,479 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UI-B · 信息过滤</title>
+<title>Evans · 信息筛选</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     background: #07080a;
-    display: flex; align-items: center; justify-content: center;
     min-height: 100vh;
-    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 520px;
+    height: 380px;
+    background: radial-gradient(ellipse, rgba(58,138,114,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 480px;
   }
 
   .card {
-    width: 400px;
-    background: rgba(14,16,20,0.95);
-    border: 1px solid rgba(200,169,110,0.22);
+    position: relative;
+    background: rgba(18, 20, 26, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: 20px;
-    padding: 22px 24px;
-    box-shadow: 0 0 40px rgba(200,169,110,0.05), 0 8px 32px rgba(0,0,0,0.6);
-    animation: cardIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
-    opacity: 0; transform: translateY(16px);
+    border: 1px solid rgba(58,138,114,0.2);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 0.5px rgba(58,138,114,0.08),
+      0 32px 80px rgba(0,0,0,0.65),
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    animation: cardEnter 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
   }
-  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
 
-  /* 顶部 */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(58,138,114,0.4) 30%, rgba(58,138,114,0.7) 50%, rgba(58,138,114,0.4) 70%, transparent);
+  }
+
+  @keyframes cardEnter {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── Header ── */
   .header {
-    display: flex; align-items: center; margin-bottom: 16px;
+    padding: 20px 24px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  .dot { width:7px; height:7px; border-radius:50%; background:#c8a96e;
-         animation: breathe 2s ease-in-out infinite; margin-right:9px; }
-  @keyframes breathe {
-    0%,100%{opacity:1;box-shadow:0 0 5px rgba(200,169,110,0.7);}
-    50%{opacity:0.45;box-shadow:none;}
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .header-label { font-size:11px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
-  .header-count { margin-left:auto; font-size:11px; color:#444; }
-  .count-hi { color:#c8a96e; font-weight:600; }
 
-  /* 消息条 */
-  .msg-list { display:flex; flex-direction:column; gap:0; }
-
-  .msg {
-    display:flex; align-items:flex-start; gap:12px;
-    padding:11px 0;
-    border-bottom:1px solid rgba(255,255,255,0.04);
-    opacity:0;
-    animation:msgIn 0.45s ease forwards;
+  .header-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(58,138,114,0.12);
+    border: 1px solid rgba(58,138,114,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
   }
-  .msg:last-child { border-bottom:none; }
-  .msg:nth-child(1){animation-delay:0.25s;}
-  .msg:nth-child(2){animation-delay:0.5s;}
-  .msg:nth-child(3){animation-delay:0.75s;}
-  .msg:nth-child(4){animation-delay:1.0s;}
-  .msg:nth-child(5){animation-delay:1.25s;}
 
-  @keyframes msgIn {
-    from{opacity:0;transform:translateX(-6px);}
-    to{opacity:1;transform:translateX(0);}
+  .header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8e6e0;
+  }
+
+  .header-title span { color: #c8a96e; }
+
+  .header-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3a8a72;
+    background: rgba(58,138,114,0.12);
+    border: 1px solid rgba(58,138,114,0.25);
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.4s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4a4a5a;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+    text-decoration: line-through;
+    text-decoration-color: rgba(106,106,122,0.4);
+    text-decoration-thickness: 2px;
+  }
+
+  .stat-arrow {
+    font-size: 16px;
+    color: #3a4a42;
+  }
+
+  .stat-num-hi {
+    font-size: 28px;
+    font-weight: 700;
+    color: #c8a96e;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: #4a5a50;
+    font-weight: 500;
+  }
+
+  .stat-spacer { flex: 1; }
+
+  .stat-sub {
+    font-size: 12px;
+    color: #5a5a6a;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ── Message List ── */
+  .msg-list {
+    padding: 6px 0;
+  }
+
+  .msg-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    opacity: 0;
+    transform: translateX(-12px);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .msg-item:last-child { border-bottom: none; }
+
+  .msg-item:hover { background: rgba(255,255,255,0.02); }
+
+  .msg-item:nth-child(1) { animation: msgEnter 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.55s forwards; }
+  .msg-item:nth-child(2) { animation: msgEnter 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.68s forwards; }
+  .msg-item:nth-child(3) { animation: msgEnter 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.81s forwards; }
+  .msg-item:nth-child(4) { animation: msgEnter 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.94s forwards; }
+  .msg-item:nth-child(5) { animation: msgEnter 0.5s cubic-bezier(0.34,1.56,0.64,1) 1.07s forwards; }
+
+  @keyframes msgEnter {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .msg-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+
+  .msg-avatar.imp {
+    background: rgba(58,138,114,0.15);
+    border: 1px solid rgba(58,138,114,0.3);
+    color: #3a8a72;
+  }
+
+  .msg-avatar.flt {
+    background: rgba(40,40,50,0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #3a3a4a;
+  }
+
+  .msg-body { flex: 1; min-width: 0; }
+
+  .msg-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 3px;
+  }
+
+  .msg-sender {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #e8e6e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .msg-item.filtered .msg-sender {
+    color: #3a3a4a;
+    text-decoration: line-through;
+    text-decoration-color: rgba(58,58,74,0.5);
+    text-decoration-thickness: 1px;
+  }
+
+  .msg-time {
+    font-size: 11px;
+    color: #4a4a5a;
+    flex-shrink: 0;
+    margin-left: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .msg-item.filtered .msg-time { color: #2a2a3a; }
+
+  .msg-content {
+    font-size: 12.5px;
+    color: #5a5a6a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+  }
+
+  .msg-item.filtered .msg-content {
+    color: #2a2a3a;
+    text-decoration: line-through;
+    text-decoration-color: rgba(42,42,58,0.5);
+  }
+
+  /* 标签 */
+  .msg-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
   }
 
   .tag {
-    font-size:10px; padding:2px 8px; border-radius:4px;
-    flex-shrink:0; margin-top:2px; font-weight:500; white-space:nowrap;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
   }
-  .tag.keep    { background:rgba(58,106,90,0.22); color:#6ab8a0; }
-  .tag.filter  { background:rgba(40,40,40,0.6); color:#3a3a3a; }
 
-  .msg-text { font-size:13px; line-height:1.5; }
-  .msg-text.important { color:#e8e6e0; }
-  .msg-text.muted     { color:#2e2e2e; text-decoration:line-through; text-decoration-color:#282828; }
+  .tag.important {
+    color: #3a8a72;
+    background: rgba(58,138,114,0.1);
+    border: 1px solid rgba(58,138,114,0.25);
+  }
 
-  .msg-from { font-size:10px; margin-top:2px; }
-  .msg-from.important { color:#c8a96e; }
-  .msg-from.muted     { color:#252525; }
+  .tag.filtered {
+    color: #3a3a4a;
+    background: rgba(40,40,50,0.4);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
 
-  /* 底栏 */
+  /* ── Footer ── */
   .footer {
-    margin-top:14px; padding-top:12px;
-    border-top:1px solid rgba(255,255,255,0.04);
-    display:flex; align-items:center; gap:8px;
-    opacity:0; animation:fadeIn 0.4s ease 1.7s forwards;
+    padding: 14px 24px 18px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 1.3s forwards;
   }
-  @keyframes fadeIn{to{opacity:1;}}
-  .footer-icon { font-size:12px; }
-  .footer-text { font-size:11px; color:#3d4a44; line-height:1.5; flex:1; }
-  .footer-text span { color:#3a6a5a; }
+
+  .archive-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .archive-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .archive-text {
+    font-size: 12.5px;
+    color: #4a4a5a;
+  }
+
+  .archive-text strong {
+    color: #5a5a6a;
+    font-weight: 600;
+  }
+
+  .view-btn {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #c8a96e;
+    background: transparent;
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 10px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .view-btn:hover {
+    background: rgba(200,169,110,0.08);
+    border-color: rgba(200,169,110,0.4);
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="header">
-    <div class="dot"></div>
-    <span class="header-label">Evans · 信息筛选</span>
-    <span class="header-count"><span class="count-hi">138</span> 条 → <span class="count-hi">5</span> 条重要</span>
-  </div>
 
-  <div class="msg-list">
-    <div class="msg">
-      <span class="tag keep">重要</span>
-      <div>
-        <div class="msg-text important">导师：周五组会改到10点，请确认</div>
-        <div class="msg-from important">研究生群 · 5分钟前</div>
-      </div>
-    </div>
-    <div class="msg">
-      <span class="tag keep">重要</span>
-      <div>
-        <div class="msg-text important">妈妈：今晚有空视频吗</div>
-        <div class="msg-from important">微信 · 12分钟前</div>
-      </div>
-    </div>
-    <div class="msg">
-      <span class="tag filter">已过滤</span>
-      <div>
-        <div class="msg-text muted">XX平台：您的专属福利即将到期...</div>
-        <div class="msg-from muted">推送通知</div>
-      </div>
-    </div>
-    <div class="msg">
-      <span class="tag filter">已过滤</span>
-      <div>
-        <div class="msg-text muted">群通知：今晚9点直播不见不散</div>
-        <div class="msg-from muted">某购物群</div>
-      </div>
-    </div>
-    <div class="msg">
-      <span class="tag filter">已过滤</span>
-      <div>
-        <div class="msg-text muted">系统：您有一条待处理工单…</div>
-        <div class="msg-from muted">服务通知</div>
-      </div>
-    </div>
-  </div>
+<div class="card-wrapper">
+  <div class="card">
 
-  <div class="footer">
-    <span class="footer-icon">📁</span>
-    <span class="footer-text">其余 <span>133 条</span>已归档，需要时随时调取</span>
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-icon">⚡</div>
+        <div class="header-title"><span>Evans</span> · 信息筛选</div>
+      </div>
+      <div class="header-badge">已处理</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-num">138</div>
+      <div class="stat-arrow">→</div>
+      <div class="stat-num-hi">5</div>
+      <div class="stat-label">条重要</div>
+      <div class="stat-spacer"></div>
+      <div class="stat-sub">今日 · 全部来源<br>处理于 09:42</div>
+    </div>
+
+    <!-- Messages -->
+    <div class="msg-list">
+
+      <!-- Important 1 -->
+      <div class="msg-item important">
+        <div class="msg-avatar imp">张</div>
+        <div class="msg-body">
+          <div class="msg-row">
+            <span class="msg-sender">张老师</span>
+            <span class="msg-time">09:15</span>
+          </div>
+          <div class="msg-content">明天的组会改到下午3点，请注意调整安排</div>
+          <div class="msg-tag-row">
+            <span class="tag important">重要</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Important 2 -->
+      <div class="msg-item important">
+        <div class="msg-avatar imp">陈</div>
+        <div class="msg-body">
+          <div class="msg-row">
+            <span class="msg-sender">陈师兄</span>
+            <span class="msg-time">08:47</span>
+          </div>
+          <div class="msg-content">代码已合并，有个问题想请教你，方便时候回我</div>
+          <div class="msg-tag-row">
+            <span class="tag important">重要</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtered 1 -->
+      <div class="msg-item filtered">
+        <div class="msg-avatar flt">促</div>
+        <div class="msg-body">
+          <div class="msg-row">
+            <span class="msg-sender">京东促销通知</span>
+            <span class="msg-time">07:30</span>
+          </div>
+          <div class="msg-content">双十二提前购！您的专属优惠已到账…</div>
+          <div class="msg-tag-row">
+            <span class="tag filtered">已过滤</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtered 2 -->
+      <div class="msg-item filtered">
+        <div class="msg-avatar flt">推</div>
+        <div class="msg-body">
+          <div class="msg-row">
+            <span class="msg-sender">微博热搜</span>
+            <span class="msg-time">07:12</span>
+          </div>
+          <div class="msg-content">今日热搜：#某某明星 新剧官宣# 点击查看…</div>
+          <div class="msg-tag-row">
+            <span class="tag filtered">已过滤</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtered 3 -->
+      <div class="msg-item filtered">
+        <div class="msg-avatar flt">广</div>
+        <div class="msg-body">
+          <div class="msg-row">
+            <span class="msg-sender">外卖平台广告</span>
+            <span class="msg-time">06:58</span>
+          </div>
+          <div class="msg-content">早餐立减5元，限时领取！下单享8折…</div>
+          <div class="msg-tag-row">
+            <span class="tag filtered">已过滤</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="archive-info">
+        <div class="archive-icon">📥</div>
+        <div class="archive-text"><strong>133条</strong>已归档</div>
+      </div>
+      <button class="view-btn">查看归档</button>
+    </div>
+
   </div>
 </div>
+
 </body>
 </html>
