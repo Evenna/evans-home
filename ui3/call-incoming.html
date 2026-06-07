@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Incoming — 12B</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #000000;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    overflow: hidden;
+  }
+
+  .call-pill {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-60px);
+    width: 320px;
+
+    /* Glass card */
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.15),
+      0 0 30px rgba(255,159,10,0.15);
+
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    animation: slideDown 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.5s forwards,
+               slideUp   0.4s cubic-bezier(0.19, 1, 0.22, 1) 3.9s forwards;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .icon-left {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: #FF9F0A;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .call-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .call-number {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(245, 245, 247, 0.95);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .call-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(245, 245, 247, 0.5);
+    letter-spacing: 0.01em;
+  }
+
+  .icon-right {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #FF9F0A;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  @keyframes slideDown {
+    from { transform: translateX(-50%) translateY(-60px); opacity: 0.6; }
+    to   { transform: translateX(-50%) translateY(0px);  opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(0px);  opacity: 1; }
+    to   { transform: translateX(-50%) translateY(-60px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="call-pill">
+    <span class="icon-left"><i class="ph ph-phone-incoming"></i></span>
+    <div class="call-info">
+      <span class="call-number">未知号码 · +86-138-XXXX-8831</span>
+      <span class="call-label">非联系人 · 首次来电</span>
+    </div>
+    <span class="icon-right"><i class="ph ph-warning"></i></span>
+  </div>
+</body>
+</html>

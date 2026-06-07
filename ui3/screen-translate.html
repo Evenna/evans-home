@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0">
+<title>EVANS · Translate</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen {
+    width: 375px;
+    padding: 48px 20px;
+  }
+
+  .card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 24px 22px;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card > * { position: relative; z-index: 2; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.08s forwards;
+  }
+
+  .header i {
+    font-size: 16px;
+    color: rgba(245,245,247,0.6);
+  }
+
+  .header-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(245,245,247,0.95);
+    letter-spacing: -0.01em;
+  }
+
+  /* Message bubble */
+  .bubble-wrap {
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.20s forwards;
+  }
+
+  .bubble-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgba(245,245,247,0.3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .bubble {
+    display: inline-block;
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(255,255,255,0.09);
+    border-radius: 4px 14px 14px 14px;
+    padding: 11px 14px;
+    max-width: 100%;
+  }
+
+  .bubble-text {
+    font-size: 13px;
+    color: rgba(245,245,247,0.45);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.34s forwards;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 0.5px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .divider-label {
+    font-size: 10px;
+    color: rgba(245,245,247,0.3);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .divider-label i {
+    font-size: 10px;
+    color: rgba(245,245,247,0.25);
+  }
+
+  /* Translation card */
+  .translation-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .translation-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 13px;
+    opacity: 0;
+    transform: translateY(7px);
+    animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.44s forwards;
+  }
+
+  .translation-header-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(245,245,247,0.35);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .translation-header i {
+    font-size: 11px;
+    color: rgba(245,245,247,0.25);
+  }
+
+  .translation-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .t-line {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .t-line.anim-0 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.54s forwards; }
+  .t-line.anim-1 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.66s forwards; }
+  .t-line.anim-2 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.78s forwards; }
+
+  .t-line-1 {
+    font-size: 14px;
+    color: rgba(245,245,247,0.95);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+
+  .t-line-2 {
+    font-size: 13px;
+    color: rgba(245,245,247,0.5);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+  }
+
+  .t-line-3 {
+    font-size: 14px;
+    color: #0A84FF;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .footer {
+    opacity: 0;
+    animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.92s forwards;
+  }
+
+  .footer-question {
+    font-size: 12px;
+    color: rgba(245,245,247,0.45);
+    margin-bottom: 11px;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-pill {
+    padding: 7px 14px;
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    color: rgba(245,245,247,0.75);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .btn-pill:hover {
+    background: rgba(255,255,255,0.12);
+    color: rgba(245,245,247,0.95);
+    transform: translateY(-1px);
+  }
+
+  .btn-pill:active {
+    transform: translateY(0);
+  }
+
+  .btn-pill.primary {
+    background: rgba(10,132,255,0.15);
+    border-color: rgba(10,132,255,0.3);
+    color: #0A84FF;
+  }
+
+  .btn-pill.primary:hover {
+    background: rgba(10,132,255,0.22);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      <i class="ph ph-translate"></i>
+      <span class="header-title">EVANS · 帮你读懂</span>
+    </div>
+
+    <!-- Message bubble -->
+    <div class="bubble-wrap">
+      <div class="bubble-label">原始消息</div>
+      <div class="bubble">
+        <div class="bubble-text">妈我最近在搞K8s迁移，周末估计要on call，你别等我吃饭了</div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">
+        <i class="ph ph-arrow-down"></i>
+        翻译
+      </div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Translation card -->
+    <div class="translation-card">
+      <div class="translation-header">
+        <span class="translation-header-label">EVANS 解读</span>
+        <i class="ph ph-info"></i>
+      </div>
+      <div class="translation-lines">
+        <div class="t-line anim-0">
+          <div class="t-line-1">儿子这周末要加班。</div>
+        </div>
+        <div class="t-line anim-1">
+          <div class="t-line-2">K8s 是他工作上的技术，不用担心。</div>
+        </div>
+        <div class="t-line anim-2">
+          <div class="t-line-3">他还是很想你的。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-question">需要我帮你回复吗？</div>
+      <div class="footer-buttons">
+        <button class="btn-pill primary">帮我回复</button>
+        <button class="btn-pill">我自己写</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

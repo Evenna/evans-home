@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0">
+<title>EVANS · Fraud Alert</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen {
+    width: 375px;
+    padding: 48px 20px;
+  }
+
+  .card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-left: none;
+    border-radius: 16px;
+    /* Orange left border glow */
+    box-shadow:
+      -3px 0 0 #FF9F0A,
+      0 8px 32px rgba(0,0,0,0.5),
+      0 0 40px rgba(255,159,10,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 24px 22px;
+    overflow: hidden;
+    /* Subtle orange ambient tint */
+    background-color: rgba(255,159,10,0.04);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    pointer-events: none;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card > * { position: relative; z-index: 2; }
+
+  /* Header */
+  .header {
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.08s forwards;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 5px;
+  }
+
+  .header-brand i {
+    color: #FF9F0A;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,159,10,0.92);
+    letter-spacing: -0.01em;
+  }
+
+  .header-sub {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    padding-left: 27px;
+  }
+
+  /* Separator */
+  .sep {
+    height: 0.5px;
+    background: rgba(255,159,10,0.15);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;
+  }
+
+  /* Body text */
+  .body-text {
+    font-size: 13px;
+    color: rgba(245,245,247,0.55);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.28s forwards;
+  }
+
+  /* Risk signals */
+  .risk-signals {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+
+  .risk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .risk-item.anim-0 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.38s forwards; }
+  .risk-item.anim-1 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.50s forwards; }
+  .risk-item.anim-2 { animation: fadeUp 0.65s cubic-bezier(0.19, 1, 0.22, 1) 0.62s forwards; }
+
+  .risk-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,159,10,0.7);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .risk-text {
+    font-size: 12px;
+    color: rgba(245,245,247,0.6);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+
+  /* Sep 2 */
+  .sep2 {
+    height: 0.5px;
+    background: rgba(255,159,10,0.1);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
+  }
+
+  /* Buttons */
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 13px;
+    background: rgba(255,255,255,0.08);
+    border: 0.5px solid rgba(255,255,255,0.22);
+    border-radius: 12px;
+    color: rgba(245,245,247,0.95);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.76s forwards;
+  }
+
+  .btn-primary:hover {
+    background: rgba(255,255,255,0.13);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 11px;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: rgba(245,245,247,0.4);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.88s forwards;
+  }
+
+  .btn-secondary:hover {
+    color: rgba(245,245,247,0.65);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-brand">
+        <i class="ph ph-warning"></i>
+        <span class="header-title">EVANS · 注意</span>
+      </div>
+      <div class="header-sub">检测到可疑转账请求</div>
+    </div>
+
+    <!-- Separator 1 -->
+    <div class="sep"></div>
+
+    <!-- Body text -->
+    <div class="body-text">
+      对方要求立即转账，并强调不要告诉家人——这与已知诈骗话术高度吻合。
+    </div>
+
+    <!-- Risk signals -->
+    <div class="risk-signals">
+      <div class="risk-item anim-0">
+        <div class="risk-dot"></div>
+        <span class="risk-text">此号码从未出现在您的联系人中</span>
+      </div>
+      <div class="risk-item anim-1">
+        <div class="risk-dot"></div>
+        <span class="risk-text">通话语速异常快</span>
+      </div>
+      <div class="risk-item anim-2">
+        <div class="risk-dot"></div>
+        <span class="risk-text">话术匹配度 94%（诈骗法庭类）</span>
+      </div>
+    </div>
+
+    <!-- Separator 2 -->
+    <div class="sep2"></div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button class="btn-primary">先不转，打给儿子确认</button>
+      <button class="btn-secondary">我了解，继续</button>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

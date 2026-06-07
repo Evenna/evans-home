@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVANS · Options</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 420px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .header .icon {
+    font-size: 18px;
+    color: #0A84FF;
+    line-height: 1;
+  }
+
+  .header .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(245,245,247,0.95);
+    letter-spacing: -0.01em;
+  }
+
+  .sub-line {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    margin-bottom: 16px;
+    padding-left: 26px;
+  }
+
+  /* Option Cards */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .option-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.55s cubic-bezier(0.19, 1, 0.22, 1),
+                transform 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .option-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .option-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .option-card.highlighted {
+    border: 0.5px solid rgba(10,132,255,0.4);
+    background: linear-gradient(135deg, rgba(10,132,255,0.06) 0%, rgba(10,132,255,0.02) 100%);
+  }
+
+  .option-card.muted {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .option-card.muted.visible {
+    opacity: 0.65;
+  }
+
+  .option-label {
+    font-size: 10px;
+    color: rgba(245,245,247,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .option-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(245,245,247,0.95);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .option-title.blue {
+    color: rgba(10,132,255,0.9);
+  }
+
+  .option-desc {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    line-height: 1.4;
+  }
+
+  .option-note {
+    font-size: 12px;
+    color: #0A84FF;
+    margin-top: 4px;
+  }
+
+  /* Recommended badge */
+  .badge-recommend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(10,132,255,0.18);
+    border: 0.5px solid rgba(10,132,255,0.35);
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #0A84FF;
+    letter-spacing: 0.02em;
+  }
+
+  /* Separator */
+  .separator {
+    height: 0.5px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 14px;
+  }
+
+  /* Footer quote */
+  .footer-quote {
+    border-left: 2px solid #0A84FF;
+    padding-left: 12px;
+  }
+
+  .footer-quote p {
+    font-size: 13px;
+    color: rgba(245,245,247,0.5);
+    font-style: italic;
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <i class="ph ph-scales icon"></i>
+    <span class="title">EVANS · 你还可以这样选</span>
+  </div>
+  <p class="sub-line">关于这份工作邀约——</p>
+
+  <div class="options-list">
+    <!-- Option A -->
+    <div class="option-card muted" id="opt-a">
+      <span class="option-label">选项 A</span>
+      <div class="option-title">直接拒绝</div>
+      <div class="option-desc">不影响现有关系，但机会关闭</div>
+    </div>
+
+    <!-- Option B -->
+    <div class="option-card muted" id="opt-b">
+      <span class="option-label">选项 B</span>
+      <div class="option-title">立刻接受</div>
+      <div class="option-desc">需协调当前项目收尾</div>
+    </div>
+
+    <!-- Option C -->
+    <div class="option-card highlighted" id="opt-c">
+      <div class="badge-recommend">推荐</div>
+      <span class="option-label">选项 C</span>
+      <div class="option-title blue">要求两周后再决定</div>
+      <div class="option-desc">先了解团队 · 通常接受</div>
+      <div class="option-note">你的选择权保留更长</div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <div class="footer-quote">
+    <p>它不告诉你怎么选，它告诉你，你还可以怎么选。</p>
+  </div>
+</div>
+
+<script>
+  const cards = [
+    { el: document.getElementById('opt-a'), delay: 80 },
+    { el: document.getElementById('opt-b'), delay: 230 },
+    { el: document.getElementById('opt-c'), delay: 380 },
+  ];
+
+  cards.forEach(({ el, delay }) => {
+    setTimeout(() => {
+      el.classList.add('visible');
+    }, delay);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVANS · Specs</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    padding: 60px 20px;
+  }
+
+  /* Header — floats on black */
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.1s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-header h1 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: rgba(245,245,247,0.95);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .page-header .subtitle {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: rgba(245,245,247,0.3);
+    text-transform: uppercase;
+    margin-top: 8px;
+    font-weight: 400;
+  }
+
+  /* Grid */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 160px);
+    gap: 12px;
+    width: 516px;
+  }
+
+  /* Spec Card */
+  .spec-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.25s cubic-bezier(0.19, 1, 0.22, 1),
+                transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .spec-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .spec-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .spec-icon {
+    font-size: 20px;
+    color: #0A84FF;
+    display: block;
+    line-height: 1;
+  }
+
+  .spec-value {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: rgba(245,245,247,0.95);
+    margin: 10px 0 5px;
+    line-height: 1;
+    display: block;
+  }
+
+  .spec-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,245,247,0.35);
+    font-weight: 400;
+    display: block;
+  }
+
+  /* Hover state */
+  .spec-card:hover {
+    border-color: rgba(10,132,255,0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(10,132,255,0.15), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: opacity 0.25s cubic-bezier(0.19, 1, 0.22, 1),
+                transform 0.25s cubic-bezier(0.19, 1, 0.22, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>EVANS</h1>
+  <div class="subtitle">技术规格</div>
+</div>
+
+<div class="specs-grid">
+  <div class="spec-card" data-index="0">
+    <i class="ph ph-scales spec-icon"></i>
+    <span class="spec-value">23 g</span>
+    <span class="spec-label">主体重量</span>
+  </div>
+  <div class="spec-card" data-index="1">
+    <i class="ph ph-compass spec-icon"></i>
+    <span class="spec-value">6 轴 IMU</span>
+    <span class="spec-label">姿势感知</span>
+  </div>
+  <div class="spec-card" data-index="2">
+    <i class="ph ph-microphone spec-icon"></i>
+    <span class="spec-value">4 麦克风</span>
+    <span class="spec-label">阵列收音</span>
+  </div>
+  <div class="spec-card" data-index="3">
+    <i class="ph ph-heartbeat spec-icon"></i>
+    <span class="spec-value">多模态</span>
+    <span class="spec-label">生理传感</span>
+  </div>
+  <div class="spec-card" data-index="4">
+    <i class="ph ph-cpu spec-icon"></i>
+    <span class="spec-value">端侧 NPU</span>
+    <span class="spec-label">低功耗推理</span>
+  </div>
+  <div class="spec-card" data-index="5">
+    <i class="ph ph-battery-charging spec-icon"></i>
+    <span class="spec-value">36 h</span>
+    <span class="spec-label">续航时长</span>
+  </div>
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.spec-card');
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add('visible');
+    }, 300 + i * 110);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>EVANS · Dispatch</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen {
+    width: 390px;
+    padding: 48px 20px;
+  }
+
+  .card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 28px;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.1s forwards;
+  }
+
+  .header-left {}
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(245,245,247,0.5);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .ph-lightning {
+    color: #0A84FF;
+    font-size: 13px;
+  }
+
+  .header-sub {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    letter-spacing: 0.01em;
+  }
+
+  .live-clock {
+    font-size: 11px;
+    color: rgba(245,245,247,0.4);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+    margin-top: 2px;
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step.anim-1 { animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.25s forwards; }
+  .step.anim-2 { animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.40s forwards; }
+  .step.anim-3 { animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.55s forwards; }
+
+  .step-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    margin-top: 1px;
+    line-height: 1;
+  }
+
+  .step-icon.done { color: #30D158; }
+  .step-icon.active { color: #0A84FF; }
+
+  .step-icon.spinning {
+    animation: spin 2s linear infinite;
+  }
+
+  .step-body { flex: 1; min-width: 0; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(245,245,247,0.95);
+    letter-spacing: -0.01em;
+  }
+
+  .step-title.active {
+    color: #0A84FF;
+  }
+
+  .step-sub {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    margin-top: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  .badge {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .badge.green {
+    background: rgba(48, 209, 88, 0.12);
+    color: #30D158;
+    border: 0.5px solid rgba(48,209,88,0.2);
+  }
+
+  .badge.blue {
+    background: rgba(10, 132, 255, 0.12);
+    color: #0A84FF;
+    border: 0.5px solid rgba(10,132,255,0.2);
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-top: 8px;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #0A84FF;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(10,132,255,0.7);
+    animation: progressGrow 3s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
+  }
+
+  /* Separator */
+  .sep {
+    height: 0.5px;
+    background: rgba(255,255,255,0.08);
+    margin: 0 0 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
+  }
+
+  /* Button */
+  .btn-confirm {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255,255,255,0.1);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    color: rgba(245,245,247,0.95);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) 0.8s forwards;
+  }
+
+  .btn-confirm:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-1px);
+  }
+
+  .btn-confirm:active {
+    transform: translateY(0);
+    background: rgba(255,255,255,0.08);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes progressGrow {
+    to { width: 68%; }
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-brand">
+          <span class="label">EVANS</span>
+          <i class="ph ph-lightning" style="color:#0A84FF;font-size:13px;"></i>
+        </div>
+        <div class="header-sub">正在协调 · 会议跟进</div>
+      </div>
+      <div class="live-clock" id="clock"></div>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps">
+
+      <!-- Step 1 -->
+      <div class="step anim-1">
+        <i class="ph ph-check-circle step-icon done"></i>
+        <div class="step-body">
+          <div class="step-header">
+            <span class="step-title">识别会议意图</span>
+            <span class="badge green">完成</span>
+          </div>
+          <div class="step-sub">来自 王总 · Q3 复盘邀约</div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step anim-2">
+        <i class="ph ph-check-circle step-icon done"></i>
+        <div class="step-body">
+          <div class="step-header">
+            <span class="step-title">检查日历空档</span>
+            <span class="badge green">完成</span>
+          </div>
+          <div class="step-sub">明日 14:00–15:00 可用</div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step anim-3">
+        <i class="ph ph-circle-dashed step-icon active spinning"></i>
+        <div class="step-body">
+          <div class="step-header">
+            <span class="step-title active">起草确认邮件</span>
+            <span class="badge blue">进行中</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Separator -->
+    <div class="sep"></div>
+
+    <!-- Confirm button -->
+    <button class="btn-confirm">确认发送</button>
+
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

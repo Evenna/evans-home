@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>李明 — Character Card</title>
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 40, 0.8);
+      font-family: -apple-system, 'SF Pro Display', 'PingFang SC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
+    }
+
+    /* ── Lower-third container ── */
+    .lower-third {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* ── Accent line ── */
+    .accent-line {
+      width: 160px;
+      height: 1px;
+      background: rgba(245, 245, 247, 0.7);
+      transform-origin: left center;
+      transform: scaleX(0);
+      margin-bottom: 8px;
+      animation: lineDrawIn 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;
+    }
+
+    @keyframes lineDrawIn {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* ── Name — clip-path reveal ── */
+    .char-name {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: rgba(245, 245, 247, 0.95);
+      clip-path: inset(0 100% 0 0);
+      animation: nameReveal 0.5s cubic-bezier(0.77, 0, 0.175, 1) 0.65s forwards;
+      /* slight overflow visible for descenders */
+      padding-bottom: 2px;
+    }
+
+    @keyframes nameReveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0%   0 0); }
+    }
+
+    /* ── Subtitle ── */
+    .char-subtitle {
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: rgba(245, 245, 247, 0.5);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 0.55s cubic-bezier(0.19, 1, 0.22, 1) 0.95s forwards;
+    }
+
+    /* ── Role ── */
+    .char-role {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245, 245, 247, 0.3);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 0.55s cubic-bezier(0.19, 1, 0.22, 1) 1.15s forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Hold then fade out ── */
+    .lower-third {
+      animation: holdThenOut 0.3s ease-in 5.2s forwards;
+    }
+
+    @keyframes holdThenOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lower-third">
+    <div class="accent-line"></div>
+    <div class="char-name">李明</div>
+    <div class="char-subtitle">28岁 · 产品经理</div>
+    <div class="char-role">Evans 佩戴者 · 第3个月</div>
+  </div>
+
+</body>
+</html>
