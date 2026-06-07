@@ -9,7 +9,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #000;
+    background: #07080c;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -18,44 +18,43 @@
     padding: 40px 20px;
   }
 
+  /* 外层卡片：唯一一层 glass */
   .card {
     width: 420px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
+    background: linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%);
     backdrop-filter: blur(40px) saturate(200%);
     -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 0.5px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
-    padding: 20px;
+    border: 0.5px solid rgba(255,255,255,0.13);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.16);
+    padding: 22px 20px 20px;
     position: relative;
-    overflow: hidden;
+    /* 不设 overflow:hidden，让内容自然展开 */
   }
 
-  .card::after {
+  /* SVG 噪点纹理 */
+  .card::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: 16px;
+    border-radius: 20px;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.035;
+    opacity: 0.04;
     mix-blend-mode: overlay;
     pointer-events: none;
+    z-index: 0;
   }
+
+  .card > * { position: relative; z-index: 1; }
 
   /* Header */
   .header {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
-
-  .header .icon {
-    font-size: 18px;
-    color: #0A84FF;
-    line-height: 1;
-  }
-
+  .header .icon { font-size: 16px; color: #0A84FF; line-height: 1; }
   .header .title {
     font-size: 14px;
     font-weight: 600;
@@ -65,67 +64,49 @@
 
   .sub-line {
     font-size: 12px;
-    color: rgba(245,245,247,0.5);
-    margin-bottom: 16px;
-    padding-left: 26px;
+    color: rgba(245,245,247,0.38);
+    margin-bottom: 18px;
+    padding-left: 24px;
+    letter-spacing: -0.005em;
   }
 
-  /* Option Cards */
+  /* Option 列表 */
   .options-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
     margin-bottom: 18px;
   }
 
+  /* 选项卡：不用 backdrop-filter，用纯色填充 */
   .option-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.03) 100%);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 0.5px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.055);
+    border: 0.5px solid rgba(255,255,255,0.1);
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
     padding: 12px 14px;
     position: relative;
-    overflow: hidden;
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.55s cubic-bezier(0.19, 1, 0.22, 1),
-                transform 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateY(10px);
+    transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+                transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
-  .option-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.035;
-    mix-blend-mode: overlay;
-    pointer-events: none;
-  }
+  .option-card.visible { opacity: 1; transform: translateY(0); }
 
-  .option-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* muted: A/B 暗一点但仍可见 */
+  .option-card.muted { background: rgba(255,255,255,0.04); }
+  .option-card.muted.visible { opacity: 0.72; }
 
+  /* highlighted: C */
   .option-card.highlighted {
-    border: 0.5px solid rgba(10,132,255,0.4);
-    background: linear-gradient(135deg, rgba(10,132,255,0.06) 0%, rgba(10,132,255,0.02) 100%);
-  }
-
-  .option-card.muted {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  .option-card.muted.visible {
-    opacity: 0.65;
+    background: rgba(10,132,255,0.09);
+    border: 0.5px solid rgba(10,132,255,0.38);
+    box-shadow: 0 0 0 1px rgba(10,132,255,0.08) inset;
   }
 
   .option-label {
     font-size: 10px;
-    color: rgba(245,245,247,0.3);
+    color: rgba(245,245,247,0.28);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 5px;
@@ -134,61 +115,58 @@
   .option-title {
     font-size: 15px;
     font-weight: 600;
-    color: rgba(245,245,247,0.95);
+    color: rgba(245,245,247,0.92);
     margin-bottom: 4px;
     letter-spacing: -0.01em;
   }
-
-  .option-title.blue {
-    color: rgba(10,132,255,0.9);
-  }
+  .option-title.blue { color: rgba(10,132,255,0.92); }
 
   .option-desc {
     font-size: 12px;
-    color: rgba(245,245,247,0.5);
-    line-height: 1.4;
+    color: rgba(245,245,247,0.45);
+    line-height: 1.45;
   }
 
   .option-note {
     font-size: 12px;
     color: #0A84FF;
-    margin-top: 4px;
+    margin-top: 5px;
+    opacity: 0.85;
   }
 
-  /* Recommended badge */
+  /* 推荐徽章 */
   .badge-recommend {
     position: absolute;
     top: 10px;
-    right: 10px;
-    background: rgba(10,132,255,0.18);
-    border: 0.5px solid rgba(10,132,255,0.35);
+    right: 12px;
+    background: rgba(10,132,255,0.16);
+    border: 0.5px solid rgba(10,132,255,0.32);
     border-radius: 20px;
-    padding: 2px 8px;
+    padding: 2px 9px;
     font-size: 10px;
     font-weight: 600;
-    color: #0A84FF;
-    letter-spacing: 0.02em;
+    color: #4da3ff;
+    letter-spacing: 0.03em;
   }
 
-  /* Separator */
+  /* 分割线 */
   .separator {
     height: 0.5px;
-    background: rgba(255,255,255,0.08);
-    margin-bottom: 14px;
+    background: rgba(255,255,255,0.07);
+    margin-bottom: 15px;
   }
 
-  /* Footer quote */
+  /* 底部引语 */
   .footer-quote {
-    border-left: 2px solid #0A84FF;
+    border-left: 1.5px solid rgba(10,132,255,0.5);
     padding-left: 12px;
   }
-
   .footer-quote p {
-    font-size: 13px;
-    color: rgba(245,245,247,0.5);
+    font-size: 12.5px;
+    color: rgba(245,245,247,0.38);
     font-style: italic;
-    line-height: 1.55;
-    letter-spacing: 0.005em;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
   }
 </style>
 </head>
@@ -201,21 +179,21 @@
   <p class="sub-line">关于这份工作邀约——</p>
 
   <div class="options-list">
-    <!-- Option A -->
+    <!-- A -->
     <div class="option-card muted" id="opt-a">
       <span class="option-label">选项 A</span>
       <div class="option-title">直接拒绝</div>
       <div class="option-desc">不影响现有关系，但机会关闭</div>
     </div>
 
-    <!-- Option B -->
+    <!-- B -->
     <div class="option-card muted" id="opt-b">
       <span class="option-label">选项 B</span>
       <div class="option-title">立刻接受</div>
       <div class="option-desc">需协调当前项目收尾</div>
     </div>
 
-    <!-- Option C -->
+    <!-- C -->
     <div class="option-card highlighted" id="opt-c">
       <div class="badge-recommend">推荐</div>
       <span class="option-label">选项 C</span>
@@ -234,15 +212,12 @@
 
 <script>
   const cards = [
-    { el: document.getElementById('opt-a'), delay: 80 },
-    { el: document.getElementById('opt-b'), delay: 230 },
-    { el: document.getElementById('opt-c'), delay: 380 },
+    { el: document.getElementById('opt-a'), delay: 120 },
+    { el: document.getElementById('opt-b'), delay: 260 },
+    { el: document.getElementById('opt-c'), delay: 420 },
   ];
-
   cards.forEach(({ el, delay }) => {
-    setTimeout(() => {
-      el.classList.add('visible');
-    }, delay);
+    setTimeout(() => el.classList.add('visible'), delay);
   });
 </script>
 </body>
