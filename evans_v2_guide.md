@@ -79,10 +79,10 @@ Extreme close-up static shot of an elderly hand with prominent veins, resting pe
 ```
 
 ### 镜头 03 · Evans 首次亮相
-- **工具**：Cinema4D / Blender（CGI 产品）
+- **工具**：Kling 1.5+ / Sora（产品实拍风格）
 - **时长**：6s
 ```
-Centered product shot of a small elegant white matte ceramic brooch on pure black background. Camera: very slow 360-degree orbit. Subject motion: brooch warm LED gently breathes — soft warm white pulse, organic rhythm. Photorealistic CGI, Apple product aesthetic, octane render. Duration 6 seconds.
+Centered product shot of a small elegant white matte ceramic brooch on pure black background. Camera: very slow 360-degree orbit. Subject motion: brooch warm LED gently breathes — soft warm white pulse, organic rhythm. Photorealistic, Apple product aesthetic. Duration 6 seconds.
 ```
 - **字幕叠加**：Z01「如果有一个存在，」(00:02) + Z03「Evans / 陪你一生的AI共生体」(00:09)
 
@@ -91,37 +91,37 @@ Centered product shot of a small elegant white matte ceramic brooch on pure blac
 ## 第二幕 · 硬件 [00:12–00:30]
 
 ### 镜头 04 · 360° 产品展示
-- **工具**：Cinema4D / Blender
+- **工具**：Kling 1.5+ / Sora
 - **时长**：5s
 - **注意**：白闪转场入（white flash 0.3s）
 ```
-360-degree orbit product shot of white matte ceramic brooch. Pure black background, three-point studio lighting. Camera completes half-orbit revealing front, 3/4, and side angles. Crisp sharp detail. Octane render, photorealistic CGI. Duration 5 seconds.
+360-degree orbit product shot of white matte ceramic brooch. Pure black background, three-point studio lighting. Camera completes half-orbit revealing front, 3/4, and side angles. Crisp sharp detail. Photorealistic. Duration 5 seconds.
 ```
 - **字幕**：Z04「主体重量 23 克」
 
 ### 镜头 05 · 三个硬件细节（各 1.5s）
-- **工具**：Cinema4D / Blender（各 1.5s 分开渲染）
+- **工具**：Kling 1.5+ / Sora（各 1.5s 分开生成）
 - **时长**：5s total
 
 **05-A 麦克风阵列（1.5s）：**
 ```
-Extreme macro close-up of white ceramic brooch surface. Tiny microphone array perforations in precise geometric pattern. Camera: very slow push in. Sharp detail, studio lighting. Photorealistic CGI. Duration 1.5 seconds.
+Extreme macro close-up of white ceramic brooch surface. Tiny microphone array perforations in precise geometric pattern. Camera: very slow push in. Sharp detail, studio lighting. Photorealistic. Duration 1.5 seconds.
 ```
 **05-B 心率传感器（1.5s）：**
 ```
-Side macro view of white ceramic brooch. Small sensor element with faint warm green glow at base. Camera: slow reveal pan. Studio lighting. Photorealistic CGI. Duration 1.5 seconds.
+Side macro view of white ceramic brooch. Small sensor element with faint warm green glow at base. Camera: slow reveal pan. Studio lighting. Photorealistic. Duration 1.5 seconds.
 ```
 **05-C NPU 线条（1.5s）：**
 ```
-Abstract top-down close-up of neural processor circuit traces inside brooch. Golden amber circuit lines on dark matte substrate. Camera: slow pull back to reveal geometric pattern. Warm amber tones, no neon. Photorealistic CGI render. Duration 1.5 seconds.
+Abstract top-down close-up of neural processor circuit traces inside brooch. Golden amber circuit lines on dark matte substrate. Camera: slow pull back to reveal geometric pattern. Warm amber tones, no neon. Photorealistic. Duration 1.5 seconds.
 ```
 - **字幕**：Z05「六轴IMU · 四麦克风阵列 / 多模态生理传感 / 端侧低功耗NPU · 36小时续航」
 
 ### 镜头 06 · 形态变换（胸针→项链）
-- **工具**：Cinema4D / Blender
+- **工具**：Kling 1.5+ / Sora
 - **时长**：5s
 ```
-Smooth transformation product animation. A small white ceramic brooch morphs into a pendant necklace on the same device, showing a delicate chain attaching. Pure black background, studio lighting. Elegant transition, Apple aesthetic. Photorealistic CGI. Duration 5 seconds.
+Smooth transformation product animation. A small white ceramic brooch morphs into a pendant necklace on the same device, showing a delicate chain attaching. Pure black background, studio lighting. Elegant transition, Apple aesthetic. Photorealistic. Duration 5 seconds.
 ```
 - **字幕**：Z06「戴上它，然后，把它忘掉。」
 
@@ -348,7 +348,7 @@ Medium shot of the 28-year-old Chinese man standing alone at apartment window at
 - **字幕**：Z15「Evans选择不说话。」
 
 ### 镜头 16B · 纯黑字幕（静默）
-- **工具**：After Effects（非AI视频）
+- **工具**：代码生成（HTML/CSS，OBS录制）
 - **时长**：5s
 - **规格**：纯黑底 #000000，完全静音 0dB，字幕 Z16 居中渐显
 - **字幕**：Z16「在这个时刻，沉默是它经过判断后的主动选择。」
@@ -402,10 +402,10 @@ Medium close-up of a 20-year-old young Chinese woman in her bedroom, earbuds in.
 ```
 
 ### 镜头 19 · 落版
-- **工具**：Cinema4D / Blender
+- **工具**：Kling 1.5+ / Sora + 代码字幕浮层
 - **时长**：8s（含 5s 黑场）
 ```
-Centered minimal product shot of a small white ceramic brooch on pure black background. Camera static. Subject motion: a warm amber breathing glow ring slowly pulses around the brooch — brightens, dims, brightens, like a heartbeat. Photorealistic CGI. Duration 8 seconds.
+Centered minimal product shot of a small white ceramic brooch on pure black background. Camera static. Subject motion: a warm amber breathing glow ring slowly pulses around the brooch — brightens, dims, brightens, like a heartbeat. Photorealistic. Duration 8 seconds.
 ```
 - **字幕**：Z18「Evans / Lifelong. / 陪你一生的AI共生体。」（三行依次浮现）
 
@@ -416,9 +416,9 @@ Centered minimal product shot of a small white ceramic brooch on pure black back
 | 工具 | 用途 | 镜头 |
 |------|------|------|
 | **Kling 1.5+** | 真人写实镜头 | 01, 02, 07, 08A/C, 09A/C, 10A/C, 11A/C, 12A/C, 13A/C, 14A/C, 15A/C, 16A/C, 17A-F, 18 |
+| **Kling 1.5+ / Sora** | 产品展示镜头（AI生成） | 03, 04, 05, 06, 19 |
 | **Runway Gen-3** | 固定屏幕空白屏 + 环境镜头 | 02, 08B, 09B, 10B, 11B, 12B, 13B, 14B/D, 15B |
-| **Blender/C4D** | 产品 CGI 渲染 | 03, 04, 05, 06, 19 |
-| **After Effects** | 纯黑字幕板 | 16B |
+| **HTML/CSS + OBS录制** | 纯黑字幕板 / UI浮层动效 | 16B, UI-A～UI-E |
 
 **需要空白屏的镜头**（后期合成UI）：08B · 09B · 10B · 12B · 14B · 15B
 # Part 3.1 · 全片时间线总览（v2 精简版）
