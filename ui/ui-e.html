@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-E · 第三选项</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07080a;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  }
+
+  .card {
+    width: 390px;
+    background: rgba(14,16,20,0.95);
+    border: 1px solid rgba(200,169,110,0.22);
+    border-radius: 20px;
+    padding: 22px 24px;
+    box-shadow: 0 0 40px rgba(200,169,110,0.05), 0 8px 32px rgba(0,0,0,0.6);
+    animation: cardIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0; transform: translateY(16px);
+  }
+  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
+
+  .header { display:flex; align-items:center; gap:9px; margin-bottom:6px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:#c8a96e; flex-shrink:0;
+         animation:breathe 2s ease-in-out infinite; }
+  @keyframes breathe{0%,100%{opacity:1;box-shadow:0 0 5px rgba(200,169,110,0.7);}50%{opacity:0.4;box-shadow:none;}}
+  .header-label { font-size:11px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
+
+  .question { font-size:12px; color:#454545; margin-bottom:16px; line-height:1.6; }
+
+  .options { display:flex; flex-direction:column; gap:9px; }
+
+  .option {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 14px; border-radius:12px;
+    border:1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.015);
+    transition: all 0.2s;
+    cursor: pointer;
+    opacity:0; animation:optIn 0.45s ease forwards;
+  }
+  .option:nth-child(1){animation-delay:0.3s;}
+  .option:nth-child(2){animation-delay:0.55s;}
+  .option:nth-child(3){animation-delay:0.8s;}
+
+  @keyframes optIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .option:hover {
+    border-color: rgba(200,169,110,0.2);
+    background: rgba(200,169,110,0.04);
+  }
+
+  .option.highlight {
+    border-color: rgba(200,169,110,0.35);
+    background: rgba(200,169,110,0.07);
+  }
+  .option.highlight:hover {
+    background: rgba(200,169,110,0.12);
+  }
+
+  .opt-letter {
+    width:22px; height:22px; border-radius:6px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; margin-top:1px;
+  }
+  .opt-letter.normal   { background:rgba(255,255,255,0.05); color:#444; }
+  .opt-letter.special  { background:rgba(200,169,110,0.15); color:#c8a96e; }
+
+  .opt-body { flex:1; }
+  .opt-title { font-size:13px; line-height:1.5; }
+  .opt-title.normal  { color:#666; }
+  .opt-title.special { color:#e8e6e0; font-weight:500; }
+
+  .opt-note { font-size:11px; margin-top:3px; line-height:1.5; }
+  .opt-note.normal  { color:#333; }
+  .opt-note.special { color:#6a8a78; }
+
+  .opt-badge {
+    flex-shrink:0; margin-top:2px; align-self:flex-start;
+    font-size:10px; padding:2px 7px; border-radius:4px;
+    background:rgba(200,169,110,0.1); color:#c8a96e;
+    opacity:0; animation:fadeIn 0.4s ease 1.2s forwards;
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+
+  /* 底部说明 */
+  .footer {
+    margin-top:16px; padding-top:13px;
+    border-top:1px solid rgba(255,255,255,0.04);
+    font-size:11px; color:#333; line-height:1.6;
+    opacity:0; animation:fadeIn2 0.4s ease 1.4s forwards;
+  }
+  @keyframes fadeIn2{to{opacity:1;}}
+  .footer .hi { color:#3a6a5a; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="dot"></div>
+    <span class="header-label">Evans · 你还可以这样选</span>
+  </div>
+
+  <div class="question">关于这份工作邀约——你现在只看到两个选项，但还有第三种。</div>
+
+  <div class="options">
+    <div class="option">
+      <div class="opt-letter normal">A</div>
+      <div class="opt-body">
+        <div class="opt-title normal">直接拒绝</div>
+        <div class="opt-note normal">不影响现有关系，但机会关闭</div>
+      </div>
+    </div>
+
+    <div class="option">
+      <div class="opt-letter normal">B</div>
+      <div class="opt-body">
+        <div class="opt-title normal">立刻接受</div>
+        <div class="opt-note normal">需协调当前项目收尾，较仓促</div>
+      </div>
+    </div>
+
+    <div class="option highlight">
+      <div class="opt-letter special">C</div>
+      <div class="opt-body">
+        <div class="opt-title special">要求两周后再决定，先了解团队</div>
+        <div class="opt-note special">他们通常会接受 · 你的选择权保留更长</div>
+      </div>
+      <div class="opt-badge">推荐</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Evans 不告诉你怎么选，它告诉你，<span class="hi">你还可以怎么选</span>。
+  </div>
+</div>
+</body>
+</html>

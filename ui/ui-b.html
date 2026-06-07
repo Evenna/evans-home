@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-B · 信息过滤</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07080a;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  }
+
+  .card {
+    width: 400px;
+    background: rgba(14,16,20,0.95);
+    border: 1px solid rgba(200,169,110,0.22);
+    border-radius: 20px;
+    padding: 22px 24px;
+    box-shadow: 0 0 40px rgba(200,169,110,0.05), 0 8px 32px rgba(0,0,0,0.6);
+    animation: cardIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0; transform: translateY(16px);
+  }
+  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
+
+  /* 顶部 */
+  .header {
+    display: flex; align-items: center; margin-bottom: 16px;
+  }
+  .dot { width:7px; height:7px; border-radius:50%; background:#c8a96e;
+         animation: breathe 2s ease-in-out infinite; margin-right:9px; }
+  @keyframes breathe {
+    0%,100%{opacity:1;box-shadow:0 0 5px rgba(200,169,110,0.7);}
+    50%{opacity:0.45;box-shadow:none;}
+  }
+  .header-label { font-size:11px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
+  .header-count { margin-left:auto; font-size:11px; color:#444; }
+  .count-hi { color:#c8a96e; font-weight:600; }
+
+  /* 消息条 */
+  .msg-list { display:flex; flex-direction:column; gap:0; }
+
+  .msg {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:11px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    opacity:0;
+    animation:msgIn 0.45s ease forwards;
+  }
+  .msg:last-child { border-bottom:none; }
+  .msg:nth-child(1){animation-delay:0.25s;}
+  .msg:nth-child(2){animation-delay:0.5s;}
+  .msg:nth-child(3){animation-delay:0.75s;}
+  .msg:nth-child(4){animation-delay:1.0s;}
+  .msg:nth-child(5){animation-delay:1.25s;}
+
+  @keyframes msgIn {
+    from{opacity:0;transform:translateX(-6px);}
+    to{opacity:1;transform:translateX(0);}
+  }
+
+  .tag {
+    font-size:10px; padding:2px 8px; border-radius:4px;
+    flex-shrink:0; margin-top:2px; font-weight:500; white-space:nowrap;
+  }
+  .tag.keep    { background:rgba(58,106,90,0.22); color:#6ab8a0; }
+  .tag.filter  { background:rgba(40,40,40,0.6); color:#3a3a3a; }
+
+  .msg-text { font-size:13px; line-height:1.5; }
+  .msg-text.important { color:#e8e6e0; }
+  .msg-text.muted     { color:#2e2e2e; text-decoration:line-through; text-decoration-color:#282828; }
+
+  .msg-from { font-size:10px; margin-top:2px; }
+  .msg-from.important { color:#c8a96e; }
+  .msg-from.muted     { color:#252525; }
+
+  /* 底栏 */
+  .footer {
+    margin-top:14px; padding-top:12px;
+    border-top:1px solid rgba(255,255,255,0.04);
+    display:flex; align-items:center; gap:8px;
+    opacity:0; animation:fadeIn 0.4s ease 1.7s forwards;
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+  .footer-icon { font-size:12px; }
+  .footer-text { font-size:11px; color:#3d4a44; line-height:1.5; flex:1; }
+  .footer-text span { color:#3a6a5a; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="dot"></div>
+    <span class="header-label">Evans · 信息筛选</span>
+    <span class="header-count"><span class="count-hi">138</span> 条 → <span class="count-hi">5</span> 条重要</span>
+  </div>
+
+  <div class="msg-list">
+    <div class="msg">
+      <span class="tag keep">重要</span>
+      <div>
+        <div class="msg-text important">导师：周五组会改到10点，请确认</div>
+        <div class="msg-from important">研究生群 · 5分钟前</div>
+      </div>
+    </div>
+    <div class="msg">
+      <span class="tag keep">重要</span>
+      <div>
+        <div class="msg-text important">妈妈：今晚有空视频吗</div>
+        <div class="msg-from important">微信 · 12分钟前</div>
+      </div>
+    </div>
+    <div class="msg">
+      <span class="tag filter">已过滤</span>
+      <div>
+        <div class="msg-text muted">XX平台：您的专属福利即将到期...</div>
+        <div class="msg-from muted">推送通知</div>
+      </div>
+    </div>
+    <div class="msg">
+      <span class="tag filter">已过滤</span>
+      <div>
+        <div class="msg-text muted">群通知：今晚9点直播不见不散</div>
+        <div class="msg-from muted">某购物群</div>
+      </div>
+    </div>
+    <div class="msg">
+      <span class="tag filter">已过滤</span>
+      <div>
+        <div class="msg-text muted">系统：您有一条待处理工单…</div>
+        <div class="msg-from muted">服务通知</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-icon">📁</span>
+    <span class="footer-text">其余 <span>133 条</span>已归档，需要时随时调取</span>
+  </div>
+</div>
+</body>
+</html>

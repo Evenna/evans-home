@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-D · 时间胶囊</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07080a;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  }
+
+  .card {
+    width: 420px;
+    background: rgba(14,16,20,0.95);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 20px;
+    padding: 24px 26px;
+    box-shadow: 0 0 40px rgba(200,169,110,0.04), 0 8px 32px rgba(0,0,0,0.65);
+    animation: cardIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0; transform: translateY(14px);
+  }
+  @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
+
+  .header { display:flex; align-items:center; gap:9px; margin-bottom:20px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:#c8a96e; flex-shrink:0;
+         animation:breathe 2.2s ease-in-out infinite; }
+  @keyframes breathe{0%,100%{opacity:1;box-shadow:0 0 5px rgba(200,169,110,0.7);}50%{opacity:0.4;box-shadow:none;}}
+  .header-label { font-size:11px; color:#c8a96e; letter-spacing:.1em; text-transform:uppercase; font-weight:500; }
+
+  .person-row {
+    display:flex; align-items:center; gap:14px;
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    opacity:0; animation:rowIn 0.5s ease forwards;
+  }
+  .person-row:last-child { border-bottom:none; }
+  .person-row:nth-child(1){animation-delay:0.3s;}
+  .person-row:nth-child(2){animation-delay:0.6s;}
+  .person-row:nth-child(3){animation-delay:0.9s;}
+
+  @keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+
+  .avatar {
+    width:40px; height:40px; border-radius:12px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; color:#e8e6e0; font-weight:500;
+  }
+  .avatar.lan  { background:linear-gradient(135deg,#3a5248,#5a4020); }
+  .avatar.jun  { background:linear-gradient(135deg,#2a4a6a,#1a3040); }
+  .avatar.memo { background:linear-gradient(135deg,#3a3228,#5a4a30); font-size:17px; }
+
+  .info { flex:1; }
+  .name { font-size:13px; color:#e8e6e0; font-weight:500; margin-bottom:4px; }
+  .detail { font-size:11px; color:#555; line-height:1.6; }
+  .detail .hi { color:#c8a96e; }
+  .detail .teal { color:#3a6a5a; }
+
+  .right { flex-shrink:0; text-align:right; }
+  .year  { font-size:10px; padding:2px 9px; border-radius:5px;
+           background:rgba(58,106,90,0.15); color:#3a6a5a; margin-bottom:4px; display:inline-block; }
+  .sub-label { font-size:9px; color:#333; display:block; margin-top:3px; }
+
+  /* 播放按钮特殊样式 */
+  .play-btn {
+    display:flex; align-items:center; gap:6px;
+    font-size:11px; padding:5px 12px; border-radius:7px;
+    background:rgba(200,169,110,0.1);
+    border:1px solid rgba(200,169,110,0.25);
+    color:#c8a96e; cursor:pointer;
+    transition:all 0.2s;
+    opacity:0; animation:fadeBtn 0.4s ease 1.4s forwards;
+  }
+  @keyframes fadeBtn{to{opacity:1;}}
+  .play-btn:hover { background:rgba(200,169,110,0.18); }
+  .play-btn .play-icon { font-size:9px; }
+
+  /* 底部情绪提示 */
+  .footer-quote {
+    margin-top:18px; padding-top:14px;
+    border-top:1px solid rgba(255,255,255,0.04);
+    font-size:12px; color:#3a4a42; line-height:1.7; font-style:italic;
+    opacity:0; animation:fadeIn 0.5s ease 1.6s forwards;
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+  .footer-quote .quote-hi { color:#3a5a4a; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="dot"></div>
+    <span class="header-label">Evans · 关系记忆</span>
+  </div>
+
+  <div class="person-rows">
+    <div class="person-row">
+      <div class="avatar lan">兰</div>
+      <div class="info">
+        <div class="name">陈兰（妻）</div>
+        <div class="detail">
+          忌日 <span class="hi">11月3日</span> &nbsp;·&nbsp;
+          共同记忆 <span class="hi">2,847</span> 条
+        </div>
+      </div>
+      <div class="right">
+        <span class="year">相识 43 年</span>
+      </div>
+    </div>
+
+    <div class="person-row">
+      <div class="avatar jun">军</div>
+      <div class="info">
+        <div class="name">陈军（儿子）</div>
+        <div class="detail">
+          上次通话 <span class="hi">3天前</span> &nbsp;·&nbsp;
+          <span class="teal">北京</span> · 程序员
+        </div>
+      </div>
+      <div class="right">
+        <span class="year">相识 38 年</span>
+      </div>
+    </div>
+
+    <div class="person-row">
+      <div class="avatar memo">♪</div>
+      <div class="info">
+        <div class="name">时间胶囊 · 陈兰留言</div>
+        <div class="detail">
+          录制于 <span class="hi">2019年9月</span> &nbsp;·&nbsp;
+          时长 <span class="hi">2分14秒</span>
+        </div>
+      </div>
+      <div class="right">
+        <div class="play-btn">
+          <span class="play-icon">▶</span>
+          播放
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-quote">
+    「她说，如果有一天你一个人，就让它陪着你。」
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-A · 跨工具调度</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07080a;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif;
+  }
+
+  .card {
+    width: 380px;
+    background: rgba(14,16,20,0.95);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 20px;
+    padding: 24px 26px 22px;
+    box-shadow: 0 0 40px rgba(200,169,110,0.06), 0 8px 32px rgba(0,0,0,0.6);
+    animation: cardIn 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0; transform: translateY(18px);
+  }
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .dot-indicator {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #c8a96e;
+    animation: breathe 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes breathe {
+    0%,100% { opacity: 1; box-shadow: 0 0 6px rgba(200,169,110,0.8); }
+    50% { opacity: 0.5; box-shadow: 0 0 2px rgba(200,169,110,0.3); }
+  }
+  .header-text {
+    font-size: 11px; color: #c8a96e;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header-time {
+    margin-left: auto;
+    font-size: 10px; color: #444;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    opacity: 0;
+    animation: stepIn 0.5s ease forwards;
+  }
+  .step:last-child { border-bottom: none; }
+  .step:nth-child(1) { animation-delay: 0.3s; }
+  .step:nth-child(2) { animation-delay: 0.7s; }
+  .step:nth-child(3) { animation-delay: 1.1s; }
+
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-icon.done   { background: rgba(58,106,90,0.2); }
+  .step-icon.active { background: rgba(200,169,110,0.12); }
+  .step-icon.wait   { background: rgba(255,255,255,0.04); }
+
+  .step-body { flex: 1; }
+  .step-title {
+    font-size: 13px; line-height: 1.45;
+    font-weight: 500;
+  }
+  .step-title.done   { color: #4a5a52; text-decoration: line-through; }
+  .step-title.active { color: #e8e6e0; }
+  .step-title.wait   { color: #333; }
+
+  .step-sub {
+    font-size: 11px; margin-top: 3px; line-height: 1.5;
+  }
+  .step-sub.done   { color: #2e3a34; }
+  .step-sub.active { color: #c8a96e; }
+  .step-sub.wait   { color: #2a2a2a; }
+
+  .status-badge {
+    flex-shrink: 0; margin-top: 3px;
+    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+  }
+  .status-badge.done   { background: rgba(58,106,90,0.15); color: #3a6a5a; }
+  .status-badge.active { background: rgba(200,169,110,0.1); color: #c8a96e; }
+  .status-badge.wait   { background: rgba(255,255,255,0.03); color: #333; }
+
+  /* 进度条（active step） */
+  .progress-bar {
+    height: 2px; background: rgba(255,255,255,0.06);
+    border-radius: 2px; margin-top: 8px; overflow: hidden;
+    opacity: 0; animation: barShow 0.3s ease 1.5s forwards;
+  }
+  @keyframes barShow { to { opacity: 1; } }
+  .progress-fill {
+    height: 100%; width: 0; background: #c8a96e; border-radius: 2px;
+    animation: fillBar 3s ease 1.6s forwards;
+  }
+  @keyframes fillBar { to { width: 62%; } }
+
+  /* 底部提示 */
+  .footer {
+    margin-top: 18px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: space-between;
+    opacity: 0; animation: fadeIn 0.4s ease 1.8s forwards;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+  .footer-text { font-size: 11px; color: #555; }
+  .confirm-btn {
+    font-size: 11px; padding: 5px 14px; border-radius: 6px;
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.3);
+    color: #c8a96e; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .confirm-btn:hover { background: rgba(200,169,110,0.2); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="dot-indicator"></div>
+    <span class="header-text">Evans · 正在协调</span>
+    <span class="header-time" id="clock"></span>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon done">✓</div>
+      <div class="step-body">
+        <div class="step-title done">识别会议邀约意图</div>
+        <div class="step-sub done">来自 王总 · 主题「Q3 复盘」</div>
+      </div>
+      <div class="status-badge done">完成</div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon done">✓</div>
+      <div class="step-body">
+        <div class="step-title done">检查日历空档</div>
+        <div class="step-sub done">明日 14:00–15:00 可用</div>
+      </div>
+      <div class="status-badge done">完成</div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon active">✉</div>
+      <div class="step-body">
+        <div class="step-title active">起草确认邮件</div>
+        <div class="step-sub active">等待你确认后发送</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+      <div class="status-badge active">进行中</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-text">邮件草稿已就绪</span>
+    <div class="confirm-btn">确认发送</div>
+  </div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+</script>
+</body>
+</html>
