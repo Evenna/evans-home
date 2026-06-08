@@ -80,9 +80,9 @@ function initAvatar() {
   for (let i = 0; i < N_CORE; i++) {
     const theta = Math.random() * Math.PI * 2;
     const m     = 2 * Math.random() - 1;
-    // 两极密集、赤道稀疏：经线汇聚效果
-    // pow > 1 → 向 ±1 压缩 → 极点密集
-    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 2.2);
+    // 两极密集、赤道稀疏：
+    // pow(abs, 0.28) → 把均匀分布向±1(极点)拉伸
+    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 0.28);
     const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
     const nx = sinP * Math.cos(theta);
     const ny = cosP;
@@ -371,7 +371,7 @@ function initAvatar() {
       gl_Position = projectionMatrix * mv;
       gl_PointSize = aSize * (1.0 + uSpeak * 0.28) * uSK / -mv.z;
       float twinkle = 0.55 + 0.45 * sin(uTime * 1.1 + aPhase * 9.0);
-      vA = 0.55 + twinkle * 0.40;
+      vA = 0.72 + twinkle * 0.28;
       // 约 40% 是冷蓝粒子，60% 是深蓝灰尘 — 亮度提升
       float isCool = step(0.40, fract(sin(aPhase * 91.7) * 23741.3));
       vCol = mix(vec3(0.30, 0.42, 0.65), vec3(0.45, 0.72, 1.00), isCool);
