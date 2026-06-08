@@ -69,7 +69,7 @@ function initAvatar() {
   })();
 
   // ── 层1：核心球体粒子 — 两极密集、赤道稀疏 ──────────────
-  const N_CORE  = 12000;   // 大幅减少，让稀疏感真实可见
+  const N_CORE  = 4000;   // 极少量，让稀疏/密集对比一眼可见
   const CORE_R  = 1.6;
   const corePos   = new Float32Array(N_CORE * 3);
   const corePhase = new Float32Array(N_CORE);
