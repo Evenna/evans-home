@@ -68,51 +68,47 @@ function initAvatar() {
     return new THREE.CanvasTexture(c);
   })();
 
-  // ── 层1：核心球体粒子 42000颗，蓝白 ────────────────────
-  const N_CORE  = 48000;
+  // ── 层1：核心球体粒子 — 两极密集、赤道稀疏 ──────────────
+  const N_CORE  = 12000;   // 大幅减少，让稀疏感真实可见
   const CORE_R  = 1.6;
   const corePos   = new Float32Array(N_CORE * 3);
   const corePhase = new Float32Array(N_CORE);
   const coreSz    = new Float32Array(N_CORE);
-  const coreHair  = new Float32Array(N_CORE);
-  const coreLat   = new Float32Array(N_CORE);
+  const coreLat   = new Float32Array(N_CORE); // |cosP|, 0=赤道 1=极点
 
   for (let i = 0; i < N_CORE; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const m     = 2 * Math.random() - 1;
-    // 两极密集、赤道稀疏：
-    // pow(abs, 0.28) → 把均匀分布向±1(极点)拉伸
-    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 0.28);
-    const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
-    const nx = sinP * Math.cos(theta);
-    const ny = cosP;
-    const nz = sinP * Math.sin(theta);
+    const u     = Math.random();
+    // 拒绝采样：用密度函数 p(cosP) ∝ cosP²  → 极点密、赤道稀
+    // 等价变换: cosP = sign(rand-0.5) * rand^(1/3) 的 arcsin 分布不够极端
+    // 直接用：cosP = ±1 附近密集 ← 用 acos(均匀) 然后偏置
+    // 最简单正确方法：cosP = sign(m)*pow(|m|, 0.22)
+    // pow(0.5, 0.22) = 0.86 → 50%粒子在cosP>0.86(极点20°范围内)
+    const m    = 2 * u - 1;
+    const cosP = Math.sign(m) * Math.pow(Math.abs(m), 0.22);
+    const sinP = Math.sqrt(Math.max(0, 1 - cosP * cosP));
 
-    // 球面 ± 毛刺
-    const offset = (Math.random() - 0.28) * 0.38 * CORE_R;
-    const r = CORE_R + offset;
-    corePos[i*3+0] = nx * r;
-    corePos[i*3+1] = ny * r;
-    corePos[i*3+2] = nz * r;
+    // 球面，几乎不散开（减少毛刺让球形感清晰）
+    const r = CORE_R * (0.97 + Math.random() * 0.06);
+    corePos[i*3+0] = sinP * Math.cos(theta) * r;
+    corePos[i*3+1] = cosP * r;
+    corePos[i*3+2] = sinP * Math.sin(theta) * r;
     corePhase[i]   = Math.random() * Math.PI * 2;
-    coreHair[i]    = Math.min(1.0, Math.abs(offset) / (0.38 * CORE_R));
-    coreLat[i]     = Math.abs(cosP);
+    coreLat[i]     = Math.abs(cosP); // 0=赤道 1=极点
 
-    coreSz[i] = (0.016 + Math.random() * 0.013)
-              + (Math.random() < 0.03 ? 0.012 : 0.0);
+    // 极点粒子稍大
+    coreSz[i] = 0.013 + Math.random() * 0.010 + Math.abs(cosP) * 0.008;
   }
 
   const coreGeo = new THREE.BufferGeometry();
   coreGeo.setAttribute('position', new THREE.BufferAttribute(corePos,   3));
   coreGeo.setAttribute('aPhase',   new THREE.BufferAttribute(corePhase, 1));
   coreGeo.setAttribute('aSize',    new THREE.BufferAttribute(coreSz,    1));
-  coreGeo.setAttribute('aHair',    new THREE.BufferAttribute(coreHair,  1));
   coreGeo.setAttribute('aLat',     new THREE.BufferAttribute(coreLat,   1));
 
   const coreVert = /* glsl */`
     attribute float aPhase;
     attribute float aSize;
-    attribute float aHair;
     attribute float aLat;
     uniform float uTime;
     uniform float uSpeak;
@@ -124,36 +120,30 @@ function initAvatar() {
     void main() {
       vec3 dir = normalize(position + vec3(0.0001));
 
-      float breathe = 1.0 + sin(uTime * 0.22) * 0.025;
-      float wave    = sin(dir.x * 2.5 + uTime * 0.18)
-                    * sin(dir.y * 2.3 + uTime * 0.15) * 0.018;
-      float pulse   = uSpeak * 0.18 * sin(uTime * 1.8 + aPhase * 5.0);
+      float breathe = 1.0 + sin(uTime * 0.22) * 0.028;
+      float pulse   = uSpeak * 0.15 * sin(uTime * 1.8 + aPhase * 5.0);
+      float seed    = fract(sin(aPhase * 127.1) * 43758.5);
+      float jitter  = uGlitch * (seed - 0.5) * 0.50;
 
-      float seed   = fract(sin(aPhase * 127.1) * 43758.5);
-      float jitter = uGlitch * (seed - 0.5) * 0.60;
-
-      vec3 p = position * (breathe + wave) + dir * (pulse + jitter);
+      vec3 p = position * (breathe) + dir * (pulse + jitter);
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
       gl_Position = projectionMatrix * mv;
 
-      float szMul = 1.0 + (1.0 - aHair) * 0.6 + aLat * 0.25;
-      gl_PointSize = aSize * szMul * uSK / -mv.z;
+      gl_PointSize = aSize * uSK / -mv.z;
 
-      // 颜色：极点亮白，赤道深蓝（配合极点密集分布）
-      float inner = 1.0 - aHair;           // 1=球面 0=尖端
-      // 极点白热 + 赤道深蓝
+      // 颜色：极点亮白，赤道深蓝
       vCol = mix(
-        vec3(0.08, 0.48, 0.92),            // 深蓝（赤道/尖端）
-        vec3(0.85, 0.95, 1.00),            // 亮白（极点/球面）
-        pow(inner, 0.55)
+        vec3(0.06, 0.38, 0.90),   // 赤道深蓝
+        vec3(0.90, 0.96, 1.00),   // 极点亮白
+        pow(aLat, 0.6)
       );
-      // 极点额外增亮（aLat接近1 = 极点）
-      vCol = mix(vCol, vec3(0.95, 0.98, 1.00), pow(aLat, 1.5) * 0.55);
 
-      // 亮度
-      float surfGlow = pow(1.0 - aHair, 0.38);
-      float twinkle  = 0.94 + 0.06 * sin(uTime * 0.55 + aPhase * 11.0);
-      vA = (0.18 + surfGlow * 1.35) * twinkle * (1.0 + uSpeak * 0.38);
+      // 透明度：极点亮、赤道自然渐隐（关键：赤道 aLat≈0 → 很暗）
+      float latGlow  = pow(aLat, 0.5);              // 极点=1.0, 赤道=0.0
+      float equator  = 1.0 - aLat;                  // 赤道衰减因子
+      float twinkle  = 0.92 + 0.08 * sin(uTime * 0.6 + aPhase * 11.0);
+      // 赤道粒子几乎不可见，极点粒子亮
+      vA = (0.05 + latGlow * 1.10) * twinkle * (1.0 + uSpeak * 0.35);
     }
   `;
 
@@ -180,23 +170,25 @@ function initAvatar() {
   corePts.position.y = 0.6;
   scene.add(corePts);
 
-  // ── 层2：内核光晕球（大软点 = bloom模拟）────────────────
-  const N_HAL = 3200;
+  // ── 层2：内核光晕（极少量大软点，仅在极点区域）────────────
+  const N_HAL = 800;
   const halPos   = new Float32Array(N_HAL * 3);
   const halPhase = new Float32Array(N_HAL);
   const halSz    = new Float32Array(N_HAL);
 
   for (let i = 0; i < N_HAL; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const cosP  = 2 * Math.random() - 1;
+    const u     = Math.random();
+    const m     = 2 * u - 1;
+    // 光晕也集中在极点
+    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 0.18);
     const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
-    // 集中在球面附近，略内缩 → 叠加出光晕感
-    const r = CORE_R * (0.65 + Math.random() * 0.55);
+    const r = CORE_R * (0.70 + Math.random() * 0.50);
     halPos[i*3+0] = sinP * Math.cos(theta) * r;
     halPos[i*3+1] = cosP * r;
     halPos[i*3+2] = sinP * Math.sin(theta) * r;
     halPhase[i] = Math.random() * Math.PI * 2;
-    halSz[i] = 0.09 + Math.random() * 0.14;
+    halSz[i] = 0.10 + Math.random() * 0.16;
   }
 
   const halGeo = new THREE.BufferGeometry();
@@ -218,7 +210,7 @@ function initAvatar() {
       gl_Position = projectionMatrix * mv;
       gl_PointSize = aSize * uSK / -mv.z;
       float t2 = 0.5 + 0.5 * sin(uTime * 0.40 + aPhase * 6.28);
-      vA = 0.08 + t2 * 0.10 + uSpeak * 0.08;
+      vA = 0.06 + t2 * 0.08 + uSpeak * 0.06;
     }
   `;
 
@@ -228,7 +220,6 @@ function initAvatar() {
     void main() {
       vec4 t = texture2D(uTex, gl_PointCoord);
       if (t.a < 0.003) discard;
-      // 中心白 → 边缘青蓝
       vec3 col = mix(vec3(0.45, 0.75, 1.00), vec3(1.0), t.a);
       gl_FragColor = vec4(col, t.a * vA);
     }
@@ -243,25 +234,26 @@ function initAvatar() {
   halPts.position.y = 0.6;
   scene.add(halPts);
 
-  // ── 层3：放射火花（从球心向外射出的细亮线粒子）────────
-  const N_SPARK = 1800;
+  // ── 层3：极点火花（仅从上下两极射出）────────────────────
+  const N_SPARK = 600;
   const spkPos   = new Float32Array(N_SPARK * 3);
   const spkPhase = new Float32Array(N_SPARK);
   const spkSz    = new Float32Array(N_SPARK);
-  const spkLen   = new Float32Array(N_SPARK); // 火花长度(0-1)
+  const spkLen   = new Float32Array(N_SPARK);
 
   for (let i = 0; i < N_SPARK; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const cosP  = 2 * Math.random() - 1;
-    const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
-    // 从球面向外延伸 0.3~1.5R
-    const r = CORE_R * (1.0 + Math.random() * 0.95);
+    // 只在极点±25°范围内生成火花
+    const poleFrac = Math.random();
+    const cosP = (poleFrac > 0.5 ? 1 : -1) * (0.90 + Math.random() * 0.10);
+    const sinP = Math.sqrt(Math.max(0, 1 - cosP * cosP));
+    const r = CORE_R * (1.0 + Math.random() * 0.80);
     spkPos[i*3+0] = sinP * Math.cos(theta) * r;
     spkPos[i*3+1] = cosP * r;
     spkPos[i*3+2] = sinP * Math.sin(theta) * r;
     spkPhase[i] = Math.random() * Math.PI * 2;
     spkLen[i]   = Math.random();
-    spkSz[i]    = 0.022 + Math.random() * 0.020;
+    spkSz[i]    = 0.018 + Math.random() * 0.016;
   }
 
   const spkGeo = new THREE.BufferGeometry();
@@ -280,7 +272,6 @@ function initAvatar() {
     varying float vA;
     varying vec3  vCol;
     void main() {
-      // 火花周期性闪现：每颗有随机相位偏移
       float cycle = fract(uTime * 0.28 + aPhase * 0.159);
       float spark = smoothstep(0.0, 0.12, cycle) * (1.0 - smoothstep(0.55, 1.0, cycle));
 
@@ -292,14 +283,10 @@ function initAvatar() {
       gl_Position = projectionMatrix * mv;
       gl_PointSize = aSize * uSK / -mv.z;
 
-      // 距离球面越远越淡 + 闪现周期
       float dist = length(position) / 2.4;
       float fade = pow(1.0 - clamp(dist - 0.5, 0.0, 1.0), 1.8);
-
       vA = spark * fade * (0.55 + aLen * 0.35) * (1.0 + uSpeak * 0.6);
-
-      // 球面附近白，外层深蓝
-      vCol = mix(vec3(0.05, 0.35, 0.90), vec3(0.80, 0.95, 1.00), 1.0 - dist * 0.7);
+      vCol = mix(vec3(0.05, 0.35, 0.90), vec3(0.85, 0.96, 1.00), 1.0 - dist * 0.7);
     }
   `;
 
