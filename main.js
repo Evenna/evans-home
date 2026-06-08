@@ -39,7 +39,7 @@ function initAvatar() {
   renderer.setPixelRatio(1);
   renderer.setClearColor(0x07080c, 1);
 
-  // ── 纹理：高斯圆点（软边 → 叠加出光晕感）
+  // ── 纹理：清晰硬边圆点
   function makeTex(res, stops) {
     const c = document.createElement('canvas');
     c.width = c.height = res;
@@ -49,10 +49,9 @@ function initAvatar() {
     c.getContext('2d').fillRect(0, 0, res, res);
     return new THREE.CanvasTexture(c);
   }
-  // 核心粒子纹理：极亮中心
-  const ptTex   = makeTex(64, [[0,1],[0.04,0.98],[0.15,0.55],[0.38,0.08],[1,0]]);
-  // 光晕纹理：更大更软
-  const halTex  = makeTex(128, [[0,0.9],[0.12,0.55],[0.35,0.12],[0.65,0.02],[1,0]]);
+  // 清晰圆点：硬边，几乎不模糊
+  const ptTex  = makeTex(32, [[0,1],[0.55,1],[0.75,0.6],[0.90,0.1],[1,0]]);
+  const halTex = makeTex(64, [[0,0.7],[0.30,0.3],[0.60,0.05],[1,0]]);
   // 火花纹理：细长（用矩形canvas模拟）
   const spkTex  = (() => {
     const c = document.createElement('canvas');
@@ -69,35 +68,31 @@ function initAvatar() {
   })();
 
   // ── 层1：核心球体粒子 — 两极密集、赤道稀疏 ──────────────
-  const N_CORE  = 4000;   // 极少量，让稀疏/密集对比一眼可见
+  const N_CORE  = 8000;
   const CORE_R  = 1.6;
   const corePos   = new Float32Array(N_CORE * 3);
   const corePhase = new Float32Array(N_CORE);
   const coreSz    = new Float32Array(N_CORE);
-  const coreLat   = new Float32Array(N_CORE); // |cosP|, 0=赤道 1=极点
+  const coreLat   = new Float32Array(N_CORE);
 
   for (let i = 0; i < N_CORE; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const u     = Math.random();
-    // 拒绝采样：用密度函数 p(cosP) ∝ cosP²  → 极点密、赤道稀
-    // 等价变换: cosP = sign(rand-0.5) * rand^(1/3) 的 arcsin 分布不够极端
-    // 直接用：cosP = ±1 附近密集 ← 用 acos(均匀) 然后偏置
-    // 最简单正确方法：cosP = sign(m)*pow(|m|, 0.22)
-    // pow(0.5, 0.22) = 0.86 → 50%粒子在cosP>0.86(极点20°范围内)
-    const m    = 2 * u - 1;
-    const cosP = Math.sign(m) * Math.pow(Math.abs(m), 0.22);
+    // 自然过渡：用 sin²(lat) 密度加权
+    // phi 是极角(0=北极, π=南极), cosP = cos(phi)
+    // 目标密度 ∝ sin²(phi) + k·cos²(phi)，k>1 极点更密
+    // 简单做法：均匀采样 phi，用 rejection 让极点多一点
+    // 最简：cosP = sign(u)*pow(|u|, 0.45) 温和偏向极点，赤道不空
+    const u    = 2 * Math.random() - 1;
+    const cosP = Math.sign(u) * Math.pow(Math.abs(u), 0.45);
     const sinP = Math.sqrt(Math.max(0, 1 - cosP * cosP));
 
-    // 球面，几乎不散开（减少毛刺让球形感清晰）
-    const r = CORE_R * (0.97 + Math.random() * 0.06);
+    const r = CORE_R * (0.98 + Math.random() * 0.04);
     corePos[i*3+0] = sinP * Math.cos(theta) * r;
     corePos[i*3+1] = cosP * r;
     corePos[i*3+2] = sinP * Math.sin(theta) * r;
     corePhase[i]   = Math.random() * Math.PI * 2;
     coreLat[i]     = Math.abs(cosP); // 0=赤道 1=极点
-
-    // 极点粒子稍大
-    coreSz[i] = 0.013 + Math.random() * 0.010 + Math.abs(cosP) * 0.008;
+    coreSz[i]      = 0.014 + Math.random() * 0.008;
   }
 
   const coreGeo = new THREE.BufferGeometry();
@@ -138,12 +133,9 @@ function initAvatar() {
         pow(aLat, 0.6)
       );
 
-      // 透明度：极点亮、赤道自然渐隐（关键：赤道 aLat≈0 → 很暗）
-      float latGlow  = pow(aLat, 0.5);              // 极点=1.0, 赤道=0.0
-      float equator  = 1.0 - aLat;                  // 赤道衰减因子
-      float twinkle  = 0.92 + 0.08 * sin(uTime * 0.6 + aPhase * 11.0);
-      // 赤道粒子几乎不可见，极点粒子亮
-      vA = (0.05 + latGlow * 1.10) * twinkle * (1.0 + uSpeak * 0.35);
+      // 透明度：极点亮、赤道稍暗但不消失，自然过渡
+      float twinkle = 0.88 + 0.12 * sin(uTime * 0.6 + aPhase * 11.0);
+      vA = (0.35 + aLat * 0.55) * twinkle * (1.0 + uSpeak * 0.35);
     }
   `;
 
