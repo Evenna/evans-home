@@ -429,11 +429,12 @@ function triggerGlitch() {
 // ============================================================
 
 function enterStage2() {
-  initArchive();
   document.getElementById('stage2').classList.add('visible');
   const s1 = document.getElementById('stage1');
   s1.classList.add('fade-out');
   setTimeout(() => { s1.style.display = 'none'; }, 1500);
+  // archive canvas 在stage2 visible后立即初始化
+  setTimeout(() => initArchive(), 100);
 }
 
 // ============================================================
