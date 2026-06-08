@@ -281,7 +281,7 @@ function initAvatar() {
     void main() {
       // 火花周期性闪现：每颗有随机相位偏移
       float cycle = fract(uTime * 0.28 + aPhase * 0.159);
-      float active = smoothstep(0.0, 0.12, cycle) * (1.0 - smoothstep(0.55, 1.0, cycle));
+      float spark = smoothstep(0.0, 0.12, cycle) * (1.0 - smoothstep(0.55, 1.0, cycle));
 
       vec3 dir = normalize(position);
       float breathe = 1.0 + sin(uTime * 0.22) * 0.025;
@@ -295,7 +295,7 @@ function initAvatar() {
       float dist = length(position) / 2.4;
       float fade = pow(1.0 - clamp(dist - 0.5, 0.0, 1.0), 1.8);
 
-      vA = active * fade * (0.55 + aLen * 0.35) * (1.0 + uSpeak * 0.6);
+      vA = spark * fade * (0.55 + aLen * 0.35) * (1.0 + uSpeak * 0.6);
 
       // 球面附近白，外层深蓝
       vCol = mix(vec3(0.05, 0.35, 0.90), vec3(0.80, 0.95, 1.00), 1.0 - dist * 0.7);
