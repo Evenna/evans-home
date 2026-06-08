@@ -5,21 +5,195 @@
 <title>Archive Test</title>
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
-canvas{display:block;}
+canvas{display:block;position:fixed;inset:0;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-<canvas id="archive-canvas" style="position:fixed;inset:0;width:100%;height:100%;"></canvas>
-<script type="module">
-import './main.js';
-// wait for module to load
-setTimeout(() => {
-  if (window.__enterStage2) {
-    window.__enterStage2();
-    setTimeout(() => window.__unlockArchive(), 500);
+<canvas id="archive-canvas"></canvas>
+<script>
+const ARCHIVE_PANELS=[
+  {id:'S01',label:'初遇',sub:'FIRST ENCOUNTER',code:'ARC-001',stat:'已归档'},
+  {id:'S02',label:'选择',sub:'THE CHOICE',code:'ARC-002',stat:'已归档'},
+  {id:'S03',label:'边界',sub:'BOUNDARIES',code:'ARC-003',stat:'已归档'},
+  {id:'S04',label:'记忆',sub:'MEMORY TRACE',code:'ARC-004',stat:'已归档'},
+  {id:'S05',label:'信任',sub:'TRUST PROTOCOL',code:'ARC-005',stat:'已归档'},
+  {id:'S06',label:'失控',sub:'LOSS OF CONTROL',code:'ARC-006',stat:'已归档'},
+  {id:'S07',label:'共生',sub:'SYMBIOSIS',code:'ARC-007',stat:'已归档'},
+  {id:'S08',label:'沉默',sub:'THE SILENCE',code:'ARC-008',stat:'已归档'},
+  {id:'S09',label:'回响',sub:'ECHO',code:'ARC-009',stat:'已归档'},
+  {id:'S10',label:'裂缝',sub:'THE FRACTURE',code:'ARC-010',stat:'已归档'},
+  {id:'S11',label:'重建',sub:'RECONSTRUCTION',code:'ARC-011',stat:'已归档'},
+  {id:'S12',label:'镜像',sub:'MIRROR',code:'ARC-012',stat:'已归档'},
+  {id:'S13',label:'告别',sub:'FAREWELL',code:'ARC-013',stat:'已归档'},
+  {id:'S14',label:'此刻',sub:'THIS MOMENT',code:'ARC-014',stat:'进行中'},
+  {id:'S15',label:'——',sub:'CLASSIFIED',code:'ARC-015',stat:'机密'},
+];
+
+let ac,ctx,DPR,W,H,hover=-1,t=0,lastTs=null,locked=false;
+const states=ARCHIVE_PANELS.map(()=>({r:0,h:0}));
+
+function resize(){
+  DPR=Math.min(devicePixelRatio||1,2);
+  W=innerWidth;H=innerHeight;
+  ac.style.width=W+'px';ac.style.height=H+'px';
+  ac.width=Math.round(W*DPR);ac.height=Math.round(H*DPR);
+}
+
+function layout(){
+  const d=DPR,w=W*d,h=H*d;
+  return{
+    D:d,W:w,H:h,
+    sX:w*0.08,sY:h*0.20,sDx:13*d,sDy:8*d,cW:240*d,cH:148*d,
+    mX:w*0.50,mY:h*0.10,mW:390*d,mH:240*d
+  };
+}
+
+function tick(ts){
+  if(!lastTs)lastTs=ts;
+  const dt=Math.min((ts-lastTs)/1000,0.05);lastTs=ts;t+=dt;
+  ARCHIVE_PANELS.forEach((_,i)=>{
+    const tgt=t>i*0.10?1:0;
+    states[i].r+=(tgt-states[i].r)*Math.min(1,dt*5);
+    const ht=(hover===i&&!locked)?1:0;
+    states[i].h+=(ht-states[i].h)*Math.min(1,dt*8);
+  });
+  draw();
+  requestAnimationFrame(tick);
+}
+
+function draw(){
+  const{D,W,H,sX,sY,sDx,sDy,cW,cH,mX,mY,mW,mH}=layout();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=0.7*D;
+  const st=52*D;
+  for(let i=-6;i<20;i++){ctx.beginPath();ctx.moveTo(i*st,H*0.06);ctx.lineTo(i*st+W*0.3,H);ctx.stroke();}
+  for(let j=0;j<12;j++){ctx.beginPath();ctx.moveTo(0,H*0.18+j*st*0.7);ctx.lineTo(W,H*0.06+j*st*0.7);ctx.stroke();}
+  // dots
+  for(let i=0;i<80;i++){
+    ctx.fillStyle='rgba(255,255,255,0.12)';
+    ctx.fillRect((Math.sin(i*91.37)*0.5+0.5)*W,(Math.sin(i*41.91)*0.5+0.5)*H,D,D);
   }
-}, 500);
+  const N=ARCHIVE_PANELS.length;
+  // stacked cards
+  for(let i=0;i<N;i++){
+    const a=(0.07+i*0.017)*states[i].r;
+    if(a<0.005)continue;
+    card(sX+i*sDx,sY+i*sDy,cW,cH,ARCHIVE_PANELS[i],a,0,D,false);
+  }
+  // main panel
+  const top=N-1;
+  if(states[top].r>0.05)
+    card(mX,mY,mW,mH,ARCHIVE_PANELS[top],0.78*states[top].r,0,D,true);
+  // hover preview
+  if(hover>=0&&!locked){
+    card(mX,mY,mW,mH,ARCHIVE_PANELS[hover],0.7+states[hover].h*0.15,states[hover].h,D,true);
+  }
+  // connection lines
+  line(sX+(N-1)*sDx+cW*0.5,sY+(N-1)*sDy,mX,mY+mH*0.5,0.35,D);
+  line(sX+(N-4)*sDx+cW*0.3,sY+(N-4)*sDy,mX+mW*0.2,mY,0.2,D);
+  // header
+  ctx.fillStyle='rgba(255,255,255,0.85)';
+  ctx.font=`500 ${13*D}px Arial,sans-serif`;
+  ctx.fillText('■  ARCHIVE SYSTEM',W*0.05,H*0.075);
+  ctx.fillStyle='rgba(255,255,255,0.35)';
+  ctx.font=`${10*D}px Arial,sans-serif`;
+  ctx.fillText(`${N} RECORDS · HOVER TO PREVIEW · CLICK TO OPEN`,W*0.05,H*0.105);
+  // hint
+  ctx.fillStyle='rgba(255,255,255,0.18)';
+  ctx.font=`${8.5*D}px Arial,sans-serif`;
+  ctx.fillText('SELECT ARCHIVE',mX+mW*0.5-(40*D),H*0.94);
+}
+
+function card(x,y,w,h,p,a,ht,D,big){
+  ctx.save();
+  ctx.strokeStyle=`rgba(255,255,255,${a})`;
+  ctx.lineWidth=(ht>0.1?1.2:0.9)*D;
+  ctx.strokeRect(x,y,w,h);
+  // tab
+  const tw=w*0.36,th=15*D;
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+tw,y);
+  ctx.lineTo(x+tw+5*D,y+th);ctx.lineTo(x,y+th);ctx.closePath();ctx.stroke();
+  // hover glow
+  if(ht>0.05){
+    const g=ctx.createLinearGradient(x,y,x+w,y+h);
+    g.addColorStop(0,`rgba(255,255,255,${0.05*ht})`);
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fillRect(x,y,w,h);
+  }
+  const ta=Math.max(0,a+0.1);
+  ctx.fillStyle=`rgba(255,255,255,${ta*0.9})`;
+  ctx.font=`500 ${(big?8.5:7.5)*D}px Arial,sans-serif`;
+  ctx.fillText(`■ ${p.code}`,x+9*D,y+11*D);
+  if(big){
+    ctx.font=`${9*D}px Arial,sans-serif`;
+    ctx.fillStyle=`rgba(255,255,255,${ta*0.55})`;
+    ctx.fillText(p.sub,x+14*D,y+34*D);
+    ctx.font=`400 ${22*D}px 'EB Garamond',serif`;
+    ctx.fillStyle=`rgba(255,255,255,${ta})`;
+    ctx.fillText(p.label,x+14*D,y+64*D);
+    const sc=p.stat==='机密'?`rgba(200,120,60,${ta})`:p.stat==='进行中'?`rgba(100,200,140,${ta})`:`rgba(255,255,255,${ta*0.45})`;
+    ctx.fillStyle=sc;ctx.font=`${8*D}px Arial,sans-serif`;
+    ctx.fillText(p.stat,x+w-52*D,y+11*D);
+    dots(x+14*D,y+82*D,18,3,ta*0.3,D);
+    ctx.strokeStyle=`rgba(255,255,255,${ta*0.18})`;ctx.lineWidth=0.8*D;
+    ctx.strokeRect(x+14*D,y+h*0.57,w-28*D,h*0.28);
+    ctx.fillStyle=`rgba(255,255,255,${ta*0.45})`;
+    ctx.fillRect(x+w*0.56,y+h*0.69,3*D,3*D);
+    ctx.fillRect(x+w*0.79,y+h*0.77,2*D,2*D);
+    ellipses(x+w*0.5,y+h*0.72,ta*0.12,D);
+  }else{
+    ctx.font=`${7.5*D}px Arial,sans-serif`;
+    ctx.fillStyle=`rgba(255,255,255,${ta*0.5})`;
+    ctx.fillText(p.label,x+12*D,y+36*D);
+    ctx.fillStyle=`rgba(255,255,255,${ta*0.3})`;
+    ctx.font=`${7*D}px Arial,sans-serif`;
+    ctx.fillText(p.stat,x+w-40*D,y+11*D);
+    dots(x+12*D,y+52*D,14,2,ta*0.28,D);
+  }
+  ctx.restore();
+}
+
+function dots(x,y,cols,rows,a,D){
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const av=a*(0.4+Math.sin(c*0.7+r*1.3+t*0.8)*0.3);
+    ctx.fillStyle=`rgba(255,255,255,${av})`;
+    ctx.fillRect(x+c*6*D,y+r*7*D,1.1*D,3.5*D);
+  }
+}
+
+function ellipses(cx,cy,a,D){
+  ctx.strokeStyle=`rgba(255,255,255,${a})`;ctx.lineWidth=0.8*D;
+  for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(cx,cy,(32+i*12)*D,(15+i*6)*D,-0.3,0,Math.PI*2);ctx.stroke();}
+}
+
+function line(x1,y1,x2,y2,a,D){
+  ctx.strokeStyle=`rgba(255,255,255,${a})`;ctx.lineWidth=0.8*D;
+  ctx.setLineDash([3*D,5*D]);
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+ac=document.getElementById('archive-canvas');
+ctx=ac.getContext('2d');
+resize();
+window.addEventListener('resize',resize);
+ac.addEventListener('mousemove',e=>{
+  const{D,sX,sY,sDx,sDy,cW,cH}=layout();
+  const mx=e.clientX*D,my=e.clientY*D;
+  let hit=-1;
+  for(let i=ARCHIVE_PANELS.length-1;i>=0;i--){
+    const x=sX+i*sDx,y=sY+i*sDy;
+    if(mx>=x&&mx<=x+cW&&my>=y&&my<=y+cH){hit=i;break;}
+  }
+  hover=hit;ac.style.cursor=hit>=0?'pointer':'default';
+});
+ac.addEventListener('click',e=>{
+  if(hover>=0)console.log('OPEN:',ARCHIVE_PANELS[hover].id,ARCHIVE_PANELS[hover].label);
+});
+requestAnimationFrame(tick);
 </script>
 </body>
 </html>
