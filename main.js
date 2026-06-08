@@ -822,4 +822,8 @@ async function restartIntro() {
 document.addEventListener('DOMContentLoaded', () => {
   initAvatar();
   runIntro().catch(console.error);
+  // 开发调试：暴露到全局
+  window.__initArchive  = initArchive;
+  window.__unlockArchive = unlockArchive;
+  window.__enterStage2  = enterStage2;
 });
