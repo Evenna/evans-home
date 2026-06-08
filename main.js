@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from './vendor/three.module.js';
 
 // ============================================================
 // 全局状态
@@ -80,8 +80,9 @@ function initAvatar() {
   for (let i = 0; i < N_CORE; i++) {
     const theta = Math.random() * Math.PI * 2;
     const m     = 2 * Math.random() - 1;
-    // 赤道稍密→球面感更强；不做两极密
-    const cosP  = m * Math.pow(Math.abs(m), 0.55);
+    // 两极密集、赤道稀疏：经线汇聚效果
+    // pow > 1 → 向 ±1 压缩 → 极点密集
+    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 2.2);
     const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
     const nx = sinP * Math.cos(theta);
     const ny = cosP;
@@ -138,16 +139,16 @@ function initAvatar() {
       float szMul = 1.0 + (1.0 - aHair) * 0.6 + aLat * 0.25;
       gl_PointSize = aSize * szMul * uSK / -mv.z;
 
-      // 颜色：深蓝→青白  radial: 球心→球面→毛刺尖端
+      // 颜色：极点亮白，赤道深蓝（配合极点密集分布）
       float inner = 1.0 - aHair;           // 1=球面 0=尖端
-      // 球面核心亮白 + 内层偏冷青
+      // 极点白热 + 赤道深蓝
       vCol = mix(
-        vec3(0.10, 0.55, 0.95),            // 深蓝（尖端/外层）
-        vec3(0.75, 0.92, 1.00),            // 亮白青（球面）
+        vec3(0.08, 0.48, 0.92),            // 深蓝（赤道/尖端）
+        vec3(0.85, 0.95, 1.00),            // 亮白（极点/球面）
         pow(inner, 0.55)
       );
-      // 叠加极点更蓝
-      vCol = mix(vCol, vec3(0.40, 0.70, 1.00), aLat * 0.30);
+      // 极点额外增亮（aLat接近1 = 极点）
+      vCol = mix(vCol, vec3(0.95, 0.98, 1.00), pow(aLat, 1.5) * 0.55);
 
       // 亮度
       float surfGlow = pow(1.0 - aHair, 0.38);
@@ -369,11 +370,11 @@ function initAvatar() {
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
       gl_Position = projectionMatrix * mv;
       gl_PointSize = aSize * (1.0 + uSpeak * 0.28) * uSK / -mv.z;
-      float twinkle = 0.48 + 0.52 * sin(uTime * 1.1 + aPhase * 9.0);
-      vA = 0.25 + twinkle * 0.28;
-      // 约 40% 是冷蓝粒子，60% 是深蓝灰尘
+      float twinkle = 0.55 + 0.45 * sin(uTime * 1.1 + aPhase * 9.0);
+      vA = 0.55 + twinkle * 0.40;
+      // 约 40% 是冷蓝粒子，60% 是深蓝灰尘 — 亮度提升
       float isCool = step(0.40, fract(sin(aPhase * 91.7) * 23741.3));
-      vCol = mix(vec3(0.20, 0.28, 0.42), vec3(0.30, 0.55, 0.88), isCool);
+      vCol = mix(vec3(0.30, 0.42, 0.65), vec3(0.45, 0.72, 1.00), isCool);
     }
   `;
 

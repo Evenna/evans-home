@@ -6,19 +6,10 @@
   <title>Evans</title>
   <link rel="stylesheet" href="vendor/fonts.css" />
   <link rel="stylesheet" href="style.css" />
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "./vendor/three.module.js"
-      }
-    }
-  </script>
 </head>
 <body>
 
-  <!-- ============================================================
-       阶段一：全屏黑 · 粒子球 + 底部逐行文字
-       ============================================================ -->
+  <!-- 阶段一：全屏黑 · 粒子球 + 底部逐行文字 -->
   <div id="stage1">
     <canvas id="avatar-canvas"></canvas>
     <div id="intro-text">
@@ -26,26 +17,17 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       阶段二：3D 档案室
-       ============================================================ -->
+  <!-- 阶段二：3D 档案室 -->
   <div id="stage2">
-
-    <!-- 故障层 -->
     <div id="scanlines"></div>
     <div id="glitch-overlay"></div>
-
-    <!-- 3D 档案 canvas -->
     <canvas id="archive-canvas"></canvas>
-
-    <!-- Evans 对话浮层（叠在档案室上） -->
     <div id="evans-overlay">
       <div id="evans-badge">E</div>
       <div id="evans-speech"></div>
     </div>
-
   </div>
 
-  <script type="module" src="main.js?v=4"></script>
+  <script type="module" src="main.js?v=5"></script>
 </body>
 </html>
