@@ -8,13 +8,12 @@ const avatarState = { intensity: 0, glitching: false, glitchTime: 0 };
 
 // ============================================================
 // 阶段一：3D 粒子球
-// 极点双峰分布（两端密 · 中间疏）+ 切向旋流 + 散落粒子云
+// 蓝白青能量球 · 强光晕 · 放射火花 · 多层结构
 // ============================================================
 
 function initAvatar() {
   const canvas = document.getElementById('avatar-canvas');
 
-  // 全屏 canvas — 宽高跟随视口
   const cssW = window.innerWidth;
   const cssH = window.innerHeight;
   const DPR  = Math.min(window.devicePixelRatio, 2);
@@ -22,24 +21,25 @@ function initAvatar() {
   const PX_H = Math.round(cssH * DPR);
   canvas.style.width   = cssW + 'px';
   canvas.style.height  = cssH + 'px';
-  canvas.style.background = '#050507';
+  canvas.style.background = '#07080c';
   canvas.width  = PX_W;
   canvas.height = PX_H;
 
-  const FOV    = 55;
+  const FOV    = 52;
   const aspect = cssW / cssH;
   const SK     = (PX_H * 0.5) / Math.tan(FOV * 0.5 * Math.PI / 180);
 
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(FOV, aspect, 0.1, 200);
-  camera.position.set(0, 0.35, 7.4);
-  camera.lookAt(0, 0.35, 0);
+  camera.position.set(0, 0.2, 7.8);
+  camera.lookAt(0, 0.2, 0);
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: false });
   renderer.setSize(PX_W, PX_H, false);
   renderer.setPixelRatio(1);
-  renderer.setClearColor(0x050507, 1);
+  renderer.setClearColor(0x07080c, 1);
 
+  // ── 纹理：高斯圆点（软边 → 叠加出光晕感）
   function makeTex(res, stops) {
     const c = document.createElement('canvas');
     c.width = c.height = res;
@@ -49,47 +49,64 @@ function initAvatar() {
     c.getContext('2d').fillRect(0, 0, res, res);
     return new THREE.CanvasTexture(c);
   }
-  const ptTex = makeTex(64, [[0,1],[0.06,0.98],[0.18,0.40],[0.42,0.05],[1,0]]);
+  // 核心粒子纹理：极亮中心
+  const ptTex   = makeTex(64, [[0,1],[0.04,0.98],[0.15,0.55],[0.38,0.08],[1,0]]);
+  // 光晕纹理：更大更软
+  const halTex  = makeTex(128, [[0,0.9],[0.12,0.55],[0.35,0.12],[0.65,0.02],[1,0]]);
+  // 火花纹理：细长（用矩形canvas模拟）
+  const spkTex  = (() => {
+    const c = document.createElement('canvas');
+    c.width = 4; c.height = 64;
+    const g = c.getContext('2d').createLinearGradient(0, 0, 0, 64);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.4, 'rgba(255,255,255,0.9)');
+    g.addColorStop(0.5, 'rgba(255,255,255,1.0)');
+    g.addColorStop(0.6, 'rgba(255,255,255,0.9)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.getContext('2d').fillStyle = g;
+    c.getContext('2d').fillRect(0, 0, 4, 64);
+    return new THREE.CanvasTexture(c);
+  })();
 
-  // ── 3D 粒子球：两极密赤道疏 + 径向毛刺感 ─────────────────
-  const N_CORE  = 42000;
-  const CORE_R  = 1.65;
+  // ── 层1：核心球体粒子 42000颗，蓝白 ────────────────────
+  const N_CORE  = 48000;
+  const CORE_R  = 1.6;
   const corePos   = new Float32Array(N_CORE * 3);
   const corePhase = new Float32Array(N_CORE);
   const coreSz    = new Float32Array(N_CORE);
-  const coreHair  = new Float32Array(N_CORE);  // 0=球面最亮 1=径向尖端最淡
-  const coreLat   = new Float32Array(N_CORE);  // 0=赤道 1=极点
+  const coreHair  = new Float32Array(N_CORE);
+  const coreLat   = new Float32Array(N_CORE);
 
   for (let i = 0; i < N_CORE; i++) {
     const theta = Math.random() * Math.PI * 2;
     const m     = 2 * Math.random() - 1;
-    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 0.38);  // 两极密
+    // 赤道稍密→球面感更强；不做两极密
+    const cosP  = m * Math.pow(Math.abs(m), 0.55);
     const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
     const nx = sinP * Math.cos(theta);
     const ny = cosP;
     const nz = sinP * Math.sin(theta);
 
-    // 沿法线径向分布 → 球面毛刺/触须
-    const offset = (Math.random() - 0.32) * 0.42 * CORE_R;
-    const r      = CORE_R + offset;
+    // 球面 ± 毛刺
+    const offset = (Math.random() - 0.28) * 0.38 * CORE_R;
+    const r = CORE_R + offset;
     corePos[i*3+0] = nx * r;
     corePos[i*3+1] = ny * r;
     corePos[i*3+2] = nz * r;
     corePhase[i]   = Math.random() * Math.PI * 2;
-    coreHair[i]    = Math.min(1.0, Math.abs(offset) / (0.42 * CORE_R));
+    coreHair[i]    = Math.min(1.0, Math.abs(offset) / (0.38 * CORE_R));
     coreLat[i]     = Math.abs(cosP);
 
-    const poleBoost = 0.55 + 0.45 * Math.pow(Math.abs(cosP), 0.45);
-    coreSz[i] = (0.018 + Math.random() * 0.014) * poleBoost
-              + (Math.random() < 0.04 ? 0.010 : 0.0);
+    coreSz[i] = (0.016 + Math.random() * 0.013)
+              + (Math.random() < 0.03 ? 0.012 : 0.0);
   }
 
   const coreGeo = new THREE.BufferGeometry();
   coreGeo.setAttribute('position', new THREE.BufferAttribute(corePos,   3));
   coreGeo.setAttribute('aPhase',   new THREE.BufferAttribute(corePhase, 1));
   coreGeo.setAttribute('aSize',    new THREE.BufferAttribute(coreSz,    1));
-  coreGeo.setAttribute('aHair',    new THREE.BufferAttribute(coreHair,   1));
-  coreGeo.setAttribute('aLat',     new THREE.BufferAttribute(coreLat,    1));
+  coreGeo.setAttribute('aHair',    new THREE.BufferAttribute(coreHair,  1));
+  coreGeo.setAttribute('aLat',     new THREE.BufferAttribute(coreLat,   1));
 
   const coreVert = /* glsl */`
     attribute float aPhase;
@@ -101,41 +118,52 @@ function initAvatar() {
     uniform float uGlitch;
     uniform float uSK;
     varying float vA;
+    varying vec3  vCol;
 
     void main() {
       vec3 dir = normalize(position + vec3(0.0001));
 
-      float breathe = 1.0 + sin(uTime * 0.20) * 0.028;
-      float wave = sin(dir.x * 2.2 + uTime * 0.16)
-                 * sin(dir.y * 2.0 + uTime * 0.14) * 0.022;
-      float pulse = uSpeak * 0.16 * sin(uTime * 1.7 + aPhase * 5.0);
+      float breathe = 1.0 + sin(uTime * 0.22) * 0.025;
+      float wave    = sin(dir.x * 2.5 + uTime * 0.18)
+                    * sin(dir.y * 2.3 + uTime * 0.15) * 0.018;
+      float pulse   = uSpeak * 0.18 * sin(uTime * 1.8 + aPhase * 5.0);
 
       float seed   = fract(sin(aPhase * 127.1) * 43758.5);
-      float jitter = uGlitch * (seed - 0.5) * 0.65;
+      float jitter = uGlitch * (seed - 0.5) * 0.60;
 
       vec3 p = position * (breathe + wave) + dir * (pulse + jitter);
-
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
-      gl_Position  = projectionMatrix * mv;
+      gl_Position = projectionMatrix * mv;
 
-      float szMul = 1.0 + (1.0 - aHair) * 0.7 + aLat * 0.35;
+      float szMul = 1.0 + (1.0 - aHair) * 0.6 + aLat * 0.25;
       gl_PointSize = aSize * szMul * uSK / -mv.z;
 
-      // 球面最亮，径向尖端渐淡；两极更亮
-      float surfGlow = pow(1.0 - aHair, 0.42);
-      float poleGlow = 0.55 + aLat * 0.55;
-      float twinkle  = 0.95 + 0.05 * sin(uTime * 0.50 + aPhase * 9.0);
-      vA = (0.20 + surfGlow * 1.20) * poleGlow * twinkle * (1.0 + uSpeak * 0.35);
+      // 颜色：深蓝→青白  radial: 球心→球面→毛刺尖端
+      float inner = 1.0 - aHair;           // 1=球面 0=尖端
+      // 球面核心亮白 + 内层偏冷青
+      vCol = mix(
+        vec3(0.10, 0.55, 0.95),            // 深蓝（尖端/外层）
+        vec3(0.75, 0.92, 1.00),            // 亮白青（球面）
+        pow(inner, 0.55)
+      );
+      // 叠加极点更蓝
+      vCol = mix(vCol, vec3(0.40, 0.70, 1.00), aLat * 0.30);
+
+      // 亮度
+      float surfGlow = pow(1.0 - aHair, 0.38);
+      float twinkle  = 0.94 + 0.06 * sin(uTime * 0.55 + aPhase * 11.0);
+      vA = (0.18 + surfGlow * 1.35) * twinkle * (1.0 + uSpeak * 0.38);
     }
   `;
 
   const coreFrag = /* glsl */`
     uniform sampler2D uTex;
     varying float vA;
+    varying vec3  vCol;
     void main() {
       vec4 t = texture2D(uTex, gl_PointCoord);
-      if (t.a < 0.01) discard;
-      gl_FragColor = vec4(1.0, 1.0, 1.0, t.a * vA);
+      if (t.a < 0.008) discard;
+      gl_FragColor = vec4(vCol, t.a * vA);
     }
   `;
 
@@ -148,34 +176,175 @@ function initAvatar() {
     blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
   });
   const corePts = new THREE.Points(coreGeo, coreMat);
-  // 球居中偏上，下方留给流动沙丘
-  corePts.position.y = 0.8;
+  corePts.position.y = 0.6;
   scene.add(corePts);
 
-  // ── 地面粒子（起伏丘陵 + 橙色余烬）──────────────────────
-  const N_GND  = 70000;
+  // ── 层2：内核光晕球（大软点 = bloom模拟）────────────────
+  const N_HAL = 3200;
+  const halPos   = new Float32Array(N_HAL * 3);
+  const halPhase = new Float32Array(N_HAL);
+  const halSz    = new Float32Array(N_HAL);
+
+  for (let i = 0; i < N_HAL; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const cosP  = 2 * Math.random() - 1;
+    const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
+    // 集中在球面附近，略内缩 → 叠加出光晕感
+    const r = CORE_R * (0.65 + Math.random() * 0.55);
+    halPos[i*3+0] = sinP * Math.cos(theta) * r;
+    halPos[i*3+1] = cosP * r;
+    halPos[i*3+2] = sinP * Math.sin(theta) * r;
+    halPhase[i] = Math.random() * Math.PI * 2;
+    halSz[i] = 0.09 + Math.random() * 0.14;
+  }
+
+  const halGeo = new THREE.BufferGeometry();
+  halGeo.setAttribute('position', new THREE.BufferAttribute(halPos,   3));
+  halGeo.setAttribute('aPhase',   new THREE.BufferAttribute(halPhase, 1));
+  halGeo.setAttribute('aSize',    new THREE.BufferAttribute(halSz,    1));
+
+  const halVert = /* glsl */`
+    attribute float aPhase;
+    attribute float aSize;
+    uniform float uTime;
+    uniform float uSK;
+    uniform float uSpeak;
+    varying float vA;
+    void main() {
+      float breathe = 1.0 + sin(uTime * 0.20 + aPhase) * 0.04;
+      vec3 p = position * breathe;
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = aSize * uSK / -mv.z;
+      float t2 = 0.5 + 0.5 * sin(uTime * 0.40 + aPhase * 6.28);
+      vA = 0.08 + t2 * 0.10 + uSpeak * 0.08;
+    }
+  `;
+
+  const halFrag = /* glsl */`
+    uniform sampler2D uTex;
+    varying float vA;
+    void main() {
+      vec4 t = texture2D(uTex, gl_PointCoord);
+      if (t.a < 0.003) discard;
+      // 中心白 → 边缘青蓝
+      vec3 col = mix(vec3(0.45, 0.75, 1.00), vec3(1.0), t.a);
+      gl_FragColor = vec4(col, t.a * vA);
+    }
+  `;
+
+  const halUni = { uTime:{value:0}, uSK:{value:SK}, uSpeak:{value:0}, uTex:{value:halTex} };
+  const halMat = new THREE.ShaderMaterial({
+    uniforms: halUni, vertexShader: halVert, fragmentShader: halFrag,
+    blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
+  });
+  const halPts = new THREE.Points(halGeo, halMat);
+  halPts.position.y = 0.6;
+  scene.add(halPts);
+
+  // ── 层3：放射火花（从球心向外射出的细亮线粒子）────────
+  const N_SPARK = 1800;
+  const spkPos   = new Float32Array(N_SPARK * 3);
+  const spkPhase = new Float32Array(N_SPARK);
+  const spkSz    = new Float32Array(N_SPARK);
+  const spkLen   = new Float32Array(N_SPARK); // 火花长度(0-1)
+
+  for (let i = 0; i < N_SPARK; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const cosP  = 2 * Math.random() - 1;
+    const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
+    // 从球面向外延伸 0.3~1.5R
+    const r = CORE_R * (1.0 + Math.random() * 0.95);
+    spkPos[i*3+0] = sinP * Math.cos(theta) * r;
+    spkPos[i*3+1] = cosP * r;
+    spkPos[i*3+2] = sinP * Math.sin(theta) * r;
+    spkPhase[i] = Math.random() * Math.PI * 2;
+    spkLen[i]   = Math.random();
+    spkSz[i]    = 0.022 + Math.random() * 0.020;
+  }
+
+  const spkGeo = new THREE.BufferGeometry();
+  spkGeo.setAttribute('position', new THREE.BufferAttribute(spkPos,   3));
+  spkGeo.setAttribute('aPhase',   new THREE.BufferAttribute(spkPhase, 1));
+  spkGeo.setAttribute('aSize',    new THREE.BufferAttribute(spkSz,    1));
+  spkGeo.setAttribute('aLen',     new THREE.BufferAttribute(spkLen,   1));
+
+  const spkVert = /* glsl */`
+    attribute float aPhase;
+    attribute float aSize;
+    attribute float aLen;
+    uniform float uTime;
+    uniform float uSK;
+    uniform float uSpeak;
+    varying float vA;
+    varying vec3  vCol;
+    void main() {
+      // 火花周期性闪现：每颗有随机相位偏移
+      float cycle = fract(uTime * 0.28 + aPhase * 0.159);
+      float active = smoothstep(0.0, 0.12, cycle) * (1.0 - smoothstep(0.55, 1.0, cycle));
+
+      vec3 dir = normalize(position);
+      float breathe = 1.0 + sin(uTime * 0.22) * 0.025;
+      vec3 p = position * breathe;
+
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = aSize * uSK / -mv.z;
+
+      // 距离球面越远越淡 + 闪现周期
+      float dist = length(position) / 2.4;
+      float fade = pow(1.0 - clamp(dist - 0.5, 0.0, 1.0), 1.8);
+
+      vA = active * fade * (0.55 + aLen * 0.35) * (1.0 + uSpeak * 0.6);
+
+      // 球面附近白，外层深蓝
+      vCol = mix(vec3(0.05, 0.35, 0.90), vec3(0.80, 0.95, 1.00), 1.0 - dist * 0.7);
+    }
+  `;
+
+  const spkFrag = /* glsl */`
+    uniform sampler2D uTex;
+    varying float vA;
+    varying vec3  vCol;
+    void main() {
+      vec4 t = texture2D(uTex, gl_PointCoord);
+      if (t.a < 0.006) discard;
+      gl_FragColor = vec4(vCol, t.a * vA);
+    }
+  `;
+
+  const spkUni = { uTime:{value:0}, uSK:{value:SK}, uSpeak:{value:0}, uTex:{value:ptTex} };
+  const spkMat = new THREE.ShaderMaterial({
+    uniforms: spkUni, vertexShader: spkVert, fragmentShader: spkFrag,
+    blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
+  });
+  const spkPts = new THREE.Points(spkGeo, spkMat);
+  spkPts.position.y = 0.6;
+  scene.add(spkPts);
+
+  // ── 层4：远场漂浮粒子云（深蓝尘埃）──────────────────────
+  const N_GND  = 55000;
   const gndPos   = new Float32Array(N_GND * 3);
   const gndPhase = new Float32Array(N_GND);
   const gndSz    = new Float32Array(N_GND);
 
-  // 起伏地形高度场：更密的多频正弦，整体幅度更小
   function terrain(x, z) {
-    return Math.sin(x * 0.75 + 1.3) * 0.32
-         + Math.sin(z * 0.9 - 0.6) * 0.26
-         + Math.sin((x + z) * 0.6) * 0.18
-         + Math.sin(x * 1.7 + z * 1.1) * 0.10;
+    return Math.sin(x * 0.75 + 1.3) * 0.28
+         + Math.sin(z * 0.9 - 0.6)  * 0.22
+         + Math.sin((x + z) * 0.6)  * 0.15
+         + Math.sin(x * 1.7 + z * 1.1) * 0.08;
   }
 
   for (let i = 0; i < N_GND; i++) {
-    const x = (Math.random() - 0.5) * 24;
-    const z = Math.random() * 11 - 4;  // z: -4 to 7
+    const x = (Math.random() - 0.5) * 26;
+    const z = Math.random() * 12 - 4;
     gndPos[i*3+0] = x;
-    gndPos[i*3+1] = -1.7 + terrain(x, z) + (Math.random() - 0.5) * 0.10;
+    gndPos[i*3+1] = -1.9 + terrain(x, z) + (Math.random() - 0.5) * 0.08;
     gndPos[i*3+2] = z;
     gndPhase[i]   = Math.random() * Math.PI * 2;
-    gndSz[i] = Math.random() < 0.05
-      ? 0.038 + Math.random() * 0.024
-      : 0.013 + Math.random() * 0.016;
+    gndSz[i] = Math.random() < 0.04
+      ? 0.032 + Math.random() * 0.020
+      : 0.010 + Math.random() * 0.014;
   }
 
   const gndGeo = new THREE.BufferGeometry();
@@ -190,35 +359,32 @@ function initAvatar() {
     uniform float uSK;
     uniform float uSpeak;
     varying float vA;
-    varying float vWarm;
+    varying vec3  vCol;
     void main() {
-      // 流动沙丘：更密的多向行波，幅度更小
-      float wave = sin(position.x * 1.0 + uTime * 0.6) * 0.09
-                 + sin(position.z * 1.2 - uTime * 0.45) * 0.07
-                 + sin((position.x + position.z) * 0.8 + uTime * 0.3) * 0.05;
-      float drift = sin(uTime * 0.14 + aPhase * 6.28) * 0.03;
+      float wave = sin(position.x * 1.0 + uTime * 0.55) * 0.08
+                 + sin(position.z * 1.2 - uTime * 0.40) * 0.06
+                 + sin((position.x + position.z) * 0.8 + uTime * 0.28) * 0.04;
+      float drift = sin(uTime * 0.13 + aPhase * 6.28) * 0.025;
       vec3 p = position + vec3(0.0, wave + drift, 0.0);
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
-      gl_Position  = projectionMatrix * mv;
-      gl_PointSize = aSize * (1.0 + uSpeak * 0.3) * uSK / -mv.z;
-      float twinkle = 0.5 + 0.5 * sin(uTime * 1.1 + aPhase * 9.0);
-      vA = (0.30 + twinkle * 0.32);
-      // 约 55% 为暖橙余烬，其余为冷灰尘
-      vWarm = step(0.45, fract(sin(aPhase * 91.7) * 23741.3));
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = aSize * (1.0 + uSpeak * 0.28) * uSK / -mv.z;
+      float twinkle = 0.48 + 0.52 * sin(uTime * 1.1 + aPhase * 9.0);
+      vA = 0.25 + twinkle * 0.28;
+      // 约 40% 是冷蓝粒子，60% 是深蓝灰尘
+      float isCool = step(0.40, fract(sin(aPhase * 91.7) * 23741.3));
+      vCol = mix(vec3(0.20, 0.28, 0.42), vec3(0.30, 0.55, 0.88), isCool);
     }
   `;
 
   const gndFrag = /* glsl */`
     uniform sampler2D uTex;
     varying float vA;
-    varying float vWarm;
+    varying vec3  vCol;
     void main() {
       vec4 t = texture2D(uTex, gl_PointCoord);
-      if (t.a < 0.01) discard;
-      vec3 warm = vec3(0.70, 0.30, 0.07);  // 橙色余烬（暗）
-      vec3 cool = vec3(0.36, 0.36, 0.40);  // 灰白尘埃（暗）
-      vec3 col  = mix(cool, warm, vWarm);
-      gl_FragColor = vec4(col, t.a * vA);
+      if (t.a < 0.008) discard;
+      gl_FragColor = vec4(vCol, t.a * vA);
     }
   `;
 
@@ -247,23 +413,29 @@ function initAvatar() {
     coreUni.uTime.value   = t;
     coreUni.uSpeak.value  = spk;
     coreUni.uGlitch.value = gl;
+    halUni.uTime.value    = t;
+    halUni.uSpeak.value   = spk;
+    spkUni.uTime.value    = t;
+    spkUni.uSpeak.value   = spk;
     gndUni.uTime.value    = t;
     gndUni.uSpeak.value   = spk;
 
-    // 球体极慢自转
-    corePts.rotation.y += dt * (0.04 + spk * 0.10);
-    corePts.rotation.x  = 0.035 * Math.sin(t * 0.16);
+    // 球体极慢自转，火花层稍快
+    corePts.rotation.y += dt * (0.038 + spk * 0.10);
+    corePts.rotation.x  = 0.030 * Math.sin(t * 0.15);
+    halPts.rotation.y   = corePts.rotation.y * 0.85;
+    spkPts.rotation.y  += dt * (0.055 + spk * 0.12);
+    spkPts.rotation.x   = 0.040 * Math.sin(t * 0.19);
 
-    // 镜头轻微漂移（环的涡旋已在 shader 内流动，无需整体自转）
-    camera.position.x = Math.sin(t * 0.07) * 0.12;
-    camera.position.y = 0.35 + Math.sin(t * 0.11) * 0.06;
-    camera.lookAt(0, 0.35, 0);
+    // 镜头轻微漂移
+    camera.position.x = Math.sin(t * 0.07) * 0.10;
+    camera.position.y = 0.20 + Math.sin(t * 0.11) * 0.055;
+    camera.lookAt(0, 0.20, 0);
 
     renderer.render(scene, camera);
   }
   tick();
 }
-
 
 // ============================================================
 // 工具：打字机（第一字符出现时才显现）
