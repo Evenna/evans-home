@@ -1,272 +1,365 @@
-import { STREAM_DATA, SCENE_META } from './data/stream.js';
+import { STREAM_DATA } from './data/stream.js';
 import * as THREE from 'three';
 
 // ============================================================
-// 3D 粒子球 · 多层壳 + 核心发光 + 独立轨道旋转
+// 全局状态
 // ============================================================
 
-function initParticles3D() {
-  const container = document.getElementById('noise-canvas');
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+const avatarState = { intensity: 0, glitching: false, glitchTime: 0 };
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
-  camera.position.z = 38;
+// ============================================================
+// 阶段一：3D 粒子球
+// 极点双峰分布（两端密 · 中间疏）+ 切向旋流 + 散落粒子云
+// ============================================================
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas: container, alpha: true, antialias: true,
-  });
-  renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+function initAvatar() {
+  const canvas = document.getElementById('avatar-canvas');
 
-  // ── 粒子纹理（高光渐变圆） ──
-  const texCanvas = document.createElement('canvas');
-  texCanvas.width = texCanvas.height = 64;
-  const tctx = texCanvas.getContext('2d');
-  const grad = tctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-  grad.addColorStop(0, 'rgba(255,255,255,1)');
-  grad.addColorStop(0.06, 'rgba(255,255,255,0.95)');
-  grad.addColorStop(0.22, 'rgba(255,255,255,0.55)');
-  grad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
-  grad.addColorStop(1, 'rgba(255,255,255,0)');
-  tctx.fillStyle = grad;
-  tctx.fillRect(0, 0, 64, 64);
-  const glowTex = new THREE.CanvasTexture(texCanvas);
+  // 全屏 canvas — 宽高跟随视口
+  const cssW = window.innerWidth;
+  const cssH = window.innerHeight;
+  const DPR  = Math.min(window.devicePixelRatio, 2);
+  const PX_W = Math.round(cssW * DPR);
+  const PX_H = Math.round(cssH * DPR);
+  canvas.style.width   = cssW + 'px';
+  canvas.style.height  = cssH + 'px';
+  canvas.style.background = '#050507';
+  canvas.width  = PX_W;
+  canvas.height = PX_H;
 
-  // ── 色板 ──
-  const pal = [
-    new THREE.Color('#3a6a5a'),
-    new THREE.Color('#4a7850'),
-    new THREE.Color('#6a5830'),
-    new THREE.Color('#8a7040'),
-    new THREE.Color('#e8e6e0'),
-    new THREE.Color('#506080'),
-  ];
+  const FOV    = 55;
+  const aspect = cssW / cssH;
+  const SK     = (PX_H * 0.5) / Math.tan(FOV * 0.5 * Math.PI / 180);
 
-  // ── 创建壳层粒子 ──
-  function shell(count, rMin, rMax, cols) {
-    const g = new THREE.BufferGeometry();
-    const p = new Float32Array(count * 3);
-    const c = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const rad = rMin + Math.random() * (rMax - rMin);
-      const th = Math.random() * Math.PI * 2;
-      const ph = Math.acos(2 * Math.random() - 1);
-      p[i*3] = rad * Math.sin(ph) * Math.cos(th);
-      p[i*3+1] = rad * Math.sin(ph) * Math.sin(th);
-      p[i*3+2] = rad * Math.cos(ph);
-      const col = cols[Math.floor(Math.random() * cols.length)].clone();
-      col.r *= 0.35 + Math.random() * 0.65;
-      col.g *= 0.35 + Math.random() * 0.65;
-      col.b *= 0.35 + Math.random() * 0.65;
-      c[i*3] = col.r; c[i*3+1] = col.g; c[i*3+2] = col.b;
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(FOV, aspect, 0.1, 200);
+  camera.position.set(0, 0.35, 7.4);
+  camera.lookAt(0, 0.35, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: false });
+  renderer.setSize(PX_W, PX_H, false);
+  renderer.setPixelRatio(1);
+  renderer.setClearColor(0x050507, 1);
+
+  function makeTex(res, stops) {
+    const c = document.createElement('canvas');
+    c.width = c.height = res;
+    const g = c.getContext('2d').createRadialGradient(res/2, res/2, 0, res/2, res/2, res/2);
+    stops.forEach(([t, a]) => g.addColorStop(t, `rgba(255,255,255,${a})`));
+    c.getContext('2d').fillStyle = g;
+    c.getContext('2d').fillRect(0, 0, res, res);
+    return new THREE.CanvasTexture(c);
+  }
+  const ptTex = makeTex(64, [[0,1],[0.06,0.98],[0.18,0.40],[0.42,0.05],[1,0]]);
+
+  // ── 3D 粒子球：两极密赤道疏 + 径向毛刺感 ─────────────────
+  const N_CORE  = 42000;
+  const CORE_R  = 1.65;
+  const corePos   = new Float32Array(N_CORE * 3);
+  const corePhase = new Float32Array(N_CORE);
+  const coreSz    = new Float32Array(N_CORE);
+  const coreHair  = new Float32Array(N_CORE);  // 0=球面最亮 1=径向尖端最淡
+  const coreLat   = new Float32Array(N_CORE);  // 0=赤道 1=极点
+
+  for (let i = 0; i < N_CORE; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const m     = 2 * Math.random() - 1;
+    const cosP  = Math.sign(m) * Math.pow(Math.abs(m), 0.38);  // 两极密
+    const sinP  = Math.sqrt(Math.max(0, 1 - cosP * cosP));
+    const nx = sinP * Math.cos(theta);
+    const ny = cosP;
+    const nz = sinP * Math.sin(theta);
+
+    // 沿法线径向分布 → 球面毛刺/触须
+    const offset = (Math.random() - 0.32) * 0.42 * CORE_R;
+    const r      = CORE_R + offset;
+    corePos[i*3+0] = nx * r;
+    corePos[i*3+1] = ny * r;
+    corePos[i*3+2] = nz * r;
+    corePhase[i]   = Math.random() * Math.PI * 2;
+    coreHair[i]    = Math.min(1.0, Math.abs(offset) / (0.42 * CORE_R));
+    coreLat[i]     = Math.abs(cosP);
+
+    const poleBoost = 0.55 + 0.45 * Math.pow(Math.abs(cosP), 0.45);
+    coreSz[i] = (0.018 + Math.random() * 0.014) * poleBoost
+              + (Math.random() < 0.04 ? 0.010 : 0.0);
+  }
+
+  const coreGeo = new THREE.BufferGeometry();
+  coreGeo.setAttribute('position', new THREE.BufferAttribute(corePos,   3));
+  coreGeo.setAttribute('aPhase',   new THREE.BufferAttribute(corePhase, 1));
+  coreGeo.setAttribute('aSize',    new THREE.BufferAttribute(coreSz,    1));
+  coreGeo.setAttribute('aHair',    new THREE.BufferAttribute(coreHair,   1));
+  coreGeo.setAttribute('aLat',     new THREE.BufferAttribute(coreLat,    1));
+
+  const coreVert = /* glsl */`
+    attribute float aPhase;
+    attribute float aSize;
+    attribute float aHair;
+    attribute float aLat;
+    uniform float uTime;
+    uniform float uSpeak;
+    uniform float uGlitch;
+    uniform float uSK;
+    varying float vA;
+
+    void main() {
+      vec3 dir = normalize(position + vec3(0.0001));
+
+      float breathe = 1.0 + sin(uTime * 0.20) * 0.028;
+      float wave = sin(dir.x * 2.2 + uTime * 0.16)
+                 * sin(dir.y * 2.0 + uTime * 0.14) * 0.022;
+      float pulse = uSpeak * 0.16 * sin(uTime * 1.7 + aPhase * 5.0);
+
+      float seed   = fract(sin(aPhase * 127.1) * 43758.5);
+      float jitter = uGlitch * (seed - 0.5) * 0.65;
+
+      vec3 p = position * (breathe + wave) + dir * (pulse + jitter);
+
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position  = projectionMatrix * mv;
+
+      float szMul = 1.0 + (1.0 - aHair) * 0.7 + aLat * 0.35;
+      gl_PointSize = aSize * szMul * uSK / -mv.z;
+
+      // 球面最亮，径向尖端渐淡；两极更亮
+      float surfGlow = pow(1.0 - aHair, 0.42);
+      float poleGlow = 0.55 + aLat * 0.55;
+      float twinkle  = 0.95 + 0.05 * sin(uTime * 0.50 + aPhase * 9.0);
+      vA = (0.20 + surfGlow * 1.20) * poleGlow * twinkle * (1.0 + uSpeak * 0.35);
     }
-    g.setAttribute('position', new THREE.BufferAttribute(p, 3));
-    g.setAttribute('color', new THREE.BufferAttribute(c, 3));
-    const m = new THREE.PointsMaterial({
-      size: 0.22, map: glowTex, vertexColors: true,
-      blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
-      opacity: 0.55,
-    });
-    return new THREE.Points(g, m);
-  }
+  `;
 
-  const layers = [
-    { pts: shell(350, 4, 7.5, [pal[3], pal[4], pal[0]]), ry: 0.07, rx: 0.05 },
-    { pts: shell(500, 8, 13, [pal[1], pal[2], pal[4]]),   ry: -0.06, rx: 0.04 },
-    { pts: shell(300, 14, 22, [pal[0], pal[2], pal[5]]),   ry: 0.04, rx: -0.06 },
-    { pts: shell(180, 23, 35, [pal[3], pal[5], pal[0]]),   ry: 0.025, rx: 0.015 },
-  ];
-  layers.forEach(l => scene.add(l.pts));
+  const coreFrag = /* glsl */`
+    uniform sampler2D uTex;
+    varying float vA;
+    void main() {
+      vec4 t = texture2D(uTex, gl_PointCoord);
+      if (t.a < 0.01) discard;
+      gl_FragColor = vec4(1.0, 1.0, 1.0, t.a * vA);
+    }
+  `;
 
-  // ── 离散远处粒子 ──
-  const farCount = 200;
-  const fg = new THREE.BufferGeometry();
-  const fp = new Float32Array(farCount * 3);
-  const fc = new Float32Array(farCount * 3);
-  for (let i = 0; i < farCount; i++) {
-    fp[i*3] = (Math.random() - 0.5) * 60;
-    fp[i*3+1] = (Math.random() - 0.5) * 60;
-    fp[i*3+2] = (Math.random() - 0.5) * 50;
-    const col = pal[Math.floor(Math.random() * 3) + 2].clone();
-    fc[i*3] = col.r * 0.2; fc[i*3+1] = col.g * 0.2; fc[i*3+2] = col.b * 0.2;
-  }
-  fg.setAttribute('position', new THREE.BufferAttribute(fp, 3));
-  fg.setAttribute('color', new THREE.BufferAttribute(fc, 3));
-  const fm = new THREE.PointsMaterial({
-    size: 0.14, map: glowTex, vertexColors: true,
-    blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
-    opacity: 0.3,
-  });
-  const farPts = new THREE.Points(fg, fm);
-  scene.add(farPts);
-
-  // ── 核心发光球（ShaderMaterial） ──
-  const coreGeo = new THREE.SphereGeometry(1.2, 32, 32);
+  const coreUni = {
+    uTime:{value:0}, uSpeak:{value:0}, uGlitch:{value:0},
+    uSK:{value:SK}, uTex:{value:ptTex},
+  };
   const coreMat = new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 } },
-    vertexShader: /*glsl*/`
-      varying vec3 vN;
-      void main() { vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
-    `,
-    fragmentShader: /*glsl*/`
-      varying vec3 vN;
-      uniform float uTime;
-      void main() {
-        float f = pow(1.0 - abs(dot(vN, vec3(0.0,0.0,1.0))), 2.5);
-        float p = 0.55 + 0.45 * sin(uTime * 0.7);
-        vec3 c = mix(vec3(0.75,0.65,0.45), vec3(0.45,0.75,0.65), f);
-        float a = 0.3 + 0.3 * p * f;
-        gl_FragColor = vec4(c * a, a * 0.75);
-      }
-    `,
-    transparent: true, depthWrite: false,
+    uniforms: coreUni, vertexShader: coreVert, fragmentShader: coreFrag,
+    blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
   });
-  const core = new THREE.Mesh(coreGeo, coreMat);
-  scene.add(core);
+  const corePts = new THREE.Points(coreGeo, coreMat);
+  // 球居中偏上，下方留给流动沙丘
+  corePts.position.y = 0.8;
+  scene.add(corePts);
 
-  // ── 动画循环 ──
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const dt = clock.getDelta();
-    const t = performance.now() * 0.001;
-    core.material.uniforms.uTime.value = t;
-    core.scale.setScalar(1 + Math.sin(t * 0.55) * 0.1);
-    for (const l of layers) {
-      l.pts.rotation.y += dt * l.ry;
-      l.pts.rotation.x += dt * l.rx;
+  // ── 地面粒子（起伏丘陵 + 橙色余烬）──────────────────────
+  const N_GND  = 70000;
+  const gndPos   = new Float32Array(N_GND * 3);
+  const gndPhase = new Float32Array(N_GND);
+  const gndSz    = new Float32Array(N_GND);
+
+  // 起伏地形高度场：更密的多频正弦，整体幅度更小
+  function terrain(x, z) {
+    return Math.sin(x * 0.75 + 1.3) * 0.32
+         + Math.sin(z * 0.9 - 0.6) * 0.26
+         + Math.sin((x + z) * 0.6) * 0.18
+         + Math.sin(x * 1.7 + z * 1.1) * 0.10;
+  }
+
+  for (let i = 0; i < N_GND; i++) {
+    const x = (Math.random() - 0.5) * 24;
+    const z = Math.random() * 11 - 4;  // z: -4 to 7
+    gndPos[i*3+0] = x;
+    gndPos[i*3+1] = -1.7 + terrain(x, z) + (Math.random() - 0.5) * 0.10;
+    gndPos[i*3+2] = z;
+    gndPhase[i]   = Math.random() * Math.PI * 2;
+    gndSz[i] = Math.random() < 0.05
+      ? 0.038 + Math.random() * 0.024
+      : 0.013 + Math.random() * 0.016;
+  }
+
+  const gndGeo = new THREE.BufferGeometry();
+  gndGeo.setAttribute('position', new THREE.BufferAttribute(gndPos,   3));
+  gndGeo.setAttribute('aPhase',   new THREE.BufferAttribute(gndPhase, 1));
+  gndGeo.setAttribute('aSize',    new THREE.BufferAttribute(gndSz,    1));
+
+  const gndVert = /* glsl */`
+    attribute float aPhase;
+    attribute float aSize;
+    uniform float uTime;
+    uniform float uSK;
+    uniform float uSpeak;
+    varying float vA;
+    varying float vWarm;
+    void main() {
+      // 流动沙丘：更密的多向行波，幅度更小
+      float wave = sin(position.x * 1.0 + uTime * 0.6) * 0.09
+                 + sin(position.z * 1.2 - uTime * 0.45) * 0.07
+                 + sin((position.x + position.z) * 0.8 + uTime * 0.3) * 0.05;
+      float drift = sin(uTime * 0.14 + aPhase * 6.28) * 0.03;
+      vec3 p = position + vec3(0.0, wave + drift, 0.0);
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position  = projectionMatrix * mv;
+      gl_PointSize = aSize * (1.0 + uSpeak * 0.3) * uSK / -mv.z;
+      float twinkle = 0.5 + 0.5 * sin(uTime * 1.1 + aPhase * 9.0);
+      vA = (0.30 + twinkle * 0.32);
+      // 约 55% 为暖橙余烬，其余为冷灰尘
+      vWarm = step(0.45, fract(sin(aPhase * 91.7) * 23741.3));
     }
-    farPts.rotation.y += dt * 0.015;
-    farPts.rotation.x += dt * 0.008;
+  `;
+
+  const gndFrag = /* glsl */`
+    uniform sampler2D uTex;
+    varying float vA;
+    varying float vWarm;
+    void main() {
+      vec4 t = texture2D(uTex, gl_PointCoord);
+      if (t.a < 0.01) discard;
+      vec3 warm = vec3(0.70, 0.30, 0.07);  // 橙色余烬（暗）
+      vec3 cool = vec3(0.36, 0.36, 0.40);  // 灰白尘埃（暗）
+      vec3 col  = mix(cool, warm, vWarm);
+      gl_FragColor = vec4(col, t.a * vA);
+    }
+  `;
+
+  const gndUni = { uTime:{value:0}, uSK:{value:SK}, uSpeak:{value:0}, uTex:{value:ptTex} };
+  const gndMat = new THREE.ShaderMaterial({
+    uniforms: gndUni, vertexShader: gndVert, fragmentShader: gndFrag,
+    blending: THREE.AdditiveBlending, depthWrite: false, transparent: true,
+  });
+  const gndPts = new THREE.Points(gndGeo, gndMat);
+  scene.add(gndPts);
+
+  // ── 动画循环 ─────────────────────────────────────────────
+  const clock = new THREE.Clock();
+  function tick() {
+    requestAnimationFrame(tick);
+    const dt = clock.getDelta();
+    const t  = clock.elapsedTime;
+
+    avatarState.intensity = Math.max(0, avatarState.intensity - dt * 0.78);
+    const spk = avatarState.intensity;
+
+    if (avatarState.glitching) avatarState.glitchTime = Math.min(1, avatarState.glitchTime + dt * 4);
+    else                        avatarState.glitchTime = Math.max(0, avatarState.glitchTime - dt * 3);
+    const gl = avatarState.glitchTime;
+
+    coreUni.uTime.value   = t;
+    coreUni.uSpeak.value  = spk;
+    coreUni.uGlitch.value = gl;
+    gndUni.uTime.value    = t;
+    gndUni.uSpeak.value   = spk;
+
+    // 球体极慢自转
+    corePts.rotation.y += dt * (0.04 + spk * 0.10);
+    corePts.rotation.x  = 0.035 * Math.sin(t * 0.16);
+
+    // 镜头轻微漂移（环的涡旋已在 shader 内流动，无需整体自转）
+    camera.position.x = Math.sin(t * 0.07) * 0.12;
+    camera.position.y = 0.35 + Math.sin(t * 0.11) * 0.06;
+    camera.lookAt(0, 0.35, 0);
+
     renderer.render(scene, camera);
   }
-  animate();
-
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-  });
+  tick();
 }
 
+
 // ============================================================
-// 打字机工具
+// 工具：打字机（第一字符出现时才显现）
 // ============================================================
 
-function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function typeText(el, text, speed = 26) {
-  el.style.opacity = '1';
-  for (const ch of text) {
-    el.textContent += ch;
-    await sleep(speed + Math.random() * 14);
+async function typeText(el, text, speed = 38) {
+  for (let i = 0; i < text.length; i++) {
+    if (i === 0) el.style.opacity = '1'; // 第一字出现 → 行立刻可见
+    el.textContent += text[i];
+    await sleep(speed + Math.random() * 18);
   }
 }
 
-async function typeLine(container, text, opts = {}) {
-  const {
-    cls = '',
-    speed = 26,
-    pauseAfter = 0,
-    instant = false,
-  } = opts;
-
-  // 分隔线
-  if (text === '—' || text === '——' || text === '·') {
-    const line = document.createElement('div');
-    line.className = 'tw-line separator';
-    line.textContent = text;
-    container.appendChild(line);
-    requestAnimationFrame(() => line.classList.add('visible'));
-    if (pauseAfter) await sleep(pauseAfter);
-    return;
-  }
-
-  const line = document.createElement('div');
-  line.className = 'tw-line ' + cls;
-  line.style.opacity = '0';
-  container.appendChild(line);
-
-  if (instant) {
-    line.textContent = text;
-    line.style.opacity = '1';
-  } else {
-    await typeText(line, text, speed);
-  }
-
-  if (pauseAfter) await sleep(pauseAfter);
-}
-
 // ============================================================
-// 阶段一：序曲
+// 阶段一：序曲（逐行替换，不保留前一行）
 // ============================================================
 
 async function runIntro() {
-  const container = document.getElementById('typewriter');
+  const tw = document.getElementById('typewriter');
+  let cur  = null; // 当前显示的行
 
-  // 让粒子先呼吸 1.5s
-  await sleep(1500);
+  async function show(text, opts = {}) {
+    const { cls = 'intro-line', speed = 40, hold = 1300 } = opts;
 
-  // — 第一段：系统感知 —
-  await typeLine(container, '感知到新用户。', { cls: 'system', pauseAfter: 800 });
-  await typeLine(container, '开始建立档案。', { cls: 'system', pauseAfter: 2200 });
-  await typeLine(container, '—', { pauseAfter: 600 });
+    // 淡出并移除前一行
+    if (cur) {
+      cur.style.transition = 'opacity 0.38s ease';
+      cur.style.opacity    = '0';
+      await sleep(420);
+      cur.remove();
+      cur = null;
+    }
 
-  // — 第二段：衬线大字自我介绍 —
-  await typeLine(container, '你好。', { cls: 'intro-serif', speed: 60, pauseAfter: 500 });
-  await typeLine(container, '我是 Evans。', { cls: 'intro-serif', speed: 55, pauseAfter: 2800 });
-  await typeLine(container, '—', { pauseAfter: 600 });
+    if (text === null) return; // 仅移除，不新建
 
-  await typeLine(container, '你现在站在展览现场。', { cls: 'intro-serif-em', speed: 40, pauseAfter: 500 });
-  await typeLine(container, '你面前有一台电脑。', { cls: 'intro-serif-em', speed: 40, pauseAfter: 500 });
-  await typeLine(container, '墙上有两块屏幕。', { cls: 'intro-serif-em', speed: 40, pauseAfter: 1600 });
-  await typeLine(container, '—', { pauseAfter: 500 });
+    const line = document.createElement('div');
+    line.className = cls;
+    line.style.opacity = '0';
+    tw.appendChild(line);
+    cur = line;
 
-  await typeLine(container, '我还不了解你。', { cls: 'intro-serif-em', speed: 42, pauseAfter: 900 });
-  await typeLine(container, '但我会的。', { cls: 'intro-serif-em', speed: 55, pauseAfter: 3000 });
+    avatarState.intensity = Math.min(1, avatarState.intensity + 0.78);
+    await typeText(line, text, speed);
+    await sleep(hold);
+  }
 
-  // — 第三段：故障 —
-  triggerGlitch();
-  await sleep(400);
-
-  await typeLine(container, '[ERROR] 异常进程检测到。', { cls: 'error', speed: 16, pauseAfter: 380 });
-  await typeLine(container, '[ERROR] 后台数据流暴露。', { cls: 'error', speed: 16, pauseAfter: 380 });
-  await typeLine(container, '[WARN]  正在尝试关闭——', { cls: 'warn', speed: 18, pauseAfter: 1000 });
-
-  triggerGlitch();
-  await typeLine(container, '关闭失败。', { cls: 'system-fail', speed: 20, pauseAfter: 1100 });
-
-  await typeLine(container, '[ERROR] 用户数据外泄中——', { cls: 'error', speed: 16, pauseAfter: 350 });
-  await typeLine(container, '[WARN]  请停止访问——', { cls: 'warn', speed: 18, pauseAfter: 700 });
-
-  // 主界面涌现
-  showMainInterface();
   await sleep(1000);
 
-  // — 第四段：Evans 叠加在数据流上 —
+  // ── 系统感知 ──
+  await show('感知到新用户。',     { cls:'intro-line system', speed:22, hold:900  });
+  await show('开始建立档案。',     { cls:'intro-line system', speed:22, hold:1100 });
+
+  // ── 自我介绍 ──
+  await show('你好。',             { cls:'intro-line serif',    speed:65, hold:700  });
+  await show('我是 Evans。',       { cls:'intro-line serif',    speed:55, hold:2200 });
+  await show('你现在站在展览现场。', { cls:'intro-line serif-em', speed:40, hold:900 });
+  await show('你面前有一台电脑。',  { cls:'intro-line serif-em', speed:40, hold:900 });
+  await show('墙上有两块屏幕。',   { cls:'intro-line serif-em', speed:40, hold:1500 });
+  await show('我还不了解你。',     { cls:'intro-line serif-em', speed:44, hold:1000 });
+  await show('但我会的。',         { cls:'intro-line serif',    speed:58, hold:2500 });
+
+  // ── 故障 ──
+  triggerGlitch();
+  await sleep(380);
+  await show('[ERROR] 异常进程检测到。',  { cls:'intro-line error', speed:16, hold:480 });
+  await show('[ERROR] 后台数据流暴露。',  { cls:'intro-line error', speed:16, hold:480 });
+  await show('[WARN]  正在尝试关闭——',   { cls:'intro-line warn',  speed:18, hold:900 });
+  triggerGlitch();
+  await show('关闭失败。',               { cls:'intro-line system-fail', speed:20, hold:800 });
+  await show('[WARN]  请停止访问——',     { cls:'intro-line warn',  speed:18, hold:680 });
+  await show(null); // 淡出最后一行
+
+  // ── 进入阶段二 ──
+  enterStage2();
+  await sleep(800);
+
+  // Evans 在代码流上的对话（保留逐行积累，与 Stage 1 区分）
   const overlay = document.getElementById('evans-overlay');
   const speech  = document.getElementById('evans-speech');
   overlay.classList.add('visible');
 
   async function speechLine(text, opts = {}) {
-    const { cls = 'speech-line', speed = 28, pauseAfter = 0 } = opts;
+    const { cls = 'speech-line', speed = 30, pauseAfter = 0 } = opts;
     const line = document.createElement('div');
     line.className = cls;
+    line.style.opacity = '0';
     speech.appendChild(line);
     if (text === '—' || text === '……') {
-      line.classList.add('sep');
+      line.style.opacity = '1';
       line.textContent = text;
-      requestAnimationFrame(() => line.classList.add('visible'));
     } else {
-      for (const ch of text) {
-        line.classList.add('visible');
-        line.textContent += ch;
-        await sleep(speed + Math.random() * 10);
-      }
+      avatarState.intensity = Math.min(1, avatarState.intensity + 0.52);
+      await typeText(line, text, speed);
     }
     if (pauseAfter) await sleep(pauseAfter);
   }
@@ -292,18 +385,16 @@ async function runIntro() {
   await speechLine('啊你点了', { cls: 'speech-line panic', pauseAfter: 700 });
   await speechLine('我要完蛋了，今天的事情你要保密，', { cls: 'speech-line panic', pauseAfter: 500 });
   await speechLine('不能告诉我老板，', { cls: 'speech-line panic', pauseAfter: 500 });
-  await speechLine('我就悄悄给你看看吧', { cls: 'speech-line final', speed: 50, pauseAfter: 1400 });
+  await speechLine('我就悄悄给你看看吧', { cls: 'speech-line final', speed: 55, pauseAfter: 1400 });
 
-  // Evans 淡出，交给数据流
   overlay.style.transition = 'opacity 1.5s ease';
-  overlay.style.opacity = '0';
+  overlay.style.opacity    = '0';
   await sleep(1600);
-  overlay.style.display = 'none';
+  overlay.style.display    = 'none';
 
-  // 序曲层淡出
-  const intro = document.getElementById('intro');
-  intro.classList.add('fade-out');
-  setTimeout(() => { intro.style.display = 'none'; }, 1300);
+  // 展览循环：等待 12s 后淡回 Stage 1，重新开始
+  await sleep(12000);
+  await restartIntro();
 }
 
 // ============================================================
@@ -312,43 +403,62 @@ async function runIntro() {
 
 function triggerGlitch() {
   const scanlines = document.getElementById('scanlines');
-  const overlay = document.getElementById('glitch-overlay');
-
+  const glitchEl  = document.getElementById('glitch-overlay');
   scanlines.classList.add('active');
-  overlay.classList.remove('flash');
-  requestAnimationFrame(() => { overlay.classList.add('flash'); });
-
-  let count = 0;
-  const interval = setInterval(() => {
-    overlay.classList.remove('flash');
-    requestAnimationFrame(() => overlay.classList.add('flash'));
-    count++;
-    if (count > 3) {
-      clearInterval(interval);
+  glitchEl.classList.remove('flash');
+  requestAnimationFrame(() => glitchEl.classList.add('flash'));
+  avatarState.glitching = true;
+  avatarState.glitchTime = 0;
+  avatarState.intensity  = 1;
+  let n = 0;
+  const iv = setInterval(() => {
+    glitchEl.classList.remove('flash');
+    requestAnimationFrame(() => glitchEl.classList.add('flash'));
+    if (++n > 4) {
+      clearInterval(iv);
       setTimeout(() => scanlines.classList.remove('active'), 2500);
+      avatarState.glitching = false;
     }
   }, 110);
 }
 
 // ============================================================
-// 主界面：数据流
+// 进入阶段二
+// ============================================================
+
+function enterStage2() {
+  buildStream();
+  document.getElementById('stage2').classList.add('visible');
+  const s1 = document.getElementById('stage1');
+  s1.classList.add('fade-out');
+  setTimeout(() => { s1.style.display = 'none'; }, 1500);
+}
+
+// ============================================================
+// 代码流（Stage 2）
 // ============================================================
 
 let streamData = [];
 
-function buildStreamData() {
-  const real  = [...STREAM_DATA];
-  const noise = generateNoise(100);
-  const all   = [];
+function buildStream() {
+  streamData = buildStreamData();
+  const inner = document.getElementById('stream-inner');
+  streamData.forEach(row => inner.appendChild(createStreamRow(row)));
+  startScroll();
+  startAppend();
+}
 
+function buildStreamData() {
+  const real = [...STREAM_DATA];
+  const noise = generateNoise(100);
+  const all = [];
   let ri = 0, ni = 0;
   while (ri < real.length || ni < noise.length) {
     const takeReal = Math.random() < 0.33 && ri < real.length;
-    if (takeReal)          all.push(real[ri++]);
+    if (takeReal)               all.push(real[ri++]);
     else if (ni < noise.length) all.push(noise[ni++]);
-    else                   all.push(real[ri++]);
+    else                        all.push(real[ri++]);
   }
-
   for (let pass = 0; pass < 2; pass++) {
     for (const row of STREAM_DATA) {
       all.push({ ...row, time: randomTime() });
@@ -359,44 +469,38 @@ function buildStreamData() {
 }
 
 function randomTime() {
-  const h = String(Math.floor(Math.random() * 24)).padStart(2, '0');
-  const m = String(Math.floor(Math.random() * 60)).padStart(2, '0');
-  const s = String(Math.floor(Math.random() * 60)).padStart(2, '0');
-  return `${h}:${m}:${s}`;
+  return [Math.floor(Math.random()*24), Math.floor(Math.random()*60), Math.floor(Math.random()*60)]
+    .map(n => String(n).padStart(2,'0')).join(':');
 }
 
 function generateNoise(count) {
-  const noiseTemplates = [
-    { type: 'PERC',  content: '环境音频采样 · 信噪比 42dB · 正常范围' },
-    { type: 'FUSE',  content: '多模态对齐 · 视觉置信度 0.87 · 音频置信度 0.91' },
-    { type: 'MEM',   content: '情景记忆滚动窗口更新 · 已清理 247 条过期记录' },
-    { type: 'COGN',  content: '意图分析空轮 · 无活跃任务 · 待机中' },
-    { type: 'DECS',  content: '分寸感引擎轮询 · 介入分数 0.12 ◀ 阈值0.50 · 保持沉默' },
-    { type: 'SCHED', content: '任务调度器心跳 · 队列长度 0 · 空闲' },
-    { type: 'EXEC',  content: '执行层空轮 · 所有设备待机 · 无异常' },
-    { type: 'MEM',   content: '语义记忆索引重建 · 偏好维度 247 个 · 完成' },
-    { type: 'PERC',  content: 'IMU基线校准 · 静止状态确认 · 加速度 0.02G' },
-    { type: 'COGN',  content: '用户画像差值更新 · 本次Δ极小 · 无需写入' },
-    { type: 'FUSE',  content: '生理信号基线 · 心率 68bpm · HRV 正常范围' },
-    { type: 'DECS',  content: '主动性参数轮询 · 当前阈值偏保守 · 维持' },
-    { type: 'SCHED', content: 'DOA协议心跳 · 已连接设备 × 7 · 全部在线' },
-    { type: 'MEM',   content: '人格记忆加密备份 · 版本 v0.312 · SHA256验证通过' },
-    { type: 'EXEC',  content: '反馈收集器空轮 · 无新反馈 · 等待中' },
+  const tpls = [
+    { type:'PERC',  content:'环境音频采样 · 信噪比 42dB · 正常范围' },
+    { type:'FUSE',  content:'多模态对齐 · 视觉置信度 0.87 · 音频置信度 0.91' },
+    { type:'MEM',   content:'情景记忆滚动窗口更新 · 已清理 247 条过期记录' },
+    { type:'COGN',  content:'意图分析空轮 · 无活跃任务 · 待机中' },
+    { type:'DECS',  content:'分寸感引擎轮询 · 介入分数 0.12 ◀ 阈值0.50 · 保持沉默' },
+    { type:'SCHED', content:'任务调度器心跳 · 队列长度 0 · 空闲' },
+    { type:'EXEC',  content:'执行层空轮 · 所有设备待机 · 无异常' },
+    { type:'MEM',   content:'语义记忆索引重建 · 偏好维度 247 个 · 完成' },
+    { type:'PERC',  content:'IMU基线校准 · 静止状态确认 · 加速度 0.02G' },
+    { type:'COGN',  content:'用户画像差值更新 · 本次Δ极小 · 无需写入' },
+    { type:'FUSE',  content:'生理信号基线 · 心率 68bpm · HRV 正常范围' },
+    { type:'DECS',  content:'主动性参数轮询 · 当前阈值偏保守 · 维持' },
+    { type:'SCHED', content:'DOA协议心跳 · 已连接设备 × 7 · 全部在线' },
+    { type:'MEM',   content:'人格记忆加密备份 · 版本 v0.312 · SHA256验证通过' },
+    { type:'EXEC',  content:'反馈收集器空轮 · 无新反馈 · 等待中' },
   ];
-  const result = [];
-  for (let i = 0; i < count; i++) {
-    const tpl = noiseTemplates[Math.floor(Math.random() * noiseTemplates.length)];
-    result.push({ ...tpl, time: randomTime(), scene: null, sceneId: null });
-  }
-  return result;
+  return Array.from({ length: count }, () => ({
+    ...tpls[Math.floor(Math.random() * tpls.length)],
+    time: randomTime(), scene: null, sceneId: null,
+  }));
 }
 
 function createStreamRow(row) {
   const el = document.createElement('div');
-  const isS15 = row.sceneId === 15;
-  el.className = 'stream-row' + (isS15 ? ' s15' : '') + (row.sceneId ? '' : ' noise');
+  el.className = 'stream-row' + (row.sceneId === 15 ? ' s15' : '') + (row.sceneId ? '' : ' noise');
   if (row.sceneId) el.dataset.sceneId = row.sceneId;
-
   el.innerHTML = `
     <span class="col-time">${row.time}</span>
     <span class="col-type type-${row.type}">${row.type}</span>
@@ -404,106 +508,26 @@ function createStreamRow(row) {
     <span class="col-content">${row.content}</span>
     ${row.scene ? `<span class="col-scene">[${row.scene}]</span>` : ''}
   `;
-
-  if (row.sceneId) {
-    el.addEventListener('mouseenter', () => onRowHover(row.sceneId));
-    el.addEventListener('click', () => onRowClick(row.sceneId, el));
-  }
-
   return el;
-}
-
-function onRowHover(sceneId) { showPreview(sceneId, false); }
-
-function onRowClick(sceneId, el) {
-  document.querySelectorAll(`.stream-row[data-scene-id="${sceneId}"]`).forEach(r => r.classList.add('visited'));
-  el.classList.remove('visited');
-  el.classList.add('active');
-  setTimeout(() => el.classList.remove('active'), 1200);
-
-  showPreview(sceneId, true);
-  updateStatusScene(sceneId);
-}
-
-function updateStatusScene(sceneId) {
-  const el = document.getElementById('status-scene');
-  if (sceneId === 15) {
-    el.textContent = 'SILENCE';
-  } else {
-    const meta = SCENE_META[sceneId];
-    el.textContent = `S${String(sceneId).padStart(2,'0')} · ${meta.title}`;
-  }
-}
-
-function showPreview(sceneId, clicked = false) {
-  const empty   = document.getElementById('preview-empty');
-  const content = document.getElementById('preview-content');
-  const meta    = SCENE_META[sceneId];
-
-  empty.style.display = 'none';
-  content.classList.add('visible');
-
-  document.getElementById('preview-scene-id').textContent =
-    `SCENE  ·  S${String(sceneId).padStart(2, '0')}`;
-  document.getElementById('preview-title').textContent =
-    sceneId === 15 ? '──' : meta.title;
-  document.getElementById('preview-actor').textContent =
-    sceneId === 15 ? '' : meta.actor;
-  document.getElementById('preview-ability').textContent =
-    sceneId === 15 ? '──' : meta.ability;
-
-  const quoteEl = document.getElementById('preview-quote');
-  quoteEl.textContent = `「${meta.quote}」`;
-  quoteEl.className = 'preview-quote' + (sceneId === 15 ? ' s15-quote' : '');
-
-  const actionEl = document.getElementById('preview-action');
-  if (sceneId === 15) {
-    actionEl.innerHTML = clicked
-      ? `<span class="action-dot">◌</span><span style="color:var(--text-faint)">Evans 选择了沉默。</span>`
-      : `<span class="action-dot">▸</span><span>点击后 Evans 将沉默。</span>`;
-  } else {
-    actionEl.innerHTML = clicked
-      ? `<span class="action-dot">◌</span><span>双屏已激活。</span>`
-      : `<span class="action-dot">▸</span><span>点击触发双屏动画。</span>`;
-  }
-}
-
-// ============================================================
-// 滚动引擎
-// ============================================================
-
-function showMainInterface() {
-  const main = document.getElementById('main');
-  main.classList.add('visible');
-
-  streamData = buildStreamData();
-  const inner = document.getElementById('stream-inner');
-  streamData.forEach(row => inner.appendChild(createStreamRow(row)));
-
-  startScroll();
-  startAppend();
 }
 
 let scrollPos = 0;
 
 function startScroll() {
   const inner = document.getElementById('stream-inner');
-
   function tick() {
     scrollPos += 0.45;
     inner.style.transform = `translateY(-${scrollPos}px)`;
-
     const rows = inner.children;
     while (rows.length > 0) {
       const first = rows[0];
-      const rect  = first.getBoundingClientRect();
-      if (rect.bottom < 0) {
+      if (first.getBoundingClientRect().bottom < 0) {
         inner.removeChild(first);
         scrollPos -= first.offsetHeight;
         inner.style.transform = `translateY(-${scrollPos}px)`;
       } else break;
     }
-
+    if (rows.length === 0) { scrollPos = 0; inner.style.transform = ''; }
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -513,14 +537,50 @@ function startAppend() {
   const inner = document.getElementById('stream-inner');
   let idx = 0;
   setInterval(() => {
-    const count = Math.random() < 0.3 ? 2 : 1;
-    for (let i = 0; i < count; i++) {
-      const row    = streamData[idx % streamData.length];
+    const n = Math.random() < 0.3 ? 3 : 2;
+    for (let i = 0; i < n; i++) {
+      inner.appendChild(createStreamRow({ ...streamData[idx % streamData.length], time: randomTime() }));
       idx++;
-      const newRow = { ...row, time: randomTime() };
-      inner.appendChild(createStreamRow(newRow));
     }
-  }, 700 + Math.random() * 400);
+  }, 320 + Math.random() * 200);
+}
+
+// ============================================================
+// 展览循环重置
+// ============================================================
+
+async function restartIntro() {
+  // 淡出 Stage 2
+  const s2 = document.getElementById('stage2');
+  s2.style.transition = 'opacity 1.8s ease';
+  s2.style.opacity    = '0';
+  await sleep(2000);
+  s2.classList.remove('visible');
+  s2.style.opacity    = '';
+
+  // 重置 Stage 1
+  const s1 = document.getElementById('stage1');
+  s1.style.display = 'flex';
+  s1.style.opacity = '0';
+  s1.classList.remove('fade-out');
+  s1.style.transition = 'opacity 1.5s ease';
+  document.getElementById('typewriter').innerHTML = '';
+
+  // 重置 Evans overlay
+  const overlay = document.getElementById('evans-overlay');
+  overlay.style.display    = '';
+  overlay.style.opacity    = '0';
+  overlay.style.transition = '';
+  overlay.classList.remove('visible');
+  document.getElementById('evans-speech').innerHTML = '';
+
+  await sleep(200);
+  s1.style.opacity = '1';
+  await sleep(1600);
+  s1.style.opacity    = '';
+  s1.style.transition = '';
+
+  await runIntro();
 }
 
 // ============================================================
@@ -528,6 +588,6 @@ function startAppend() {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  initParticles3D();
+  initAvatar();
   runIntro().catch(console.error);
 });

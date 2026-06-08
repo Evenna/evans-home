@@ -18,136 +18,40 @@
 </head>
 <body>
 
-  <!-- 噪声粒子画布（全程底层） -->
-  <canvas id="noise-canvas"></canvas>
-
-  <!-- 故障效果层 -->
-  <div id="scanlines"></div>
-  <div id="glitch-overlay"></div>
-
   <!-- ============================================================
-       阶段一：序曲
+       阶段一：全屏黑 · 粒子球 + 底部逐行文字
        ============================================================ -->
-  <div id="intro">
-    <!-- Evans 头像呼吸光晕 -->
-    <div id="evans-avatar-wrap">
-      <div id="evans-avatar-ring"></div>
-      <div id="evans-avatar">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="av-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#a8c8b0"/>
-              <stop offset="100%" stop-color="#e8dcc8"/>
-            </linearGradient>
-          </defs>
-          <!-- 简约脸型 + E 字母 -->
-          <circle cx="32" cy="20" r="12" fill="none" stroke="url(#av-grad)" stroke-width="1.2" opacity="0.7"/>
-          <circle cx="32" cy="20" r="8" fill="none" stroke="url(#av-grad)" stroke-width="0.6" opacity="0.4"/>
-          <text x="32" y="25" text-anchor="middle" font-family="serif" font-size="10" fill="url(#av-grad)" opacity="0.85">E</text>
-          <!-- 肩膀弧线 -->
-          <path d="M16 52 Q16 32 32 32 Q48 32 48 52" fill="none" stroke="url(#av-grad)" stroke-width="0.8" opacity="0.35"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- 中心打字机区 -->
-    <div id="typewriter-wrap">
+  <div id="stage1">
+    <canvas id="avatar-canvas"></canvas>
+    <div id="intro-text">
       <div id="typewriter"></div>
-    </div>
-
-    <!-- 底部小字 -->
-    <div id="intro-footer">
-      <span id="intro-footer-text"></span>
     </div>
   </div>
 
   <!-- ============================================================
-       阶段二+三：主界面
+       阶段二：纯后台代码流
        ============================================================ -->
-  <div id="main">
+  <div id="stage2">
 
-    <!-- 顶部状态栏 -->
-    <div id="statusbar">
-      <div class="status-left">
-        <span class="status-wordmark">EVANS</span>
-        <span class="status-sep">—</span>
-        <span class="status-label">Runtime Log</span>
-      </div>
-      <div class="status-right">
-        <span class="status-indicator"><span class="status-dot"></span>S1</span>
-        <span class="status-indicator"><span class="status-dot"></span>S2</span>
-        <span id="status-scene" class="status-scene">IDLE</span>
-      </div>
-    </div>
+    <!-- 故障层 -->
+    <div id="scanlines"></div>
+    <div id="glitch-overlay"></div>
 
-    <!-- 内容区 -->
-    <div id="content">
-
-      <!-- 左侧：数据流 -->
-      <div id="stream-container">
-
-        <!-- 顶部渐隐遮罩 -->
-        <div class="stream-fade-top"></div>
-        <!-- 底部渐隐遮罩 -->
-        <div class="stream-fade-bottom"></div>
-
-        <!-- Evans 对话层（故障后叠加在数据流上） -->
-        <div id="evans-overlay">
-          <div id="evans-badge">E</div>
-          <div id="evans-speech"></div>
-        </div>
-
-        <!-- 数据流本体 -->
-        <div id="stream">
-          <div id="stream-inner"></div>
-        </div>
-
-      </div>
-
-      <!-- 右侧：预览面板 -->
-      <div id="preview">
-
-        <div id="preview-empty">
-          <div class="preview-empty-icon">◌</div>
-          <div class="preview-empty-text">
-            悬停左侧任意记录<br>探索 Evans 的后台日志
-          </div>
-          <div class="preview-empty-hints">
-            <span>· 高亮行来自真实场景</span>
-            <span>· 点击触发双屏动画</span>
-            <span>· 有一行几乎看不见</span>
-          </div>
-        </div>
-
-        <div id="preview-content">
-          <div class="preview-header">
-            <div id="preview-scene-id" class="preview-scene-id"></div>
-            <div id="preview-title" class="preview-title"></div>
-            <div id="preview-actor" class="preview-actor"></div>
-          </div>
-
-          <div class="preview-divider"></div>
-
-          <div class="preview-section">
-            <div class="preview-label">核心能力</div>
-            <div id="preview-ability" class="preview-ability"></div>
-          </div>
-
-          <div class="preview-divider"></div>
-
-          <div class="preview-section">
-            <div class="preview-label">档案金句</div>
-            <div id="preview-quote" class="preview-quote"></div>
-          </div>
-
-          <div id="preview-action" class="preview-action">
-            <span class="action-dot">▸</span>
-            <span>点击任意记录以激活</span>
-          </div>
-        </div>
-
+    <!-- 全屏代码流 -->
+    <div id="stream-container">
+      <div class="stream-fade-top"></div>
+      <div class="stream-fade-bottom"></div>
+      <div id="stream">
+        <div id="stream-inner"></div>
       </div>
     </div>
+
+    <!-- Evans 对话浮层（叠在代码流上） -->
+    <div id="evans-overlay">
+      <div id="evans-badge">E</div>
+      <div id="evans-speech"></div>
+    </div>
+
   </div>
 
   <script type="module" src="main.js"></script>
