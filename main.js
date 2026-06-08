@@ -350,10 +350,9 @@ function initAvatar() {
       gl_Position = projectionMatrix * mv;
       gl_PointSize = aSize * (1.0 + uSpeak * 0.28) * uSK / -mv.z;
       float twinkle = 0.55 + 0.45 * sin(uTime * 1.1 + aPhase * 9.0);
-      vA = 0.72 + twinkle * 0.28;
-      // 约 40% 是冷蓝粒子，60% 是深蓝灰尘 — 亮度提升
+      vA = 0.28 + twinkle * 0.18;
       float isCool = step(0.40, fract(sin(aPhase * 91.7) * 23741.3));
-      vCol = mix(vec3(0.30, 0.42, 0.65), vec3(0.45, 0.72, 1.00), isCool);
+      vCol = mix(vec3(0.18, 0.26, 0.42), vec3(0.28, 0.50, 0.80), isCool);
     }
   `;
 
@@ -400,12 +399,16 @@ function initAvatar() {
     gndUni.uTime.value    = t;
     gndUni.uSpeak.value   = spk;
 
-    // 球体极慢自转，火花层稍快
-    corePts.rotation.y += dt * (0.038 + spk * 0.10);
-    corePts.rotation.x  = 0.030 * Math.sin(t * 0.15);
-    halPts.rotation.y   = corePts.rotation.y * 0.85;
-    spkPts.rotation.y  += dt * (0.055 + spk * 0.12);
-    spkPts.rotation.x   = 0.040 * Math.sin(t * 0.19);
+    // 球体多轴旋转：y主轴慢转 + x/z轴各自独立摆动漂移
+    corePts.rotation.y += dt * (0.032 + spk * 0.08);
+    corePts.rotation.x += dt * (0.018 + spk * 0.04);
+    corePts.rotation.z  = 0.12 * Math.sin(t * 0.09) + 0.06 * Math.sin(t * 0.23);
+    halPts.rotation.y   = corePts.rotation.y * 0.78;
+    halPts.rotation.x   = corePts.rotation.x * 0.65;
+    halPts.rotation.z   = corePts.rotation.z * 0.70;
+    spkPts.rotation.y  += dt * (0.048 + spk * 0.10);
+    spkPts.rotation.x  += dt * 0.022;
+    spkPts.rotation.z   = 0.09 * Math.sin(t * 0.13 + 1.2);
 
     // 镜头轻微漂移
     camera.position.x = Math.sin(t * 0.07) * 0.10;
