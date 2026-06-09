@@ -646,8 +646,8 @@ function enterDatastream() {
     const elapsed = ts - startTime;
     const progress = Math.min(elapsed / STREAM_DURATION, 1);
 
-    // 深绿/黑背景拖尾
-    ctx.fillStyle = 'rgba(0, 4, 0, 0.15)';
+    // 黑色背景拖尾
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
     ctx.fillRect(0, 0, W, H);
 
     // ── 竖列字符雨 ──────────────────────────────────────────
@@ -658,19 +658,19 @@ function enterDatastream() {
       const x = i * COL_W + 2;
 
       if (col.mode === 'hex') {
-        // 十六进制列：更亮的绿
+        // 十六进制列
         const h1 = HEX_CHARS[Math.floor(Math.random() * 16)];
         const h2 = HEX_CHARS[Math.floor(Math.random() * 16)];
-        // head
-        ctx.fillStyle = `rgba(180, 255, 180, ${col.bright})`;
+        // head — 纯白最亮
+        ctx.fillStyle = `rgba(255, 255, 255, ${col.bright})`;
         ctx.font = `bold 11px "JetBrains Mono", monospace`;
         ctx.fillText(h1 + h2, x, headY);
-        // trail
+        // trail — 从亮白渐暗到暗灰
         for (let j = 1; j < col.len; j++) {
           const frac = j / col.len;
           const a = col.bright * (1 - frac) * 0.7;
-          const g = Math.floor(220 - frac * 160);
-          ctx.fillStyle = `rgba(0, ${g}, 40, ${a})`;
+          const v = Math.floor(255 - frac * 210);
+          ctx.fillStyle = `rgba(${v}, ${v}, ${v}, ${a})`;
           ctx.font = `11px "JetBrains Mono", monospace`;
           ctx.fillText(
             HEX_CHARS[Math.floor(Math.random() * 16)] + HEX_CHARS[Math.floor(Math.random() * 16)],
@@ -684,31 +684,31 @@ function enterDatastream() {
         // head char
         const ci = Math.floor(col.y) % line.length;
         const ch = line[Math.abs(ci)] || '?';
-        ctx.fillStyle = `rgba(100, 255, 120, ${col.bright})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${col.bright})`;
         ctx.fillText(ch, x, headY);
         // trail
         for (let j = 1; j < col.len; j++) {
           const frac = j / col.len;
           const a = col.bright * (1 - frac) * 0.6;
           const ci2 = Math.abs(Math.floor(col.y) - j) % line.length;
-          const g = Math.floor(200 - frac * 140);
-          ctx.fillStyle = `rgba(0, ${g}, 30, ${a})`;
+          const v = Math.floor(255 - frac * 210);
+          ctx.fillStyle = `rgba(${v}, ${v}, ${v}, ${a})`;
           ctx.fillText(line[ci2] || ' ', x, headY - j * FONT_H);
         }
       } else {
         // 随机字符列
         const ch = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-        // head — 近白绿，最亮
+        // head — 纯白，最亮
         ctx.font = `bold 12px "JetBrains Mono", monospace`;
-        ctx.fillStyle = `rgba(220, 255, 220, ${col.bright})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${col.bright})`;
         ctx.fillText(ch, x, headY);
-        // trail
+        // trail — 白→灰→暗
         ctx.font = `12px "JetBrains Mono", monospace`;
         for (let j = 1; j < col.len; j++) {
           const frac = j / col.len;
           const a = col.bright * (1 - frac) * 0.8;
-          const g = Math.floor(255 - frac * 180);
-          ctx.fillStyle = `rgba(0, ${g}, 20, ${a})`;
+          const v = Math.floor(255 - frac * 220);
+          ctx.fillStyle = `rgba(${v}, ${v}, ${v}, ${a})`;
           ctx.fillText(ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)], x, headY - j * FONT_H);
         }
       }
@@ -737,12 +737,10 @@ function enterDatastream() {
       fl.y += fl.speed;
       fl.alpha = Math.min(0.55, fl.alpha + 0.04);
       if (fl.y > H) { floatLogs.splice(k, 1); continue; }
-      // 颜色：状态码着色
+      // 颜色：全部白色系，错误稍暗
       const isErr  = fl.text.startsWith('5') || fl.text.startsWith('ERROR') || fl.text.startsWith('PANIC');
-      const isWarn = fl.text.startsWith('4') || fl.text.startsWith('WARN');
-      const col    = isErr  ? `rgba(180,255,80,${fl.alpha})`
-                   : isWarn ? `rgba(140,255,100,${fl.alpha})`
-                   :          `rgba(60,220,80,${fl.alpha})`;
+      const col    = isErr  ? `rgba(200,200,200,${fl.alpha})`
+                   :          `rgba(255,255,255,${fl.alpha})`;
       ctx.fillStyle = col;
       ctx.fillText(fl.text, fl.x, fl.y);
     }
@@ -751,9 +749,9 @@ function enterDatastream() {
     if (Math.random() < 0.003) {
       const sy = Math.random() * H;
       const gr = ctx.createLinearGradient(0, sy - 2, 0, sy + 2);
-      gr.addColorStop(0,   'rgba(0,255,80,0)');
-      gr.addColorStop(0.5, 'rgba(0,255,80,0.07)');
-      gr.addColorStop(1,   'rgba(0,255,80,0)');
+      gr.addColorStop(0,   'rgba(255,255,255,0)');
+      gr.addColorStop(0.5, 'rgba(255,255,255,0.07)');
+      gr.addColorStop(1,   'rgba(255,255,255,0)');
       ctx.fillStyle = gr;
       ctx.fillRect(0, sy - 2, W, 4);
     }
