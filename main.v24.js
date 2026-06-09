@@ -574,184 +574,318 @@ function enterDatastream() {
   canvas.height = Math.round(H * dpr);
   ctx.scale(dpr, dpr);
 
-  // ── 配置 ────────────────────────────────────────────────────
-  const COL_W  = 14;   // 列宽
-  const COLS   = Math.floor(W / COL_W);
-  const FONT_H = 14;   // 行高
+  // ── 终端配色 ────────────────────────────────────────────────
+  const C = {
+    bg:      '#0a0c10',
+    prompt:  '#e8eaf0',     // 命令提示符 / 白
+    cmd:     '#cdd6f4',     // 命令文字
+    path:    '#89b4fa',     // 路径蓝
+    ok:      '#a6e3a1',     // 成功绿
+    warn:    '#f9e2af',     // 警告黄
+    err:     '#f38ba8',     // 错误红
+    dim:     '#585b70',     // 暗灰注释
+    cyan:    '#89dceb',     // 青 INFO
+    mauve:   '#cba6f7',     // 紫 DEBUG/mem
+    num:     '#fab387',     // 数字橙
+    bar_fill:'#89b4fa',     // 进度条填充
+    bar_bg:  '#313244',     // 进度条背景
+  };
 
-  // 随机字符池（Matrix风格 + ASCII）
-  const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-  const ASCII_CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*<>[]{}|\\/-+~^';
-  const HEX_CHARS    = '0123456789ABCDEF';
-  const ALL_CHARS    = MATRIX_CHARS + ASCII_CHARS;
+  const LINE_H    = 20;     // 每行高度 px
+  const MARGIN_L  = 48;     // 左边距
+  const FONT_MONO = `13px "JetBrains Mono", "Fira Code", monospace`;
+  const FONT_BOLD = `bold 13px "JetBrains Mono", "Fira Code", monospace`;
+  const FONT_SM   = `11px "JetBrains Mono", "Fira Code", monospace`;
 
-  // 真实感后端日志片段（滚动显示在某些列）
-  const LOG_LINES = [
-    '200 GET /api/v2/archive/scenes',
-    '200 POST /auth/token  12ms',
-    '304 GET /static/scene_s07.enc',
-    '401 GET /admin/dump → denied',
-    '500 INTERNAL: memory overflow',
-    'WARN  heap usage 87.3% → GC',
-    'INFO  connected user=0xe8f2a1',
-    'DEBUG checkpoint scene_id=S15',
-    'ERROR segfault @ 0x7fff4a2b',
-    'SYNC  delta=1.2ms node=0x04',
-    '>>> evans.archive.unlock(0xF)',
-    '<<< ACK 200 payload_sz=4096',
-    'JWT expired at 1718000000',
-    'RSA.verify PASS sig=0x3d8c',
-    'AES-256-GCM decrypt OK',
-    'SELECT * FROM memory LIMIT 1',
-    'PANIC: kernel read fault',
-    'BOOT sequence: stage_2 ready',
-  ];
+  // ── 终端行数据池 ─────────────────────────────────────────────
+  // 每条记录：{ type, parts, indent }
+  // type: 'cmd' | 'out' | 'err' | 'warn' | 'info' | 'debug' | 'progress' | 'blank' | 'separator'
+  // parts: [{ text, color }]
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const ri   = (a, b) => Math.floor(rand(a, b));
+  const hex  = n => n.toString(16).padStart(2,'0').toUpperCase();
+  const addr = () => '0x' + Array.from({length:6},()=>hex(ri(0,256))).join('');
+  const ms   = () => (rand(0.1,120)).toFixed(1) + 'ms';
+  const kb   = () => ri(4,4096) + 'KB';
+  const ts   = () => {
+    const d = new Date();
+    return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}.${d.getMilliseconds().toString().padStart(3,'0')}`;
+  };
 
-  // 初始化列数据
-  const cols = Array.from({ length: COLS }, (_, i) => {
-    const type = Math.random();
-    return {
-      y:    -(Math.random() * H / FONT_H),   // 起始位置（行数）
-      speed: 0.4 + Math.random() * 1.5,
-      len:   12 + Math.floor(Math.random() * 28),
-      bright: 0.5 + Math.random() * 0.5,
-      // 列类型：70%随机字符 / 20%十六进制 / 10%日志行
-      mode:  type < 0.10 ? 'log' : type < 0.30 ? 'hex' : 'char',
-      logIdx: Math.floor(Math.random() * LOG_LINES.length),
-      logChar: 0,  // 日志列已显示到第几个字符
-    };
-  });
+  // 预生成一批终端行
+  const POOL = [];
 
-  // 日志行叠加层（全屏宽，独立滚动）
-  // 在普通列之上，偶发完整日志行从上往下滑过
-  const floatLogs = [];
-  let logSpawnTimer = 0;
-
-  let startTime = null;
-  const STREAM_DURATION = 6000;
-
-  function spawnFloatLog() {
-    floatLogs.push({
-      text: LOG_LINES[Math.floor(Math.random() * LOG_LINES.length)],
-      x: 40 + Math.random() * (W - 300),
-      y: -20,
-      speed: 0.8 + Math.random() * 1.2,
-      alpha: 0.0,
-      life: 1.0,
-    });
+  function cmd(cmdStr, path='~/evans') {
+    POOL.push({ type:'cmd', parts:[
+      {text: path,                    color: C.path},
+      {text: ' $ ',                   color: C.dim},
+      {text: cmdStr,                  color: C.cmd},
+    ]});
+  }
+  function out(...parts) {
+    POOL.push({ type:'out', parts });
+  }
+  function blank() { POOL.push({ type:'blank', parts:[] }); }
+  function sep() {
+    POOL.push({ type:'separator', parts:[
+      {text: '─'.repeat(64), color: C.dim},
+    ]});
   }
 
+  // ── Block 1: 系统启动 ─────────────────────────────────────
+  sep();
+  out({text:'[',color:C.dim},{text:'BOOT',color:C.cyan},{text:'] ',color:C.dim},{text:'evans-core v2.4.1',color:C.prompt});
+  out({text:'[',color:C.dim},{text:'BOOT',color:C.cyan},{text:'] ',color:C.dim},{text:'initializing memory subsystem...',color:C.dim});
+  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] ',color:C.dim},{text:'heap allocated  ',color:C.dim},{text:'512MB',color:C.num});
+  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] ',color:C.dim},{text:'AES-256-GCM key loaded',color:C.dim});
+  out({text:'[',color:C.dim},{text:'WARN',color:C.warn},{text:'] ',color:C.dim},{text:'legacy auth token detected — rotating',color:C.warn});
+  blank();
+
+  // ── Block 2: npm install ──────────────────────────────────
+  cmd('npm install --legacy-peer-deps');
+  out({text:'npm ',color:C.dim},{text:'warn',color:C.warn},{text:' deprecated glob@7.2.3',color:C.dim});
+  out({text:'npm ',color:C.dim},{text:'warn',color:C.warn},{text:' deprecated inflight@1.0.6',color:C.dim});
+  out({text:'added ',color:C.dim},{text:'1,247',color:C.num},{text:' packages in ',color:C.dim},{text:'8.3s',color:C.ok});
+  POOL.push({ type:'progress', label:'installing', total:100 });
+  out({text:'',color:C.dim});
+  out({text:'✓ ',color:C.ok},{text:'node_modules ready',color:C.prompt});
+  blank();
+
+  // ── Block 3: 编译构建 ────────────────────────────────────
+  cmd('python3 train.py --epochs 40 --lr 3e-4 --batch 128');
+  out({text:'[',color:C.dim},{text:'INFO',color:C.cyan},{text:'] Using device: ',color:C.dim},{text:'cuda:0  (RTX 4090)',color:C.mauve});
+  out({text:'[',color:C.dim},{text:'INFO',color:C.cyan},{text:'] Loading dataset... ',color:C.dim},{text:'218,493',color:C.num},{text:' samples',color:C.dim});
+  out({text:'Epoch ',color:C.dim},{text:'1',color:C.num},{text:'/40  loss=',color:C.dim},{text:'2.4831',color:C.warn},{text:'  acc=',color:C.dim},{text:'0.312',color:C.num});
+  out({text:'Epoch ',color:C.dim},{text:'8',color:C.num},{text:'/40  loss=',color:C.dim},{text:'1.1204',color:C.warn},{text:'  acc=',color:C.dim},{text:'0.671',color:C.num});
+  POOL.push({ type:'progress', label:'epoch 16/40', total:40, val:16 });
+  out({text:'Epoch ',color:C.dim},{text:'16',color:C.num},{text:'/40  loss=',color:C.dim},{text:'0.6823',color:C.ok},{text:'  acc=',color:C.dim},{text:'0.841',color:C.ok});
+  out({text:'Epoch ',color:C.dim},{text:'32',color:C.num},{text:'/40  loss=',color:C.dim},{text:'0.3104',color:C.ok},{text:'  acc=',color:C.dim},{text:'0.934',color:C.ok});
+  POOL.push({ type:'progress', label:'epoch 40/40', total:40, val:40 });
+  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] Training complete — ',color:C.dim},{text:'final acc 94.7%',color:C.ok});
+  blank();
+
+  // ── Block 4: HTTP 请求日志 ───────────────────────────────
+  cmd('tail -f /var/log/evans/access.log');
+  const methods = ['GET','POST','PUT','DELETE'];
+  const routes  = [
+    '/api/v2/archive/scenes','/api/v2/memory/diff',
+    '/api/v2/auth/verify','/static/scene_s07.enc',
+    '/admin/export','/api/v2/stream/live',
+    '/api/v2/archive/unlock','/internal/gc',
+  ];
+  const codes = [[200,8],[201,2],[204,1],[304,3],[400,1],[401,2],[404,1],[500,1],[502,1]];
+  for (let i=0; i<18; i++) {
+    const m = methods[ri(0,methods.length)];
+    const r = routes[ri(0,routes.length)];
+    let code, cw=0, pick=Math.random()*20;
+    for(const [c,w] of codes){ cw+=w; if(pick<cw){code=c;break;} }
+    code = code||200;
+    const codeColor = code<300?C.ok : code<400?C.cyan : code<500?C.warn : C.err;
+    out(
+      {text: ts()+'  ',  color: C.dim},
+      {text: code.toString()+'  ', color: codeColor},
+      {text: m.padEnd(7), color: C.mauve},
+      {text: r.padEnd(36),color: C.cmd},
+      {text: ms(),        color: C.num},
+    );
+  }
+  blank();
+
+  // ── Block 5: 内存 / GC ──────────────────────────────────
+  cmd('evans-inspect --mem --gc-trace');
+  out({text:'heap_used:    ',color:C.dim},{text:'347.2 MB',color:C.num},{text:' / 512 MB',color:C.dim});
+  out({text:'heap_total:   ',color:C.dim},{text:'512.0 MB',color:C.num});
+  out({text:'external:     ',color:C.dim},{text:' 18.4 MB',color:C.num});
+  out({text:'rss:          ',color:C.dim},{text:'641.7 MB',color:C.num});
+  out({text:'GC minor  #',color:C.dim},{text:'1042',color:C.mauve},{text:'  freed ',color:C.dim},{text:'2.1MB',color:C.ok},{text:'  '+ms(),color:C.dim});
+  out({text:'GC major  #',color:C.dim},{text:' 38',color:C.mauve},{text:'  freed ',color:C.dim},{text:'84MB ',color:C.ok},{text:'  '+ms(),color:C.dim});
+  out({text:'[',color:C.dim},{text:'WARN',color:C.warn},{text:'] heap pressure HIGH — triggering compaction',color:C.warn});
+  POOL.push({ type:'progress', label:'GC compaction', total:100 });
+  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] compaction done  freed ',color:C.dim},{text:'128MB',color:C.ok});
+  blank();
+
+  // ── Block 6: 加密 / 签名 ────────────────────────────────
+  cmd('openssl rsautl -verify -in sig.bin -pubin -inkey pub.pem | xxd | head');
+  out({text:'00000000: ',color:C.dim},{text:'3082 0122 300d 0609 2a86 4886 f70d 0101',color:C.mauve});
+  out({text:'00000010: ',color:C.dim},{text:'0105 0003 8201 0f00 3082 010a 0282 0101',color:C.mauve});
+  out({text:'RSA-2048 signature valid',color:C.ok});
+  out({text:'digest: ',color:C.dim},{text:'SHA-256',color:C.cyan},{text:'  hash: ',color:C.dim},{text:addr(),color:C.num});
+  blank();
+
+  // ── Block 7: evans 内部系统 ──────────────────────────────
+  sep();
+  out({text:'[EVANS] ',color:C.mauve},{text:'archive.unlock triggered',color:C.prompt});
+  out({text:'[EVANS] ',color:C.mauve},{text:'decrypting scene index... ',color:C.dim});
+  POOL.push({ type:'progress', label:'decrypting', total:100 });
+  out({text:'[EVANS] ',color:C.mauve},{text:'15 scenes loaded  (',color:C.dim},{text:'S01–S15',color:C.cyan},{text:')',color:C.dim});
+  out({text:'[EVANS] ',color:C.mauve},{text:'WARNING: scene S15 marked ',color:C.warn},{text:'RESTRICTED',color:C.err});
+  out({text:'[EVANS] ',color:C.mauve},{text:'passing control to user... done.',color:C.ok});
+  sep();
+  blank();
+
+  // ── 滚动状态 ─────────────────────────────────────────────
+  let scrollY   = -H;          // 当前视口顶部在"文档"中的Y坐标（负=屏幕外）
+  let lineIndex = 0;           // 下一条待"打印"的行
+  const rendered = [];         // 已渲染行 {y, parts, type, drawn, progress?}
+  let printTimer  = 0;         // 每N帧打印一行
+  const PRINT_INTERVAL = 4;    // 每4帧打印1行（快速感）
+  let startTime = null;
+  const STREAM_DURATION = 11000;
+
+  // ── 绘帧 ─────────────────────────────────────────────────
   function drawFrame(ts) {
     if (!startTime) startTime = ts;
-    const elapsed = ts - startTime;
+    const elapsed  = ts - startTime;
     const progress = Math.min(elapsed / STREAM_DURATION, 1);
 
-    // 深绿/黑背景拖尾
-    ctx.fillStyle = 'rgba(0, 4, 0, 0.15)';
+    // 黑底清屏（不拖尾——这是终端，不是字符雨）
+    ctx.fillStyle = C.bg;
     ctx.fillRect(0, 0, W, H);
 
-    // ── 竖列字符雨 ──────────────────────────────────────────
-    for (let i = 0; i < COLS; i++) {
-      const col = cols[i];
-      col.y += col.speed;
-      const headY = col.y * FONT_H;
-      const x = i * COL_W + 2;
+    // 每帧向下滚动（模拟终端输出滚动）
+    scrollY += 1.6;
 
-      if (col.mode === 'hex') {
-        const h1 = HEX_CHARS[Math.floor(Math.random() * 16)];
-        const h2 = HEX_CHARS[Math.floor(Math.random() * 16)];
-        // head — 亮白绿
-        ctx.fillStyle = `rgba(180, 255, 180, ${col.bright})`;
-        ctx.font = `bold 11px "JetBrains Mono", monospace`;
-        ctx.fillText(h1 + h2, x, headY);
-        // trail
-        for (let j = 1; j < col.len; j++) {
-          const frac = j / col.len;
-          const a = col.bright * (1 - frac) * 0.7;
-          const g = Math.floor(220 - frac * 160);
-          ctx.fillStyle = `rgba(0, ${g}, 40, ${a})`;
-          ctx.font = `11px "JetBrains Mono", monospace`;
-          ctx.fillText(
-            HEX_CHARS[Math.floor(Math.random() * 16)] + HEX_CHARS[Math.floor(Math.random() * 16)],
-            x, headY - j * FONT_H
-          );
-        }
-      } else if (col.mode === 'log') {
-        const line = LOG_LINES[col.logIdx];
-        ctx.font = `10px "JetBrains Mono", monospace`;
-        const ci = Math.floor(col.y) % line.length;
-        const ch = line[Math.abs(ci)] || '?';
-        ctx.fillStyle = `rgba(100, 255, 120, ${col.bright})`;
-        ctx.fillText(ch, x, headY);
-        // trail
-        for (let j = 1; j < col.len; j++) {
-          const frac = j / col.len;
-          const a = col.bright * (1 - frac) * 0.6;
-          const ci2 = Math.abs(Math.floor(col.y) - j) % line.length;
-          const g = Math.floor(200 - frac * 140);
-          ctx.fillStyle = `rgba(0, ${g}, 30, ${a})`;
-          ctx.fillText(line[ci2] || ' ', x, headY - j * FONT_H);
-        }
-      } else {
-        const ch = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-        // head — 近白绿，最亮
-        ctx.font = `bold 12px "JetBrains Mono", monospace`;
-        ctx.fillStyle = `rgba(220, 255, 220, ${col.bright})`;
-        ctx.fillText(ch, x, headY);
-        // trail — 绿色渐暗
-        ctx.font = `12px "JetBrains Mono", monospace`;
-        for (let j = 1; j < col.len; j++) {
-          const frac = j / col.len;
-          const a = col.bright * (1 - frac) * 0.8;
-          const g = Math.floor(255 - frac * 180);
-          ctx.fillStyle = `rgba(0, ${g}, 20, ${a})`;
-          ctx.fillText(ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)], x, headY - j * FONT_H);
-        }
+    // 定期追加新行
+    printTimer++;
+    if (printTimer >= PRINT_INTERVAL && lineIndex < POOL.length) {
+      rendered.push({
+        poolIdx: lineIndex,
+        y: scrollY + H,        // 新行总在当前视口底部以下
+        drawn: false,
+      });
+      lineIndex++;
+      printTimer = 0;
+    }
+
+    // 绘制所有行
+    for (const r of rendered) {
+      const lineY = r.y - scrollY;   // 屏幕坐标
+      if (lineY < -LINE_H || lineY > H + LINE_H) continue;
+
+      const item = POOL[r.poolIdx];
+      if (!item) continue;
+
+      if (item.type === 'blank') continue;
+
+      if (item.type === 'separator') {
+        ctx.font = FONT_SM;
+        ctx.fillStyle = C.dim;
+        ctx.fillText(item.parts[0].text, MARGIN_L, lineY);
+        continue;
       }
 
-      // 重置
-      if (headY > H + col.len * FONT_H) {
-        col.y     = -(2 + Math.random() * H / FONT_H * 0.4);
-        col.speed = 0.4 + Math.random() * 1.5;
-        col.bright = 0.5 + Math.random() * 0.5;
-        col.len   = 12 + Math.floor(Math.random() * 28);
-        const t   = Math.random();
-        col.mode  = t < 0.10 ? 'log' : t < 0.30 ? 'hex' : 'char';
-        col.logIdx = Math.floor(Math.random() * LOG_LINES.length);
+      if (item.type === 'progress') {
+        // 进度条动画
+        if (!r.progStart) r.progStart = ts;
+        const pd = Math.min((ts - r.progStart) / 1200, 1);
+        const totalVal = item.total || 100;
+        const curVal   = item.val ? item.val : Math.round(pd * totalVal);
+        const pct = Math.min(curVal / totalVal, 1);
+        const barW = Math.round(W * 0.38);
+        const barH = 4;
+        const bx   = MARGIN_L + 140;
+        const by   = lineY - 11;
+        // label
+        ctx.font = FONT_SM;
+        ctx.fillStyle = C.dim;
+        ctx.fillText(item.label, MARGIN_L, lineY);
+        // bg track
+        ctx.fillStyle = C.bar_bg;
+        ctx.beginPath();
+        ctx.roundRect(bx, by, barW, barH, 2);
+        ctx.fill();
+        // fill
+        if (pct > 0) {
+          const grad = ctx.createLinearGradient(bx, 0, bx + barW, 0);
+          grad.addColorStop(0,   '#89b4fa');
+          grad.addColorStop(0.5, '#cba6f7');
+          grad.addColorStop(1,   '#89dceb');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(bx, by, Math.max(4, barW * pct), barH, 2);
+          ctx.fill();
+          // glow tip
+          const tipX = bx + barW * pct;
+          const glow = ctx.createRadialGradient(tipX, by+2, 0, tipX, by+2, 10);
+          glow.addColorStop(0,   'rgba(137,220,235,0.6)');
+          glow.addColorStop(1,   'rgba(137,220,235,0)');
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(tipX, by+2, 10, 0, Math.PI*2);
+          ctx.fill();
+        }
+        // pct text
+        ctx.font = FONT_SM;
+        ctx.fillStyle = C.cyan;
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.round(pct*100)+'%', bx + barW + 36, lineY);
+        ctx.textAlign = 'left';
+        continue;
+      }
+
+      // 普通行：逐 part 渲染
+      let x = MARGIN_L;
+      // cmd 行：左侧竖线装饰
+      if (item.type === 'cmd') {
+        ctx.fillStyle = C.path;
+        ctx.fillRect(MARGIN_L - 12, lineY - 13, 2, 15);
+      }
+      ctx.font = item.type === 'cmd' ? FONT_BOLD : FONT_MONO;
+      for (const part of item.parts) {
+        ctx.fillStyle = part.color;
+        ctx.fillText(part.text, x, lineY);
+        x += ctx.measureText(part.text).width;
+      }
+      // err 行：左侧红色竖线
+      if (item.type === 'err') {
+        ctx.fillStyle = C.err;
+        ctx.fillRect(MARGIN_L - 12, lineY - 13, 2, 15);
       }
     }
 
-    // ── 浮动日志行 ─────────────────────────────────────────
-    logSpawnTimer -= 1;
-    if (logSpawnTimer <= 0 && Math.random() < 0.04) {
-      spawnFloatLog();
-      logSpawnTimer = 30 + Math.random() * 50;
-    }
-    ctx.font = `11px "JetBrains Mono", monospace`;
-    for (let k = floatLogs.length - 1; k >= 0; k--) {
-      const fl = floatLogs[k];
-      fl.y += fl.speed;
-      fl.alpha = Math.min(0.55, fl.alpha + 0.04);
-      if (fl.y > H) { floatLogs.splice(k, 1); continue; }
-      const isErr  = fl.text.startsWith('5') || fl.text.startsWith('ERROR') || fl.text.startsWith('PANIC');
-      const isWarn = fl.text.startsWith('4') || fl.text.startsWith('WARN');
-      const col    = isErr  ? `rgba(180,255,80,${fl.alpha})`
-                   : isWarn ? `rgba(140,255,100,${fl.alpha})`
-                   :          `rgba(60,220,80,${fl.alpha})`;
-      ctx.fillStyle = col;
-      ctx.fillText(fl.text, fl.x, fl.y);
-    }
-
-    // ── 偶发水平扫描线 ──────────────────────────────────────
-    if (Math.random() < 0.003) {
+    // ── 扫描线光晕（微妙）──────────────────────────────────
+    if (Math.random() < 0.008) {
       const sy = Math.random() * H;
-      const gr = ctx.createLinearGradient(0, sy - 2, 0, sy + 2);
-      gr.addColorStop(0,   'rgba(0,255,80,0)');
-      gr.addColorStop(0.5, 'rgba(0,255,80,0.07)');
-      gr.addColorStop(1,   'rgba(0,255,80,0)');
+      const gr = ctx.createLinearGradient(0, sy-1, 0, sy+1);
+      gr.addColorStop(0,   'rgba(137,180,250,0)');
+      gr.addColorStop(0.5, 'rgba(137,180,250,0.06)');
+      gr.addColorStop(1,   'rgba(137,180,250,0)');
       ctx.fillStyle = gr;
-      ctx.fillRect(0, sy - 2, W, 4);
+      ctx.fillRect(0, sy-1, W, 2);
     }
+
+    // ── 光标闪烁（最新一行末尾）──────────────────────────
+    const lastR = rendered[rendered.length - 1];
+    if (lastR) {
+      const cursorY = lastR.y - scrollY;
+      if (cursorY > 0 && cursorY < H) {
+        const blink = Math.sin(ts * 0.005) > 0;
+        if (blink) {
+          const lastItem = POOL[lastR.poolIdx];
+          let cx = MARGIN_L;
+          if (lastItem && lastItem.parts) {
+            ctx.font = FONT_MONO;
+            for (const p of lastItem.parts) cx += ctx.measureText(p.text).width;
+          }
+          ctx.fillStyle = C.prompt;
+          ctx.fillRect(cx + 2, cursorY - 13, 7, 14);
+        }
+      }
+    }
+
+    // ── 顶部渐变遮罩（优雅淡出顶部内容）─────────────────
+    const topMask = ctx.createLinearGradient(0, 0, 0, 80);
+    topMask.addColorStop(0,   C.bg);
+    topMask.addColorStop(1,   'rgba(10,12,16,0)');
+    ctx.fillStyle = topMask;
+    ctx.fillRect(0, 0, W, 80);
+
+    // ── 底部渐变遮罩 ──────────────────────────────────────
+    const botMask = ctx.createLinearGradient(0, H-60, 0, H);
+    botMask.addColorStop(0,   'rgba(10,12,16,0)');
+    botMask.addColorStop(1,   C.bg);
+    ctx.fillStyle = botMask;
+    ctx.fillRect(0, H-60, W, 60);
 
     if (elapsed < STREAM_DURATION) {
       datastreamRaf = requestAnimationFrame(drawFrame);
