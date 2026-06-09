@@ -350,8 +350,6 @@ function initAvatar() {
     coreUni.uTime.value   = t;
     coreUni.uSpeak.value  = spk;
     coreUni.uGlitch.value = gl;
-    halUni.uTime.value    = t;
-    halUni.uSpeak.value   = spk;
     spkUni.uTime.value    = t;
     spkUni.uSpeak.value   = spk;
     gndUni.uTime.value    = t;
@@ -361,9 +359,7 @@ function initAvatar() {
     corePts.rotation.y += dt * (0.032 + spk * 0.08);
     corePts.rotation.x += dt * (0.018 + spk * 0.04);
     corePts.rotation.z  = 0.12 * Math.sin(t * 0.09) + 0.06 * Math.sin(t * 0.23);
-    halPts.rotation.y   = corePts.rotation.y * 0.78;
-    halPts.rotation.x   = corePts.rotation.x * 0.65;
-    halPts.rotation.z   = corePts.rotation.z * 0.70;
+
     spkPts.rotation.y  += dt * (0.048 + spk * 0.10);
     spkPts.rotation.x  += dt * 0.022;
     spkPts.rotation.z   = 0.09 * Math.sin(t * 0.13 + 1.2);
