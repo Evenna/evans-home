@@ -49,8 +49,8 @@ function initAvatar() {
     c.getContext('2d').fillRect(0, 0, res, res);
     return new THREE.CanvasTexture(c);
   }
-  // 清晰圆点：硬边，几乎不模糊
-  const ptTex  = makeTex(32, [[0,1],[0.55,1],[0.75,0.6],[0.90,0.1],[1,0]]);
+  // 硬边圆点：无模糊，清晰实心点
+  const ptTex  = makeTex(32, [[0,1],[0.82,1],[0.83,0],[1,0]]);
   const halTex = makeTex(64, [[0,0.7],[0.30,0.3],[0.60,0.05],[1,0]]);
   // 火花纹理：细长（用矩形canvas模拟）
   const spkTex  = (() => {
