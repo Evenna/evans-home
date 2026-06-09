@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- 阶段一：全屏黑 · 粒子球 + 底部逐行文字 -->
+  <!-- 阶段一：全屏黑 · 粒子球 -->
   <div id="stage1">
     <canvas id="avatar-canvas"></canvas>
     <div id="intro-text">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <!-- 科技 HUD 叠层（始终在 stage1 上方） -->
+  <!-- HUD：四角bracket -->
   <div id="hud-corners">
     <div class="hud-corner tl"></div>
     <div class="hud-corner tr"></div>
@@ -25,58 +25,55 @@
     <div class="hud-corner br"></div>
   </div>
 
+  <!-- HUD：顶部信息条 -->
   <div id="hud-header">
     <div class="hud-header-left">
       <div class="hud-dot"></div>
-      <span>EVANS · SYSTEM</span>
-      <span>SYS-4A2F</span>
+      <span>EVANS SYS</span>
+      <span>·</span>
+      <span>4A2F</span>
     </div>
     <div class="hud-header-center">E V A N S</div>
     <div class="hud-header-right">
       <span id="hud-clock">--:--:--</span>
+      <span>·</span>
       <span>ONLINE</span>
       <div class="hud-dot"></div>
     </div>
   </div>
 
-  <div id="hud-left">
-    <div class="hud-item">
-      <div class="hud-item-label">ARCHIVE</div>
-      <div class="hud-item-value">15 / 15</div>
-      <div class="hud-item-bar" style="--pct:100%"></div>
-    </div>
-    <div class="hud-item">
-      <div class="hud-item-label">SYNC</div>
-      <div class="hud-item-value" id="hud-sync">98.4%</div>
-      <div class="hud-item-bar" style="--pct:98%"></div>
-    </div>
-    <div class="hud-item">
-      <div class="hud-item-label">MEMORY</div>
-      <div class="hud-item-value">7.2 GB</div>
-      <div class="hud-item-bar" style="--pct:72%"></div>
-    </div>
+  <!-- HUD：浮动数据卡 -->
+  <div id="hud-card-1" class="hud-card">
+    <div class="hud-card-label">ARCHIVE</div>
+    <div class="hud-card-value">15</div>
+    <div class="hud-card-sub">RECORDS TOTAL</div>
+    <div class="hud-card-bar" style="--pct:100%"></div>
   </div>
 
-  <div id="hud-right">
-    <div class="hud-item">
-      <div class="hud-item-label">USERS</div>
-      <div class="hud-item-value" id="hud-users">1</div>
-      <div class="hud-item-bar" style="--pct:20%"></div>
-    </div>
-    <div class="hud-item">
-      <div class="hud-item-label">STATUS</div>
-      <div class="hud-item-value">ACTIVE</div>
-      <div class="hud-item-bar" style="--pct:100%"></div>
-    </div>
-    <div class="hud-item">
-      <div class="hud-item-label">UPTIME</div>
-      <div class="hud-item-value" id="hud-uptime">00:00</div>
-      <div class="hud-item-bar" style="--pct:30%"></div>
-    </div>
+  <div id="hud-card-2" class="hud-card">
+    <div class="hud-card-label">UPTIME</div>
+    <div class="hud-card-value" id="hud-uptime">00:00</div>
+    <div class="hud-card-sub">SESSION ACTIVE</div>
+    <div class="hud-card-bar" style="--pct:40%"></div>
   </div>
 
+  <div id="hud-card-3" class="hud-card">
+    <div class="hud-card-label">STATUS</div>
+    <div class="hud-card-value">OK</div>
+    <div class="hud-card-sub">ALL SYSTEMS</div>
+    <div class="hud-card-bar" style="--pct:100%"></div>
+  </div>
+
+  <div id="hud-card-4" class="hud-card">
+    <div class="hud-card-label">SYNC</div>
+    <div class="hud-card-value" id="hud-sync">98.4</div>
+    <div class="hud-card-sub">PERCENT</div>
+    <div class="hud-card-bar" style="--pct:98%"></div>
+  </div>
+
+  <!-- HUD：底部状态条 -->
   <div id="hud-footer">
-    <div class="hud-footer-text">NEURAL INTERFACE v4.2 · PRIVATE ACCESS</div>
+    <div class="hud-footer-text">NEURAL INTERFACE v4.2 · PRIVATE</div>
     <div class="hud-footer-text">EXHIBITION MODE · READ ONLY</div>
   </div>
 
@@ -96,6 +93,6 @@
     </div>
   </div>
 
-  <script type="module" src="main.v21.js"></script>
+  <script type="module" src="main.v22.js"></script>
 </body>
 </html>
