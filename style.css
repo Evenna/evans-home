@@ -298,5 +298,184 @@ html, body {
 
 @keyframes breathe {
   0%, 100% { opacity: 0.15; }
-  50%       { opacity: 0.8; }
+  50%       { opacity: 0.8;  }
+}
+
+/* ============================================================
+   科技 UI 叠层（Stage 1 上方）
+   ============================================================ */
+
+/* 四角 bracket 装饰 */
+#hud-corners {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+#hud-corners.visible { opacity: 1; }
+
+.hud-corner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+}
+.hud-corner::before,
+.hud-corner::after {
+  content: '';
+  position: absolute;
+  background: var(--cyan);
+  opacity: 0.55;
+}
+/* 每个角：两条线 */
+.hud-corner.tl { top: 28px; left: 28px; }
+.hud-corner.tr { top: 28px; right: 28px; transform: scaleX(-1); }
+.hud-corner.bl { bottom: 28px; left: 28px; transform: scaleY(-1); }
+.hud-corner.br { bottom: 28px; right: 28px; transform: scale(-1); }
+
+.hud-corner::before { width: 100%; height: 1px; top: 0; left: 0; }
+.hud-corner::after  { width: 1px; height: 100%; top: 0; left: 0; }
+
+/* 顶部信息条 */
+#hud-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 44px;
+  z-index: 106;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.3s;
+  border-bottom: 0.5px solid rgba(106,184,160,0.12);
+}
+#hud-header.visible { opacity: 1; }
+
+.hud-header-left,
+.hud-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(106,184,160,0.55);
+}
+.hud-header-center {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: rgba(200,169,110,0.7);
+}
+.hud-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.6;
+  animation: hud-pulse 2.4s ease-in-out infinite;
+}
+@keyframes hud-pulse {
+  0%,100% { opacity: 0.3; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.4); }
+}
+
+/* 左侧竖向信息列 */
+#hud-left {
+  position: fixed;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 105;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.5s;
+}
+#hud-left.visible { opacity: 1; }
+
+/* 右侧竖向信息列 */
+#hud-right {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 105;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.5s;
+}
+#hud-right.visible { opacity: 1; }
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.hud-item-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba(106,184,160,0.4);
+  text-transform: uppercase;
+}
+.hud-item-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(106,184,160,0.75);
+}
+.hud-item-bar {
+  width: 80px;
+  height: 1px;
+  background: rgba(106,184,160,0.12);
+  position: relative;
+  margin-top: 3px;
+}
+.hud-item-bar::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; height: 100%;
+  background: rgba(106,184,160,0.5);
+  width: var(--pct, 60%);
+  transition: width 2s ease;
+}
+/* 右侧bar从右往左 */
+.hud-right .hud-item-bar { direction: rtl; }
+
+/* 底部状态条 */
+#hud-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 38px;
+  z-index: 106;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.3s;
+  border-top: 0.5px solid rgba(106,184,160,0.10);
+}
+#hud-footer.visible { opacity: 1; }
+.hud-footer-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: rgba(106,184,160,0.30);
+}
+#hud-clock {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(200,169,110,0.45);
 }
