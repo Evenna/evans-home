@@ -611,7 +611,8 @@ function enterDatastream() {
   // ── 终端行队列 ─────────────────────────────────────────
   // 每行是 HTML 字符串
   function c(color, text) {
-    return `<span style="color:${color}">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`;
+    const s = String(text);
+    return `<span style="color:${color}">${s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`;
   }
   function dim(t)    { return c(C.dim,    t); }
   function wh(t)     { return c(C.white,  t); }
