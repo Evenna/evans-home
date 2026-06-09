@@ -562,343 +562,270 @@ let datastreamRaf = null;
 
 function enterDatastream() {
   const layer  = document.getElementById('datastream-layer');
+
+  // ── 用 DOM 而非 canvas，全屏终端 ──────────────────────────
+  // canvas 隐藏，改用 div 全屏覆盖
   const canvas = document.getElementById('datastream-canvas');
-  const ctx    = canvas.getContext('2d');
+  canvas.style.display = 'none';
 
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const W = window.innerWidth;
-  const H = window.innerHeight;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
-  canvas.width  = Math.round(W * dpr);
-  canvas.height = Math.round(H * dpr);
-  ctx.scale(dpr, dpr);
+  // 创建全屏终端容器
+  const term = document.createElement('div');
+  term.id = 'term-fullscreen';
+  term.style.cssText = `
+    position:fixed; inset:0; z-index:200;
+    background:#0a0c10;
+    font-family:"JetBrains Mono","Fira Code","Courier New",monospace;
+    font-size:13px; line-height:20px;
+    padding: 24px 52px 24px 52px;
+    box-sizing:border-box;
+    overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    opacity:0; transition: opacity 0.4s ease;
+  `;
 
-  // ── 终端配色 ────────────────────────────────────────────────
+  // 内容区（行从这里 append，超出自动被上方裁掉）
+  const termInner = document.createElement('div');
+  termInner.style.cssText = `
+    display:flex; flex-direction:column; gap:0;
+    width:100%;
+  `;
+  term.appendChild(termInner);
+  layer.appendChild(term);
+
+  // ── 配色（Catppuccin Mocha 风格） ──────────────────────
   const C = {
-    bg:      '#0a0c10',
-    prompt:  '#e8eaf0',     // 命令提示符 / 白
-    cmd:     '#cdd6f4',     // 命令文字
-    path:    '#89b4fa',     // 路径蓝
-    ok:      '#a6e3a1',     // 成功绿
-    warn:    '#f9e2af',     // 警告黄
-    err:     '#f38ba8',     // 错误红
-    dim:     '#585b70',     // 暗灰注释
-    cyan:    '#89dceb',     // 青 INFO
-    mauve:   '#cba6f7',     // 紫 DEBUG/mem
-    num:     '#fab387',     // 数字橙
-    bar_fill:'#89b4fa',     // 进度条填充
-    bar_bg:  '#313244',     // 进度条背景
+    bg:    '#0a0c10',
+    white: '#cdd6f4',
+    dim:   '#585b70',
+    blue:  '#89b4fa',
+    green: '#a6e3a1',
+    yellow:'#f9e2af',
+    red:   '#f38ba8',
+    cyan:  '#89dceb',
+    mauve: '#cba6f7',
+    orange:'#fab387',
+    pink:  '#f5c2e7',
   };
 
-  const LINE_H    = 20;     // 每行高度 px
-  const MARGIN_L  = 48;     // 左边距
-  const FONT_MONO = `13px "JetBrains Mono", "Fira Code", monospace`;
-  const FONT_BOLD = `bold 13px "JetBrains Mono", "Fira Code", monospace`;
-  const FONT_SM   = `11px "JetBrains Mono", "Fira Code", monospace`;
-
-  // ── 终端行数据池 ─────────────────────────────────────────────
-  // 每条记录：{ type, parts, indent }
-  // type: 'cmd' | 'out' | 'err' | 'warn' | 'info' | 'debug' | 'progress' | 'blank' | 'separator'
-  // parts: [{ text, color }]
-  const rand = (a, b) => a + Math.random() * (b - a);
-  const ri   = (a, b) => Math.floor(rand(a, b));
-  const hex  = n => n.toString(16).padStart(2,'0').toUpperCase();
-  const addr = () => '0x' + Array.from({length:6},()=>hex(ri(0,256))).join('');
-  const ms   = () => (rand(0.1,120)).toFixed(1) + 'ms';
-  const kb   = () => ri(4,4096) + 'KB';
-  const ts   = () => {
-    const d = new Date();
-    return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}.${d.getMilliseconds().toString().padStart(3,'0')}`;
-  };
-
-  // 预生成一批终端行
-  const POOL = [];
-
-  function cmd(cmdStr, path='~/evans') {
-    POOL.push({ type:'cmd', parts:[
-      {text: path,                    color: C.path},
-      {text: ' $ ',                   color: C.dim},
-      {text: cmdStr,                  color: C.cmd},
-    ]});
+  // ── 终端行队列 ─────────────────────────────────────────
+  // 每行是 HTML 字符串
+  function c(color, text) {
+    return `<span style="color:${color}">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`;
   }
-  function out(...parts) {
-    POOL.push({ type:'out', parts });
+  function dim(t)    { return c(C.dim,    t); }
+  function wh(t)     { return c(C.white,  t); }
+  function bl(t)     { return c(C.blue,   t); }
+  function gr(t)     { return c(C.green,  t); }
+  function ye(t)     { return c(C.yellow, t); }
+  function re(t)     { return c(C.red,    t); }
+  function cy(t)     { return c(C.cyan,   t); }
+  function mv(t)     { return c(C.mauve,  t); }
+  function or(t)     { return c(C.orange, t); }
+
+  const ri  = (a,b) => Math.floor(a + Math.random()*(b-a));
+  const ms  = ()    => (0.1 + Math.random()*120).toFixed(1)+'ms';
+  const addr= ()    => '0x'+Array.from({length:6},()=>ri(0,256).toString(16).padStart(2,'0').toUpperCase()).join('');
+  const now = ()    => { const d=new Date(); return [d.getHours(),d.getMinutes(),d.getSeconds()].map(x=>x.toString().padStart(2,'0')).join(':') + '.' + d.getMilliseconds().toString().padStart(3,'0'); };
+
+  // 命令提示行
+  function cmdLine(path, cmd) {
+    return `<div style="margin-top:6px">${bl(path)} ${dim('$')} ${wh(cmd)}</div>`;
   }
-  function blank() { POOL.push({ type:'blank', parts:[] }); }
-  function sep() {
-    POOL.push({ type:'separator', parts:[
-      {text: '─'.repeat(64), color: C.dim},
-    ]});
+  function outLine(html) {
+    return `<div>${html}</div>`;
+  }
+  function blankLine() {
+    return `<div style="height:8px"></div>`;
+  }
+  function sepLine() {
+    return `<div>${dim('─'.repeat(80))}</div>`;
+  }
+  function progressLine(label, pct) {
+    const filled = Math.round(pct * 40);
+    const empty  = 40 - filled;
+    const bar    = `<span style="color:${C.blue}">${'█'.repeat(filled)}</span><span style="color:${C.dim}">${'░'.repeat(empty)}</span>`;
+    return `<div>${dim(label.padEnd(22))}  ${bar}  ${cy(Math.round(pct*100)+'%')}</div>`;
   }
 
-  // ── Block 1: 系统启动 ─────────────────────────────────────
-  sep();
-  out({text:'[',color:C.dim},{text:'BOOT',color:C.cyan},{text:'] ',color:C.dim},{text:'evans-core v2.4.1',color:C.prompt});
-  out({text:'[',color:C.dim},{text:'BOOT',color:C.cyan},{text:'] ',color:C.dim},{text:'initializing memory subsystem...',color:C.dim});
-  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] ',color:C.dim},{text:'heap allocated  ',color:C.dim},{text:'512MB',color:C.num});
-  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] ',color:C.dim},{text:'AES-256-GCM key loaded',color:C.dim});
-  out({text:'[',color:C.dim},{text:'WARN',color:C.warn},{text:'] ',color:C.dim},{text:'legacy auth token detected — rotating',color:C.warn});
-  blank();
+  // 构建所有行
+  const LINES = [];
 
-  // ── Block 2: npm install ──────────────────────────────────
-  cmd('npm install --legacy-peer-deps');
-  out({text:'npm ',color:C.dim},{text:'warn',color:C.warn},{text:' deprecated glob@7.2.3',color:C.dim});
-  out({text:'npm ',color:C.dim},{text:'warn',color:C.warn},{text:' deprecated inflight@1.0.6',color:C.dim});
-  out({text:'added ',color:C.dim},{text:'1,247',color:C.num},{text:' packages in ',color:C.dim},{text:'8.3s',color:C.ok});
-  POOL.push({ type:'progress', label:'installing', total:100 });
-  out({text:'',color:C.dim});
-  out({text:'✓ ',color:C.ok},{text:'node_modules ready',color:C.prompt});
-  blank();
+  const push = (html) => LINES.push(html);
 
-  // ── Block 3: 编译构建 ────────────────────────────────────
-  cmd('python3 train.py --epochs 40 --lr 3e-4 --batch 128');
-  out({text:'[',color:C.dim},{text:'INFO',color:C.cyan},{text:'] Using device: ',color:C.dim},{text:'cuda:0  (RTX 4090)',color:C.mauve});
-  out({text:'[',color:C.dim},{text:'INFO',color:C.cyan},{text:'] Loading dataset... ',color:C.dim},{text:'218,493',color:C.num},{text:' samples',color:C.dim});
-  out({text:'Epoch ',color:C.dim},{text:'1',color:C.num},{text:'/40  loss=',color:C.dim},{text:'2.4831',color:C.warn},{text:'  acc=',color:C.dim},{text:'0.312',color:C.num});
-  out({text:'Epoch ',color:C.dim},{text:'8',color:C.num},{text:'/40  loss=',color:C.dim},{text:'1.1204',color:C.warn},{text:'  acc=',color:C.dim},{text:'0.671',color:C.num});
-  POOL.push({ type:'progress', label:'epoch 16/40', total:40, val:16 });
-  out({text:'Epoch ',color:C.dim},{text:'16',color:C.num},{text:'/40  loss=',color:C.dim},{text:'0.6823',color:C.ok},{text:'  acc=',color:C.dim},{text:'0.841',color:C.ok});
-  out({text:'Epoch ',color:C.dim},{text:'32',color:C.num},{text:'/40  loss=',color:C.dim},{text:'0.3104',color:C.ok},{text:'  acc=',color:C.dim},{text:'0.934',color:C.ok});
-  POOL.push({ type:'progress', label:'epoch 40/40', total:40, val:40 });
-  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] Training complete — ',color:C.dim},{text:'final acc 94.7%',color:C.ok});
-  blank();
+  // ── Block 0: 进入前空行 ──────────────────────────────
+  push(blankLine());
+  push(sepLine());
 
-  // ── Block 4: HTTP 请求日志 ───────────────────────────────
-  cmd('tail -f /var/log/evans/access.log');
-  const methods = ['GET','POST','PUT','DELETE'];
+  // ── Block 1: 系统启动 ────────────────────────────────
+  push(outLine(`${dim('[')}${cy('BOOT')}${dim(']')} ${wh('evans-core v2.4.1  —  build #20240610')}`));
+  push(outLine(`${dim('[')}${cy('BOOT')}${dim(']')} ${dim('runtime: node/23.4.0  arch: x86_64-linux')}`));
+  push(outLine(`${dim('[')}${cy('BOOT')}${dim(']')} ${dim('initializing subsystems...')}`));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${dim('memory allocator  ')}${or('512 MB')}${dim(' reserved')}`));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${dim('AES-256-GCM keystore loaded')}`));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${dim('RSA-2048 pubkey fingerprint: ')}${mv(addr())}`));
+  push(outLine(`${dim('[')}${ye('WARN')}${dim(']')} ${ye('legacy JWT detected — rotating credentials...')}`));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${dim('token rotated  new_exp=')}${or(Math.floor(Date.now()/1000 + 3600))}`));
+  push(blankLine());
+
+  // ── Block 2: npm install ─────────────────────────────
+  push(cmdLine('~/evans', 'npm install --legacy-peer-deps'));
+  push(outLine(`${dim('npm')} ${ye('warn')} ${dim('deprecated')} ${wh('glob@7.2.3')} ${dim('→')} ${bl('glob@10')}`));
+  push(outLine(`${dim('npm')} ${ye('warn')} ${dim('deprecated')} ${wh('inflight@1.0.6')} ${dim('(unresolved)')}`));
+  push(outLine(`${dim('npm')} ${ye('warn')} ${dim('deprecated')} ${wh('rimraf@2.7.1')} ${dim('→')} ${bl('rimraf@4')}`));
+  push(progressLine('resolving deps', 0.25));
+  push(progressLine('resolving deps', 0.55));
+  push(progressLine('resolving deps', 0.82));
+  push(progressLine('resolving deps', 1.00));
+  push(outLine(`${dim('added ')}${or('1,247')}${dim(' packages  •  audited ')}${or('1,251')}${dim(' packages in ')}${gr('8.3s')}`));
+  push(outLine(`${dim('found ')}${gr('0')}${dim(' vulnerabilities')}`));
+  push(outLine(`${gr('✓')} ${wh('node_modules ready')}`));
+  push(blankLine());
+
+  // ── Block 3: 模型训练 ────────────────────────────────
+  push(cmdLine('~/evans', 'python3 train.py --epochs 40 --lr 3e-4 --batch 128 --amp'));
+  push(outLine(`${dim('[')}${cy('INFO')}${dim(']')} ${dim('device: ')}${mv('cuda:0')}${dim('  (NVIDIA RTX 4090  24576 MB)')}`));
+  push(outLine(`${dim('[')}${cy('INFO')}${dim(']')} ${dim('dataset: ')}${or('218,493')}${dim(' samples  •  val: ')}${or('12,847')}`));
+  push(outLine(`${dim('[')}${cy('INFO')}${dim(']')} ${dim('mixed precision AMP enabled')}`));
+  push(outLine(dim('training...')));
+  push(outLine(`${dim('Epoch ')}${or('01')}${dim('/40  ')}${dim('loss=')}${ye('2.4831')}${dim('  acc=')}${or('31.2%')}${dim('  lr=')}${bl('3.00e-4')}${dim('  ')}${or('14.2s/ep')}`));
+  push(progressLine('epoch  1/40', 1/40));
+  push(outLine(`${dim('Epoch ')}${or('04')}${dim('/40  ')}${dim('loss=')}${ye('1.8204')}${dim('  acc=')}${or('52.7%')}${dim('  lr=')}${bl('2.81e-4')}${dim('  ')}${or('13.9s/ep')}`));
+  push(outLine(`${dim('Epoch ')}${or('08')}${dim('/40  ')}${dim('loss=')}${ye('1.1104')}${dim('  acc=')}${or('67.1%')}${dim('  lr=')}${bl('2.60e-4')}`));
+  push(progressLine('epoch  8/40', 8/40));
+  push(outLine(`${dim('Epoch ')}${or('16')}${dim('/40  ')}${dim('loss=')}${gr('0.6823')}${dim('  acc=')}${gr('84.1%')}${dim('  lr=')}${bl('2.18e-4')}`));
+  push(progressLine('epoch 16/40', 16/40));
+  push(outLine(`${dim('Epoch ')}${or('24')}${dim('/40  ')}${dim('loss=')}${gr('0.4412')}${dim('  acc=')}${gr('90.6%')}${dim('  lr=')}${bl('1.76e-4')}`));
+  push(progressLine('epoch 24/40', 24/40));
+  push(outLine(`${dim('Epoch ')}${or('32')}${dim('/40  ')}${dim('loss=')}${gr('0.3104')}${dim('  acc=')}${gr('93.4%')}${dim('  lr=')}${bl('1.35e-4')}`));
+  push(progressLine('epoch 32/40', 32/40));
+  push(outLine(`${dim('Epoch ')}${or('40')}${dim('/40  ')}${dim('loss=')}${gr('0.2317')}${dim('  acc=')}${gr('94.7%')}${dim('  lr=')}${bl('1.00e-4')}`));
+  push(progressLine('epoch 40/40', 1.0));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${gr('training complete')}  ${dim('best_acc=')}${gr('94.7%')}  ${dim('checkpoint saved')}`));
+  push(blankLine());
+
+  // ── Block 4: HTTP 访问日志 ───────────────────────────
+  push(cmdLine('~/evans', 'tail -f /var/log/evans/access.log'));
+  const methods = ['GET','POST','PUT','DELETE','PATCH'];
   const routes  = [
     '/api/v2/archive/scenes','/api/v2/memory/diff',
-    '/api/v2/auth/verify','/static/scene_s07.enc',
-    '/admin/export','/api/v2/stream/live',
+    '/api/v2/auth/verify',  '/static/scene_s07.enc',
+    '/admin/export',        '/api/v2/stream/live',
     '/api/v2/archive/unlock','/internal/gc',
+    '/api/v2/user/0xe8f2a1','/api/v2/delta/push',
   ];
-  const codes = [[200,8],[201,2],[204,1],[304,3],[400,1],[401,2],[404,1],[500,1],[502,1]];
-  for (let i=0; i<18; i++) {
-    const m = methods[ri(0,methods.length)];
-    const r = routes[ri(0,routes.length)];
-    let code, cw=0, pick=Math.random()*20;
-    for(const [c,w] of codes){ cw+=w; if(pick<cw){code=c;break;} }
-    code = code||200;
-    const codeColor = code<300?C.ok : code<400?C.cyan : code<500?C.warn : C.err;
-    out(
-      {text: ts()+'  ',  color: C.dim},
-      {text: code.toString()+'  ', color: codeColor},
-      {text: m.padEnd(7), color: C.mauve},
-      {text: r.padEnd(36),color: C.cmd},
-      {text: ms(),        color: C.num},
-    );
+  const codePool = [200,200,200,200,201,204,304,304,400,401,404,500,502];
+  for (let i=0; i<22; i++) {
+    const m    = methods[ri(0,methods.length)];
+    const r    = routes[ri(0,routes.length)];
+    const code = codePool[ri(0,codePool.length)];
+    const cc   = code<300 ? C.green : code<400 ? C.cyan : code<500 ? C.yellow : C.red;
+    const mc   = m==='GET'?C.blue:m==='POST'?C.green:m==='DELETE'?C.red:C.mauve;
+    push(outLine(
+      `${dim(now()+'  ')}` +
+      `<span style="color:${cc};min-width:3ch;display:inline-block">${code}</span>  ` +
+      `<span style="color:${mc};display:inline-block;min-width:7ch">${m}</span>` +
+      `<span style="color:${C.white}">${r.padEnd(38)}</span>` +
+      `${c(C.orange, ms())}`
+    ));
   }
-  blank();
+  push(blankLine());
 
-  // ── Block 5: 内存 / GC ──────────────────────────────────
-  cmd('evans-inspect --mem --gc-trace');
-  out({text:'heap_used:    ',color:C.dim},{text:'347.2 MB',color:C.num},{text:' / 512 MB',color:C.dim});
-  out({text:'heap_total:   ',color:C.dim},{text:'512.0 MB',color:C.num});
-  out({text:'external:     ',color:C.dim},{text:' 18.4 MB',color:C.num});
-  out({text:'rss:          ',color:C.dim},{text:'641.7 MB',color:C.num});
-  out({text:'GC minor  #',color:C.dim},{text:'1042',color:C.mauve},{text:'  freed ',color:C.dim},{text:'2.1MB',color:C.ok},{text:'  '+ms(),color:C.dim});
-  out({text:'GC major  #',color:C.dim},{text:' 38',color:C.mauve},{text:'  freed ',color:C.dim},{text:'84MB ',color:C.ok},{text:'  '+ms(),color:C.dim});
-  out({text:'[',color:C.dim},{text:'WARN',color:C.warn},{text:'] heap pressure HIGH — triggering compaction',color:C.warn});
-  POOL.push({ type:'progress', label:'GC compaction', total:100 });
-  out({text:'[',color:C.dim},{text:' OK ',color:C.ok},{text:'] compaction done  freed ',color:C.dim},{text:'128MB',color:C.ok});
-  blank();
+  // ── Block 5: 内存 / GC ──────────────────────────────
+  push(cmdLine('~/evans', 'evans-inspect --mem --gc-trace --verbose'));
+  push(outLine(`  ${dim('heap_used    ')}  ${or('347.2 MB')}  ${dim('/ 512 MB')}  ${ye('[67.8%]')}`));
+  push(outLine(`  ${dim('heap_total   ')}  ${or('512.0 MB')}`));
+  push(outLine(`  ${dim('external     ')}  ${or(' 18.4 MB')}`));
+  push(outLine(`  ${dim('rss          ')}  ${or('641.7 MB')}`));
+  push(outLine(`  ${dim('array_bufs   ')}  ${or('  4.1 MB')}`));
+  push(blankLine());
+  push(outLine(`  ${dim('GC minor  #')}${mv('1042')}  ${dim('freed ')}${gr('2.1 MB')}  ${dim(ms())}`));
+  push(outLine(`  ${dim('GC minor  #')}${mv('1043')}  ${dim('freed ')}${gr('1.8 MB')}  ${dim(ms())}`));
+  push(outLine(`  ${dim('GC major  #')}${mv('  38')}  ${dim('freed ')}${gr('84 MB ')}  ${dim(ms())}`));
+  push(outLine(`${dim('[')}${ye('WARN')}${dim(']')} ${ye('heap pressure HIGH  (87.3%)  — triggering compaction')}`));
+  push(progressLine('GC compaction', 0.33));
+  push(progressLine('GC compaction', 0.71));
+  push(progressLine('GC compaction', 1.00));
+  push(outLine(`${dim('[')}${gr(' OK ')}${dim(']')} ${dim('compaction done  freed ')}${gr('128 MB')}${dim('  in ')}${or(ms())}`));
+  push(blankLine());
 
-  // ── Block 6: 加密 / 签名 ────────────────────────────────
-  cmd('openssl rsautl -verify -in sig.bin -pubin -inkey pub.pem | xxd | head');
-  out({text:'00000000: ',color:C.dim},{text:'3082 0122 300d 0609 2a86 4886 f70d 0101',color:C.mauve});
-  out({text:'00000010: ',color:C.dim},{text:'0105 0003 8201 0f00 3082 010a 0282 0101',color:C.mauve});
-  out({text:'RSA-2048 signature valid',color:C.ok});
-  out({text:'digest: ',color:C.dim},{text:'SHA-256',color:C.cyan},{text:'  hash: ',color:C.dim},{text:addr(),color:C.num});
-  blank();
+  // ── Block 6: 加密验证 ────────────────────────────────
+  push(cmdLine('~/evans', 'openssl dgst -sha256 -verify pub.pem -signature sig.bin archive.enc'));
+  push(outLine(`${dim('Verified OK')}  →  ${gr('SHA-256 match')}`));
+  push(outLine(`${dim('digest   ')}${cy('SHA-256')}  ${dim('hash: ')}${mv(addr())}`));
+  push(outLine(`${dim('RSA-2048 signature ')}${gr('VALID')}  ${dim('issuer: evans-keyserver-01')}`));
+  push(outLine(`${dim('not_before: ')}${or('2024-01-01T00:00:00Z')}  ${dim('not_after: ')}${or('2025-01-01T00:00:00Z')}`));
+  push(blankLine());
 
-  // ── Block 7: evans 内部系统 ──────────────────────────────
-  sep();
-  out({text:'[EVANS] ',color:C.mauve},{text:'archive.unlock triggered',color:C.prompt});
-  out({text:'[EVANS] ',color:C.mauve},{text:'decrypting scene index... ',color:C.dim});
-  POOL.push({ type:'progress', label:'decrypting', total:100 });
-  out({text:'[EVANS] ',color:C.mauve},{text:'15 scenes loaded  (',color:C.dim},{text:'S01–S15',color:C.cyan},{text:')',color:C.dim});
-  out({text:'[EVANS] ',color:C.mauve},{text:'WARNING: scene S15 marked ',color:C.warn},{text:'RESTRICTED',color:C.err});
-  out({text:'[EVANS] ',color:C.mauve},{text:'passing control to user... done.',color:C.ok});
-  sep();
-  blank();
+  // ── Block 7: evans 解锁 ──────────────────────────────
+  push(sepLine());
+  push(outLine(`${mv('[EVANS]')} ${wh('archive.unlock(0xF) triggered')}`));
+  push(outLine(`${mv('[EVANS]')} ${dim('fetching scene index from keystore...')}`));
+  push(progressLine('decrypting scenes', 0.20));
+  push(progressLine('decrypting scenes', 0.55));
+  push(progressLine('decrypting scenes', 0.90));
+  push(progressLine('decrypting scenes', 1.00));
+  push(outLine(`${mv('[EVANS]')} ${dim('15 scenes decrypted  ')}${cy('S01')}${dim('–')}${cy('S15')}`));
+  push(outLine(`${mv('[EVANS]')} ${dim('scene index rebuilt  records=')}${or('15')}  ${dim('size=')}${or('40.2 KB')}`));
+  push(outLine(`${mv('[EVANS]')} ${ye('WARNING')}${dim(': scene ')}${re('S15')}${dim(' flagged ')}${re('RESTRICTED')}${dim(' — access logged')}`));
+  push(outLine(`${mv('[EVANS]')} ${gr('passing control to viewer...')}  ${dim('done.')}`));
+  push(sepLine());
+  push(blankLine());
 
-  // ── 滚动状态 ─────────────────────────────────────────────
-  let scrollY   = -H;          // 当前视口顶部在"文档"中的Y坐标（负=屏幕外）
-  let lineIndex = 0;           // 下一条待"打印"的行
-  const rendered = [];         // 已渲染行 {y, parts, type, drawn, progress?}
-  let printTimer  = 0;         // 每N帧打印一行
-  const PRINT_INTERVAL = 4;    // 每4帧打印1行（快速感）
-  let startTime = null;
-  const STREAM_DURATION = 11000;
+  // ── 逐行打印，推入 DOM，超出自动上滚 ─────────────────
+  let lineIdx = 0;
+  const TOTAL  = LINES.length;
+  // 每行间隔 ms（越小越快）— 模拟真实终端吐字速度
+  // 不同 block 有不同节奏，用队列调度
+  const DELAYS = [];
+  for (let i=0; i<TOTAL; i++) {
+    const html = LINES[i];
+    // blank / sep 快，progress 较快，cmd 前停顿
+    if (html.includes('term-cmd-marker') || html.includes('$ ')) DELAYS.push(160);
+    else if (html.includes('height:8px') || html.includes('─')) DELAYS.push(40);
+    else if (html.includes('░') || html.includes('█')) DELAYS.push(90);
+    else DELAYS.push(55 + Math.random()*60);
+  }
 
-  // ── 绘帧 ─────────────────────────────────────────────────
-  function drawFrame(ts) {
-    if (!startTime) startTime = ts;
-    const elapsed  = ts - startTime;
-    const progress = Math.min(elapsed / STREAM_DURATION, 1);
+  let totalElapsed = 0;
+  const STREAM_DURATION = 12000;
+  let allDone = false;
 
-    // 黑底清屏（不拖尾——这是终端，不是字符雨）
-    ctx.fillStyle = C.bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // 每帧向下滚动（模拟终端输出滚动）
-    scrollY += 1.6;
-
-    // 定期追加新行
-    printTimer++;
-    if (printTimer >= PRINT_INTERVAL && lineIndex < POOL.length) {
-      rendered.push({
-        poolIdx: lineIndex,
-        y: scrollY + H,        // 新行总在当前视口底部以下
-        drawn: false,
-      });
-      lineIndex++;
-      printTimer = 0;
+  function printNext() {
+    if (lineIdx >= TOTAL) { allDone = true; return; }
+    const div = document.createElement('div');
+    div.innerHTML = LINES[lineIdx];
+    // 新行追加到底部
+    termInner.appendChild(div);
+    // 限制 DOM 行数（防止内存炸），保留最近 120 行
+    while (termInner.children.length > 120) {
+      termInner.removeChild(termInner.firstChild);
     }
-
-    // 绘制所有行
-    for (const r of rendered) {
-      const lineY = r.y - scrollY;   // 屏幕坐标
-      if (lineY < -LINE_H || lineY > H + LINE_H) continue;
-
-      const item = POOL[r.poolIdx];
-      if (!item) continue;
-
-      if (item.type === 'blank') continue;
-
-      if (item.type === 'separator') {
-        ctx.font = FONT_SM;
-        ctx.fillStyle = C.dim;
-        ctx.fillText(item.parts[0].text, MARGIN_L, lineY);
-        continue;
-      }
-
-      if (item.type === 'progress') {
-        // 进度条动画
-        if (!r.progStart) r.progStart = ts;
-        const pd = Math.min((ts - r.progStart) / 1200, 1);
-        const totalVal = item.total || 100;
-        const curVal   = item.val ? item.val : Math.round(pd * totalVal);
-        const pct = Math.min(curVal / totalVal, 1);
-        const barW = Math.round(W * 0.38);
-        const barH = 4;
-        const bx   = MARGIN_L + 140;
-        const by   = lineY - 11;
-        // label
-        ctx.font = FONT_SM;
-        ctx.fillStyle = C.dim;
-        ctx.fillText(item.label, MARGIN_L, lineY);
-        // bg track
-        ctx.fillStyle = C.bar_bg;
-        ctx.beginPath();
-        ctx.roundRect(bx, by, barW, barH, 2);
-        ctx.fill();
-        // fill
-        if (pct > 0) {
-          const grad = ctx.createLinearGradient(bx, 0, bx + barW, 0);
-          grad.addColorStop(0,   '#89b4fa');
-          grad.addColorStop(0.5, '#cba6f7');
-          grad.addColorStop(1,   '#89dceb');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.roundRect(bx, by, Math.max(4, barW * pct), barH, 2);
-          ctx.fill();
-          // glow tip
-          const tipX = bx + barW * pct;
-          const glow = ctx.createRadialGradient(tipX, by+2, 0, tipX, by+2, 10);
-          glow.addColorStop(0,   'rgba(137,220,235,0.6)');
-          glow.addColorStop(1,   'rgba(137,220,235,0)');
-          ctx.fillStyle = glow;
-          ctx.beginPath();
-          ctx.arc(tipX, by+2, 10, 0, Math.PI*2);
-          ctx.fill();
-        }
-        // pct text
-        ctx.font = FONT_SM;
-        ctx.fillStyle = C.cyan;
-        ctx.textAlign = 'right';
-        ctx.fillText(Math.round(pct*100)+'%', bx + barW + 36, lineY);
-        ctx.textAlign = 'left';
-        continue;
-      }
-
-      // 普通行：逐 part 渲染
-      let x = MARGIN_L;
-      // cmd 行：左侧竖线装饰
-      if (item.type === 'cmd') {
-        ctx.fillStyle = C.path;
-        ctx.fillRect(MARGIN_L - 12, lineY - 13, 2, 15);
-      }
-      ctx.font = item.type === 'cmd' ? FONT_BOLD : FONT_MONO;
-      for (const part of item.parts) {
-        ctx.fillStyle = part.color;
-        ctx.fillText(part.text, x, lineY);
-        x += ctx.measureText(part.text).width;
-      }
-      // err 行：左侧红色竖线
-      if (item.type === 'err') {
-        ctx.fillStyle = C.err;
-        ctx.fillRect(MARGIN_L - 12, lineY - 13, 2, 15);
-      }
-    }
-
-    // ── 扫描线光晕（微妙）──────────────────────────────────
-    if (Math.random() < 0.008) {
-      const sy = Math.random() * H;
-      const gr = ctx.createLinearGradient(0, sy-1, 0, sy+1);
-      gr.addColorStop(0,   'rgba(137,180,250,0)');
-      gr.addColorStop(0.5, 'rgba(137,180,250,0.06)');
-      gr.addColorStop(1,   'rgba(137,180,250,0)');
-      ctx.fillStyle = gr;
-      ctx.fillRect(0, sy-1, W, 2);
-    }
-
-    // ── 光标闪烁（最新一行末尾）──────────────────────────
-    const lastR = rendered[rendered.length - 1];
-    if (lastR) {
-      const cursorY = lastR.y - scrollY;
-      if (cursorY > 0 && cursorY < H) {
-        const blink = Math.sin(ts * 0.005) > 0;
-        if (blink) {
-          const lastItem = POOL[lastR.poolIdx];
-          let cx = MARGIN_L;
-          if (lastItem && lastItem.parts) {
-            ctx.font = FONT_MONO;
-            for (const p of lastItem.parts) cx += ctx.measureText(p.text).width;
-          }
-          ctx.fillStyle = C.prompt;
-          ctx.fillRect(cx + 2, cursorY - 13, 7, 14);
-        }
-      }
-    }
-
-    // ── 顶部渐变遮罩（优雅淡出顶部内容）─────────────────
-    const topMask = ctx.createLinearGradient(0, 0, 0, 80);
-    topMask.addColorStop(0,   C.bg);
-    topMask.addColorStop(1,   'rgba(10,12,16,0)');
-    ctx.fillStyle = topMask;
-    ctx.fillRect(0, 0, W, 80);
-
-    // ── 底部渐变遮罩 ──────────────────────────────────────
-    const botMask = ctx.createLinearGradient(0, H-60, 0, H);
-    botMask.addColorStop(0,   'rgba(10,12,16,0)');
-    botMask.addColorStop(1,   C.bg);
-    ctx.fillStyle = botMask;
-    ctx.fillRect(0, H-60, W, 60);
-
-    if (elapsed < STREAM_DURATION) {
-      datastreamRaf = requestAnimationFrame(drawFrame);
+    lineIdx++;
+    totalElapsed += DELAYS[lineIdx] || 60;
+    if (totalElapsed < STREAM_DURATION) {
+      setTimeout(printNext, DELAYS[lineIdx] || 60);
     } else {
-      layer.style.transition = 'opacity 0.8s ease';
-      layer.style.opacity = '0';
-      setTimeout(() => {
-        layer.style.display = 'none';
-        cancelAnimationFrame(datastreamRaf);
-      }, 900);
-      enterStage2();
+      allDone = true;
     }
   }
+
+  // 淡入 + 开始打印
+  requestAnimationFrame(() => {
+    term.style.opacity = '1';
+    setTimeout(printNext, 80);
+  });
+
+  // 定时结束
+  setTimeout(() => {
+    allDone = true;
+    term.style.transition = 'opacity 0.8s ease';
+    term.style.opacity = '0';
+    setTimeout(() => {
+      term.remove();
+      layer.style.display = 'none';
+      enterStage2();
+    }, 900);
+  }, STREAM_DURATION + 800);
 
   // stage1 淡出，HUD同步淡出
   const s1 = document.getElementById('stage1');
@@ -911,8 +838,8 @@ function enterDatastream() {
 
   // 数据流层淡入
   layer.classList.add('visible');
-  datastreamRaf = requestAnimationFrame(drawFrame);
 }
+
 
 
 // ============================================================
