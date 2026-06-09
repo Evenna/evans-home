@@ -629,7 +629,6 @@ function enterDatastream() {
   const canvas = document.getElementById('datastream-canvas');
   const ctx    = canvas.getContext('2d');
 
-  // 设置尺寸
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const W = window.innerWidth;
   const H = window.innerHeight;
@@ -639,121 +638,193 @@ function enterDatastream() {
   canvas.height = Math.round(H * dpr);
   ctx.scale(dpr, dpr);
 
-  // 列配置：更密集，列宽10px
-  const COL_W = 10;
-  const COLS = Math.floor(W / COL_W);
-  const drops = Array.from({ length: COLS }, () => Math.random() * -H / COL_W);
+  // ── 配置 ────────────────────────────────────────────────────
+  const COL_W  = 14;   // 列宽
+  const COLS   = Math.floor(W / COL_W);
+  const FONT_H = 14;   // 行高
 
-  // 字符池：二进制+十六进制+日文片假名+符号，密集感
-  const CHARS = '01010110100111001101001011001011アイウエカキクケコサシスセタチツテナニ{}[]<>=!&|^~#$%@*+-_';
-  const HEX   = '0123456789ABCDEF';
-  const CODE_FRAGS = [
-    'SELECT * FROM users WHERE',  'INNER JOIN sessions ON',
-    'AES_256_GCM.decrypt(',       'SHA3_512.hash(payload',
-    'JWT.verify(token,secret)',    'RSA.sign(privKey,msg)',
-    '0xDEADBEEF 0x7FFF4A2B',      '0x00000000 nullptr',
-    'void* __ptr = malloc(',      'free(__ptr); memset(',
-    'for(;;){recv(fd,buf,',        '__asm volatile("nop")',
-    'scene_id=S07 user=e8f2',     'timestamp=1718000000',
-    '[CLASSIFIED] ACCESS:0x1',    'memory_dump offset=',
-    'KERNEL PANIC: segfault',     'syscall(SYS_read,fd,',
-    'iptables -A INPUT -j DROP',  'ssh -i ~/.ssh/id_rsa',
-    '>>> import torch; model',    'loss.backward(); opt',
-    'evans.archive.unlock()',     'scene.render(delta)',
+  // 随机字符池（Matrix风格 + ASCII）
+  const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+  const ASCII_CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*<>[]{}|\\/-+~^';
+  const HEX_CHARS    = '0123456789ABCDEF';
+  const ALL_CHARS    = MATRIX_CHARS + ASCII_CHARS;
+
+  // 真实感后端日志片段（滚动显示在某些列）
+  const LOG_LINES = [
+    '200 GET /api/v2/archive/scenes',
+    '200 POST /auth/token  12ms',
+    '304 GET /static/scene_s07.enc',
+    '401 GET /admin/dump → denied',
+    '500 INTERNAL: memory overflow',
+    'WARN  heap usage 87.3% → GC',
+    'INFO  connected user=0xe8f2a1',
+    'DEBUG checkpoint scene_id=S15',
+    'ERROR segfault @ 0x7fff4a2b',
+    'SYNC  delta=1.2ms node=0x04',
+    '>>> evans.archive.unlock(0xF)',
+    '<<< ACK 200 payload_sz=4096',
+    'JWT expired at 1718000000',
+    'RSA.verify PASS sig=0x3d8c',
+    'AES-256-GCM decrypt OK',
+    'SELECT * FROM memory LIMIT 1',
+    'PANIC: kernel read fault',
+    'BOOT sequence: stage_2 ready',
   ];
 
-  const colData = Array.from({ length: COLS }, (_, i) => ({
-    y: drops[i],
-    speed: 0.5 + Math.random() * 1.2,
-    brightness: 0.4 + Math.random() * 0.6,
-    len:  18 + Math.floor(Math.random() * 22),  // 尾迹长度
-    frag: Math.random() < 0.08 ? CODE_FRAGS[Math.floor(Math.random() * CODE_FRAGS.length)] : null,
-    fragTimer: 0,
-    hexMode: Math.random() < 0.15,  // 15%列显示十六进制块
-  }));
+  // 初始化列数据
+  const cols = Array.from({ length: COLS }, (_, i) => {
+    const type = Math.random();
+    return {
+      y:    -(Math.random() * H / FONT_H),   // 起始位置（行数）
+      speed: 0.4 + Math.random() * 1.5,
+      len:   12 + Math.floor(Math.random() * 28),
+      bright: 0.5 + Math.random() * 0.5,
+      // 列类型：70%随机字符 / 20%十六进制 / 10%日志行
+      mode:  type < 0.10 ? 'log' : type < 0.30 ? 'hex' : 'char',
+      logIdx: Math.floor(Math.random() * LOG_LINES.length),
+      logChar: 0,  // 日志列已显示到第几个字符
+    };
+  });
+
+  // 日志行叠加层（全屏宽，独立滚动）
+  // 在普通列之上，偶发完整日志行从上往下滑过
+  const floatLogs = [];
+  let logSpawnTimer = 0;
 
   let startTime = null;
-  const STREAM_DURATION = 5500; // ms 数据流持续时间，更长更震撼
+  const STREAM_DURATION = 6000;
+
+  function spawnFloatLog() {
+    floatLogs.push({
+      text: LOG_LINES[Math.floor(Math.random() * LOG_LINES.length)],
+      x: 40 + Math.random() * (W - 300),
+      y: -20,
+      speed: 0.8 + Math.random() * 1.2,
+      alpha: 0.0,
+      life: 1.0,
+    });
+  }
 
   function drawFrame(ts) {
     if (!startTime) startTime = ts;
     const elapsed = ts - startTime;
+    const progress = Math.min(elapsed / STREAM_DURATION, 1);
 
-    // 半透明背景叠加，产生拖尾
-    ctx.fillStyle = 'rgba(7, 8, 12, 0.14)';
+    // 深绿/黑背景拖尾
+    ctx.fillStyle = 'rgba(0, 4, 0, 0.15)';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.font = `10px "JetBrains Mono", monospace`;
-
+    // ── 竖列字符雨 ──────────────────────────────────────────
     for (let i = 0; i < COLS; i++) {
-      const col = colData[i];
+      const col = cols[i];
       col.y += col.speed;
+      const headY = col.y * FONT_H;
+      const x = i * COL_W + 2;
 
-      const x = i * COL_W + 4;
-      const y = col.y * COL_W;
-
-      // 代码片段行（间歇出现）
-      col.fragTimer -= col.speed;
-      if (col.fragTimer <= 0 && Math.random() < 0.003) {
-        col.frag = CODE_FRAGS[Math.floor(Math.random() * CODE_FRAGS.length)];
-        col.fragTimer = 80 + Math.random() * 60;
-      }
-
-      if (col.frag && col.fragTimer > 0) {
-        // 代码片段：亮绿白，只取当前字符
-        const alpha = Math.min(1, col.brightness * 1.1);
-        ctx.fillStyle = `rgba(180, 255, 200, ${alpha})`;
-        const ci = Math.floor((col.frag.length - 1) * (1 - col.fragTimer / 140));
-        ctx.fillText(col.frag[Math.max(0, ci)], x, y);
-      } else if (col.hexMode) {
-        // 十六进制块列：亮青色
-        ctx.fillStyle = `rgba(80, 220, 200, ${col.brightness})`;
-        ctx.fillText(HEX[Math.floor(Math.random() * 16)] + HEX[Math.floor(Math.random() * 16)], x - 2, y);
-        for (let j = 1; j < col.len; j++) {
-          const a = col.brightness * (1 - j / col.len) * 0.55;
-          ctx.fillStyle = `rgba(40, 160, 150, ${a})`;
-          ctx.fillText(HEX[Math.floor(Math.random() * 16)] + HEX[Math.floor(Math.random() * 16)], x - 2, y - j * COL_W);
-        }
-      } else {
-        // 普通字符列：头部亮白，拖尾渐暗绿
-        ctx.fillStyle = `rgba(230, 255, 240, ${col.brightness})`;
-        ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], x, y);
+      if (col.mode === 'hex') {
+        // 十六进制列：更亮的绿
+        const h1 = HEX_CHARS[Math.floor(Math.random() * 16)];
+        const h2 = HEX_CHARS[Math.floor(Math.random() * 16)];
+        // head
+        ctx.fillStyle = `rgba(180, 255, 180, ${col.bright})`;
+        ctx.font = `bold 11px "JetBrains Mono", monospace`;
+        ctx.fillText(h1 + h2, x, headY);
+        // trail
         for (let j = 1; j < col.len; j++) {
           const frac = j / col.len;
-          const alpha = col.brightness * (1 - frac) * 0.75;
-          // 颜色从亮绿渐变到深绿
-          const g = Math.floor(200 - frac * 120);
-          ctx.fillStyle = `rgba(20, ${g}, 80, ${alpha})`;
-          ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], x, y - j * COL_W);
+          const a = col.bright * (1 - frac) * 0.7;
+          const g = Math.floor(220 - frac * 160);
+          ctx.fillStyle = `rgba(0, ${g}, 40, ${a})`;
+          ctx.font = `11px "JetBrains Mono", monospace`;
+          ctx.fillText(
+            HEX_CHARS[Math.floor(Math.random() * 16)] + HEX_CHARS[Math.floor(Math.random() * 16)],
+            x, headY - j * FONT_H
+          );
+        }
+      } else if (col.mode === 'log') {
+        // 日志列：单列逐字显示日志内容（竖排）
+        const line = LOG_LINES[col.logIdx];
+        ctx.font = `10px "JetBrains Mono", monospace`;
+        // head char
+        const ci = Math.floor(col.y) % line.length;
+        const ch = line[Math.abs(ci)] || '?';
+        ctx.fillStyle = `rgba(100, 255, 120, ${col.bright})`;
+        ctx.fillText(ch, x, headY);
+        // trail
+        for (let j = 1; j < col.len; j++) {
+          const frac = j / col.len;
+          const a = col.bright * (1 - frac) * 0.6;
+          const ci2 = Math.abs(Math.floor(col.y) - j) % line.length;
+          const g = Math.floor(200 - frac * 140);
+          ctx.fillStyle = `rgba(0, ${g}, 30, ${a})`;
+          ctx.fillText(line[ci2] || ' ', x, headY - j * FONT_H);
+        }
+      } else {
+        // 随机字符列
+        const ch = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
+        // head — 近白绿，最亮
+        ctx.font = `bold 12px "JetBrains Mono", monospace`;
+        ctx.fillStyle = `rgba(220, 255, 220, ${col.bright})`;
+        ctx.fillText(ch, x, headY);
+        // trail
+        ctx.font = `12px "JetBrains Mono", monospace`;
+        for (let j = 1; j < col.len; j++) {
+          const frac = j / col.len;
+          const a = col.bright * (1 - frac) * 0.8;
+          const g = Math.floor(255 - frac * 180);
+          ctx.fillStyle = `rgba(0, ${g}, 20, ${a})`;
+          ctx.fillText(ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)], x, headY - j * FONT_H);
         }
       }
 
-      // 重置到顶
-      if (col.y * COL_W > H + col.len * COL_W) {
-        col.y = -(Math.random() * H / COL_W * 0.5);
-        col.speed = 0.5 + Math.random() * 1.2;
-        col.brightness = 0.4 + Math.random() * 0.6;
-        col.len = 18 + Math.floor(Math.random() * 22);
-        col.hexMode = Math.random() < 0.15;
-        col.frag = null;
+      // 重置
+      if (headY > H + col.len * FONT_H) {
+        col.y     = -(2 + Math.random() * H / FONT_H * 0.4);
+        col.speed = 0.4 + Math.random() * 1.5;
+        col.bright = 0.5 + Math.random() * 0.5;
+        col.len   = 12 + Math.floor(Math.random() * 28);
+        const t   = Math.random();
+        col.mode  = t < 0.10 ? 'log' : t < 0.30 ? 'hex' : 'char';
+        col.logIdx = Math.floor(Math.random() * LOG_LINES.length);
       }
     }
 
-    // 偶尔全屏闪烁扫描线（科幻感）
-    if (Math.random() < 0.004) {
-      const scanY = Math.random() * H;
-      const grad = ctx.createLinearGradient(0, scanY - 3, 0, scanY + 3);
-      grad.addColorStop(0,   'rgba(80,255,160,0)');
-      grad.addColorStop(0.5, 'rgba(80,255,160,0.06)');
-      grad.addColorStop(1,   'rgba(80,255,160,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, scanY - 3, W, 6);
+    // ── 浮动日志行（横向全宽，从上滑落） ─────────────────────
+    logSpawnTimer -= 1;
+    if (logSpawnTimer <= 0 && Math.random() < 0.04) {
+      spawnFloatLog();
+      logSpawnTimer = 30 + Math.random() * 50;
+    }
+    ctx.font = `11px "JetBrains Mono", monospace`;
+    for (let k = floatLogs.length - 1; k >= 0; k--) {
+      const fl = floatLogs[k];
+      fl.y += fl.speed;
+      fl.alpha = Math.min(0.55, fl.alpha + 0.04);
+      if (fl.y > H) { floatLogs.splice(k, 1); continue; }
+      // 颜色：状态码着色
+      const isErr  = fl.text.startsWith('5') || fl.text.startsWith('ERROR') || fl.text.startsWith('PANIC');
+      const isWarn = fl.text.startsWith('4') || fl.text.startsWith('WARN');
+      const col    = isErr  ? `rgba(180,255,80,${fl.alpha})`
+                   : isWarn ? `rgba(140,255,100,${fl.alpha})`
+                   :          `rgba(60,220,80,${fl.alpha})`;
+      ctx.fillStyle = col;
+      ctx.fillText(fl.text, fl.x, fl.y);
+    }
+
+    // ── 偶发水平扫描线 ──────────────────────────────────────
+    if (Math.random() < 0.003) {
+      const sy = Math.random() * H;
+      const gr = ctx.createLinearGradient(0, sy - 2, 0, sy + 2);
+      gr.addColorStop(0,   'rgba(0,255,80,0)');
+      gr.addColorStop(0.5, 'rgba(0,255,80,0.07)');
+      gr.addColorStop(1,   'rgba(0,255,80,0)');
+      ctx.fillStyle = gr;
+      ctx.fillRect(0, sy - 2, W, 4);
     }
 
     if (elapsed < STREAM_DURATION) {
       datastreamRaf = requestAnimationFrame(drawFrame);
     } else {
-      // 数据流结束 → 淡出并进入档案室
       layer.style.transition = 'opacity 0.8s ease';
       layer.style.opacity = '0';
       setTimeout(() => {
@@ -777,6 +848,7 @@ function enterDatastream() {
   layer.classList.add('visible');
   datastreamRaf = requestAnimationFrame(drawFrame);
 }
+
 
 // ============================================================
 // 进入阶段二（档案室）
