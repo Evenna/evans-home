@@ -482,10 +482,10 @@ async function runIntro() {
   await show(null);
 
   // ── 进入数据流过渡 ──
-  enterDatastream();
+  await enterDatastream();   // 等终端跑完再继续
 
-  // 等数据流结束 + 档案室出现后，再显示 Evans 对话
-  await sleep(6600); // 5500ms流 + 800ms淡出过渡 + 300ms余量
+  // 档案室已由 enterDatastream 内部调起，这里只加一点过渡余量
+  await sleep(400);
 
   // Evans 在档案室上的对话
   const overlay = document.getElementById('evans-overlay');
@@ -561,6 +561,7 @@ function triggerGlitch() {
 let datastreamRaf = null;
 
 function enterDatastream() {
+  return new Promise(resolve => {
   const layer  = document.getElementById('datastream-layer');
 
   // ── 用 DOM 而非 canvas，全屏终端 ──────────────────────────
@@ -824,6 +825,7 @@ function enterDatastream() {
       term.remove();
       layer.style.display = 'none';
       enterStage2();
+      resolve();   // ← 通知 runIntro 可以继续了
     }, 900);
   }, STREAM_DURATION + 800);
 
@@ -838,6 +840,7 @@ function enterDatastream() {
 
   // 数据流层淡入
   layer.classList.add('visible');
+  }); // end Promise
 }
 
 
