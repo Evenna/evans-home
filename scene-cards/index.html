@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>Evans · 场景幕间卡</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1920px; height:1080px; background:#000; font-family:'PingFang SC','Noto Sans SC',sans-serif; overflow:hidden; }
+
+.card {
+  position:absolute; inset:0;
+  background:#060608;
+  display:flex; align-items:center;
+  padding:0 140px;
+  opacity:0;
+  animation: cardIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes cardIn { to { opacity:1; } }
+
+/* 左侧竖线+编号 */
+.left {
+  display:flex; flex-direction:column; align-items:center;
+  margin-right:80px; flex-shrink:0;
+  opacity:0; animation: slideRight 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes slideRight { from{transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
+
+.vline {
+  width:2px; height:180px;
+  background:linear-gradient(to bottom, transparent, rgba(245,245,247,0.15), rgba(245,245,247,0.5), rgba(245,245,247,0.15), transparent);
+  margin-bottom:24px;
+}
+.scene-num {
+  font-size:13px; letter-spacing:0.18em; color:rgba(245,245,247,0.35);
+  writing-mode:vertical-rl; text-orientation:mixed;
+  font-weight:300;
+}
+
+/* 主内容区 */
+.main {
+  flex:1; display:flex; flex-direction:column; justify-content:center;
+}
+
+.tag {
+  display:inline-flex; align-items:center; gap:8px;
+  margin-bottom:28px;
+  opacity:0; animation: fadeUp 0.6s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.tag-dot { width:6px; height:6px; border-radius:50%; background:#0A84FF; }
+.tag-text { font-size:12px; letter-spacing:0.2em; color:#0A84FF; font-weight:400; text-transform:uppercase; }
+
+.title {
+  font-size:96px; font-weight:200; letter-spacing:0.25em;
+  color:rgba(245,245,247,0.95);
+  line-height:1;
+  margin-bottom:36px;
+  opacity:0; animation: fadeUp 0.7s 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes fadeUp { from{transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.subtitle {
+  font-size:22px; font-weight:300; letter-spacing:0.06em;
+  color:rgba(245,245,247,0.45);
+  font-style:italic;
+  margin-bottom:48px;
+  opacity:0; animation: fadeUp 0.7s 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.divider {
+  width:100%; height:1px;
+  background:linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0.04), transparent);
+  margin-bottom:28px;
+  opacity:0; animation: fadeIn 0.8s 1.0s forwards;
+}
+@keyframes fadeIn { to { opacity:1; } }
+
+.meta {
+  display:flex; align-items:center; gap:32px;
+  opacity:0; animation: fadeIn 0.8s 1.1s forwards;
+}
+.meta-item {
+  font-size:12px; letter-spacing:0.14em; color:rgba(245,245,247,0.28);
+  font-weight:300;
+}
+.meta-sep { width:1px; height:12px; background:rgba(255,255,255,0.12); }
+
+/* 右侧描述 */
+.right {
+  width:420px; flex-shrink:0; margin-left:80px;
+  display:flex; flex-direction:column; gap:20px;
+  opacity:0; animation: slideLeft 0.7s 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes slideLeft { from{transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+
+.desc-card {
+  background:linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+  border:0.5px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:20px 24px;
+  backdrop-filter:blur(40px);
+}
+.desc-label {
+  font-size:10px; letter-spacing:0.18em; color:rgba(245,245,247,0.3);
+  margin-bottom:10px; text-transform:uppercase;
+}
+.desc-text {
+  font-size:15px; line-height:1.8; color:rgba(245,245,247,0.75);
+  font-weight:300; letter-spacing:0.03em;
+}
+
+.feature-tag {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 14px; border-radius:100px;
+  background:rgba(10,132,255,0.12);
+  border:0.5px solid rgba(10,132,255,0.25);
+  font-size:11px; letter-spacing:0.12em; color:#0A84FF;
+}
+
+/* Evans logo watermark */
+.watermark {
+  position:absolute; bottom:44px; right:140px;
+  font-size:13px; letter-spacing:0.22em; color:rgba(245,245,247,0.15);
+  font-weight:300;
+  opacity:0; animation: fadeIn 1s 1.3s forwards;
+}
+</style>
+</head>
+<body>
+<!-- 由JS动态渲染 -->
+<script>
+const scenes = [
+  {
+    num: "SCENE 01",
+    tag: "家庭模式",
+    title: "归　家",
+    subtitle: "「它知道你回来了」",
+    desc: "李明推开门的那一刻，Evans已经感知到他的归来——灯光自动调暖，机器人备好热水，一切在他开口之前就已就绪。",
+    feature: "多设备联动",
+    meta: ["归家感知", "环境协同", "无指令响应"],
+    color: "#30D158"
+  },
+  {
+    num: "SCENE 02",
+    tag: "主动感知",
+    title: "一杯水",
+    subtitle: "「在你开口之前」",
+    desc: "不需要说话，不需要指令。Evans通过传感器感知状态，提前做好你需要的每一件事。",
+    feature: "端侧实时感知",
+    meta: ["生理感知", "行为预判", "静默响应"],
+    color: "#30D158"
+  },
+  {
+    num: "SCENE 03",
+    tag: "代理模式",
+    title: "深　夜",
+    subtitle: "「你在拼命，它也在」",
+    desc: "凌晨，李明已筋疲力尽。Evans悄悄接管——整理材料、起草邮件、归档待办。他什么都没做，但明早一切就绪。",
+    feature: "智能代理处理",
+    meta: ["任务代理", "疲劳感知", "后台执行"],
+    color: "#0A84FF"
+  },
+  {
+    num: "SCENE 04",
+    tag: "环境感知",
+    title: "收　手",
+    subtitle: "「完成了，你去休息」",
+    desc: "电脑合上的瞬间，灯光随之变暗。Evans已经把今晚的事情处理完了，剩下的，是属于他的安静。",
+    feature: "情境自适应",
+    meta: ["环境联动", "任务归档", "睡眠引导"],
+    color: "#30D158"
+  },
+  {
+    num: "SCENE 05",
+    tag: "情绪边界",
+    title: "沉　默",
+    subtitle: "「有些时刻，不需要回答」",
+    desc: "李明站在窗边，什么都没说。Evans的光点亮着，但它选择沉默——懂得什么时候陪着，什么时候退开。",
+    feature: "主动克制",
+    meta: ["情绪识别", "边界感知", "静默模式"],
+    color: "#FF9F0A"
+  },
+  {
+    num: "SCENE 06",
+    tag: "口述记录",
+    title: "讲故事",
+    subtitle: "「说出来，它替你留着」",
+    desc: "老人对着窗外喃喃自语，说起1967年那个夏天。Evans在听，四个麦克风阵列实时转写，每一句都被记录成文字。",
+    feature: "实时口述转写",
+    meta: ["四麦阵列", "端侧转写", "自传生成"],
+    color: "#0A84FF"
+  },
+  {
+    num: "SCENE 07",
+    tag: "家族传承",
+    title: "传　承",
+    subtitle: "「写给还没出生的人」",
+    desc: "孙女坐在卧室桌前，手机屏幕上刚刚同步了爷爷新更新的自传。她慢慢往下滑，读到1967年那个夏天，眼眶红了。",
+    feature: "跨设备家族共享",
+    meta: ["实时同步", "家族共享", "世代传递"],
+    color: "#30D158"
+  },
+  {
+    num: "SCENE 08",
+    tag: "诈骗防护",
+    title: "来　电",
+    subtitle: "「最重要的介入，是那一秒」",
+    desc: "陌生来电响起，Evans在后台完成三重核验——号码异常、话术识别、风险评估，老人从容挂断，骗子得不到那一秒。",
+    feature: "实时通话核验",
+    meta: ["号码识别", "话术分析", "风险拦截"],
+    color: "#FF9F0A"
+  },
+  {
+    num: "SCENE 09",
+    tag: "安全感知",
+    title: "跌　倒",
+    subtitle: "「它知道你摔倒了」",
+    desc: "老人独自在家，起身失重的瞬间，Evans感知到6轴加速度突变，在他开口之前已通知家人、发送位置。",
+    feature: "跌倒紧急响应",
+    meta: ["IMU感知", "异常检测", "紧急联动"],
+    color: "#FF9F0A"
+  },
+  {
+    num: "SCENE 10",
+    tag: "记忆唤起",
+    title: "陈　兰",
+    subtitle: "「它记得你以为已经忘了的人」",
+    desc: "老人捧着iPad，Evans调出了陈兰留下的录音。音箱里传来她的声音——「建国，早点睡。」老人的手指轻轻触上屏幕。",
+    feature: "情感记忆唤起",
+    meta: ["关系记忆", "时间胶囊", "声音档案"],
+    color: "#0A84FF"
+  },
+  {
+    num: "SCENE 11",
+    tag: "信息过滤",
+    title: "138 → 5",
+    subtitle: "「真正属于你的，只有5条」",
+    desc: "林涵打开电脑，138条未读消息。Evans扫描完毕，5条高亮——其余全部归档。她端起茶杯，肩膀松下来。",
+    feature: "智能信息过滤",
+    meta: ["语义分析", "优先级排序", "噪声归档"],
+    color: "#0A84FF"
+  },
+  {
+    num: "SCENE 12",
+    tag: "决策辅助",
+    title: "第三条路",
+    subtitle: "「它告诉你，你还可以怎么选」",
+    desc: "苏婷挂断电话，两个选项都让她为难。Evans呈现了第三个方案——她没想到的那一个。她转身回桌，有了方向。",
+    feature: "多维决策建议",
+    meta: ["情境分析", "方案生成", "第三视角"],
+    color: "#0A84FF"
+  }
+];
+
+const scene = scenes[0]; // 默认第一个，录制时切换
+renderScene(scene);
+
+function renderScene(s) {
+  document.body.innerHTML = `
+    <div class="card">
+      <div class="left">
+        <div class="vline"></div>
+        <div class="scene-num">${s.num}</div>
+      </div>
+      <div class="main">
+        <div class="tag">
+          <div class="tag-dot" style="background:${s.color}"></div>
+          <div class="tag-text" style="color:${s.color}">${s.tag}</div>
+        </div>
+        <div class="title">${s.title}</div>
+        <div class="subtitle">${s.subtitle}</div>
+        <div class="divider"></div>
+        <div class="meta">
+          ${s.meta.map((m,i) => `
+            ${i>0?'<div class="meta-sep"></div>':''}
+            <div class="meta-item">${m}</div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="right">
+        <div class="desc-card">
+          <div class="desc-label">场景说明</div>
+          <div class="desc-text">${s.desc}</div>
+        </div>
+        <div>
+          <div class="feature-tag" style="background:${s.color}18;border-color:${s.color}40;color:${s.color}">
+            ◉ ${s.feature}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="watermark">EVANS · AI</div>
+  `;
+}
+
+// 暴露给录制脚本
+window._scenes = scenes;
+window._renderScene = renderScene;
+</script>
+</body>
+</html>
