@@ -4,183 +4,2258 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evans · 毕设答辩</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ── 全局重置 ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0a0c0f;
-  --accent: #e5523a;
-  --text: rgba(245,245,247,0.9);
-  --text-dim: rgba(245,245,247,0.35);
-  --mono: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
-}
-html { background: var(--bg); }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, 'Inter', system-ui, sans-serif;
-  padding: 48px 0 80px;
+  --bg:        #0A0A0A;
+  --bg-soft:   #131313;
+  --ink:       #F5F2EC;
+  --ink-mid:   #9C9892;
+  --ink-low:   #5A5752;
+  --rule:      #2A2825;
+  --rule-soft: #1C1B19;
+  --accent:    #E5523A;
+  --accent-mid:#8C3424;
+  --serif: "Noto Serif SC", "Songti SC", serif;
+  --sans:  "Noto Sans SC", "PingFang SC", -apple-system, sans-serif;
+  --mono:  "JetBrains Mono", "SF Mono", monospace;
 }
 
-/* header */
-.header {
-  padding: 0 40px 40px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.07);
-  margin-bottom: 0;
+html, body {
+  background: #050505;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
 }
-.header h1 {
-  font-size: 18px;
-  font-weight: 500;
+
+/* ── 页头 ── */
+.page-header {
+  padding: 32px 40px 28px;
+  border-bottom: 0.5px solid #1a1a1a;
+}
+.page-header h1 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
   letter-spacing: 0.04em;
+  color: var(--ink);
   margin-bottom: 4px;
 }
-.header p {
-  font-size: 12px;
-  color: var(--text-dim);
+.page-header p {
+  font-size: 11px;
+  color: var(--ink-low);
   font-family: var(--mono);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
 }
 
-/* slide wrapper */
-.slides {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.slide-row {
-  position: relative;
+/* ── 幻灯片列表 ── */
+.slide-wrap {
   width: 100%;
+  border-bottom: 0.5px solid #161616;
 }
 
-/* 16:9 ratio container */
-.ratio-box {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 9/16 */
-  background: #000;
-  overflow: hidden;
-}
-
-.ratio-box iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  /* scale the 1920-wide slide content to fit */
-  transform-origin: top left;
-}
-
-/* label strip */
-.slide-label {
-  position: absolute;
-  top: 12px;
-  left: 16px;
+.slide-label-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  pointer-events: none;
-  z-index: 10;
+  gap: 14px;
+  padding: 10px 16px 8px;
+  background: #0d0d0d;
 }
-.slide-label .n {
+.snum {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   color: var(--accent);
-  background: rgba(10,12,15,0.72);
-  padding: 3px 7px;
-  border-radius: 3px;
-  backdrop-filter: blur(8px);
+}
+.slabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-low);
+  text-transform: uppercase;
 }
 
-/* divider between slides */
-.slide-row + .slide-row {
-  border-top: 0.5px solid rgba(255,255,255,0.06);
+/* ── 16:9 缩放容器 ── */
+.scale-outer {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;  /* 9/16 */
+  overflow: hidden;
+  background: var(--bg);
 }
+.scale-inner {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  /* scale 通过 JS 动态设置 */
+}
+
+/* ── chrome.css 内联（slide-container 内部样式）── */
+.slide-container {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.chrome-top {
+  position:absolute; left:80px; top:48px;
+  display:flex; align-items:center; gap:18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--ink-low);
+  text-transform: uppercase;
+}
+.chrome-top .mark {
+  width:10px; height:10px; background:var(--accent);
+  display:inline-block;
+}
+.chrome-top .sep { color:var(--rule); }
+.chrome-bottom {
+  position:absolute; left:80px; right:80px; bottom:48px;
+  display:flex; justify-content:space-between; align-items:flex-end;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--ink-low);
+}
+.chrome-bottom .page { font-variant-numeric: tabular-nums; color: var(--ink-mid); }
+.chrome-bottom .page strong { color: var(--ink); font-weight: 500; margin-right: 4px; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.title-cn {
+  font-family: var(--serif);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+.body-cn {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+}
+.body-soft { color: var(--ink-mid); }
+.rule-h { background: var(--rule); height: 1px; }
+.rule-v { background: var(--rule); width: 1px; }
+.image-placeholder {
+  background: var(--bg-soft);
+  border: 1px dashed var(--rule);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color: var(--ink-low);
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.image-placeholder .ph-icon {
+  width: 32px; height: 32px;
+  border: 1px solid var(--ink-low);
+  position: relative;
+}
+.image-placeholder .ph-icon::before {
+  content:""; position:absolute; inset:6px;
+  border: 1px solid var(--ink-low);
+}
+.image-placeholder .ph-icon::after {
+  content:""; position:absolute;
+  left:-1px; right:-1px; top:50%;
+  height:1px; background: var(--ink-low);
+  transform: rotate(-30deg);
+}
+.image-placeholder .ph-label { font-size: 12px; letter-spacing: 0.22em; }
+.image-placeholder .ph-sub {
+  font-size: 11px; color: var(--ink-low); opacity: 0.7;
+  letter-spacing: 0.14em; text-transform: none; font-family: var(--sans);
+}
+.stat-num {
+  font-family: var(--serif); font-weight: 400; font-size: 96px;
+  line-height: 1; color: var(--ink); letter-spacing: -0.02em;
+}
+.stat-num .unit { font-size: 28px; color: var(--ink-mid); margin-left: 6px; font-weight: 300; }
+.stat-label { font-family: var(--sans); font-size: 16px; color: var(--ink-mid); letter-spacing: 0.08em; line-height: 1.6; }
+.quote { font-family: var(--serif); font-style: italic; color: var(--ink); line-height: 1.5; }
+.quote-mark { font-family: var(--serif); color: var(--accent); }
+.tbl { width:100%; border-collapse: collapse; font-family: var(--sans); color: var(--ink); }
+.tbl th, .tbl td { text-align:left; padding: 16px 18px; border-bottom: 1px solid var(--rule); font-weight: 300; font-size: 19px; vertical-align: top; }
+.tbl th { color: var(--ink-mid); font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; border-bottom: 1px solid var(--ink-low); padding-bottom: 12px; padding-top: 0; }
+.tbl td.k { color: var(--ink-mid); font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 18px; }
+.dot { display:inline-block; width:6px; height:6px; background: var(--accent); border-radius:0; vertical-align: middle; margin-right: 12px; margin-bottom: 4px; }
+.tick { font-family: var(--mono); color: var(--accent); font-size: 14px; letter-spacing: 0.18em; margin-right: 12px; }
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="page-header">
   <h1>Evans · 毕设答辩</h1>
-  <p>张一文 · 清华美院 · 2026 &nbsp;·&nbsp; 17 SLIDES</p>
+  <p>张一文 · 清华美院 · 2026 &nbsp;·&nbsp; 18 SLIDES</p>
 </div>
 
-<div class="slides" id="slides"></div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">01</span><span class="slabel">COVER</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">02</span><span class="slabel">THESIS</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="02 破题">
+
+  <!-- chrome top -->
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>00&nbsp;/&nbsp;OPENING</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">破&nbsp;题</span>
+  </div>
+
+  <!-- 主句 上 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:340px; width:1760px;
+              text-align:center;
+              font-family:var(--serif); font-weight:400;
+              font-size:84px; line-height:1.35; letter-spacing:0.02em;
+              color:var(--ink); z-index:10;">
+    我们已经有了足够聪明的&nbsp;AI，
+  </div>
+
+  <!-- 主句 下（强调） -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:490px; width:1760px;
+              text-align:center;
+              font-family:var(--serif); font-weight:500;
+              font-size:84px; line-height:1.35; letter-spacing:0.02em;
+              color:var(--ink); z-index:10;">
+    但还没有一个真正<span style="color:var(--accent);">了解你</span>的&nbsp;AI。
+  </div>
+
+  <!-- 分割线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:910px; top:730px; width:100px; height:1px;
+              background:var(--accent); z-index:1;"></div>
+
+  <!-- 副句 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:790px; width:1760px;
+              text-align:center;
+              font-family:var(--sans); font-weight:300;
+              font-size:24px; line-height:1.7; letter-spacing:0.06em;
+              color:var(--ink-mid); z-index:10;">
+    本研究的出发点，不是 AI 的能力边界，<br>
+    而是 AI 与人之间的<span style="color:var(--ink);">关系结构</span>。
+  </div>
+
+  <!-- chrome bottom -->
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>02</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">03</span><span class="slabel">BACKGROUND</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="03 研究背景">
+
+  <!-- chrome top -->
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>01&nbsp;/&nbsp;BACKGROUND</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">研&nbsp;究&nbsp;背&nbsp;景</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1200px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">问题从哪来</div>
+    <div class="title-cn" style="font-size:56px;">
+      老龄化加速 与<br>
+      <span style="color:var(--accent);">尚未真正了解你的</span> AI
+    </div>
+  </div>
+
+  <!-- 三列数据卡 -->
+  <!-- 卡 1 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:430px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.18em;
+                color:var(--accent); margin-bottom:18px;">
+      01 &nbsp;·&nbsp; 人口结构
+    </div>
+    <div class="stat-num">3.10<span class="unit">亿</span></div>
+    <div style="height:1px; background:var(--rule); margin:24px 0 18px;"></div>
+    <div class="stat-label">
+      中国 60 岁以上人口（2024 年末）<br>
+      占总人口&nbsp;<span style="color:var(--ink);">22%</span>，且持续加速
+    </div>
+  </div>
+
+  <!-- 卡 2 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:700px; top:430px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.18em;
+                color:var(--accent); margin-bottom:18px;">
+      02 &nbsp;·&nbsp; AI 现状
+    </div>
+    <div class="stat-num" style="font-size:64px; line-height:1.15; letter-spacing:0;">
+      短期上下文<br>偏好条目
+    </div>
+    <div style="height:1px; background:var(--rule); margin:24px 0 18px;"></div>
+    <div class="stat-label">
+      AI 记忆停留在单次任务尺度<br>
+      个性化&nbsp;≠&nbsp;<span style="color:var(--ink);">长期关系</span>
+    </div>
+  </div>
+
+  <!-- 卡 3 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1320px; top:430px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.18em;
+                color:var(--accent); margin-bottom:18px;">
+      03 &nbsp;·&nbsp; 用户访谈
+    </div>
+    <div style="font-family:var(--serif); font-style:italic;
+                font-size:32px; line-height:1.45; color:var(--ink);">
+      <span style="color:var(--accent); font-size:42px; vertical-align:-6px;">&ldquo;</span>它很聪明，<br>
+      却并不真正了解我。<span style="color:var(--accent);">&rdquo;</span>
+    </div>
+    <div style="height:1px; background:var(--rule); margin:24px 0 18px;"></div>
+    <div class="stat-label">
+      本研究访谈中出现<br>
+      <span style="color:var(--ink);">频率最高</span>的表述
+    </div>
+  </div>
+
+  <!-- 底部综合论述 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:890px; width:1760px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:920px; width:1760px;
+              font-family:var(--sans); font-weight:300;
+              font-size:18px; line-height:1.75; color:var(--ink-mid);
+              letter-spacing:0.04em; z-index:10;">
+    独居、慢病管理、代际疏离、防诈骗 —— 这些问题集中提出了对
+    <span style="color:var(--ink);">「既能持续理解、又能克制介入」</span>的陪伴技术的需求。<br>
+    AI 能力已经很强，但产品体验仍延续工具范式：记忆服务于单次任务、个性化停留在偏好条目、代理能力是可选插件 ——
+    缺少围绕<span style="color:var(--ink);">长期关系</span>被组织起来的治理结构。
+  </div>
+
+  <!-- chrome bottom -->
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>03</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">04</span><span class="slabel">CORE QUESTION</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="04 研究问题">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>02&nbsp;/&nbsp;RESEARCH QUESTION</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">研&nbsp;究&nbsp;问&nbsp;题</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1200px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">一个核心问题 · 三个子问题</div>
+    <div class="title-cn" style="font-size:48px;">
+      AI 与人之间的关系，<br>究竟应该是什么？
+    </div>
+  </div>
+
+  <!-- 核心问题框 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:380px; width:1760px; height:170px;
+              border:1px solid var(--accent); background:rgba(229,82,58,0.04); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:402px; width:1680px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">CORE QUESTION · 核心问题</div>
+    <div style="font-family:var(--serif); font-weight:400;
+                font-size:28px; line-height:1.5; color:var(--ink); letter-spacing:0.02em;">
+      如何使 AI 从被动响应的工具，转变为可持续陪伴用户长期的「个人 AI 大脑」，<br>
+      并在这一过程中持续<span style="color:var(--accent);">支撑叙事认同</span>、<span style="color:var(--accent);">得体承担认知负担</span>、并维持设计上的<span style="color:var(--accent);">伦理克制</span>？
+    </div>
+  </div>
+
+  <!-- 三向下箭头 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:380px; top:580px; width:1px; height:60px;
+              background:var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:960px; top:580px; width:1px; height:60px;
+              background:var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1540px; top:580px; width:1px; height:60px;
+              background:var(--rule); z-index:1;"></div>
+
+  <!-- 三个子问题卡 -->
+  <!-- Q1 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:670px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">子问题 ①</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:32px; line-height:1.4; color:var(--ink); margin-bottom:18px;">
+      理论基础
+    </div>
+    <div class="rule-h" style="width:48px; height:2px; background:var(--ink); margin-bottom:18px;"></div>
+    <div class="body-cn" style="font-size:20px; color:var(--ink-mid);">
+      长期陪伴型 AI 应建立在<br>怎样的<span style="color:var(--ink);">理论基础</span>上？
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:700px; top:670px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">子问题 ②</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:32px; line-height:1.4; color:var(--ink); margin-bottom:18px;">
+      核心机制
+    </div>
+    <div class="rule-h" style="width:48px; height:2px; background:var(--ink); margin-bottom:18px;"></div>
+    <div class="body-cn" style="font-size:20px; color:var(--ink-mid);">
+      Evans 的<span style="color:var(--ink);">核心机制</span><br>应如何展开？
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1280px; top:670px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">子问题 ③</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:32px; line-height:1.4; color:var(--ink); margin-bottom:18px;">
+      伦理约束
+    </div>
+    <div class="rule-h" style="width:48px; height:2px; background:var(--ink); margin-bottom:18px;"></div>
+    <div class="body-cn" style="font-size:20px; color:var(--ink-mid);">
+      深度介入 AI 应遵循<br>怎样的<span style="color:var(--ink);">伦理约束</span>？
+    </div>
+  </div>
+
+  <!-- 底部注脚 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:960px; width:1760px;
+              text-align:center;
+              font-family:var(--serif); font-style:italic;
+              font-size:18px; color:var(--ink-low); letter-spacing:0.06em; z-index:10;">
+    三个问题在论文中互相缠绕，不能只回答其中一个。
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>04</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">05</span><span class="slabel">FRAMEWORK</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="05 三维理论框架">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>03&nbsp;/&nbsp;THEORETICAL FRAMEWORK</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">理&nbsp;论&nbsp;框&nbsp;架</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1100px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">认知 · 叙事 · 关系</div>
+    <div class="title-cn" style="font-size:48px;">
+      三维设计分析框架
+    </div>
+  </div>
+
+  <!-- 右上角注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1380px; top:170px; width:460px; text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:18px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    整合<span style="color:var(--ink);">延展心智</span>、<span style="color:var(--ink);">叙事认同</span>、<br>
+    <span style="color:var(--ink);">智能代理</span>三组理论资源
+  </div>
+
+  <!-- 三列框架 -->
+  <!-- 列 1 · 认知维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:330px; width:1px; height:520px;
+              background:var(--ink); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:340px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">DIMENSION&nbsp;01</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:40px; line-height:1.2; color:var(--ink); margin-bottom:30px;">
+      认知<br>维度
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      理论资源
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      延展心智&nbsp;/&nbsp;<br>认知卸载
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      Evans 的角色
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      用户认知系统的<br><span style="color:var(--accent);">外置延伸</span>
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      落地机制
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink);">
+      感知 — 记忆 — 追溯
+    </div>
+  </div>
+
+  <!-- 列 2 · 叙事维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:680px; top:330px; width:1px; height:520px;
+              background:var(--ink); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:340px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">DIMENSION&nbsp;02</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:40px; line-height:1.2; color:var(--ink); margin-bottom:30px;">
+      叙事<br>维度
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      理论资源
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      叙事认同（利科）<br>生命故事（麦克亚当斯）
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      Evans 的角色
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      人生的<br><span style="color:var(--accent);">共同作者</span>
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      落地机制
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink);">
+      千人千面 · 共生人格
+    </div>
+  </div>
+
+  <!-- 列 3 · 关系维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1280px; top:330px; width:1px; height:520px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1320px; top:340px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">DIMENSION&nbsp;03 · 核心</div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:40px; line-height:1.2; color:var(--ink); margin-bottom:30px;">
+      关系<br>维度
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      理论资源
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      智能代理&nbsp;/&nbsp;<br>沉静技术（Weiser）
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      Evans 的角色
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink); margin-bottom:24px;">
+      主动判断的<br><span style="color:var(--accent);">协调者</span>
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:14px;">
+      落地机制
+    </div>
+    <div class="body-cn" style="font-size:18px; line-height:1.6; color:var(--ink);">
+      分寸感引擎 · <span style="color:var(--accent);">得体卸载</span>
+    </div>
+  </div>
+
+  <!-- 底部四个设计取向 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:900px; width:1760px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:930px; width:200px;
+              font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+              color:var(--ink-mid); text-transform:uppercase; z-index:10;">
+    设计取向
+  </div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:300px; top:925px; width:1540px;
+              font-family:var(--serif); font-size:20px;
+              color:var(--ink); letter-spacing:0.04em; line-height:1.5; z-index:10;">
+    整体优化 &gt; 局部能力 &nbsp;<span style="color:var(--rule);">|</span>&nbsp;
+    支撑 &gt; 替代 &nbsp;<span style="color:var(--rule);">|</span>&nbsp;
+    克制 &gt; 主动 &nbsp;<span style="color:var(--rule);">|</span>&nbsp;
+    <span style="color:var(--accent);">主权归用户</span>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>05</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">06</span><span class="slabel">RESEARCH</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="06 市场调研">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>04&nbsp;/&nbsp;MARKET &amp; USER RESEARCH</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">市&nbsp;场&nbsp;调&nbsp;研</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">竞品缺口 · 用户访谈</div>
+    <div class="title-cn" style="font-size:48px;">
+      没有一款产品形成了围绕<br>
+      <span style="color:var(--accent);">长期关系</span>的完整治理结构
+    </div>
+  </div>
+
+  <!-- 左侧：竞品对比表 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:400px; width:920px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:24px;">
+      A &nbsp;·&nbsp; 竞品象限对比
+    </div>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th style="width:140px;">类型</th>
+          <th style="width:200px;">代表</th>
+          <th>核心局限</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">任务型</td>
+          <td>ChatGPT&nbsp;/&nbsp;Siri</td>
+          <td>任务中心，无关系沉淀</td>
+        </tr>
+        <tr>
+          <td class="k">情感陪伴</td>
+          <td>Replika&nbsp;/&nbsp;星野</td>
+          <td>陪伴感 ≠ 可治理的长期结构</td>
+        </tr>
+        <tr>
+          <td class="k">穿戴代理</td>
+          <td>Humane&nbsp;AI&nbsp;Pin</td>
+          <td>价值仅是换壳手机</td>
+        </tr>
+        <tr style="border-bottom:none;">
+          <td class="k">全天记录</td>
+          <td>Tab&nbsp;/&nbsp;Omi</td>
+          <td>记录 ≠ 介入治理</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 中线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1060px; top:400px; width:1px; height:520px;
+              background:var(--rule); z-index:1;"></div>
+
+  <!-- 右侧：用户访谈发现 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1110px; top:400px; width:730px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:8px;">
+      B &nbsp;·&nbsp; 用户访谈五个核心发现
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+                color:var(--ink-low); margin-bottom:28px;">
+      N=8 · 老年 3 / 青年 5 · 单次 20–40 分钟
+    </div>
+
+    <div style="font-family:var(--sans); font-size:18px; line-height:1.7; color:var(--ink); font-weight:300;">
+      <div style="display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:var(--mono); color:var(--accent); width:32px; flex-shrink:0;">01</span>
+        <span>用户对"被了解"既<span style="color:var(--accent);">渴望又警惕</span></span>
+      </div>
+      <div style="display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:var(--mono); color:var(--accent); width:32px; flex-shrink:0;">02</span>
+        <span>老年人对<span style="color:var(--ink);">主动型 AI</span>接受度高于青年</span>
+      </div>
+      <div style="display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:var(--mono); color:var(--accent); width:32px; flex-shrink:0;">03</span>
+        <span>青年用户最看重<span style="color:var(--ink);">"不被打扰"</span></span>
+      </div>
+      <div style="display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:var(--mono); color:var(--accent); width:32px; flex-shrink:0;">04</span>
+        <span>伦理边界存在明显<span style="color:var(--ink);">代际差异</span></span>
+      </div>
+      <div style="display:flex; gap:14px; padding:10px 0;">
+        <span style="font-family:var(--mono); color:var(--accent); width:32px; flex-shrink:0;">05</span>
+        <span>子女对父母的<span style="color:var(--accent);">叙事化关怀</span>需求强烈</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部关键引文 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:960px; width:6px; height:60px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:110px; top:965px; width:1730px;
+              font-family:var(--serif); font-style:italic;
+              font-size:20px; line-height:1.5; color:var(--ink-mid); z-index:10;">
+    子女们不想要监控父母的摄像头，他们想知道的是<span style="color:var(--ink); font-style:normal;">"她今天开不开心"</span>
+    —— 这一发现直接指导了 Evans 叙事化关怀功能的设计。
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>06</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">07</span><span class="slabel">ARCHITECTURE</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="07 七层架构">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>05&nbsp;/&nbsp;SYSTEM OVERVIEW</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">系&nbsp;统&nbsp;设&nbsp;计&nbsp;总&nbsp;览</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">硬件 · 架构 · 工作循环</div>
+    <div class="title-cn" style="font-size:48px;">
+      Evans 七层认知架构
+    </div>
+  </div>
+
+  <!-- 右上小字注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; right:80px; top:160px; width:380px; text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:17px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    核心不在任何单层的复杂度，<br>
+    而在于七层之间形成的<br>
+    <span style="color:var(--ink);">完整工作循环</span>
+  </div>
+
+  <!-- 左侧七层架构 -->
+  <!-- 各层 row：从顶到底 7→1，强调第 5/3 层 -->
+
+  <!-- L7 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:340px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:362px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L7</span>
+    <span style="font-size:22px; font-weight:400;">执行层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">执行动作 · 回收反馈</span>
+  </div>
+
+  <!-- L6 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:415px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:437px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L6</span>
+    <span style="font-size:22px; font-weight:400;">调度层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">任务编排 · 设备协同</span>
+  </div>
+
+  <!-- L5 (强调) -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:490px; width:1080px; height:70px;
+              background:rgba(229,82,58,0.08); border:1px solid var(--accent); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:512px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--accent); margin-right:24px; letter-spacing:0.14em;">L5 ★</span>
+    <span style="font-size:22px; font-weight:500;">决策层</span>
+    <span style="color:var(--ink); font-size:16px; margin-left:24px;">ToM 心智推理 · <span style="color:var(--accent);">分寸感引擎</span></span>
+  </div>
+
+  <!-- L4 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:565px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:587px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L4</span>
+    <span style="font-size:22px; font-weight:400;">认知层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">意图识别 · 情境推理</span>
+  </div>
+
+  <!-- L3 (强调) -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:640px; width:1080px; height:70px;
+              background:rgba(229,82,58,0.08); border:1px solid var(--accent); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:662px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--accent); margin-right:24px; letter-spacing:0.14em;">L3 ★</span>
+    <span style="font-size:22px; font-weight:500;">记忆层</span>
+    <span style="color:var(--ink); font-size:16px; margin-left:24px;">情景&nbsp;/&nbsp;语义&nbsp;/&nbsp;人格 — <span style="color:var(--accent);">三层记忆</span></span>
+  </div>
+
+  <!-- L2 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:715px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:737px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L2</span>
+    <span style="font-size:22px; font-weight:400;">融合层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">多模态时空对齐</span>
+  </div>
+
+  <!-- L1 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:790px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:812px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L1</span>
+    <span style="font-size:22px; font-weight:400;">感知层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">视觉 · 音频 · 传感器</span>
+  </div>
+
+  <!-- 右侧硬件图占位 + 规格 -->
+  <div data-object="true" data-object-type="image"
+       class="image-placeholder"
+       style="position:absolute; left:1240px; top:340px; width:520px; height:340px; z-index:5;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">Evans · 硬件形态</div>
+    <div class="ph-sub">胸针 / 项链双形态 · &lt; 25g</div>
+  </div>
+
+  <!-- 硬件规格清单 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1240px; top:705px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">
+      HARDWARE&nbsp;SPECS
+    </div>
+    <div style="font-family:var(--sans); font-size:16px; line-height:1.85; color:var(--ink); font-weight:300;">
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">主体重量</span><span>&lt; 25 g</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">运动追踪</span><span>6 轴 IMU</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">音频拾取</span><span>4 麦克风阵列</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">生理感知</span><span>心率传感器</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:4px 0;">
+        <span style="color:var(--ink-mid);">视觉</span><span>低功耗视觉模块</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>07</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">08</span><span class="slabel">MEMORY</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="08 三层记忆">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>06&nbsp;/&nbsp;COGNITIVE DIMENSION</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">认&nbsp;知&nbsp;维&nbsp;度</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1100px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">认知卸载 · 记忆架构</div>
+    <div class="title-cn" style="font-size:48px;">
+      情景 · 语义 · 人格 ——<br>
+      <span style="color:var(--accent);">三层记忆</span>架构
+    </div>
+  </div>
+
+  <!-- 右上注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1380px; top:215px; width:460px; text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:17px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    Evans 作为用户的<br><span style="color:var(--ink);">第二大脑</span>
+  </div>
+
+  <!-- 三层卡（纵向叠放） -->
+  <!-- 第 3 层：人格 (顶部 · 最重) -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:370px; width:1760px; height:160px;
+              background:rgba(229,82,58,0.06); border:1px solid var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:395px; width:320px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">LAYER&nbsp;03</div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:32px; color:var(--ink);">
+      人格记忆
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:540px; top:415px; width:760px; z-index:10;">
+    <div class="body-cn" style="font-size:19px; line-height:1.6; color:var(--ink);">
+      性格画像 · 价值观<br>
+      人生关键事件
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1400px; top:415px; width:420px; z-index:10; text-align:right;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); margin-bottom:10px;">保留周期</div>
+    <div style="font-family:var(--serif); font-size:28px; color:var(--accent);">
+      永久（加密）
+    </div>
+  </div>
+
+  <!-- 第 2 层：语义 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:548px; width:1760px; height:160px;
+              border:1px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:573px; width:320px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--ink-mid); margin-bottom:14px;">LAYER&nbsp;02</div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:32px; color:var(--ink);">
+      语义记忆
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:540px; top:593px; width:760px; z-index:10;">
+    <div class="body-cn" style="font-size:19px; line-height:1.6; color:var(--ink-mid);">
+      提取的偏好 · 习惯<br>
+      关系模式
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1400px; top:593px; width:420px; z-index:10; text-align:right;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); margin-bottom:10px;">保留周期</div>
+    <div style="font-family:var(--serif); font-size:28px; color:var(--ink);">
+      永久
+    </div>
+  </div>
+
+  <!-- 第 1 层：情景 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:726px; width:1760px; height:160px;
+              border:1px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:751px; width:320px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--ink-mid); margin-bottom:14px;">LAYER&nbsp;01</div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:32px; color:var(--ink);">
+      情景记忆
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:540px; top:771px; width:760px; z-index:10;">
+    <div class="body-cn" style="font-size:19px; line-height:1.6; color:var(--ink-mid);">
+      原始对话 · 事件细节<br>
+      日常流水
+    </div>
+  </div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1400px; top:771px; width:420px; z-index:10; text-align:right;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); margin-bottom:10px;">保留周期</div>
+    <div style="font-family:var(--serif); font-size:28px; color:var(--ink);">
+      15 天滚动
+    </div>
+  </div>
+
+  <!-- 底部 · 记忆巩固机制 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:925px; width:6px; height:60px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:110px; top:925px; width:1730px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:6px;">MEMORY&nbsp;CONSOLIDATION · 记忆巩固机制</div>
+    <div class="body-cn" style="font-size:17px; line-height:1.55; color:var(--ink-mid);">
+      情景记忆不是简单删除，而是通过重要度评估提炼为语义或人格记忆 ——
+      <span style="color:var(--ink);">模拟人类睡眠期间的记忆固化</span>，既避免膨胀，又确保关键信息长期留存。
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>08</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">09</span><span class="slabel">NARRATIVE</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="09 叙事维度">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>07&nbsp;/&nbsp;NARRATIVE DIMENSION</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">叙&nbsp;事&nbsp;维&nbsp;度</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">共生人格 · 人生回忆录</div>
+    <div class="title-cn" style="font-size:48px;">
+      Evans 是人生的<br><span style="color:var(--accent);">共同作者</span>，而非作者
+    </div>
+  </div>
+
+  <!-- 中线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:960px; top:370px; width:1px; height:580px;
+              background:var(--rule); z-index:1;"></div>
+
+  <!-- 左侧：共生人格 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:380px; width:840px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">
+      A &nbsp;·&nbsp; 共生人格演化
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:30px; color:var(--ink); line-height:1.35; margin-bottom:24px;">
+      8 维人格向量<br>
+      <span style="color:var(--ink-mid); font-size:22px; font-weight:400;">
+        出厂正八边形 → 100 天后不规则专属形态
+      </span>
+    </div>
+  </div>
+
+  <!-- 雷达图占位 -->
+  <div data-object="true" data-object-type="image"
+       class="image-placeholder"
+       style="position:absolute; left:80px; top:560px; width:380px; height:300px; z-index:5;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">雷达图 · 人格演化</div>
+    <div class="ph-sub">出厂 vs 100 天后</div>
+  </div>
+
+  <!-- 8 维列表 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:500px; top:560px; width:420px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); text-transform:uppercase; margin-bottom:16px;">
+      8 dimensions
+    </div>
+    <div style="font-family:var(--sans); font-size:17px; line-height:2.0; color:var(--ink); font-weight:300;">
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft);">
+        <span>主动性</span><span style="color:var(--ink-low);">Proactivity</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft);">
+        <span>节奏</span><span style="color:var(--ink-low);">Pace</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft);">
+        <span>正式度</span><span style="color:var(--ink-low);">Formality</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft);">
+        <span>情感细腻度</span><span style="color:var(--ink-low);">Sensitivity</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft);">
+        <span>直接性</span><span style="color:var(--ink-low);">Directness</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; color:var(--ink-low); font-size:14px; padding-top:6px;">
+        <span>……</span><span>共 8 维</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 左侧底部金句 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:900px; width:840px; z-index:10;">
+    <div style="font-family:var(--serif); font-style:italic;
+                font-size:22px; line-height:1.45; color:var(--ink); letter-spacing:0.02em;">
+      <span style="color:var(--accent);">「</span>每一台 Evans，<br>
+      都因为陪伴的人不同 而不同。<span style="color:var(--accent);">」</span>
+    </div>
+  </div>
+
+  <!-- 右侧：人生回忆录 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1010px; top:380px; width:830px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">
+      B &nbsp;·&nbsp; 人生回忆录
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:30px; color:var(--ink); line-height:1.35; margin-bottom:30px;">
+      AI 辅助传记，<br>
+      <span style="color:var(--accent);">叙事主权</span>留在用户手中
+    </div>
+  </div>
+
+  <!-- 三步流程 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1010px; top:560px; width:830px; z-index:10;">
+    <div style="display:flex; gap:0; align-items:stretch;">
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--rule);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:10px;">01</div>
+        <div style="font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--ink); font-weight:400;">自动识别<br>候选人生节点</div>
+      </div>
+      <div style="width:24px; display:flex; align-items:center; justify-content:center; color:var(--ink-low); font-family:var(--mono);">→</div>
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--rule);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:10px;">02</div>
+        <div style="font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--ink); font-weight:400;">生成<br>传记草稿</div>
+      </div>
+      <div style="width:24px; display:flex; align-items:center; justify-content:center; color:var(--ink-low); font-family:var(--mono);">→</div>
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--accent); background:rgba(229,82,58,0.06);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:10px;">03</div>
+        <div style="font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--ink); font-weight:400;">用户确认<br>与编辑</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧底部三条原则 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1010px; top:760px; width:830px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+                color:var(--ink-mid); margin-bottom:18px;">
+      核心设计原则
+    </div>
+    <div style="font-family:var(--sans); font-size:18px; line-height:1.75; color:var(--ink); font-weight:300;">
+      <div><span style="color:var(--accent); font-family:var(--mono); font-size:13px; margin-right:14px;">&middot;</span>所有内容<span style="color:var(--accent);">可编辑、可删除</span></div>
+      <div><span style="color:var(--accent); font-family:var(--mono); font-size:13px; margin-right:14px;">&middot;</span>解释权归用户</div>
+      <div><span style="color:var(--accent); font-family:var(--mono); font-size:13px; margin-right:14px;">&middot;</span>AI 负责辅助，不负责定义"你是谁"</div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>09</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">10</span><span class="slabel">TACT ENGINE</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="10 分寸感引擎">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>08&nbsp;/&nbsp;RELATIONAL DIMENSION · <span style="color:var(--accent);">CORE CONTRIBUTION</span></span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">关&nbsp;系&nbsp;维&nbsp;度&nbsp;·&nbsp;核&nbsp;心&nbsp;原&nbsp;创</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:130px; width:1760px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:14px;">分寸感引擎 · 得体卸载</div>
+    <div class="title-cn" style="font-size:46px; line-height:1.2;">
+      让 AI 懂得<span style="color:var(--accent);">克制</span>，<br>
+      是这个时代真正的设计难题。
+    </div>
+  </div>
+
+  <!-- 中部 · 分寸感引擎 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:380px; width:880px; height:1px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:400px; width:880px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:10px;">A · TACT ENGINE</div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:32px; color:var(--ink); margin-bottom:8px;">
+      分寸感引擎
+    </div>
+    <div style="font-family:var(--sans); font-size:16px; color:var(--ink-mid); line-height:1.6;">
+      唯一职责：判断"<span style="color:var(--ink);">说</span>"还是"<span style="color:var(--accent);">不说</span>"
+    </div>
+  </div>
+
+  <!-- 三维判断卡 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:540px; width:880px; z-index:10;">
+    <div style="display:flex; gap:12px;">
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--rule);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">SCENE</div>
+        <div style="font-family:var(--serif); font-size:20px; color:var(--ink); margin-bottom:10px;">场景维度</div>
+        <div style="font-size:13px; line-height:1.55; color:var(--ink-low);">工作 / 睡眠 / 约会？<br>私密度？紧张度？</div>
+      </div>
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--rule);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">EMOTION</div>
+        <div style="font-family:var(--serif); font-size:20px; color:var(--ink); margin-bottom:10px;">情绪维度</div>
+        <div style="font-size:13px; line-height:1.55; color:var(--ink-low);">情绪基线如何？<br>是否处于波动？</div>
+      </div>
+      <div style="flex:1; padding:18px 14px; border:1px solid var(--rule);">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">RELATION</div>
+        <div style="font-family:var(--serif); font-size:20px; color:var(--ink); margin-bottom:10px;">关系维度</div>
+        <div style="font-size:13px; line-height:1.55; color:var(--ink-low);">身边是谁？关系性质？<br>互动密度？</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 介入分数 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:740px; width:880px; height:90px;
+              background:rgba(229,82,58,0.08); border:1px solid var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:110px; top:758px; width:820px; z-index:10;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:var(--accent); margin-bottom:6px;">WEIGHTED FUSION</div>
+        <div style="font-family:var(--serif); font-size:24px; color:var(--ink);">加权融合 → 介入分数</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:6px;">DEFAULT&nbsp;STATE</div>
+        <div style="font-family:var(--serif); font-size:24px; color:var(--accent);">不&nbsp;·&nbsp;介&nbsp;入</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引文 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:850px; width:880px;
+              font-family:var(--serif); font-style:italic;
+              font-size:16px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    介入，是经过主动判断之后的<span style="color:var(--ink);">例外</span> ——<br>
+    把沉默从被动失败，升格为主动的克制选择。
+  </div>
+
+  <!-- 右侧 · 得体卸载对比 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1040px; top:380px; width:800px; height:1px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1040px; top:400px; width:800px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:10px;">B · GRACEFUL OFFLOADING</div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:32px; color:var(--ink); margin-bottom:8px;">
+      得体卸载&nbsp;<span style="color:var(--accent); font-size:18px; font-style:italic;">本研究原创概念</span>
+    </div>
+    <div style="font-family:var(--sans); font-size:16px; color:var(--ink-mid); line-height:1.6;">
+      把"<span style="color:var(--ink);">是否应当介入</span>"这一判断本身，从用户注意力中移出
+    </div>
+  </div>
+
+  <!-- 对比表 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1040px; top:540px; width:800px; z-index:10;">
+    <table class="tbl" style="width:100%;">
+      <thead>
+        <tr>
+          <th style="width:130px;"></th>
+          <th>传统认知卸载</th>
+          <th style="color:var(--accent);">得体卸载</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">卸载对象</td>
+          <td style="font-size:16px;">任务</td>
+          <td style="font-size:16px; color:var(--ink);">「应否介入」<br>这一判断本身</td>
+        </tr>
+        <tr>
+          <td class="k">方向</td>
+          <td style="font-size:16px;">让 AI 多做事</td>
+          <td style="font-size:16px; color:var(--ink);">让 AI 在不该做事时<br>不做事</td>
+        </tr>
+        <tr style="border-bottom:none;">
+          <td class="k">目标</td>
+          <td style="font-size:16px;">减轻任务负担</td>
+          <td style="font-size:16px; color:var(--accent);">保护用户<br>注意力的自由</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 右侧底部金句 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1040px; top:870px; width:6px; height:60px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1070px; top:870px; width:770px;
+              font-family:var(--serif); font-size:22px;
+              line-height:1.4; color:var(--ink); font-style:italic; z-index:10;">
+    分寸感不是「不介入」，<br>
+    是<span style="color:var(--accent);">「知道何时该介入」</span>。
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>10</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">11</span><span class="slabel">ORCHESTRATION</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="11 多设备调度">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>09&nbsp;/&nbsp;DEVICE ORCHESTRATION</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">多&nbsp;设&nbsp;备&nbsp;调&nbsp;度</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">DOA 协议 · 协调者而非主控者</div>
+    <div class="title-cn" style="font-size:48px;">
+      Evans 是<span style="color:var(--accent);">协调者</span>与<span style="color:var(--accent);">翻译者</span>
+    </div>
+  </div>
+
+  <!-- 中心放射图 -->
+  <!-- 中心 Evans 节点 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:280px; top:580px; width:200px; height:160px;
+              background:var(--accent); z-index:5;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:280px; top:625px; width:200px;
+              text-align:center;
+              font-family:var(--serif); font-size:34px; font-weight:600;
+              color:#FFFFFF; z-index:10;">
+    Evans
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:#FFFFFF; opacity:0.85; margin-top:8px; font-weight:500;">DOA</div>
+  </div>
+
+  <!-- 三条放射线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:660px; width:220px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:550px; width:220px; height:1px;
+              background:var(--rule); z-index:1; transform:rotate(28deg); transform-origin:0 50%;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:770px; width:220px; height:1px;
+              background:var(--rule); z-index:1; transform:rotate(-28deg); transform-origin:0 50%;"></div>
+
+  <!-- 三个被调度节点 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:430px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:450px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">SMART HOME</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">智能家居</div>
+    <div style="font-size:12px; color:var(--ink-low);">灯 · 暖气 · 窗帘 · 空调</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:615px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:635px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">ROBOTICS</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">服务机器人</div>
+    <div style="font-size:12px; color:var(--ink-low);">取药 · 送水 · 清洁</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:800px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:820px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">SOFTWARE</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">软件工具</div>
+    <div style="font-size:12px; color:var(--ink-low);">日历 · 邮件 · Slack · Notion</div>
+  </div>
+
+  <!-- 中部标签 · 放射图说明 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:450px; width:200px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:8px;">SCHEMATIC</div>
+    <div style="font-family:var(--serif); font-size:16px; color:var(--ink-mid); line-height:1.5;">
+      Device<br>Orchestration<br>Abstraction
+    </div>
+  </div>
+
+  <!-- 右侧 · DOA 协议详解 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1080px; top:420px; width:1px; height:540px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1130px; top:420px; width:710px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">
+      DOA &nbsp;·&nbsp; Device Orchestration Abstraction
+    </div>
+    <div style="font-family:var(--serif); font-size:24px; line-height:1.5; color:var(--ink); margin-bottom:30px;">
+      把用户模糊的意图，<br>翻译为<span style="color:var(--accent);">跨设备可执行</span>指令序列
+    </div>
+
+    <!-- 示例 S04 -->
+    <div style="border-left:1px solid var(--accent); padding-left:20px;">
+      <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:14px;">EXAMPLE · S04 · 客厅意外</div>
+      <div style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-bottom:18px;">陈建国跌倒</div>
+      <div style="font-family:var(--mono); font-size:11px; color:var(--ink-low); letter-spacing:0.1em; margin-bottom:10px;">EVANS 同步调度 ↓</div>
+      <div style="font-family:var(--sans); font-size:16px; line-height:1.85; color:var(--ink); font-weight:300;">
+        <div>· 机器人取药</div>
+        <div>· 灯光调亮 · 空调停冷</div>
+        <div>· 向儿子发出<span style="color:var(--accent);">叙事化通报</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>11</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">12</span><span class="slabel">EXHIBITION · 装置构成</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="12 展演设计">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>12&nbsp;/&nbsp;EXHIBITION DESIGN</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">展&nbsp;演&nbsp;设&nbsp;计&nbsp;·&nbsp;装置构成</span>
+  </div>
+
+  <!-- 标题区 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:62px; width:1760px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:10px;">交互式概念验证装置</div>
+    <div class="title-cn" style="font-size:38px; line-height:1.2;">
+      把抽象概念，转化为<span style="color:var(--accent);">可触发、可观察、可对照</span>的体验
+    </div>
+  </div>
+
+  <!-- ─── 三列主布局 ─── -->
+  <!-- 列间距：左80 | 列580 | 间距40 | 列580 | 间距40 | 列580 | 右80 -->
+  <!-- 总计：80+580+40+580+40+580+80 = 1980 → 调整为 80+566+34+566+34+566+74 = 1920 ✓ -->
+
+  <!-- ── COL 1 · MODULE A · 场景选择端 ── -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:178px; width:566px; height:840px;
+              border:0.5px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:96px; top:192px; width:534px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--accent); margin-bottom:8px;">MODULE&nbsp;A</div>
+    <div style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-bottom:4px;">场景选择端</div>
+    <div style="font-size:13px; color:var(--ink-low); line-height:1.5;">观众可触发的入口 · 15 场景 × 预设 query</div>
+  </div>
+
+  <!-- 16:9 图片占位 566×318 -->
+  <div data-object="true" data-object-type="image" class="image-placeholder"
+       style="position:absolute; left:80px; top:280px; width:566px; height:318px; z-index:5; border-radius:0;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">实体装置 · 场景选择端</div>
+    <div class="ph-sub">16 : 9</div>
+  </div>
+
+  <div style="position:absolute; left:96px; top:614px; width:534px; z-index:10;
+              font-family:var(--mono); font-size:11px; letter-spacing:0.12em; color:var(--ink-low); line-height:1.7;">
+    观众从 15 个生活场景中触发查询，<br>
+    装置响应并驱动后端 Evans 运行
+  </div>
+
+  <!-- ── COL 2 · SCREEN 01 · 思维可视化 ── -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:680px; top:178px; width:566px; height:840px;
+              border:0.5px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:696px; top:192px; width:534px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--accent); margin-bottom:8px;">SCREEN&nbsp;01</div>
+    <div style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-bottom:4px;">思维可视化</div>
+    <div style="font-size:13px; color:var(--ink-low); line-height:1.5;">实时呈现 Evans 内部思考过程</div>
+  </div>
+
+  <!-- 16:9 图片占位 566×318 -->
+  <div data-object="true" data-object-type="image" class="image-placeholder"
+       style="position:absolute; left:680px; top:280px; width:566px; height:318px; z-index:5; border-radius:0;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">感知 → 融合 → 记忆 → 认知 → 决策</div>
+    <div class="ph-sub">16 : 9</div>
+  </div>
+
+  <div style="position:absolute; left:696px; top:614px; width:534px; z-index:10;
+              font-family:var(--mono); font-size:11px; letter-spacing:0.12em; color:var(--ink-low); line-height:1.7;">
+    七层架构链路动效全程可视，<br>
+    观众得以观察「思维」如何形成
+  </div>
+
+  <!-- ── COL 3 · SCREEN 02 · 对话与调度 ── -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1280px; top:178px; width:566px; height:840px;
+              border:0.5px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1296px; top:192px; width:534px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--accent); margin-bottom:8px;">SCREEN&nbsp;02</div>
+    <div style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-bottom:4px;">对话与调度</div>
+    <div style="font-size:13px; color:var(--ink-low); line-height:1.5;">蓝色动线 · 浮层 UI · 多设备调度</div>
+  </div>
+
+  <!-- 16:9 图片占位 566×318 -->
+  <div data-object="true" data-object-type="image" class="image-placeholder"
+       style="position:absolute; left:1280px; top:280px; width:566px; height:318px; z-index:5; border-radius:0;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">对话 UI · 调度动效截图</div>
+    <div class="ph-sub">16 : 9</div>
+  </div>
+
+  <div style="position:absolute; left:1296px; top:614px; width:534px; z-index:10;
+              font-family:var(--mono); font-size:11px; letter-spacing:0.12em; color:var(--ink-low); line-height:1.7;">
+    主屏呈现对话界面与智能体<br>
+    跨设备调度的实时动线
+  </div>
+
+  <!-- 底注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:1038px; width:1760px;
+              text-align:center; font-family:var(--serif); font-style:italic;
+              font-size:14px; color:var(--ink-low); z-index:10;">
+    1&nbsp;/&nbsp;2 &nbsp;·&nbsp; 装置五模块总览
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>12</strong>/&nbsp;18</span>
+  </div>
+
+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">12b</span><span class="slabel">EXHIBITION · 实体与影像</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="12b 展演设计续">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>12&nbsp;/&nbsp;EXHIBITION DESIGN</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">展&nbsp;演&nbsp;设&nbsp;计&nbsp;·&nbsp;实体与影像</span>
+  </div>
+
+  <!-- 标题区 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:62px; width:1760px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:10px;">交互式概念验证装置</div>
+    <div class="title-cn" style="font-size:38px; line-height:1.2;">
+      <span style="color:var(--accent);">实体原型机</span>与<span style="color:var(--accent);">愿景影像</span>，构成感知闭环
+    </div>
+  </div>
+
+  <!-- ─── 两列主布局 ─── -->
+  <!-- 左80 | 列860 | 间距40 | 列860 | 右80 = 1920 ✓ -->
+
+  <!-- ── COL 1 · PHYSICAL · 实体原型机 ── -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:178px; width:860px; height:840px;
+              border:0.5px solid var(--accent); background:rgba(229,82,58,0.03); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:192px; width:820px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--accent); margin-bottom:8px;">PHYSICAL</div>
+    <div style="font-family:var(--serif); font-size:26px; color:var(--ink); margin-bottom:6px;">实体原型机</div>
+    <div style="font-size:14px; color:var(--ink-low); line-height:1.5;">可佩戴 · 可观察灯效与触感反馈 · 现场可触摸的 Evans</div>
+  </div>
+
+  <!-- 16:9 图片占位 860×483 -->
+  <div data-object="true" data-object-type="image" class="image-placeholder"
+       style="position:absolute; left:80px; top:284px; width:860px; height:484px; z-index:5; border-radius:0;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">原型机 / 装置整体照</div>
+    <div class="ph-sub">16 : 9</div>
+  </div>
+
+  <div style="position:absolute; left:100px; top:784px; width:820px; z-index:10;
+              font-family:var(--mono); font-size:12px; letter-spacing:0.12em; color:var(--ink-low); line-height:1.8;">
+    Evans 以可穿戴形态出现在展场，<br>
+    观众可直接感知其存在与反馈
+  </div>
+
+  <!-- ── COL 2 · VISION FILM · 愿景片 ── -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:980px; top:178px; width:860px; height:840px;
+              border:0.5px solid var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1000px; top:192px; width:820px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.22em; color:var(--accent); margin-bottom:8px;">VISION FILM</div>
+    <div style="font-family:var(--serif); font-size:26px; color:var(--ink); margin-bottom:6px;">愿景片</div>
+    <div style="font-size:14px; color:var(--ink-low); line-height:1.5;">叙事性愿景视频 · 连接情感与系统 · 小屏循环播放</div>
+  </div>
+
+  <!-- 16:9 图片占位 860×483 -->
+  <div data-object="true" data-object-type="image" class="image-placeholder"
+       style="position:absolute; left:980px; top:284px; width:860px; height:484px; z-index:5; border-radius:0;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">愿景片封面 / 关键帧</div>
+    <div class="ph-sub">16 : 9</div>
+  </div>
+
+  <div style="position:absolute; left:1000px; top:784px; width:820px; z-index:10;
+              font-family:var(--mono); font-size:12px; letter-spacing:0.12em; color:var(--ink-low); line-height:1.8;">
+    以影像叙事打通「系统逻辑」与<br>
+    「真实陪伴感」之间的情感距离
+  </div>
+
+  <!-- 底注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:1038px; width:1760px;
+              text-align:center; font-family:var(--serif); font-style:italic;
+              font-size:14px; color:var(--ink-low); z-index:10;">
+    2&nbsp;/&nbsp;2 &nbsp;·&nbsp; 完整体验覆盖 Evans 七层架构全部环节，以 15 个场景回应论文三条主线
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>12b</strong>/&nbsp;18</span>
+  </div>
+
+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">13</span><span class="slabel">SCENES</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="13 亮点场景">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>11&nbsp;/&nbsp;KEY SCENES</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">两&nbsp;个&nbsp;最&nbsp;有&nbsp;张&nbsp;力&nbsp;的&nbsp;场&nbsp;景</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">全链路调度 vs 沉默作为设计输出</div>
+    <div class="title-cn" style="font-size:48px;">
+      两个最有<span style="color:var(--accent);">视觉冲击力</span>的场景
+    </div>
+  </div>
+
+  <!-- 中线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:960px; top:330px; width:1px; height:680px;
+              background:var(--rule); z-index:1;"></div>
+
+  <!-- 左 · S04 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:340px; width:840px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em; color:var(--accent); margin-bottom:14px;">
+      SCENE · S04
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:36px; color:var(--ink); line-height:1.25; margin-bottom:18px;">
+      客厅意外 ——<br>全链路调度
+    </div>
+    <div style="font-family:var(--sans); font-size:18px; color:var(--ink-mid); line-height:1.6; margin-bottom:24px;">
+      陈建国&nbsp;68 岁独居，下午跌倒
+    </div>
+
+    <!-- 时间线 -->
+    <div style="display:flex; margin-bottom:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:90px; color:var(--accent);">1 s</span>
+      <span>机器人唤醒 · 取药路径规划</span>
+    </div>
+    <div style="height:1px; background:var(--rule-soft); margin:8px 0;"></div>
+    <div style="display:flex; margin-bottom:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:90px; color:var(--accent);">同步</span>
+      <span>灯光调亮 · 空调停冷</span>
+    </div>
+    <div style="height:1px; background:var(--rule-soft); margin:8px 0;"></div>
+    <div style="display:flex; margin-bottom:24px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:90px; color:var(--accent);">跨端</span>
+      <span>向儿子发出 <span style="color:var(--ink);">叙事化通报</span></span>
+    </div>
+
+    <!-- 通报示例引文 -->
+    <div style="border-left:2px solid var(--accent); padding:18px 22px; background:var(--bg-soft);">
+      <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:14px;">通报内容&nbsp;·&nbsp;非数据流水，是故事化文字</div>
+      <div style="font-family:var(--serif); font-style:italic; font-size:18px; line-height:1.6; color:var(--ink);">
+        「陈伟，您父亲今天轻度跌倒，他意识清醒，<br>机器人已送去膏药。<br>
+        不需要您立刻返家 —— <span style="color:var(--accent);">他不希望您操心工作</span>。<br>
+        我会继续陪着他。」
+      </div>
+    </div>
+  </div>
+
+  <!-- 右 · S15 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1010px; top:340px; width:830px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em; color:var(--accent); margin-bottom:14px;">
+      SCENE · S15 &nbsp;·&nbsp; 最反常规
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:36px; color:var(--ink); line-height:1.25; margin-bottom:18px;">
+      该不该说话 ——<br>沉默作为<span style="color:var(--accent);">设计输出</span>
+    </div>
+    <div style="font-family:var(--sans); font-size:18px; color:var(--ink-mid); line-height:1.6; margin-bottom:24px;">
+      李明深夜独自烦躁自语
+    </div>
+
+    <!-- 分数 -->
+    <div style="display:flex; margin-bottom:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:120px; color:var(--accent);">介入分数</span>
+      <span><span style="color:var(--ink); font-size:18px;">0.31</span>&nbsp;&nbsp;&lt;&nbsp;&nbsp;阈值&nbsp;0.50</span>
+    </div>
+    <div style="height:1px; background:var(--rule-soft); margin:8px 0;"></div>
+    <div style="display:flex; margin-bottom:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:120px; color:var(--accent);">Evans 决策</span>
+      <span>选择 <span style="color:var(--accent);">不说话</span></span>
+    </div>
+    <div style="height:1px; background:var(--rule-soft); margin:8px 0;"></div>
+    <div style="display:flex; margin-bottom:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:120px;">硬件反馈</span>
+      <span style="color:var(--ink-mid);">胸针不亮 · 无任何回应</span>
+    </div>
+    <div style="height:1px; background:var(--rule-soft); margin:8px 0;"></div>
+    <div style="display:flex; margin-bottom:24px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; color:var(--ink-low);">
+      <span style="width:120px;">30 分钟后</span>
+      <span style="color:var(--ink-mid);">用户主动开口 · 胸针才亮起</span>
+    </div>
+
+    <!-- 屏幕中央浮现 -->
+    <div style="border:1px solid var(--accent); background:rgba(229,82,58,0.06);
+                padding:34px 22px; text-align:center;">
+      <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:var(--accent); margin-bottom:18px;">
+        屏幕中央 · 唯一文字
+      </div>
+      <div style="font-family:var(--serif); font-size:32px; color:var(--ink); line-height:1.4; letter-spacing:0.04em;">
+        Evans 选择不说话。
+      </div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>13</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">14</span><span class="slabel">REFLECTION</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="14 研究反思">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>12&nbsp;/&nbsp;REFLECTION &amp; LIMITATIONS</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">研&nbsp;究&nbsp;反&nbsp;思</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1100px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">主动承认局限，展现学术成熟</div>
+    <div class="title-cn" style="font-size:48px;">
+      反思与<span style="color:var(--accent);">局限</span>
+    </div>
+  </div>
+
+  <!-- 右上注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1300px; top:215px; width:540px; text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:17px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    三个维度分别有一个<span style="color:var(--ink);">内在张力</span>，<br>
+    论文用一整章主动讨论
+  </div>
+
+  <!-- 三列反思 -->
+  <!-- 列 1 · 认知维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:380px; width:1px; height:480px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:120px; top:390px; width:530px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em; color:var(--accent); margin-bottom:14px;">
+      ① &nbsp;认知维度
+    </div>
+    <div style="font-family:var(--serif); font-size:24px; color:var(--ink); line-height:1.4; margin-bottom:24px;">
+      长期认知卸载是否<br>导致用户<span style="color:var(--accent);">记忆退化</span>？
+    </div>
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">RESPONSE</div>
+    <div class="body-cn" style="font-size:16px; line-height:1.65; color:var(--ink); font-weight:300;">
+      Evans 辅助记忆，<br>而非替代记忆 ——<br>
+      人生回忆录由用户自己<br>讲述与编辑。
+    </div>
+  </div>
+
+  <!-- 列 2 · 叙事维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:680px; top:380px; width:1px; height:480px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:390px; width:530px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em; color:var(--accent); margin-bottom:14px;">
+      ② &nbsp;叙事维度
+    </div>
+    <div style="font-family:var(--serif); font-size:24px; color:var(--ink); line-height:1.4; margin-bottom:24px;">
+      AI 整理人生时，<br>"<span style="color:var(--accent);">比用户更懂用户</span>"的诱惑
+    </div>
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">RESPONSE</div>
+    <div class="body-cn" style="font-size:16px; line-height:1.65; color:var(--ink); font-weight:300;">
+      叙事主权留在用户手中，<br>
+      所有内容可编辑、<br>可删除 ——<br>
+      AI 不负责定义"你是谁"。
+    </div>
+  </div>
+
+  <!-- 列 3 · 关系维度 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1280px; top:380px; width:1px; height:480px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1320px; top:390px; width:530px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em; color:var(--accent); margin-bottom:14px;">
+      ③ &nbsp;关系维度
+    </div>
+    <div style="font-family:var(--serif); font-size:24px; color:var(--ink); line-height:1.4; margin-bottom:24px;">
+      以"<span style="color:var(--accent);">为用户好</span>"之名，<br>不断扩展干预范围
+    </div>
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:10px;">RESPONSE</div>
+    <div class="body-cn" style="font-size:16px; line-height:1.65; color:var(--ink); font-weight:300;">
+      分寸感引擎只是<br>设计层回应 ——<br>
+      最终仍需<span style="color:var(--ink);">商业模式</span>与<br><span style="color:var(--ink);">监管框架</span>共同支撑。
+    </div>
+  </div>
+
+  <!-- 底部：论文局限坦白 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:910px; width:1760px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:940px; width:240px; z-index:10;
+              font-family:var(--mono); font-size:12px; letter-spacing:0.18em;
+              color:var(--ink-mid); text-transform:uppercase;">
+    论文局限坦白
+  </div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:340px; top:935px; width:1500px;
+              font-family:var(--sans); font-size:17px; line-height:1.55;
+              color:var(--ink); font-weight:300; z-index:10;">
+    <span style="color:var(--accent);">·</span>&nbsp;验证只能在短期展演尺度 &nbsp;
+    <span style="color:var(--rule);">|</span>&nbsp;
+    <span style="color:var(--accent);">·</span>&nbsp;访谈仅 8 位（用于发现机会，非统计推断）&nbsp;
+    <span style="color:var(--rule);">|</span>&nbsp;
+    <span style="color:var(--accent);">·</span>&nbsp;部分机制停留设计阶段 &nbsp;
+    <span style="color:var(--rule);">|</span>&nbsp;
+    <span style="color:var(--accent);">·</span>&nbsp;商业模式待研究
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>14</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">15</span><span class="slabel">CONTRIBUTION</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="15 贡献总结">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>13&nbsp;/&nbsp;CONTRIBUTIONS</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">贡&nbsp;献&nbsp;总&nbsp;结</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">三点贡献 · 一个核心命题</div>
+    <div class="title-cn" style="font-size:48px;">
+      本研究的<span style="color:var(--accent);">贡献</span>
+    </div>
+  </div>
+
+  <!-- 三个贡献卡（横向） -->
+  <!-- C1 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:340px; width:560px; z-index:10;">
+    <div style="font-family:var(--serif); font-size:120px; line-height:1; color:var(--accent); font-weight:300; letter-spacing:-0.04em; margin-bottom:24px;">
+      01
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em; color:var(--ink-mid); margin-bottom:14px;">
+      THEORETICAL FRAMEWORK
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:30px; color:var(--ink); line-height:1.3; margin-bottom:18px;">
+      理论框架
+    </div>
+    <div class="body-cn" style="font-size:17px; line-height:1.65; color:var(--ink-mid); font-weight:300;">
+      提出陪伴型 AI 的<span style="color:var(--ink);">三维设计分析框架</span>，整合延展心智、叙事认同、智能代理三组理论资源，给出四个设计取向。
+    </div>
+  </div>
+
+  <!-- C2 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:680px; top:340px; width:560px; z-index:10;">
+    <div style="font-family:var(--serif); font-size:120px; line-height:1; color:var(--accent); font-weight:300; letter-spacing:-0.04em; margin-bottom:24px;">
+      02
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em; color:var(--ink-mid); margin-bottom:14px;">
+      SYSTEM DESIGN
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:30px; color:var(--ink); line-height:1.3; margin-bottom:18px;">
+      系统设计
+    </div>
+    <div class="body-cn" style="font-size:17px; line-height:1.65; color:var(--ink-mid); font-weight:300;">
+      完成 Evans 系统建构：三层记忆、共生人格、分寸感引擎、多设备调度。以<span style="color:var(--accent);">「得体卸载」</span>为核心原创概念落地。
+    </div>
+  </div>
+
+  <!-- C3 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1280px; top:340px; width:560px; z-index:10;">
+    <div style="font-family:var(--serif); font-size:120px; line-height:1; color:var(--accent); font-weight:300; letter-spacing:-0.04em; margin-bottom:24px;">
+      03
+    </div>
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.22em; color:var(--ink-mid); margin-bottom:14px;">
+      EXHIBITION PROTOTYPE
+    </div>
+    <div style="font-family:var(--serif); font-weight:500; font-size:30px; color:var(--ink); line-height:1.3; margin-bottom:18px;">
+      展演装置
+    </div>
+    <div class="body-cn" style="font-size:17px; line-height:1.65; color:var(--ink-mid); font-weight:300;">
+      设计<span style="color:var(--ink);">交互式概念验证装置</span>，将抽象框架转化为可被观察与对照的具体体验，以 15 个场景回应论文三条主线。
+    </div>
+  </div>
+
+  <!-- 底部 · 核心命题 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:770px; width:1760px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:795px; width:1760px;
+              text-align:center; z-index:10;">
+    <div style="font-family:var(--mono); font-size:12px; letter-spacing:0.32em; color:var(--accent); margin-bottom:18px;">
+      CORE&nbsp;PROPOSITION &nbsp;·&nbsp; 核&nbsp;心&nbsp;命&nbsp;题
+    </div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:38px; line-height:1.35; color:var(--ink); letter-spacing:0.02em;">
+      真正成熟的代理 AI，应以「<span style="color:var(--accent);">选择不做什么</span>」<br>
+      作为更高一阶的能力衡量。
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>15</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">16</span><span class="slabel">CLOSING</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="16 结语">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>14&nbsp;/&nbsp;CLOSING</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">结&nbsp;语</span>
+  </div>
+
+  <!-- 上半段 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:240px; width:1760px;
+              text-align:center;
+              font-family:var(--serif); font-weight:300;
+              font-size:36px; line-height:1.7; letter-spacing:0.04em;
+              color:var(--ink-mid); z-index:10;">
+    从一位 68 岁的独居老人开始，<br>
+    从一位 29 岁的互联网产品经理开始，<br>
+    从一块芯片、一段代码、一次对话开始 ——
+  </div>
+
+  <!-- 中间分割 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:910px; top:550px; width:100px; height:1px;
+              background:var(--accent); z-index:1;"></div>
+
+  <!-- 下半段 主问句 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:610px; width:1760px;
+              text-align:center;
+              font-family:var(--serif); font-weight:500;
+              font-size:56px; line-height:1.4; letter-spacing:0.02em;
+              color:var(--ink); z-index:10;">
+    当 AI 已经如此强大，<br>
+    它与人之间的关系，<br>
+    <span style="color:var(--accent);">究竟应该是什么？</span>
+  </div>
+
+  <!-- 右下角落款 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; right:80px; bottom:120px; width:900px;
+              text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:16px; line-height:1.65; color:var(--ink-low);
+              letter-spacing:0.04em; z-index:10;">
+    本研究无法给出最终答案，<br>
+    但愿意以一种克制而坚定的方式，<br>
+    为这一问题留下一个来自设计的回应。
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>16</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-wrap">
+    <div class="slide-label-bar"><span class="snum">17</span><span class="slabel">THANKS</span></div>
+    <div class="scale-outer">
+      <div class="scale-inner">
+        <div class="slide-container" data-screen-label="17 致谢">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>15&nbsp;/&nbsp;THANKS &amp; Q&amp;A</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">致&nbsp;谢</span>
+  </div>
+
+  <!-- 主体 · 极简 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:380px; width:1760px;
+              text-align:center; z-index:10;">
+    <div style="font-family:var(--mono); font-size:14px; letter-spacing:0.42em; color:var(--accent); margin-bottom:60px;">
+      Q &nbsp;·&nbsp; &amp; &nbsp;·&nbsp; A
+    </div>
+    <div style="font-family:var(--serif); font-weight:500;
+                font-size:96px; line-height:1.2; color:var(--ink); letter-spacing:0.06em;">
+      谢谢
+    </div>
+    <div style="font-family:var(--serif); font-style:italic;
+                font-size:22px; color:var(--ink-mid); margin-top:36px; letter-spacing:0.06em;">
+      感谢评委老师 · 期待您的提问
+    </div>
+  </div>
+
+  <!-- 底部签名 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:910px; top:870px; width:100px; height:1px;
+              background:var(--accent); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:900px; width:1760px;
+              text-align:center;
+              font-family:var(--sans); font-weight:300;
+              font-size:16px; line-height:1.8; color:var(--ink-low);
+              letter-spacing:0.14em; z-index:10;">
+    EVANS &nbsp;·&nbsp; 张一文 &nbsp;·&nbsp; 指导教师&nbsp;付志勇&nbsp;教授<br>
+    清华大学美术学院 &nbsp;·&nbsp; 信息设计
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>17</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+
 
 <script>
-const SLIDES = [
-  { n:'01', file:'01-cover.html',        label:'COVER' },
-  { n:'02', file:'02-thesis.html',       label:'THESIS' },
-  { n:'03', file:'03-background.html',   label:'BACKGROUND' },
-  { n:'04', file:'04-question.html',     label:'CORE QUESTION' },
-  { n:'05', file:'05-framework.html',    label:'FRAMEWORK' },
-  { n:'06', file:'06-research.html',     label:'RESEARCH' },
-  { n:'07', file:'07-architecture.html', label:'ARCHITECTURE' },
-  { n:'08', file:'08-memory.html',       label:'MEMORY' },
-  { n:'09', file:'09-narrative.html',    label:'NARRATIVE' },
-  { n:'10', file:'10-tact-engine.html',  label:'TACT ENGINE' },
-  { n:'11', file:'11-orchestration.html',label:'ORCHESTRATION' },
-  { n:'12', file:'12-exhibition.html',    label:'EXHIBITION DESIGN · 装置构成' },
-  { n:'12b',file:'12b-exhibition.html',  label:'EXHIBITION DESIGN · 实体与影像' },
-  { n:'13', file:'13-scenes.html',       label:'SCENES' },
-  { n:'14', file:'14-reflection.html',   label:'REFLECTION' },
-  { n:'15', file:'15-contribution.html', label:'CONTRIBUTION' },
-  { n:'16', file:'16-closing.html',      label:'CLOSING' },
-  { n:'17', file:'17-thanks.html',       label:'THANKS' },
-];
-
-const container = document.getElementById('slides');
-
-// Each iframe renders a 1920px-wide slide; we scale it to fill the ratio-box.
-// We do this after the iframe loads via ResizeObserver on the ratio-box.
-
-function buildSlide(s) {
-  const row = document.createElement('div');
-  row.className = 'slide-row';
-
-  const box = document.createElement('div');
-  box.className = 'ratio-box';
-  box.id = 'box-' + s.n;
-
-  const iframe = document.createElement('iframe');
-  iframe.src = s.file;
-  iframe.title = s.label;
-  iframe.loading = 'lazy';
-  iframe.setAttribute('scrolling', 'no');
-
-  const label = document.createElement('div');
-  label.className = 'slide-label';
-  label.innerHTML = `<span class="n">${s.n}</span>`;
-
-  box.appendChild(iframe);
-  row.appendChild(box);
-  row.appendChild(label);
-  container.appendChild(row);
-
-  // Scale iframe so the 1920px content fills the box width
-  function scaleIframe() {
-    const bw = box.offsetWidth;
-    if (!bw) return;
-    const scale = bw / 1920;
-    iframe.style.transform = `scale(${scale})`;
-    iframe.style.width  = '1920px';
-    iframe.style.height = '1080px';
-    // After scaling, the element still occupies 1920×1080 in layout space;
-    // ratio-box with padding-top:56.25% already sizes correctly, so just pin.
-    iframe.style.transformOrigin = 'top left';
-  }
-
-  // Run on load and on resize
-  scaleIframe();
-  iframe.addEventListener('load', scaleIframe);
-
-  const ro = new ResizeObserver(scaleIframe);
-  ro.observe(box);
+// 缩放所有 .scale-inner 到父容器宽度
+function scaleAll() {
+  document.querySelectorAll('.scale-outer').forEach(outer => {
+    const inner = outer.querySelector('.scale-inner');
+    if (!inner) return;
+    const scale = outer.offsetWidth / 1920;
+    inner.style.transform = `scale(${scale})`;
+  });
 }
-
-SLIDES.forEach(buildSlide);
+scaleAll();
+window.addEventListener('resize', scaleAll);
 </script>
 </body>
 </html>
