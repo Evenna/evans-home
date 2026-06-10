@@ -1,0 +1,250 @@
+/* Evans 答辩 · 全局样式系统
+   黑底白字 · 极简 · 高级 · 一抹红橙强调
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+:root{
+  /* 颜色 */
+  --bg:        #0A0A0A;
+  --bg-soft:   #131313;
+  --ink:       #F5F2EC;     /* 主文 暖白 */
+  --ink-mid:   #9C9892;     /* 次要文 */
+  --ink-low:   #5A5752;     /* 弱化文 */
+  --rule:      #2A2825;     /* 分割线 */
+  --rule-soft: #1C1B19;
+  --accent:    #E5523A;     /* 红橙强调 一抹 */
+  --accent-mid:#8C3424;
+
+  /* 字号 */
+  --f-display: 120px;
+  --f-h1:      64px;
+  --f-h2:      44px;
+  --f-h3:      32px;
+  --f-body:    24px;
+  --f-small:   20px;
+  --f-micro:   16px;
+  --f-tiny:    13px;
+
+  /* 字族 */
+  --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --sans:  "Noto Sans SC", "PingFang SC", -apple-system, sans-serif;
+  --mono:  "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+
+*{ box-sizing:border-box; }
+html, body{ margin:0; padding:0; }
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.slide-container{
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ============ 通用 chrome (页眉页脚) ============ */
+.chrome-top{
+  position:absolute; left:80px; top:48px;
+  display:flex; align-items:center; gap:18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--ink-low);
+  text-transform: uppercase;
+}
+.chrome-top .mark{
+  width:10px; height:10px; background:var(--accent);
+  display:inline-block;
+}
+.chrome-top .sep{ color:var(--rule); }
+
+.chrome-bottom{
+  position:absolute; left:80px; right:80px; bottom:48px;
+  display:flex; justify-content:space-between; align-items:flex-end;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--ink-low);
+}
+.chrome-bottom .page{
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-mid);
+}
+.chrome-bottom .page strong{
+  color: var(--ink);
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+/* ============ 通用元素 ============ */
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.title-cn{
+  font-family: var(--serif);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+.body-cn{
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+}
+.body-soft{
+  color: var(--ink-mid);
+}
+.rule-h{
+  background: var(--rule);
+  height: 1px;
+}
+.rule-v{
+  background: var(--rule);
+  width: 1px;
+}
+
+/* ============ 占位框（用户后期手动加图）============ */
+.image-placeholder{
+  background: var(--bg-soft);
+  border: 1px dashed var(--rule);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color: var(--ink-low);
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.image-placeholder .ph-icon{
+  width: 32px; height: 32px;
+  border: 1px solid var(--ink-low);
+  position: relative;
+}
+.image-placeholder .ph-icon::before{
+  content:""; position:absolute; inset:6px;
+  border: 1px solid var(--ink-low);
+}
+.image-placeholder .ph-icon::after{
+  content:""; position:absolute;
+  left:-1px; right:-1px; top:50%;
+  height:1px; background: var(--ink-low);
+  transform: rotate(-30deg);
+}
+.image-placeholder .ph-label{
+  font-size: 12px;
+  letter-spacing: 0.22em;
+}
+.image-placeholder .ph-sub{
+  font-size: 11px;
+  color: var(--ink-low);
+  opacity: 0.7;
+  letter-spacing: 0.14em;
+  text-transform: none;
+  font-family: var(--sans);
+}
+
+/* ============ 数据卡 / 引文 ============ */
+.stat-num{
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.stat-num .unit{
+  font-size: 28px;
+  color: var(--ink-mid);
+  margin-left: 6px;
+  font-weight: 300;
+}
+.stat-label{
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--ink-mid);
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+
+.quote{
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.quote-mark{
+  font-family: var(--serif);
+  color: var(--accent);
+}
+
+/* ============ 表格 ============ */
+.tbl{
+  width:100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  color: var(--ink);
+}
+.tbl th, .tbl td{
+  text-align:left;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 300;
+  font-size: 19px;
+  vertical-align: top;
+}
+.tbl th{
+  color: var(--ink-mid);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-bottom: 1px solid var(--ink-low);
+  padding-bottom: 12px;
+  padding-top: 0;
+}
+.tbl td.k{
+  color: var(--ink-mid);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-top: 18px;
+}
+
+/* ============ 强调点 ============ */
+.dot{
+  display:inline-block;
+  width:6px; height:6px;
+  background: var(--accent);
+  border-radius:0;
+  vertical-align: middle;
+  margin-right: 12px;
+  margin-bottom: 4px;
+}
+.tick{
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  margin-right: 12px;
+}

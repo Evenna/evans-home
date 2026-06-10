@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>07 · 七层架构</title>
+<link rel="stylesheet" href="../assets/chrome.css">
+</head>
+<body>
+<div class="slide-container" data-screen-label="07 七层架构">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>05&nbsp;/&nbsp;SYSTEM OVERVIEW</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">系&nbsp;统&nbsp;设&nbsp;计&nbsp;总&nbsp;览</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">硬件 · 架构 · 工作循环</div>
+    <div class="title-cn" style="font-size:48px;">
+      Evans 七层认知架构
+    </div>
+  </div>
+
+  <!-- 右上小字注 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; right:80px; top:160px; width:380px; text-align:right;
+              font-family:var(--serif); font-style:italic;
+              font-size:17px; line-height:1.6; color:var(--ink-mid); z-index:10;">
+    核心不在任何单层的复杂度，<br>
+    而在于七层之间形成的<br>
+    <span style="color:var(--ink);">完整工作循环</span>
+  </div>
+
+  <!-- 左侧七层架构 -->
+  <!-- 各层 row：从顶到底 7→1，强调第 5/3 层 -->
+
+  <!-- L7 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:340px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:362px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L7</span>
+    <span style="font-size:22px; font-weight:400;">执行层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">执行动作 · 回收反馈</span>
+  </div>
+
+  <!-- L6 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:415px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:437px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L6</span>
+    <span style="font-size:22px; font-weight:400;">调度层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">任务编排 · 设备协同</span>
+  </div>
+
+  <!-- L5 (强调) -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:490px; width:1080px; height:70px;
+              background:rgba(229,82,58,0.08); border:1px solid var(--accent); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:512px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--accent); margin-right:24px; letter-spacing:0.14em;">L5 ★</span>
+    <span style="font-size:22px; font-weight:500;">决策层</span>
+    <span style="color:var(--ink); font-size:16px; margin-left:24px;">ToM 心智推理 · <span style="color:var(--accent);">分寸感引擎</span></span>
+  </div>
+
+  <!-- L4 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:565px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:587px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L4</span>
+    <span style="font-size:22px; font-weight:400;">认知层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">意图识别 · 情境推理</span>
+  </div>
+
+  <!-- L3 (强调) -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:640px; width:1080px; height:70px;
+              background:rgba(229,82,58,0.08); border:1px solid var(--accent); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:662px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--accent); margin-right:24px; letter-spacing:0.14em;">L3 ★</span>
+    <span style="font-size:22px; font-weight:500;">记忆层</span>
+    <span style="color:var(--ink); font-size:16px; margin-left:24px;">情景&nbsp;/&nbsp;语义&nbsp;/&nbsp;人格 — <span style="color:var(--accent);">三层记忆</span></span>
+  </div>
+
+  <!-- L2 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:715px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:737px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L2</span>
+    <span style="font-size:22px; font-weight:400;">融合层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">多模态时空对齐</span>
+  </div>
+
+  <!-- L1 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:80px; top:790px; width:1080px; height:70px;
+              border:1px solid var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:100px; top:812px; width:1040px; z-index:10;
+              font-family:var(--sans); color:var(--ink);">
+    <span style="font-family:var(--mono); font-size:14px; color:var(--ink-mid); margin-right:24px; letter-spacing:0.14em;">L1</span>
+    <span style="font-size:22px; font-weight:400;">感知层</span>
+    <span style="color:var(--ink-low); font-size:16px; margin-left:24px;">视觉 · 音频 · 传感器</span>
+  </div>
+
+  <!-- 右侧硬件图占位 + 规格 -->
+  <div data-object="true" data-object-type="image"
+       class="image-placeholder"
+       style="position:absolute; left:1240px; top:340px; width:520px; height:340px; z-index:5;">
+    <div class="ph-icon"></div>
+    <div class="ph-label">Evans · 硬件形态</div>
+    <div class="ph-sub">胸针 / 项链双形态 · &lt; 25g</div>
+  </div>
+
+  <!-- 硬件规格清单 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1240px; top:705px; width:520px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:14px;">
+      HARDWARE&nbsp;SPECS
+    </div>
+    <div style="font-family:var(--sans); font-size:16px; line-height:1.85; color:var(--ink); font-weight:300;">
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">主体重量</span><span>&lt; 25 g</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">运动追踪</span><span>6 轴 IMU</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">音频拾取</span><span>4 麦克风阵列</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--rule-soft); padding:4px 0;">
+        <span style="color:var(--ink-mid);">生理感知</span><span>心率传感器</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:4px 0;">
+        <span style="color:var(--ink-mid);">视觉</span><span>低功耗视觉模块</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>07</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

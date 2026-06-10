@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "format": "html",
+  "metadata": {
+    "title": "Evans · 毕设答辩",
+    "description": "面向长期陪伴协作关系的智能体与系统设计 · 张一文 · 清华美院信息设计",
+    "author": "张一文"
+  },
+  "canvas": {"width": 1920, "height": 1080},
+  "playlist": [
+    "01-cover.html",
+    "02-thesis.html",
+    "03-background.html",
+    "04-question.html",
+    "05-framework.html",
+    "06-research.html",
+    "07-architecture.html",
+    "08-memory.html",
+    "09-narrative.html",
+    "10-tact-engine.html",
+    "11-orchestration.html",
+    "12-exhibition.html",
+    "13-scenes.html",
+    "14-reflection.html",
+    "15-contribution.html",
+    "16-closing.html",
+    "17-thanks.html"
+  ]
+}

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>11 · 多设备调度</title>
+<link rel="stylesheet" href="../assets/chrome.css">
+</head>
+<body>
+<div class="slide-container" data-screen-label="11 多设备调度">
+
+  <div data-object="true" data-object-type="textbox" class="chrome-top">
+    <span class="mark"></span>
+    <span>09&nbsp;/&nbsp;DEVICE ORCHESTRATION</span>
+    <span class="sep">———</span>
+    <span style="color:var(--ink-mid);">多&nbsp;设&nbsp;备&nbsp;调&nbsp;度</span>
+  </div>
+
+  <!-- 标题 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:140px; width:1400px; z-index:10;">
+    <div class="eyebrow" style="margin-bottom:18px;">DOA 协议 · 协调者而非主控者</div>
+    <div class="title-cn" style="font-size:48px;">
+      Evans 是<span style="color:var(--accent);">协调者</span>与<span style="color:var(--accent);">翻译者</span>
+    </div>
+  </div>
+
+  <!-- 中心放射图 -->
+  <!-- 中心 Evans 节点 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:280px; top:580px; width:200px; height:160px;
+              background:var(--accent); z-index:5;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:280px; top:625px; width:200px;
+              text-align:center;
+              font-family:var(--serif); font-size:34px; font-weight:600;
+              color:#FFFFFF; z-index:10;">
+    Evans
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.22em; color:#FFFFFF; opacity:0.85; margin-top:8px; font-weight:500;">DOA</div>
+  </div>
+
+  <!-- 三条放射线 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:660px; width:220px; height:1px;
+              background:var(--rule); z-index:1;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:550px; width:220px; height:1px;
+              background:var(--rule); z-index:1; transform:rotate(28deg); transform-origin:0 50%;"></div>
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:480px; top:770px; width:220px; height:1px;
+              background:var(--rule); z-index:1; transform:rotate(-28deg); transform-origin:0 50%;"></div>
+
+  <!-- 三个被调度节点 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:430px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:450px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">SMART HOME</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">智能家居</div>
+    <div style="font-size:12px; color:var(--ink-low);">灯 · 暖气 · 窗帘 · 空调</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:615px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:635px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">ROBOTICS</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">服务机器人</div>
+    <div style="font-size:12px; color:var(--ink-low);">取药 · 送水 · 清洁</div>
+  </div>
+
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:700px; top:800px; width:280px; height:90px;
+              border:1px solid var(--rule); z-index:2;"></div>
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:720px; top:820px; width:240px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:6px;">SOFTWARE</div>
+    <div style="font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:4px;">软件工具</div>
+    <div style="font-size:12px; color:var(--ink-low);">日历 · 邮件 · Slack · Notion</div>
+  </div>
+
+  <!-- 中部标签 · 放射图说明 -->
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:80px; top:450px; width:200px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--ink-mid); margin-bottom:8px;">SCHEMATIC</div>
+    <div style="font-family:var(--serif); font-size:16px; color:var(--ink-mid); line-height:1.5;">
+      Device<br>Orchestration<br>Abstraction
+    </div>
+  </div>
+
+  <!-- 右侧 · DOA 协议详解 -->
+  <div data-object="true" data-object-type="shape"
+       style="position:absolute; left:1080px; top:420px; width:1px; height:540px;
+              background:var(--rule); z-index:1;"></div>
+
+  <div data-object="true" data-object-type="textbox"
+       style="position:absolute; left:1130px; top:420px; width:710px; z-index:10;">
+    <div style="font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+                color:var(--accent); margin-bottom:18px;">
+      DOA &nbsp;·&nbsp; Device Orchestration Abstraction
+    </div>
+    <div style="font-family:var(--serif); font-size:24px; line-height:1.5; color:var(--ink); margin-bottom:30px;">
+      把用户模糊的意图，<br>翻译为<span style="color:var(--accent);">跨设备可执行</span>指令序列
+    </div>
+
+    <!-- 示例 S04 -->
+    <div style="border-left:1px solid var(--accent); padding-left:20px;">
+      <div style="font-family:var(--mono); font-size:11px; letter-spacing:0.18em; color:var(--accent); margin-bottom:14px;">EXAMPLE · S04 · 客厅意外</div>
+      <div style="font-family:var(--serif); font-size:22px; color:var(--ink); margin-bottom:18px;">陈建国跌倒</div>
+      <div style="font-family:var(--mono); font-size:11px; color:var(--ink-low); letter-spacing:0.1em; margin-bottom:10px;">EVANS 同步调度 ↓</div>
+      <div style="font-family:var(--sans); font-size:16px; line-height:1.85; color:var(--ink); font-weight:300;">
+        <div>· 机器人取药</div>
+        <div>· 灯光调亮 · 空调停冷</div>
+        <div>· 向儿子发出<span style="color:var(--accent);">叙事化通报</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-object="true" data-object-type="textbox" class="chrome-bottom">
+    <span>EVANS · 张一文</span>
+    <span class="page"><strong>11</strong>/&nbsp;17</span>
+  </div>
+
+</div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
