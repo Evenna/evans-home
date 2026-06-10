@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans · 毕设答辩 · 幻灯片导航</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: rgba(255,255,255,0.08);
+  --accent: #e5523a;
+  --text: rgba(245,245,247,0.95);
+  --text-dim: rgba(245,245,247,0.45);
+  --mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, 'Inter', sans-serif;
+  min-height: 100vh;
+  padding: 48px 40px;
+}
+h1 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: 0.12em;
+  margin-bottom: 40px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+a.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+a.card:hover {
+  border-color: rgba(229,82,58,0.4);
+  background: rgba(229,82,58,0.04);
+}
+.num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  min-width: 28px;
+}
+.title { font-size: 14px; line-height: 1.4; }
+.title-en { font-size: 11px; color: var(--text-dim); font-family: var(--mono); letter-spacing: 0.1em; margin-top: 2px; }
+</style>
+</head>
+<body>
+<h1>Evans · 毕设答辩</h1>
+<div class="sub">张一文 · 清华美院 · 2026 &nbsp;——&nbsp; 点击进入对应页面</div>
+<div class="grid">
+  <a class="card" href="01-cover.html" target="_blank">
+    <span class="num">01</span>
+    <div><div class="title">封面</div><div class="title-en">COVER</div></div>
+  </a>
+  <a class="card" href="02-thesis.html" target="_blank">
+    <span class="num">02</span>
+    <div><div class="title">论文主旨</div><div class="title-en">THESIS</div></div>
+  </a>
+  <a class="card" href="03-background.html" target="_blank">
+    <span class="num">03</span>
+    <div><div class="title">研究背景</div><div class="title-en">BACKGROUND</div></div>
+  </a>
+  <a class="card" href="04-question.html" target="_blank">
+    <span class="num">04</span>
+    <div><div class="title">核心问题</div><div class="title-en">CORE QUESTION</div></div>
+  </a>
+  <a class="card" href="05-framework.html" target="_blank">
+    <span class="num">05</span>
+    <div><div class="title">研究框架</div><div class="title-en">FRAMEWORK</div></div>
+  </a>
+  <a class="card" href="06-research.html" target="_blank">
+    <span class="num">06</span>
+    <div><div class="title">研究内容</div><div class="title-en">RESEARCH</div></div>
+  </a>
+  <a class="card" href="07-architecture.html" target="_blank">
+    <span class="num">07</span>
+    <div><div class="title">系统架构</div><div class="title-en">ARCHITECTURE</div></div>
+  </a>
+  <a class="card" href="08-memory.html" target="_blank">
+    <span class="num">08</span>
+    <div><div class="title">记忆模块</div><div class="title-en">MEMORY</div></div>
+  </a>
+  <a class="card" href="09-narrative.html" target="_blank">
+    <span class="num">09</span>
+    <div><div class="title">叙事引擎</div><div class="title-en">NARRATIVE</div></div>
+  </a>
+  <a class="card" href="10-tact-engine.html" target="_blank">
+    <span class="num">10</span>
+    <div><div class="title">得体引擎</div><div class="title-en">TACT ENGINE</div></div>
+  </a>
+  <a class="card" href="11-orchestration.html" target="_blank">
+    <span class="num">11</span>
+    <div><div class="title">编排机制</div><div class="title-en">ORCHESTRATION</div></div>
+  </a>
+  <a class="card" href="12-exhibition.html" target="_blank">
+    <span class="num">12</span>
+    <div><div class="title">展演设计</div><div class="title-en">EXHIBITION DESIGN</div></div>
+  </a>
+  <a class="card" href="13-scenes.html" target="_blank">
+    <span class="num">13</span>
+    <div><div class="title">场景设计</div><div class="title-en">SCENES</div></div>
+  </a>
+  <a class="card" href="14-reflection.html" target="_blank">
+    <span class="num">14</span>
+    <div><div class="title">反思</div><div class="title-en">REFLECTION</div></div>
+  </a>
+  <a class="card" href="15-contribution.html" target="_blank">
+    <span class="num">15</span>
+    <div><div class="title">研究贡献</div><div class="title-en">CONTRIBUTION</div></div>
+  </a>
+  <a class="card" href="16-closing.html" target="_blank">
+    <span class="num">16</span>
+    <div><div class="title">结语</div><div class="title-en">CLOSING</div></div>
+  </a>
+  <a class="card" href="17-thanks.html" target="_blank">
+    <span class="num">17</span>
+    <div><div class="title">致谢</div><div class="title-en">THANKS</div></div>
+  </a>
+</div>
+</body>
+</html>
