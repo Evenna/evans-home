@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evans · 毕业答辩</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #08090a;
+  --surface:  #111214;
+  --card:     #16181c;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --txt:      #f0f1f3;
+  --txt2:     #8a8f98;
+  --txt3:     #4a4e57;
+  --accent:   #4f8fff;
+  --accent2:  #7a9fff;
+  --green:    #30d158;
+  --orange:   #ff9f0a;
+  --ff:       'Inter', system-ui, sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--ff);
+  font-feature-settings: "cv01","ss03";
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+/* ── slide shell ── */
+.slide {
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── nav dots ── */
+#nav {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--txt3);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.dot.active { background: var(--accent); transform: scale(1.6); }
+
+/* ── slide counter ── */
+#counter {
+  position: fixed;
+  bottom: 28px;
+  right: 36px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--txt3);
+  z-index: 999;
+  letter-spacing: 0.05em;
+}
+
+/* ── shared layout ── */
+.inner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 72px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── eyebrow ── */
+.eyebrow {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.eyebrow span { color: var(--txt3); }
+
+/* ── divider ── */
+.rule {
+  width: 40px;
+  height: 1px;
+  background: var(--border2);
+  margin: 28px 0;
+}
+
+/* bg image overlay */
+.bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  z-index: 0;
+  filter: saturate(0.6);
+}
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(8,9,10,0.92) 0%, rgba(8,9,10,0.6) 100%);
+  z-index: 1;
+}
+.slide > .inner { z-index: 2; }
+
+/* grid helpers */
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+
+/* tag pill */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  color: var(--txt2);
+  background: rgba(255,255,255,0.03);
+  letter-spacing: 0.04em;
+}
+.tag.blue   { border-color: rgba(79,143,255,0.35); color: var(--accent2); background: rgba(79,143,255,0.08); }
+.tag.green  { border-color: rgba(48,209,88,0.35);  color: var(--green);   background: rgba(48,209,88,0.08); }
+.tag.orange { border-color: rgba(255,159,10,0.35); color: var(--orange);  background: rgba(255,159,10,0.08); }
+
+/* card */
+.card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 30px;
+  position: relative;
+}
+.card-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+}
+.card h3 { font-size: 16px; font-weight: 600; color: var(--txt); margin-bottom: 10px; letter-spacing: -0.02em; }
+.card p  { font-size: 13.5px; line-height: 1.65; color: var(--txt2); }
+
+/* stat big */
+.stat-num { font-size: 52px; font-weight: 300; color: var(--txt); letter-spacing: -0.04em; line-height: 1; }
+.stat-num em { font-style: normal; font-size: 28px; color: var(--accent); font-weight: 400; }
+.stat-label { font-size: 12px; color: var(--txt3); margin-top: 8px; letter-spacing: 0.04em; }
+
+/* scene item */
+.scene-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.scene-row:last-child { border-bottom: none; }
+.scene-num {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--txt3);
+  min-width: 30px;
+  padding-top: 3px;
+}
+.scene-title { font-size: 14px; font-weight: 500; color: var(--txt); margin-bottom: 4px; }
+.scene-sub   { font-size: 12px; color: var(--txt3); }
+.scene-tag   { margin-left: auto; }
+
+/* quote */
+.quote {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--txt2);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  border-left: 2px solid var(--accent);
+  padding-left: 22px;
+}
+
+/* flow steps */
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.flow-step {
+  flex: 1;
+  text-align: center;
+  padding: 20px 12px;
+  position: relative;
+}
+.flow-step::after {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--txt3);
+  font-size: 14px;
+}
+.flow-step:last-child::after { display: none; }
+.flow-icon {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+}
+.flow-label { font-size: 13px; font-weight: 500; color: var(--txt); margin-bottom: 6px; }
+.flow-sub   { font-size: 11px; color: var(--txt3); }
+
+/* toc item */
+.toc-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.toc-row:hover { opacity: 0.7; }
+.toc-n { font-family: var(--mono); font-size: 11px; color: var(--txt3); min-width: 24px; }
+.toc-title { font-size: 15px; font-weight: 500; color: var(--txt); flex: 1; }
+.toc-arrow { color: var(--txt3); font-size: 13px; }
+
+/* progress bar */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 1px;
+  background: var(--accent);
+  z-index: 1000;
+  transition: width 0.2s ease;
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="nav"></div>
+<div id="counter">01 / 12</div>
+
+<!-- SLIDES injected by slides.js -->
+<div id="deck"></div>
+
+<script src="slides.js"></script>
+<script src="slides2.js"></script>
+</body>
+</html>
