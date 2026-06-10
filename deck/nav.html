@@ -3,144 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evans · 毕设答辩 · 幻灯片导航</title>
+<title>Evans · 毕设答辩</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d1117;
-  --card: #161b22;
-  --border: rgba(255,255,255,0.08);
+  --bg: #0a0c0f;
   --accent: #e5523a;
-  --text: rgba(245,245,247,0.95);
-  --text-dim: rgba(245,245,247,0.45);
-  --mono: 'JetBrains Mono', 'SF Mono', monospace;
-  --serif: 'Cormorant Garamond', Georgia, serif;
+  --text: rgba(245,245,247,0.9);
+  --text-dim: rgba(245,245,247,0.35);
+  --mono: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 }
+html { background: var(--bg); }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, 'Inter', sans-serif;
-  min-height: 100vh;
-  padding: 48px 40px;
+  font-family: -apple-system, 'Inter', system-ui, sans-serif;
+  padding: 48px 0 80px;
 }
-h1 {
-  font-family: var(--serif);
-  font-size: 28px;
-  font-weight: 400;
-  margin-bottom: 6px;
-  letter-spacing: 0.02em;
+
+/* header */
+.header {
+  padding: 0 40px 40px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  margin-bottom: 0;
 }
-.sub {
-  font-size: 13px;
+.header h1 {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.header p {
+  font-size: 12px;
   color: var(--text-dim);
   font-family: var(--mono);
-  letter-spacing: 0.12em;
-  margin-bottom: 40px;
+  letter-spacing: 0.14em;
 }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
+
+/* slide wrapper */
+.slides {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
-a.card {
+
+.slide-row {
+  position: relative;
+  width: 100%;
+}
+
+/* 16:9 ratio container */
+.ratio-box {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 9/16 */
+  background: #000;
+  overflow: hidden;
+}
+
+.ratio-box iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  /* scale the 1920-wide slide content to fit */
+  transform-origin: top left;
+}
+
+/* label strip */
+.slide-label {
+  position: absolute;
+  top: 12px;
+  left: 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  background: var(--card);
-  border: 0.5px solid var(--border);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--text);
-  transition: border-color 0.15s, background 0.15s;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 10;
 }
-a.card:hover {
-  border-color: rgba(229,82,58,0.4);
-  background: rgba(229,82,58,0.04);
-}
-.num {
+.slide-label .n {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
   color: var(--accent);
-  letter-spacing: 0.18em;
-  min-width: 28px;
+  background: rgba(10,12,15,0.72);
+  padding: 3px 7px;
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
 }
-.title { font-size: 14px; line-height: 1.4; }
-.title-en { font-size: 11px; color: var(--text-dim); font-family: var(--mono); letter-spacing: 0.1em; margin-top: 2px; }
+
+/* divider between slides */
+.slide-row + .slide-row {
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+}
 </style>
 </head>
 <body>
-<h1>Evans · 毕设答辩</h1>
-<div class="sub">张一文 · 清华美院 · 2026 &nbsp;——&nbsp; 点击进入对应页面</div>
-<div class="grid">
-  <a class="card" href="01-cover.html" target="_blank">
-    <span class="num">01</span>
-    <div><div class="title">封面</div><div class="title-en">COVER</div></div>
-  </a>
-  <a class="card" href="02-thesis.html" target="_blank">
-    <span class="num">02</span>
-    <div><div class="title">论文主旨</div><div class="title-en">THESIS</div></div>
-  </a>
-  <a class="card" href="03-background.html" target="_blank">
-    <span class="num">03</span>
-    <div><div class="title">研究背景</div><div class="title-en">BACKGROUND</div></div>
-  </a>
-  <a class="card" href="04-question.html" target="_blank">
-    <span class="num">04</span>
-    <div><div class="title">核心问题</div><div class="title-en">CORE QUESTION</div></div>
-  </a>
-  <a class="card" href="05-framework.html" target="_blank">
-    <span class="num">05</span>
-    <div><div class="title">研究框架</div><div class="title-en">FRAMEWORK</div></div>
-  </a>
-  <a class="card" href="06-research.html" target="_blank">
-    <span class="num">06</span>
-    <div><div class="title">研究内容</div><div class="title-en">RESEARCH</div></div>
-  </a>
-  <a class="card" href="07-architecture.html" target="_blank">
-    <span class="num">07</span>
-    <div><div class="title">系统架构</div><div class="title-en">ARCHITECTURE</div></div>
-  </a>
-  <a class="card" href="08-memory.html" target="_blank">
-    <span class="num">08</span>
-    <div><div class="title">记忆模块</div><div class="title-en">MEMORY</div></div>
-  </a>
-  <a class="card" href="09-narrative.html" target="_blank">
-    <span class="num">09</span>
-    <div><div class="title">叙事引擎</div><div class="title-en">NARRATIVE</div></div>
-  </a>
-  <a class="card" href="10-tact-engine.html" target="_blank">
-    <span class="num">10</span>
-    <div><div class="title">得体引擎</div><div class="title-en">TACT ENGINE</div></div>
-  </a>
-  <a class="card" href="11-orchestration.html" target="_blank">
-    <span class="num">11</span>
-    <div><div class="title">编排机制</div><div class="title-en">ORCHESTRATION</div></div>
-  </a>
-  <a class="card" href="12-exhibition.html" target="_blank">
-    <span class="num">12</span>
-    <div><div class="title">展演设计</div><div class="title-en">EXHIBITION DESIGN</div></div>
-  </a>
-  <a class="card" href="13-scenes.html" target="_blank">
-    <span class="num">13</span>
-    <div><div class="title">场景设计</div><div class="title-en">SCENES</div></div>
-  </a>
-  <a class="card" href="14-reflection.html" target="_blank">
-    <span class="num">14</span>
-    <div><div class="title">反思</div><div class="title-en">REFLECTION</div></div>
-  </a>
-  <a class="card" href="15-contribution.html" target="_blank">
-    <span class="num">15</span>
-    <div><div class="title">研究贡献</div><div class="title-en">CONTRIBUTION</div></div>
-  </a>
-  <a class="card" href="16-closing.html" target="_blank">
-    <span class="num">16</span>
-    <div><div class="title">结语</div><div class="title-en">CLOSING</div></div>
-  </a>
-  <a class="card" href="17-thanks.html" target="_blank">
-    <span class="num">17</span>
-    <div><div class="title">致谢</div><div class="title-en">THANKS</div></div>
-  </a>
+
+<div class="header">
+  <h1>Evans · 毕设答辩</h1>
+  <p>张一文 · 清华美院 · 2026 &nbsp;·&nbsp; 17 SLIDES</p>
 </div>
+
+<div class="slides" id="slides"></div>
+
+<script>
+const SLIDES = [
+  { n:'01', file:'01-cover.html',        label:'COVER' },
+  { n:'02', file:'02-thesis.html',       label:'THESIS' },
+  { n:'03', file:'03-background.html',   label:'BACKGROUND' },
+  { n:'04', file:'04-question.html',     label:'CORE QUESTION' },
+  { n:'05', file:'05-framework.html',    label:'FRAMEWORK' },
+  { n:'06', file:'06-research.html',     label:'RESEARCH' },
+  { n:'07', file:'07-architecture.html', label:'ARCHITECTURE' },
+  { n:'08', file:'08-memory.html',       label:'MEMORY' },
+  { n:'09', file:'09-narrative.html',    label:'NARRATIVE' },
+  { n:'10', file:'10-tact-engine.html',  label:'TACT ENGINE' },
+  { n:'11', file:'11-orchestration.html',label:'ORCHESTRATION' },
+  { n:'12', file:'12-exhibition.html',   label:'EXHIBITION DESIGN' },
+  { n:'13', file:'13-scenes.html',       label:'SCENES' },
+  { n:'14', file:'14-reflection.html',   label:'REFLECTION' },
+  { n:'15', file:'15-contribution.html', label:'CONTRIBUTION' },
+  { n:'16', file:'16-closing.html',      label:'CLOSING' },
+  { n:'17', file:'17-thanks.html',       label:'THANKS' },
+];
+
+const container = document.getElementById('slides');
+
+// Each iframe renders a 1920px-wide slide; we scale it to fill the ratio-box.
+// We do this after the iframe loads via ResizeObserver on the ratio-box.
+
+function buildSlide(s) {
+  const row = document.createElement('div');
+  row.className = 'slide-row';
+
+  const box = document.createElement('div');
+  box.className = 'ratio-box';
+  box.id = 'box-' + s.n;
+
+  const iframe = document.createElement('iframe');
+  iframe.src = s.file;
+  iframe.title = s.label;
+  iframe.loading = 'lazy';
+  iframe.setAttribute('scrolling', 'no');
+
+  const label = document.createElement('div');
+  label.className = 'slide-label';
+  label.innerHTML = `<span class="n">${s.n}</span>`;
+
+  box.appendChild(iframe);
+  row.appendChild(box);
+  row.appendChild(label);
+  container.appendChild(row);
+
+  // Scale iframe so the 1920px content fills the box width
+  function scaleIframe() {
+    const bw = box.offsetWidth;
+    if (!bw) return;
+    const scale = bw / 1920;
+    iframe.style.transform = `scale(${scale})`;
+    iframe.style.width  = '1920px';
+    iframe.style.height = '1080px';
+    // After scaling, the element still occupies 1920×1080 in layout space;
+    // ratio-box with padding-top:56.25% already sizes correctly, so just pin.
+    iframe.style.transformOrigin = 'top left';
+  }
+
+  // Run on load and on resize
+  scaleIframe();
+  iframe.addEventListener('load', scaleIframe);
+
+  const ro = new ResizeObserver(scaleIframe);
+  ro.observe(box);
+}
+
+SLIDES.forEach(buildSlide);
+</script>
 </body>
 </html>
