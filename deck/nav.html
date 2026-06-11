@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Evans · 答辩幻灯片</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="chrome.css">
+<link rel="stylesheet" href="deck/chrome.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);overflow:auto!important;height:auto!important}
@@ -16,7 +16,7 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 .slide-meta{display:flex;align-items:center;gap:12px}
 .slide-num{font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.2)}
 .slide-label{font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.3);text-transform:uppercase}
-.slide-viewport{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border:0.5px solid rgba(255,255,255,.08)}
+.slide-viewport{position:relative;width:100%;overflow:hidden;border:0.5px solid rgba(255,255,255,.08)}
 .slide-scaler{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}
 </style>
 </head>
@@ -25,94 +25,116 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 <div class="deck">
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">01</span><span class="slide-label">01 封面</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="01 封面">
 
-  <!-- Scene photo strip: right side atmosphere -->
-  <div style="position:absolute; right:0; top:0; width:580px; height:540px; z-index:0;">
-    <img src="assets/sc3.png" style="position:absolute; right:0; top:0; width:580px; height:540px; z-index:0; opacity:0.20; object-fit:cover;">
-    <div style="position:absolute; inset:0; background:linear-gradient(to right, #000000 0%, transparent 100%); z-index:1;"></div>
-  </div>
-  <div style="position:absolute; right:0; top:540px; width:580px; height:540px; z-index:0;">
-    <img src="assets/sc7.png" style="position:absolute; right:0; top:0; width:580px; height:540px; z-index:0; opacity:0.20; object-fit:cover;">
-    <div style="position:absolute; inset:0; background:linear-gradient(to right, #000000 0%, transparent 100%); z-index:1;"></div>
-  </div>
-  <div style="position:absolute; right:0; top:538px; width:580px; height:1px; background:rgba(255,255,255,0.08); z-index:1;"></div>
+  <!-- ═══ 背景图层：全屏场景拼贴 ═══ -->
 
-  <!-- 顶部品牌 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; left:80px; top:48px; width:600px;
-              font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
-              color:var(--ink-low); text-transform:uppercase; z-index:10;" id="fabric-obj-0-1781132223314">
+  <!-- 左上：sc1，全高左半 -->
+  <div style="position:absolute;left:0;top:0;width:640px;height:1080px;overflow:hidden;z-index:0;">
+    <img src="assets/sc1.png" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.60;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(8,8,8,0.1) 0%,rgba(8,8,8,0.85) 100%)"></div>
+  </div>
+
+  <!-- 右上：sc5，右上角 -->
+  <div style="position:absolute;right:0;top:0;width:820px;height:520px;overflow:hidden;z-index:0;">
+    <img src="assets/sc5.png" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.55;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,8,0.9) 0%,rgba(8,8,8,0.2) 60%,rgba(8,8,8,0.5) 100%)"></div>
+  </div>
+
+  <!-- 右下：sc8，右下角 -->
+  <div style="position:absolute;right:0;bottom:0;width:820px;height:580px;overflow:hidden;z-index:0;">
+    <img src="assets/sc8.png" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;opacity:0.55;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(225deg,rgba(8,8,8,0.15) 0%,rgba(8,8,8,0.7) 70%)"></div>
+    <!-- 右下两图之间的细线 -->
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:rgba(255,255,255,0.12);"></div>
+  </div>
+
+  <!-- 中间竖向分割线（左图与右侧之间） -->
+  <div style="position:absolute;left:640px;top:80px;width:1px;height:920px;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.12) 20%,rgba(255,255,255,0.12) 80%,transparent);z-index:2;"></div>
+
+  <!-- 右侧中间横向分割线 -->
+  <div style="position:absolute;left:640px;top:520px;width:1280px;height:1px;background:rgba(255,255,255,0.10);z-index:2;"></div>
+
+  <!-- ═══ 中央产品图：硬件实拍 hw2 ═══ -->
+  <div style="position:absolute;left:660px;top:140px;width:580px;height:640px;overflow:hidden;z-index:5;">
+    <img src="assets/hw2.png" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:0.92;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,8,0.3) 0%,transparent 30%,transparent 65%,rgba(8,8,8,0.5) 100%)"></div>
+  </div>
+
+  <!-- ═══ 顶部品牌 ═══ -->
+  <div style="position:absolute;left:80px;top:48px;width:600px;
+              font-family:var(--mono);font-size:13px;letter-spacing:0.22em;
+              color:var(--ink-low);text-transform:uppercase;z-index:20;">
     <span style="display:inline-block;width:10px;height:10px;background:var(--accent);vertical-align:1px;margin-right:14px;"></span>
     EVANS · GRADUATION DEFENSE · 2026
   </div>
 
-  <!-- 右上 学院信息 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; right:80px; top:48px; width:520px;
-              text-align:right;
-              font-family:var(--mono); font-size:13px; letter-spacing:0.18em;
-              color:var(--ink-low); text-transform:uppercase; z-index:10;" id="fabric-obj-1-1781132223315">
+  <!-- 右上学院信息 -->
+  <div style="position:absolute;right:80px;top:48px;width:480px;
+              text-align:right;font-family:var(--mono);font-size:13px;letter-spacing:0.18em;
+              color:var(--ink-low);text-transform:uppercase;z-index:20;">
     TSINGHUA · ACADEMY OF ARTS &amp; DESIGN
-    <div style="color:var(--ink-low); opacity:0.7; margin-top:6px;">INFORMATION DESIGN</div>
+    <div style="opacity:0.65;margin-top:6px;">INFORMATION DESIGN</div>
   </div>
 
-  <!-- 中央产品图占位 -->
-  <div data-object="true" data-object-type="image" class="image-placeholder" style="position:absolute; left:760px; top:280px; width:400px; height:400px; z-index:5;" id="fabric-obj-2-1781132223315">
-    <div class="ph-icon"></div>
-    <div class="ph-label">EVANS · 硬件原型</div>
-    <div class="ph-sub">胸针 / 项链 · &lt; 25g</div>
-  </div>
-
-  <!-- 主标题 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; left:80px; top:720px; width:1760px;
-              text-align:center; z-index:10;" id="fabric-obj-3-1781132223316">
-    <div style="font-family:var(--mono); font-size:14px; letter-spacing:0.32em;
-                color:var(--accent); margin-bottom:28px;">
-      E&nbsp;·&nbsp;V&nbsp;·&nbsp;A&nbsp;·&nbsp;N&nbsp;·&nbsp;S
+  <!-- ═══ 右上区：标签信息 ═══ -->
+  <div style="position:absolute;right:80px;top:130px;width:420px;z-index:20;text-align:right;">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.22em;color:var(--accent);margin-bottom:16px;">
+      MASTER THESIS · 2026
     </div>
-    <div class="title-cn" style="font-size:60px; font-weight:500; line-height:1.25;">
-      面向长期陪伴协作关系的<br>
-      智能体与系统设计
+    <div style="font-family:var(--serif);font-size:28px;color:rgba(255,255,255,0.75);line-height:1.5;font-weight:300;">
+      长期陪伴<br>
+      <span style="color:rgba(255,255,255,0.45);font-size:18px;letter-spacing:0.1em;">Long-term Companionship</span>
     </div>
   </div>
 
-  <!-- 副标题信息 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; left:80px; top:950px; width:1760px;
-              text-align:center; z-index:10;" id="fabric-obj-4-1781132223316">
-    <div style="font-family:var(--sans); font-size:18px; letter-spacing:0.14em;
-                color:var(--ink-mid); font-weight:300;">
-      艺术与科技（信息设计）
-      <span style="color:var(--rule); margin:0 16px;">|</span>
-      张一文
-      <span style="color:var(--rule); margin:0 16px;">|</span>
-      指导教师&nbsp;付志勇&nbsp;教授
+  <!-- ═══ 右下区：副标题 + 核心词 ═══ -->
+  <div style="position:absolute;right:80px;bottom:160px;width:560px;z-index:20;text-align:right;">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.22em;color:rgba(255,255,255,0.3);margin-bottom:20px;">
+      INTELLIGENT AGENT · SYSTEM DESIGN
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-bottom:20px;">
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--accent);border:0.5px solid rgba(229,82,58,0.5);padding:5px 12px;">三层记忆</span>
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--accent);border:0.5px solid rgba(229,82,58,0.5);padding:5px 12px;">分寸感引擎</span>
+      <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--accent);border:0.5px solid rgba(229,82,58,0.5);padding:5px 12px;">共生人格</span>
     </div>
   </div>
 
-  <!-- 左下角金句 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; left:80px; bottom:48px; width:900px;
-              font-family:var(--serif); font-style:italic;
-              font-size:15px; color:var(--ink-low); letter-spacing:0.04em;
-              line-height:1.6; z-index:10;" id="fabric-obj-5-1781132223316">
-    「真正成熟的代理 AI，是知道什么时候应该不说话。」
+  <!-- ═══ 主标题区（居中下方） ═══ -->
+  <div style="position:absolute;left:80px;top:750px;width:560px;z-index:20;">
+    <div style="font-family:var(--mono);font-size:13px;letter-spacing:0.38em;color:var(--accent);margin-bottom:22px;">
+      E · V · A · N · S
+    </div>
+    <div style="font-family:var(--serif);font-size:42px;font-weight:500;line-height:1.3;color:rgba(255,255,255,0.95);letter-spacing:0.01em;">
+      面向长期陪伴<br>协作关系的<br>
+      <span style="color:var(--accent);">智能体与系统设计</span>
+    </div>
   </div>
 
-  <!-- 右下角页码 -->
-  <div data-object="true" data-object-type="textbox" style="position:absolute; right:80px; bottom:48px;
-              font-family:var(--mono); font-size:13px; letter-spacing:0.18em;
-              color:var(--ink-low); z-index:10;" id="fabric-obj-6-1781132223316">
-    01&nbsp;/&nbsp;17
+  <!-- ═══ 底部信息栏 ═══ -->
+  <div style="position:absolute;left:0;bottom:0;width:1920px;height:80px;
+              border-top:0.5px solid rgba(255,255,255,0.08);
+              background:linear-gradient(180deg,transparent,rgba(8,8,8,0.8));
+              z-index:20;display:flex;align-items:center;padding:0 80px;justify-content:space-between;">
+    <div style="font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,0.35);letter-spacing:0.04em;">
+      「真正成熟的代理 AI，是知道什么时候应该不说话。」
+    </div>
+    <div style="font-family:var(--sans);font-size:16px;color:rgba(255,255,255,0.5);letter-spacing:0.1em;">
+      张一文 &nbsp;·&nbsp; 指导教师 付志勇 教授
+    </div>
+    <div style="font-family:var(--mono);font-size:13px;letter-spacing:0.18em;color:rgba(255,255,255,0.2);">
+      01 / 17
+    </div>
   </div>
 
 </div>
-
-
 </div></div></div>
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">02</span><span class="slide-label">02 破题</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="02 破题">
 
   <div style="position:absolute;inset:0;overflow:hidden;z-index:0">
-    <img src="assets/sc1.png" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.38;display:block;filter:grayscale(20%)">
+    <img src="assets/sc1.png" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.60;display:block;filter:grayscale(20%)">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.25) 40%,rgba(10,10,10,0.55) 70%,rgba(10,10,10,0.85) 100%)"></div>
   </div>
   <div style="position:absolute;right:0;top:0;width:500px;height:1080px;overflow:hidden;z-index:0">
-    <img src="assets/sc8.png" style="width:100%;height:100%;object-fit:cover;opacity:0.22;display:block;filter:grayscale(30%)">
+    <img src="assets/sc8.png" style="width:100%;height:100%;object-fit:cover;opacity:0.42;display:block;filter:grayscale(30%)">
     <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.9) 0%,rgba(10,10,10,0.3) 100%)"></div>
   </div>
 
@@ -257,7 +279,7 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
   </div>
 
   <!-- scene photo strip (decorative, far right) -->
-  <div style='position:absolute;right:0;top:0;width:480px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc2.png' style='width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.55'><div style='position:absolute;inset:0;background:linear-gradient(to right,#0A0A0A 0%,rgba(10,10,10,0.4) 60%,rgba(10,10,10,0) 100%)'></div></div>
+  <div style='position:absolute;right:0;top:0;width:480px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc2.png' style='width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.72'><div style='position:absolute;inset:0;background:linear-gradient(to right,#0A0A0A 0%,rgba(10,10,10,0.4) 60%,rgba(10,10,10,0) 100%)'></div></div>
 
   <!-- chrome bottom -->
   <div data-object="true" data-object-type="textbox" class="chrome-bottom">
@@ -270,11 +292,11 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">04</span><span class="slide-label">04 研究问题</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="04 研究问题">
 
 <div style="position:absolute;right:0;top:0;width:720px;height:1080px;overflow:hidden;z-index:0">
-  <img src="assets/sc3.png" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.45;display:block">
+  <img src="assets/sc3.png" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.65;display:block">
   <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,1) 0%,rgba(10,10,10,0.5) 45%,rgba(10,10,10,0.1) 100%)"></div>
 </div>
 <div style="position:absolute;right:0;bottom:0;width:720px;height:400px;overflow:hidden;z-index:0">
-  <img src="assets/sc6.png" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.30;display:block">
+  <img src="assets/sc6.png" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.50;display:block">
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.8) 0%,rgba(10,10,10,0.2) 60%,rgba(10,10,10,0.6) 100%)"></div>
 </div>
 
@@ -1618,10 +1640,10 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">14</span><span class="slide-label">13 亮点场景</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="13 亮点场景">
 
   <!-- S04 scene photo background (left half) -->
-  <div style='position:absolute;left:0;top:0;width:960px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc4.png' style='width:100%;height:100%;object-fit:cover;opacity:0.18;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.2) 40%,rgba(10,10,10,0.85) 100%)'></div></div>
+  <div style='position:absolute;left:0;top:0;width:960px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc4.png' style='width:100%;height:100%;object-fit:cover;opacity:0.40;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.2) 40%,rgba(10,10,10,0.85) 100%)'></div></div>
 
   <!-- S15 scene photo background (right half) -->
-  <div style='position:absolute;left:960px;top:0;width:960px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc9.png' style='width:100%;height:100%;object-fit:cover;opacity:0.18;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to left,rgba(10,10,10,0.2) 40%,rgba(10,10,10,0.85) 100%)'></div></div>
+  <div style='position:absolute;left:960px;top:0;width:960px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc9.png' style='width:100%;height:100%;object-fit:cover;opacity:0.40;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to left,rgba(10,10,10,0.2) 40%,rgba(10,10,10,0.85) 100%)'></div></div>
 
 
   <div data-object="true" data-object-type="textbox" class="chrome-top">
@@ -1740,7 +1762,7 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 </div></div></div>
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">15</span><span class="slide-label">14 研究反思</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="14 研究反思">
 
-<div style="position:absolute;inset:0;overflow:hidden;z-index:0"><img src="assets/sc2.png" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.28;display:block;filter:grayscale(15%)"><div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,10,10,0.8) 0%,rgba(10,10,10,0.45) 50%,rgba(10,10,10,0.8) 100%)"></div></div>
+<div style="position:absolute;inset:0;overflow:hidden;z-index:0"><img src="assets/sc2.png" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.52;display:block;filter:grayscale(15%)"><div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,10,10,0.8) 0%,rgba(10,10,10,0.45) 50%,rgba(10,10,10,0.8) 100%)"></div></div>
 
   <div data-object="true" data-object-type="textbox" class="chrome-top">
     <span class="mark"></span>
@@ -1863,8 +1885,8 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 </div></div></div>
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">16</span><span class="slide-label">15 贡献总结</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="15 贡献总结">
 
-<div style="position:absolute;left:0;top:0;width:1920px;height:280px;overflow:hidden;z-index:0"><img src="assets/sc4.png" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;opacity:0.35;display:block"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.4) 0%,rgba(10,10,10,0.9) 100%)"></div></div>
-<div style="position:absolute;left:0;bottom:0;width:1920px;height:260px;overflow:hidden;z-index:0"><img src="assets/sc9.png" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;opacity:0.32;display:block"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.9) 0%,rgba(10,10,10,0.35) 100%)"></div></div>
+<div style="position:absolute;left:0;top:0;width:1920px;height:280px;overflow:hidden;z-index:0"><img src="assets/sc4.png" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;opacity:0.58;display:block"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.4) 0%,rgba(10,10,10,0.9) 100%)"></div></div>
+<div style="position:absolute;left:0;bottom:0;width:1920px;height:260px;overflow:hidden;z-index:0"><img src="assets/sc9.png" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;opacity:0.55;display:block"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.9) 0%,rgba(10,10,10,0.35) 100%)"></div></div>
 
   <div data-object="true" data-object-type="textbox" class="chrome-top">
     <span class="mark"></span>
@@ -1961,7 +1983,7 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 </div></div></div>
   <div class="slide-block"><div class="slide-meta"><span class="slide-num">17</span><span class="slide-label">16 结语</span></div><div class="slide-viewport"><div class="slide-scaler"><div class="slide-container" data-screen-label="16 结语">
 
-  <div style='position:absolute;inset:0;overflow:hidden;z-index:0'><img src='assets/sc1.png' style='width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.22;display:block'><div style='position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,10,10,0.7) 0%,rgba(10,10,10,0.45) 50%,rgba(10,10,10,0.75) 100%)'></div></div><div style='position:absolute;right:0;top:0;width:700px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc8.png' style='width:100%;height:100%;object-fit:cover;opacity:0.12;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.8) 0%,rgba(10,10,10,0.3) 100%)'></div></div>
+  <div style='position:absolute;inset:0;overflow:hidden;z-index:0'><img src='assets/sc1.png' style='width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.48;display:block'><div style='position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,10,10,0.7) 0%,rgba(10,10,10,0.45) 50%,rgba(10,10,10,0.75) 100%)'></div></div><div style='position:absolute;right:0;top:0;width:700px;height:1080px;overflow:hidden;z-index:0'><img src='assets/sc8.png' style='width:100%;height:100%;object-fit:cover;opacity:0.38;display:block'><div style='position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,0.8) 0%,rgba(10,10,10,0.3) 100%)'></div></div>
 
 
   <div data-object="true" data-object-type="textbox" class="chrome-top">
@@ -2068,6 +2090,14 @@ html,body{background:#060606;min-height:100vh;font-family:var(--mono,monospace);
 </div>
 </div></div></div></div>
 <script>
-function resizeAll(){document.querySelectorAll('.slide-viewport').forEach(function(vp){var s=vp.offsetWidth/1920;vp.querySelector('.slide-scaler').style.transform='scale('+s+')';vp.style.height=(1080*s)+'px';});}
-window.addEventListener('resize',resizeAll);resizeAll();
-</script></body></html>
+function resizeAll(){
+  document.querySelectorAll('.slide-viewport').forEach(function(vp){
+    var s = vp.offsetWidth / 1920;
+    vp.querySelector('.slide-scaler').style.transform = 'scale(' + s + ')';
+    vp.style.height = (1080 * s) + 'px';
+  });
+}
+window.addEventListener('resize', resizeAll);
+resizeAll();
+</script>
+</body></html>
