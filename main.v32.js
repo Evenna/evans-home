@@ -875,195 +875,236 @@ function enterDatastream() {
 // ============================================================
 
 const SCENES = [
-  { id:'S01', label:'从陌生到懂你', sub:'FIRST CONTACT',    code:'ARC-001', stat:'已归档', who:'新用户',      tag:'共生人格演化', quote:'Evans不是工具的"使用"，而是关系的"养成"。' },
-  { id:'S02', label:'老伴的录音',   sub:'RECORDING',        code:'ARC-002', stat:'已归档', who:'陈建国 68岁', tag:'长期人格记忆', quote:'Evans不替你记住，它把记忆的开启权交给你。' },
-  { id:'S03', label:'公园新棋友',   sub:'NEW FRIEND',       code:'ARC-003', stat:'已归档', who:'陈建国 68岁', tag:'关系图谱构建', quote:'Evans把每一次相遇，沉淀为可被追溯的关系。' },
-  { id:'S04', label:'客厅意外',     sub:'EMERGENCY',        code:'ARC-004', stat:'已归档', who:'陈建国 68岁', tag:'紧急响应协同', quote:'Evans不是一个AI，它是一个能调动整个家的大脑。' },
-  { id:'S05', label:'诈骗电话拦截', sub:'INTERCEPT',        code:'ARC-005', stat:'已归档', who:'陈建国 68岁', tag:'声纹核验比对', quote:'分寸感不是"不介入"，是"知道何时该介入"。' },
-  { id:'S06', label:'会议风暴接管', sub:'STORM CONTROL',    code:'ARC-006', stat:'已归档', who:'李明 28岁',   tag:'跨工具整合',  quote:'Evans是唯一能跨越所有工具看到你完整工作流的存在。' },
-  { id:'S07', label:'深夜加班中断', sub:'MIDNIGHT HALT',    code:'ARC-007', stat:'已归档', who:'李明 28岁',   tag:'反直觉干预',  quote:'Evans用你自己的数据，劝阻你伤害你自己。' },
-  { id:'S08', label:'信息洪流过滤', sub:'SIGNAL FILTER',    code:'ARC-008', stat:'已归档', who:'林涵 25岁',   tag:'全渠道扫描',  quote:'Evans替你处理所有信息，把真正需要你的留下来。' },
-  { id:'S09', label:'决策副驾',     sub:'CO-PILOT',         code:'ARC-009', stat:'已归档', who:'李明 28岁',   tag:'平行人生推演',quote:'Evans用你过去213天的数据，让你看清自己。' },
-  { id:'S10', label:'跨工具任务交接',sub:'TASK HANDOFF',    code:'ARC-010', stat:'已归档', who:'李明 28岁',   tag:'团队协作编排',quote:'把"想到一件事"和"事情开始动"的距离，压缩到一秒。' },
-  { id:'S11', label:'纪念日提醒',   sub:'ANNIVERSARY',      code:'ARC-011', stat:'已归档', who:'李明 28岁',   tag:'长期记忆双端',quote:'Evans替你记住，那些你不该忘记的人。' },
-  { id:'S12', label:'代际翻译',     sub:'TRANSLATION',      code:'ARC-012', stat:'已归档', who:'周慧芳 45岁', tag:'隐私分层授权',quote:'Evans不替代亲情，它翻译亲情。' },
-  { id:'S13', label:'决策的第三选项',sub:'THIRD OPTION',    code:'ARC-013', stat:'已归档', who:'苏婷 30岁',   tag:'多维因素分析',quote:'Evans不告诉你怎么选，它告诉你你还可以怎么选。' },
-  { id:'S14', label:'跨城叙事关怀', sub:'NARRATIVE CARE',   code:'ARC-014', stat:'进行中', who:'赵磊 35岁',   tag:'叙事化关怀',  quote:'Evans不取代家人，它让家人之间的距离变近。' },
-  { id:'S15', label:'该不该说话',   sub:'SILENCE',          code:'ARC-015', stat:'机密',   who:'李明 28岁',   tag:'得体卸载',    quote:'真正成熟的代理AI，是知道什么时候应该不说话。' },
+  { id:'S01', label:'从陌生到懂你',    sub:'FIRST CONTACT',   code:'ARC-001', stat:'已归档', who:'新用户',       dur:'约50秒', tag:'共生人格演化', quote:'Evans不是工具的"使用"，而是关系的"养成"。' },
+  { id:'S02', label:'老伴的录音',      sub:'RECORDING',       code:'ARC-002', stat:'已归档', who:'陈建国 68岁',  dur:'约60秒', tag:'长期人格记忆', quote:'Evans不替你记住，它把记忆的开启权交给你。' },
+  { id:'S03', label:'公园新棋友',      sub:'NEW FRIEND',      code:'ARC-003', stat:'已归档', who:'陈建国 68岁',  dur:'约50秒', tag:'关系图谱构建', quote:'Evans把每一次相遇，沉淀为可被追溯的关系。' },
+  { id:'S04', label:'客厅意外',        sub:'EMERGENCY',       code:'ARC-004', stat:'已归档', who:'陈建国 68岁',  dur:'约70秒', tag:'紧急响应协同', quote:'Evans不是一个AI，它是一个能调动整个家的大脑。' },
+  { id:'S05', label:'诈骗电话拦截',    sub:'INTERCEPT',       code:'ARC-005', stat:'已归档', who:'陈建国 68岁',  dur:'约75秒', tag:'声纹核验比对', quote:'分寸感不是"不介入"，是"知道何时该介入"。' },
+  { id:'S06', label:'会议风暴接管',    sub:'STORM CONTROL',   code:'ARC-006', stat:'已归档', who:'李明 28岁',    dur:'约60秒', tag:'跨工具整合',   quote:'Evans是唯一能跨越所有工具看到你完整工作流的存在。' },
+  { id:'S07', label:'深夜加班中断',    sub:'MIDNIGHT HALT',   code:'ARC-007', stat:'已归档', who:'李明 28岁',    dur:'约55秒', tag:'反直觉干预',   quote:'Evans用你自己的数据，劝阻你伤害你自己。' },
+  { id:'S08', label:'信息洪流过滤',    sub:'SIGNAL FILTER',   code:'ARC-008', stat:'已归档', who:'林涵 25岁',    dur:'约50秒', tag:'全渠道扫描',   quote:'Evans替你处理所有信息，把真正需要你的留下来。' },
+  { id:'S09', label:'决策副驾',        sub:'CO-PILOT',        code:'ARC-009', stat:'已归档', who:'李明 28岁',    dur:'约70秒', tag:'平行人生推演', quote:'Evans用你过去213天的数据，让你看清自己。' },
+  { id:'S10', label:'跨工具任务交接',  sub:'TASK HANDOFF',    code:'ARC-010', stat:'已归档', who:'李明 28岁',    dur:'约60秒', tag:'团队协作编排', quote:'把"想到一件事"和"事情开始动"的距离，压缩到一秒。' },
+  { id:'S11', label:'纪念日提醒',      sub:'ANNIVERSARY',     code:'ARC-011', stat:'已归档', who:'李明 28岁',    dur:'约55秒', tag:'长期记忆双端', quote:'Evans替你记住，那些你不该忘记的人。' },
+  { id:'S12', label:'代际翻译',        sub:'TRANSLATION',     code:'ARC-012', stat:'已归档', who:'周慧芳 45岁',  dur:'约60秒', tag:'隐私分层授权', quote:'Evans不替代亲情，它翻译亲情。' },
+  { id:'S13', label:'决策的第三选项',  sub:'THIRD OPTION',    code:'ARC-013', stat:'已归档', who:'苏婷 30岁',    dur:'约65秒', tag:'多维因素分析', quote:'Evans不告诉你怎么选，它告诉你你还可以怎么选。' },
+  { id:'S14', label:'跨城叙事关怀',    sub:'NARRATIVE CARE',  code:'ARC-014', stat:'进行中', who:'赵磊 35岁',    dur:'约60秒', tag:'叙事化关怀',   quote:'Evans不取代家人，它让家人之间的距离变近。' },
+  { id:'S15', label:'该不该说话',      sub:'SILENCE',         code:'ARC-015', stat:'机密',   who:'李明 28岁',    dur:'约45秒', tag:'得体卸载',     quote:'真正成熟的代理AI，是知道什么时候应该不说话。' },
 ];
 
-// 把15张循环3次 = 45张铺满
-const ARCHIVE_PANELS = [...SCENES, ...SCENES, ...SCENES];
+let arcCanvas, arcCtx, arcDPR, arcW, arcH;
+let arcRaf = null;
+let arcT = 0;
+let arcLastTs = null;
+let arcHover = -1;       // 堆叠中悬停的卡片索引
+let arcSelected = -1;    // 点击选中的卡片索引
+let arcLocked = true;
 
-let archiveCanvas, archiveCtx, archiveDPR, archiveW, archiveH;
-let archiveRaf = null;
-let archiveLocked = true;
-let archiveHover = -1;
-let archiveTime = 0;
-let archiveLastTs = null;
-let archiveSelected = -1;  // 点击选中
+// 每张卡片动画状态
+const arcStates = SCENES.map(() => ({ revealT: 0, hoverT: 0 }));
 
-const cardStates = ARCHIVE_PANELS.map(() => ({ revealT: 0, hoverT: 0 }));
+// 主面板淡入
+let mainPanelAlpha = 0;
 
 // ── enterStage2 ──────────────────────────────────────────────
 function enterStage2() {
-  document.getElementById('stage2').classList.add('visible');
+  const s2 = document.getElementById('stage2');
+  s2.classList.add('visible');
   setTimeout(() => initArchive(), 100);
 }
 
-// ── initArchive ──────────────────────────────────────────────
 function initArchive() {
-  archiveCanvas = document.getElementById('archive-canvas');
-  if (!archiveCanvas) {
-    // 如果 stage2 里没有 canvas，动态创建
-    const s2 = document.getElementById('stage2');
-    s2.innerHTML = '';
-    archiveCanvas = document.createElement('canvas');
-    archiveCanvas.id = 'archive-canvas';
-    archiveCanvas.style.cssText = 'display:block;width:100%;height:100%;cursor:default;';
-    s2.appendChild(archiveCanvas);
+  const s2 = document.getElementById('stage2');
+  s2.innerHTML = '';
+  s2.style.cssText = 'position:fixed;inset:0;background:#000;display:block;overflow:hidden;';
 
-    // 右侧详情面板
-    const detail = document.createElement('div');
-    detail.id = 'arc-detail-panel';
-    s2.appendChild(detail);
-    injectDetailCSS();
-  }
-  archiveCtx = archiveCanvas.getContext('2d');
+  arcCanvas = document.createElement('canvas');
+  arcCanvas.style.cssText = 'display:block;width:100%;height:100%;cursor:default;';
+  s2.appendChild(arcCanvas);
+  arcCtx = arcCanvas.getContext('2d');
 
   function resize() {
-    archiveDPR = Math.min(window.devicePixelRatio || 1, 2);
-    archiveW   = window.innerWidth;
-    archiveH   = window.innerHeight;
-    archiveCanvas.style.width  = archiveW + 'px';
-    archiveCanvas.style.height = archiveH + 'px';
-    archiveCanvas.width  = Math.round(archiveW * archiveDPR);
-    archiveCanvas.height = Math.round(archiveH * archiveDPR);
+    arcDPR = Math.min(window.devicePixelRatio || 1, 2);
+    arcW = window.innerWidth;
+    arcH = window.innerHeight;
+    arcCanvas.style.width  = arcW + 'px';
+    arcCanvas.style.height = arcH + 'px';
+    arcCanvas.width  = Math.round(arcW * arcDPR);
+    arcCanvas.height = Math.round(arcH * arcDPR);
   }
   resize();
   window.addEventListener('resize', resize);
 
-  archiveCanvas.addEventListener('mousemove', onArchiveMove);
-  archiveCanvas.addEventListener('click',     onArchiveClick);
+  arcCanvas.addEventListener('mousemove', onArcMove);
+  arcCanvas.addEventListener('click',     onArcClick);
 
-  archiveLastTs = null;
-  archiveRaf = requestAnimationFrame(archiveTick);
+  arcLastTs = null;
+  arcRaf = requestAnimationFrame(arcTick);
 }
 
-function archiveTick(ts) {
-  if (archiveLastTs === null) archiveLastTs = ts;
-  const dt = Math.min((ts - archiveLastTs) / 1000, 0.05);
-  archiveLastTs = ts;
-  archiveTime += dt;
+function arcTick(ts) {
+  if (arcLastTs === null) arcLastTs = ts;
+  const dt = Math.min((ts - arcLastTs) / 1000, 0.05);
+  arcLastTs = ts;
+  arcT += dt;
 
-  ARCHIVE_PANELS.forEach((_, i) => {
-    const delay  = (i % 15) * 0.06;
-    const target = archiveTime > delay ? 1 : 0;
-    cardStates[i].revealT += (target - cardStates[i].revealT) * Math.min(1, dt * 6);
-    const hTarget = (archiveHover === i && !archiveLocked) ? 1 : 0;
-    cardStates[i].hoverT  += (hTarget - cardStates[i].hoverT)  * Math.min(1, dt * 10);
+  SCENES.forEach((_, i) => {
+    const delay  = i * 0.07;
+    const target = arcT > delay ? 1 : 0;
+    arcStates[i].revealT += (target - arcStates[i].revealT) * Math.min(1, dt * 5);
+    const hTarget = (arcHover === i && !arcLocked) ? 1 : 0;
+    arcStates[i].hoverT  += (hTarget - arcStates[i].hoverT)  * Math.min(1, dt * 10);
   });
 
-  drawArchive();
-  archiveRaf = requestAnimationFrame(archiveTick);
+  // 选中时主面板淡入
+  const mpTarget = arcSelected >= 0 ? 1 : 0;
+  mainPanelAlpha += (mpTarget - mainPanelAlpha) * Math.min(1, dt * 6);
+
+  drawArc();
+  arcRaf = requestAnimationFrame(arcTick);
 }
 
-// ── 计算网格布局 ─────────────────────────────────────────────
-function getGridLayout() {
-  const D    = archiveDPR;
-  const W    = archiveW * D;
-  const H    = archiveH * D;
-  const COLS = 5;
-  const ROWS = Math.ceil(ARCHIVE_PANELS.length / COLS);  // 9行
-  const PAD  = 22 * D;
-  const GAP  = 14 * D;
-  const availW = W - PAD * 2;
-  const availH = H - PAD * 2 - 44 * D;  // 留顶部标题区
-  const cardW  = (availW - GAP * (COLS - 1)) / COLS;
-  const cardH  = (availH - GAP * (ROWS - 1)) / ROWS;
-  const startX = PAD;
-  const startY = 50 * D;
-  return { D, W, H, COLS, ROWS, cardW, cardH, GAP, startX, startY };
+// ── 布局计算 ─────────────────────────────────────────────────
+function getLayout() {
+  const D  = arcDPR;
+  const W  = arcW  * D;
+  const H  = arcH  * D;
+  // 左侧堆叠
+  const stackX  = W * 0.08;
+  const stackY  = H * 0.22;
+  const dX      = 16 * D;
+  const dY      = 10 * D;
+  const cardW   = 260 * D;
+  const cardH   = 162 * D;
+  // 右侧主面板
+  const mainX   = W * 0.46;
+  const mainY   = H * 0.10;
+  const mainW   = 420 * D;
+  const mainH   = 270 * D;
+  // 右上小面板
+  const topX    = W * 0.43;
+  const topY    = H * 0.02;
+  const topW    = 320 * D;
+  const topH    = 80 * D;
+  // 右侧覆盖面板
+  const ov1X    = W * 0.67;
+  const ov1Y    = H * 0.38;
+  const ov1W    = 280 * D;
+  const ov1H    = 170 * D;
+  // 右下面板
+  const bot1X   = W * 0.47;
+  const bot1Y   = H * 0.63;
+  const bot1W   = 420 * D;
+  const bot1H   = 210 * D;
+  // 最右下小面板
+  const bot2X   = W * 0.76;
+  const bot2Y   = H * 0.67;
+  const bot2W   = 240 * D;
+  const bot2H   = 150 * D;
+  return { D, W, H, stackX, stackY, dX, dY, cardW, cardH,
+           mainX, mainY, mainW, mainH,
+           topX, topY, topW, topH,
+           ov1X, ov1Y, ov1W, ov1H,
+           bot1X, bot1Y, bot1W, bot1H,
+           bot2X, bot2Y, bot2W, bot2H };
 }
 
-// ── drawArchive ──────────────────────────────────────────────
-function drawArchive() {
-  const ctx = archiveCtx;
-  const { D, W, H, COLS, cardW, cardH, GAP, startX, startY } = getGridLayout();
+// ── 绘制 ─────────────────────────────────────────────────────
+function drawArc() {
+  const ctx = arcCtx;
+  const L = getLayout();
+  const { D, W, H } = L;
 
-  ctx.clearRect(0, 0, W, H);
+  // 背景
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
 
-  // 斜格背景（和旧版一致）
-  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  // 斜格
+  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
   ctx.lineWidth = 0.7 * D;
-  const step = 52 * D;
-  for (let i = -4; i < 24; i++) {
-    ctx.beginPath(); ctx.moveTo(i * step, 0); ctx.lineTo(i * step + H * 0.3, H); ctx.stroke();
+  const step = 56 * D;
+  for (let i = -8; i < 24; i++) {
+    ctx.beginPath(); ctx.moveTo(i * step, H * 0.08); ctx.lineTo(i * step + W * 0.35, H); ctx.stroke();
   }
   for (let j = 0; j < 14; j++) {
-    ctx.beginPath(); ctx.moveTo(0, j * step * 0.7); ctx.lineTo(W, j * step * 0.7 - 30 * D); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, H * 0.22 + j * step * 0.72); ctx.lineTo(W, H * 0.10 + j * step * 0.72); ctx.stroke();
   }
 
   // 散点
-  for (let i = 0; i < 80; i++) {
-    const x = (Math.sin(i * 91.37) * 0.5 + 0.5) * W;
-    const y = (Math.sin(i * 41.91) * 0.5 + 0.5) * H;
-    ctx.fillStyle = 'rgba(255,255,255,0.10)';
-    ctx.fillRect(x, y, D, D);
+  for (let i = 0; i < 120; i++) {
+    const px = (Math.sin(i * 91.37) * 0.5 + 0.5) * W;
+    const py = (Math.sin(i * 41.91) * 0.5 + 0.5) * H;
+    ctx.fillStyle = 'rgba(255,255,255,0.13)';
+    ctx.fillRect(px, py, D, D);
   }
 
-  // 顶部标题
-  ctx.fillStyle = `rgba(255,255,255,${archiveLocked ? 0.4 : 0.85})`;
-  ctx.font = `500 ${12 * D}px 'JetBrains Mono', monospace, Arial`;
-  ctx.fillText('■  ARCHIVE SYSTEM', 22 * D, 30 * D);
-  ctx.fillStyle = 'rgba(255,255,255,0.28)';
-  ctx.font = `${9 * D}px 'JetBrains Mono', monospace, Arial`;
-  ctx.fillText(archiveLocked ? 'RESTRICTED ACCESS' : `15 RECORDS · ${ARCHIVE_PANELS.length} ENTRIES · HOVER TO PREVIEW · CLICK TO OPEN`,
-    22 * D, 43 * D);
+  // 连接线
+  drawLine(ctx, W * 0.17, H * 0.12, W * 0.62, H * 0.36, 0.38, D);
+  drawLine(ctx, W * 0.24, H * 0.14, W * 0.78, H * 0.43, 0.28, D);
+  drawLine(ctx, W * 0.32, H * 0.22, W * 0.52, H * 0.24, 0.28, D);
+  drawLine(ctx, W * 0.38, H * 0.44, W * 0.79, H * 0.75, 0.22, D);
 
-  // 绘制所有卡片
-  ARCHIVE_PANELS.forEach((panel, i) => {
-    const col = i % COLS;
-    const row = Math.floor(i / COLS);
-    const x   = startX + col * (cardW + GAP);
-    const y   = startY + row * (cardH + GAP);
-    const st  = cardStates[i];
-    const isSelected = archiveSelected === (i % 15);
-    drawCard(ctx, x, y, cardW, cardH, panel, st, D, isSelected);
-  });
+  // 左侧堆叠卡片（从后往前）
+  for (let i = 0; i < SCENES.length; i++) {
+    const x  = L.stackX + i * L.dX;
+    const y  = L.stackY + i * L.dY;
+    const st = arcStates[i];
+    const isTop = i === SCENES.length - 1;
+    const isSel = arcSelected === i;
+    const baseA = 0.08 + i * 0.038;
+    drawStackCard(ctx, x, y, L.cardW, L.cardH, SCENES[i], baseA * st.revealT, st.hoverT, isSel, isTop, D);
+  }
+
+  // 右侧固定面板（始终显示，alpha低）
+  drawStaticPanel(ctx, L.topX,  L.topY,  L.topW,  L.topH,  0.38, D, null);
+  drawStaticPanel(ctx, L.ov1X,  L.ov1Y,  L.ov1W,  L.ov1H,  0.42, D, null);
+  drawStaticPanel(ctx, L.bot1X, L.bot1Y, L.bot1W, L.bot1H, 0.30, D, null);
+  drawStaticPanel(ctx, L.bot2X, L.bot2Y, L.bot2W, L.bot2H, 0.44, D, null);
+
+  // 主展示面板（选中后填充内容）
+  const mA = 0.55 + mainPanelAlpha * 0.25;
+  if (arcSelected >= 0) {
+    drawMainPanel(ctx, L.mainX, L.mainY, L.mainW, L.mainH, SCENES[arcSelected], mA, D);
+  } else {
+    drawStaticPanel(ctx, L.mainX, L.mainY, L.mainW, L.mainH, 0.62, D, '最后一个');
+  }
+
+  // 左上标题
+  ctx.fillStyle = `rgba(255,255,255,0.85)`;
+  ctx.font = `500 ${13 * D}px Arial, sans-serif`;
+  ctx.fillText('■  ARCHIVE SYSTEM', W * 0.06, H * 0.08);
+  ctx.fillStyle = 'rgba(255,255,255,0.30)';
+  ctx.font = `${9 * D}px Arial, sans-serif`;
+  ctx.fillText(arcLocked ? 'RESTRICTED ACCESS' : '15 RECORDS  ·  CLICK TO OPEN', W * 0.06, H * 0.108);
 }
 
-// ── drawCard（保留原版视觉风格）────────────────────────────
-function drawCard(ctx, x, y, w, h, panel, st, D, isSelected) {
-  if (st.revealT < 0.01) return;
-  const alpha  = st.revealT;
-  const hoverT = st.hoverT;
+// ── 堆叠卡片 ─────────────────────────────────────────────────
+function drawStackCard(ctx, x, y, w, h, sc, alpha, hoverT, isSelected, isTop, D) {
+  if (alpha < 0.01) return;
   ctx.save();
 
-  // 选中或hover时内填充微光
+  // hover / selected 内填充
   if (hoverT > 0.05 || isSelected) {
-    const intensity = isSelected ? 0.09 : hoverT * 0.06;
-    const gx = ctx.createLinearGradient(x, y, x + w, y + h);
-    gx.addColorStop(0,   `rgba(255,255,255,${intensity})`);
-    gx.addColorStop(0.5, `rgba(255,255,255,${intensity * 0.5})`);
-    gx.addColorStop(1,   'rgba(255,255,255,0)');
-    ctx.fillStyle = gx;
+    const intensity = isSelected ? 0.10 : hoverT * 0.07;
+    const g = ctx.createLinearGradient(x, y, x + w, y + h);
+    g.addColorStop(0,   `rgba(255,255,255,${intensity})`);
+    g.addColorStop(0.6, `rgba(255,255,255,${intensity * 0.4})`);
+    g.addColorStop(1,   'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
     ctx.fillRect(x, y, w, h);
   }
 
-  // 外框（选中更亮）
-  const borderA = isSelected ? alpha * 0.95 : (0.22 + hoverT * 0.45) * alpha;
-  ctx.strokeStyle = `rgba(255,255,255,${borderA})`;
-  ctx.lineWidth   = (isSelected ? 1.4 : hoverT > 0.3 ? 1.1 : 0.8) * D;
+  // 外框
+  const bA = isSelected ? alpha * 1.4 : alpha + hoverT * 0.5;
+  ctx.strokeStyle = `rgba(255,255,255,${Math.min(bA, 1)})`;
+  ctx.lineWidth   = (isSelected ? 1.3 : 0.85) * D;
   ctx.strokeRect(x, y, w, h);
 
-  // 折角标签（旧版标志性元素）
-  const tagW = w * 0.42;
-  const tagH = 13 * D;
-  ctx.strokeStyle = `rgba(255,255,255,${borderA})`;
-  ctx.lineWidth   = 0.7 * D;
+  // 折角标签
+  const tagW = w * 0.34;
+  const tagH = 15 * D;
+  ctx.strokeStyle = `rgba(255,255,255,${Math.min(bA, 1)})`;
+  ctx.lineWidth   = 0.8 * D;
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(x + tagW, y);
@@ -1072,147 +1113,233 @@ function drawCard(ctx, x, y, w, h, panel, st, D, isSelected) {
   ctx.closePath();
   ctx.stroke();
 
-  // code 编号（折角内）
-  const tA = alpha * 0.75;
+  // 文字（只有接近顶层时才清晰显示）
+  const tA = alpha;
   ctx.fillStyle = `rgba(255,255,255,${tA * 0.85})`;
-  ctx.font = `500 ${6.5 * D}px 'JetBrains Mono', monospace, Arial`;
-  ctx.fillText(`■ ${panel.code}`, x + 6 * D, y + 9 * D);
+  ctx.font = `500 ${7.5 * D}px Arial, sans-serif`;
+  ctx.fillText(`■ ${sc.code}`, x + 9 * D, y + 11 * D);
 
   // 状态右上
-  const statColor = panel.stat === '机密'   ? `rgba(180,100,50,${tA})` :
-                    panel.stat === '进行中' ? `rgba(100,200,150,${tA})` :
-                                              `rgba(255,255,255,${tA * 0.4})`;
-  ctx.fillStyle = statColor;
-  ctx.font = `${6 * D}px 'JetBrains Mono', monospace, Arial`;
-  ctx.fillText(panel.stat, x + w - 30 * D, y + 9 * D);
+  const sColor = sc.stat === '机密'   ? `rgba(180,100,50,${tA})` :
+                 sc.stat === '进行中' ? `rgba(100,200,150,${tA})` :
+                                        `rgba(255,255,255,${tA * 0.38})`;
+  ctx.fillStyle = sColor;
+  ctx.font = `${6.5 * D}px Arial, sans-serif`;
+  ctx.fillText(sc.stat, x + w - 34 * D, y + 11 * D);
 
-  // 中文标题
-  ctx.fillStyle = `rgba(255,255,255,${tA * 0.9})`;
-  ctx.font = `${9.5 * D}px 'PingFang SC', 'Hiragino Sans GB', Arial`;
-  ctx.fillText(panel.label, x + 8 * D, y + h * 0.46);
+  // 顶层卡片显示更多内容
+  if (isTop || hoverT > 0.3 || isSelected) {
+    const fade = isTop ? tA : Math.max(hoverT, isSelected ? 1 : 0) * tA;
+    ctx.fillStyle = `rgba(255,255,255,${fade * 0.85})`;
+    ctx.font = `${10 * D}px 'PingFang SC','Hiragino Sans GB',Arial`;
+    ctx.fillText(sc.label, x + 12 * D, y + h * 0.42);
+    ctx.fillStyle = `rgba(255,255,255,${fade * 0.30})`;
+    ctx.font = `${6.5 * D}px Arial, sans-serif`;
+    ctx.fillText(sc.sub, x + 12 * D, y + h * 0.55);
+  }
 
-  // 英文小字
-  ctx.fillStyle = `rgba(255,255,255,${tA * 0.32})`;
-  ctx.font      = `${5.5 * D}px 'JetBrains Mono', monospace, Arial`;
-  ctx.fillText(panel.sub, x + 8 * D, y + h * 0.58);
+  // 点阵
+  drawDots(ctx, x + 12 * D, y + h * 0.63, 14, 2, tA * 0.30, D);
 
-  // 点阵（旧版特色）
-  drawDots(ctx, x + 8 * D, y + h * 0.66, Math.floor(w / (7 * D)), 2, tA * 0.28, D);
-
-  // 底部内框线
-  ctx.strokeStyle = `rgba(255,255,255,${tA * 0.15})`;
-  ctx.lineWidth   = 0.6 * D;
-  ctx.strokeRect(x + 8 * D, y + h * 0.75, w - 16 * D, h * 0.18);
+  // 内容框
+  ctx.strokeStyle = `rgba(255,255,255,${tA * 0.18})`;
+  ctx.lineWidth = 0.7 * D;
+  ctx.strokeRect(x + 12 * D, y + h * 0.75, w - 24 * D, h * 0.18);
 
   ctx.restore();
+}
+
+// ── 主展示面板（选中后） ─────────────────────────────────────
+function drawMainPanel(ctx, x, y, w, h, sc, alpha, D) {
+  ctx.save();
+
+  // 微光背景
+  const g = ctx.createLinearGradient(x, y, x + w, y + h);
+  g.addColorStop(0,   `rgba(255,255,255,0.07)`);
+  g.addColorStop(0.5, `rgba(255,255,255,0.03)`);
+  g.addColorStop(1,   'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(x, y, w, h);
+
+  // 外框
+  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+  ctx.lineWidth = 1.1 * D;
+  ctx.strokeRect(x, y, w, h);
+
+  // 折角标签
+  const tagW = w * 0.34;
+  const tagH = 16 * D;
+  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+  ctx.lineWidth = 0.9 * D;
+  ctx.beginPath();
+  ctx.moveTo(x, y); ctx.lineTo(x + tagW, y);
+  ctx.lineTo(x + tagW + 6 * D, y + tagH);
+  ctx.lineTo(x, y + tagH);
+  ctx.closePath(); ctx.stroke();
+
+  // code + stat
+  ctx.fillStyle = `rgba(255,255,255,${alpha * 0.85})`;
+  ctx.font = `500 ${8.5 * D}px Arial, sans-serif`;
+  ctx.fillText(`■ ${sc.code}`, x + 11 * D, y + 12 * D);
+
+  const sColor = sc.stat === '机密'   ? `rgba(180,100,50,${alpha})` :
+                 sc.stat === '进行中' ? `rgba(100,200,150,${alpha})` :
+                                        `rgba(255,255,255,${alpha * 0.45})`;
+  ctx.fillStyle = sColor;
+  ctx.font = `${7.5 * D}px Arial, sans-serif`;
+  ctx.fillText(sc.stat, x + w - 44 * D, y + 12 * D);
+
+  // 副标题
+  ctx.fillStyle = `rgba(255,255,255,${alpha * 0.35})`;
+  ctx.font = `${8 * D}px Arial, sans-serif`;
+  ctx.fillText(sc.sub, x + 14 * D, y + 36 * D);
+
+  // 主标题（大）
+  ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+  ctx.font = `400 ${22 * D}px 'PingFang SC','Hiragino Sans GB',Arial`;
+  ctx.fillText(sc.label, x + 14 * D, y + 66 * D);
+
+  // 点阵
+  drawDots(ctx, x + 14 * D, y + 84 * D, 20, 3, alpha * 0.32, D);
+
+  // 内容框
+  ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.22})`;
+  ctx.lineWidth = 0.8 * D;
+  ctx.strokeRect(x + 14 * D, y + h * 0.50, w - 28 * D, h * 0.34);
+
+  // 内容框里的信息
+  const infoX = x + 22 * D;
+  let infoY = y + h * 0.50 + 22 * D;
+  ctx.font = `${7.5 * D}px Arial, sans-serif`;
+  const rows = [
+    [`主角  ${sc.who}`,   alpha * 0.65],
+    [`时长  ${sc.dur}`,   alpha * 0.55],
+    [`能力  ${sc.tag}`,   alpha * 0.55],
+  ];
+  rows.forEach(([txt, a]) => {
+    ctx.fillStyle = `rgba(255,255,255,${a})`;
+    ctx.fillText(txt, infoX, infoY);
+    infoY += 18 * D;
+  });
+
+  // 同心椭圆图像感
+  const cx = x + w * 0.72;
+  const cy = y + h * 0.68;
+  ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.14})`;
+  ctx.lineWidth = 0.8 * D;
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, (32 + i * 13) * D, (15 + i * 7) * D, -0.32, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  // 底部金句
+  const qY = y + h - 18 * D;
+  ctx.fillStyle = `rgba(255,255,255,${alpha * 0.45})`;
+  ctx.font = `${7 * D}px Arial, sans-serif`;
+  const quote = sc.stat === '机密' ? '⬛ 内容已加密 · 访问受限' : sc.quote;
+  // 截断超长
+  const maxW = w - 28 * D;
+  ctx.fillText(quote, x + 14 * D, qY, maxW);
+
+  // 微小标记
+  ctx.fillStyle = `rgba(255,255,255,${alpha * 0.5})`;
+  ctx.fillRect(x + w * 0.55, y + h * 0.64, 3 * D, 3 * D);
+  ctx.fillRect(x + w * 0.78, y + h * 0.72, 2 * D, 2 * D);
+
+  ctx.restore();
+}
+
+// ── 右侧静态占位面板 ─────────────────────────────────────────
+function drawStaticPanel(ctx, x, y, w, h, alpha, D, hint) {
+  ctx.save();
+  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+  ctx.lineWidth = 0.85 * D;
+  ctx.strokeRect(x, y, w, h);
+
+  const tagW = w * 0.34;
+  const tagH = 14 * D;
+  ctx.beginPath();
+  ctx.moveTo(x, y); ctx.lineTo(x + tagW, y);
+  ctx.lineTo(x + tagW + 5 * D, y + tagH);
+  ctx.lineTo(x, y + tagH);
+  ctx.closePath(); ctx.stroke();
+
+  ctx.fillStyle = `rgba(255,255,255,${alpha * 0.7})`;
+  ctx.font = `500 ${7.5 * D}px Arial, sans-serif`;
+  ctx.fillText('■ PANEL', x + 9 * D, y + 10 * D);
+
+  if (hint) {
+    ctx.fillStyle = `rgba(255,255,255,${alpha * 0.4})`;
+    ctx.font = `${7 * D}px Arial, sans-serif`;
+    ctx.fillText(hint, x + 9 * D, y + 28 * D);
+  }
+
+  drawDots(ctx, x + 10 * D, y + h * 0.45, Math.floor(w / (7 * D)), 2, alpha * 0.28, D);
+
+  ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.18})`;
+  ctx.lineWidth = 0.6 * D;
+  ctx.strokeRect(x + 12 * D, y + h * 0.72, w - 24 * D, h * 0.18);
+
+  // 同心椭圆（主面板和大面板才画）
+  if (w > 300 * D) {
+    const cx = x + w * 0.68;
+    const cy = y + h * 0.62;
+    ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.12})`;
+    ctx.lineWidth = 0.7 * D;
+    for (let i = 0; i < 5; i++) {
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, (28 + i * 11) * D, (13 + i * 6) * D, -0.32, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+// ── 工具函数 ─────────────────────────────────────────────────
+function drawLine(ctx, x1, y1, x2, y2, alpha, D) {
+  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+  ctx.lineWidth = 0.8 * D;
+  ctx.setLineDash([3 * D, 5 * D]);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.setLineDash([]);
 }
 
 function drawDots(ctx, x, y, cols, rows, alpha, D) {
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      const a = alpha * (0.4 + Math.sin(c * 0.7 + r * 1.3 + archiveTime * 0.8) * 0.3);
+      const a = alpha * (0.4 + Math.sin(c * 0.7 + r * 1.3 + arcT * 0.8) * 0.3);
       ctx.fillStyle = `rgba(255,255,255,${a})`;
       ctx.fillRect(x + c * 6 * D, y + r * 7 * D, 1.1 * D, 3.5 * D);
     }
   }
 }
 
-// ── 鼠标事件 ────────────────────────────────────────────────
-function onArchiveMove(e) {
-  if (archiveLocked) return;
-  const { D, COLS, cardW, cardH, GAP, startX, startY } = getGridLayout();
+// ── 鼠标事件 ─────────────────────────────────────────────────
+function onArcMove(e) {
+  if (arcLocked) return;
+  const L = getLayout();
+  const D = arcDPR;
   const mx = e.clientX * D;
   const my = e.clientY * D;
   let hit = -1;
-  for (let i = ARCHIVE_PANELS.length - 1; i >= 0; i--) {
-    const col = i % COLS;
-    const row = Math.floor(i / COLS);
-    const x   = startX + col * (cardW + GAP);
-    const y   = startY + row * (cardH + GAP);
-    if (mx >= x && mx <= x + cardW && my >= y && my <= y + cardH) {
+  for (let i = SCENES.length - 1; i >= 0; i--) {
+    const x = L.stackX + i * L.dX;
+    const y = L.stackY + i * L.dY;
+    if (mx >= x && mx <= x + L.cardW && my >= y && my <= y + L.cardH) {
       hit = i; break;
     }
   }
-  archiveHover = hit;
-  archiveCanvas.style.cursor = hit >= 0 ? 'pointer' : 'default';
+  arcHover = hit;
+  arcCanvas.style.cursor = hit >= 0 ? 'pointer' : 'default';
 }
 
-function onArchiveClick(e) {
-  if (archiveLocked || archiveHover < 0) return;
-  const realIdx = archiveHover % 15;
-  archiveSelected = archiveSelected === realIdx ? -1 : realIdx;
-  showDetailPanel(realIdx);
+function onArcClick(e) {
+  if (arcLocked || arcHover < 0) return;
+  arcSelected = arcSelected === arcHover ? -1 : arcHover;
 }
 
-// ── 右侧详情面板 ────────────────────────────────────────────
-function showDetailPanel(idx) {
-  const sc = SCENES[idx];
-  const panel = document.getElementById('arc-detail-panel');
-  if (!panel) return;
-  if (archiveSelected < 0) { panel.classList.remove('open'); return; }
-  panel.innerHTML = `
-    <button class="adp-close" onclick="closeDetailPanel()">✕</button>
-    <div class="adp-code">${sc.code}</div>
-    <div class="adp-id">${sc.id}</div>
-    <div class="adp-title">${sc.label}</div>
-    <div class="adp-en">${sc.sub}</div>
-    <div class="adp-line"></div>
-    <div class="adp-row"><span class="adp-k">主角</span><span class="adp-v">${sc.who}</span></div>
-    <div class="adp-row"><span class="adp-k">时长</span><span class="adp-v">${sc.id === 'S01' ? '约50秒' : sc.id === 'S02' ? '约60秒' : sc.id === 'S03' ? '约50秒' : sc.id === 'S04' ? '约70秒' : sc.id === 'S05' ? '约75秒' : sc.id === 'S06' ? '约60秒' : sc.id === 'S07' ? '约55秒' : sc.id === 'S08' ? '约50秒' : sc.id === 'S09' ? '约70秒' : sc.id === 'S10' ? '约60秒' : sc.id === 'S11' ? '约55秒' : sc.id === 'S12' ? '约60秒' : sc.id === 'S13' ? '约65秒' : sc.id === 'S14' ? '约60秒' : '约45秒'}</span></div>
-    <div class="adp-row"><span class="adp-k">核心能力</span><span class="adp-v">${sc.tag}</span></div>
-    <div class="adp-row"><span class="adp-k">状态</span><span class="adp-v adp-stat-${sc.stat === '机密' ? 'secret' : sc.stat === '进行中' ? 'active' : 'done'}">${sc.stat}</span></div>
-    <div class="adp-line"></div>
-    <div class="adp-quote">${sc.stat === '机密' ? '⬛ 内容已加密 · 访问受限' : '"' + sc.quote + '"'}</div>`;
-  panel.classList.add('open');
-}
-
-function closeDetailPanel() {
-  archiveSelected = -1;
-  const p = document.getElementById('arc-detail-panel');
-  if (p) p.classList.remove('open');
-}
-window.closeDetailPanel = closeDetailPanel;
-
-function unlockArchive() { archiveLocked = false; }
-
-function injectDetailCSS() {
-  if (document.getElementById('adp-css')) return;
-  const st = document.createElement('style');
-  st.id = 'adp-css';
-  st.textContent = `
-    #stage2 { background:#000 !important; }
-    #arc-detail-panel {
-      position:fixed; top:0; right:0; bottom:0; width:320px;
-      background:rgba(0,0,0,0.92);
-      border-left:0.5px solid rgba(255,255,255,0.15);
-      transform:translateX(100%);
-      transition:transform 0.28s cubic-bezier(.4,0,.2,1);
-      padding:32px 24px; overflow-y:auto; z-index:300;
-      font-family:'JetBrains Mono','SF Mono',monospace;
-    }
-    #arc-detail-panel.open { transform:translateX(0); }
-    .adp-close {
-      position:absolute; top:14px; right:16px;
-      background:none; border:none; color:rgba(255,255,255,0.3);
-      font-size:13px; cursor:pointer; padding:4px 8px;
-      font-family:inherit;
-    }
-    .adp-close:hover { color:rgba(255,255,255,0.8); }
-    .adp-code { font-size:9px; letter-spacing:0.2em; color:rgba(255,255,255,0.25); margin-bottom:6px; }
-    .adp-id   { font-size:10px; letter-spacing:0.15em; color:rgba(255,255,255,0.35); margin-bottom:4px; }
-    .adp-title{ font-size:20px; color:rgba(255,255,255,0.92); font-weight:400; margin-bottom:4px; line-height:1.3; }
-    .adp-en   { font-size:9px; letter-spacing:0.22em; color:rgba(255,255,255,0.25); text-transform:uppercase; margin-bottom:18px; }
-    .adp-line { height:0.5px; background:rgba(255,255,255,0.1); margin:14px 0; }
-    .adp-row  { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:9px; gap:10px; }
-    .adp-k    { font-size:9px; color:rgba(255,255,255,0.28); letter-spacing:0.08em; white-space:nowrap; padding-top:1px; }
-    .adp-v    { font-size:11px; color:rgba(255,255,255,0.68); text-align:right; line-height:1.5; }
-    .adp-stat-done   { color:rgba(255,255,255,0.45) !important; }
-    .adp-stat-active { color:rgba(100,200,150,0.85) !important; }
-    .adp-stat-secret { color:rgba(180,100,50,0.85)  !important; }
-    .adp-quote { font-size:12px; color:rgba(255,255,255,0.5); line-height:1.9; font-style:italic; margin-top:6px; }
-  `;
-  document.head.appendChild(st);
-}
+function unlockArchive() { arcLocked = false; }
 
 // ============================================================
 // 启动

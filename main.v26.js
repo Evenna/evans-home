@@ -625,18 +625,18 @@ function enterDatastream() {
   // typewriter=true → 逐字符打出
   // typewriter=false → 直接插入（progress bar / sep）
 
-  const psh = (html, delay=45, tw=true) => QUEUE.push({ html, delay, tw });
-  const sep  = () => psh(`<div style="color:${C.dim};margin:2px 0">${'─'.repeat(90)}</div>`, 20, false);
-  const blank= () => psh(`<div style="height:6px"></div>`, 15, false);
+  const psh = (html, delay=4, tw=true) => QUEUE.push({ html, delay, tw });
+  const sep  = () => psh(`<div style="color:${C.dim};margin:2px 0">${'─'.repeat(90)}</div>`, 5, false);
+  const blank= () => psh(`<div style="height:6px"></div>`, 5, false);
   const prog = (label, pct) => {
     const f = Math.round(pct*50), e = 50-f;
     const bar = `<span style="color:${C.blue}">${'█'.repeat(f)}</span><span style="color:${C.dim}">${'░'.repeat(e)}</span>`;
-    psh(`<div>${d(label.padEnd(20))}  ${bar}  ${cy(String(Math.round(pct*100))+'%')}</div>`, 60, false);
+    psh(`<div>${d(label.padEnd(20))}  ${bar}  ${cy(String(Math.round(pct*100))+'%')}</div>`, 8, false);
   };
 
   // helper: push a typewriter line (HTML string, printed char by char)
-  const line = (html, delay) => psh(`<div>${html}</div>`, delay ?? 40, true);
-  const cmd  = (path, c2)    => line(`${bl(path)} ${d('$')} ${w(c2)}`, 120);
+  const line = (html, delay) => psh(`<div>${html}</div>`, delay ?? 4, true);
+  const cmd  = (path, c2)    => line(`${bl(path)} ${d('$')} ${w(c2)}`, 20);
 
   // ── BLOCK 1: BOOT ────────────────────────────────────────
   sep();
@@ -741,7 +741,7 @@ function enterDatastream() {
       `<span style="color:${mc};display:inline-block;min-width:8ch">${m}</span>` +
       `<span style="color:${C.white};display:inline-block;min-width:42ch">${r}</span>` +
       `${or(rms())}`,
-      30
+      4
     );
   }
   blank();
@@ -788,7 +788,7 @@ function enterDatastream() {
   for (let i=1; i<=15; i++) {
     const id = String(i).padStart(2,'0');
     const flag = i===15 ? re('RESTRICTED') : gr('ok');
-    line(`  ${d('S'+id)}  ${cy('AES-256-GCM')}  ${d('block=')}${or(hex().slice(0,10))}  ${flag}`, 25);
+    line(`  ${d('S'+id)}  ${cy('AES-256-GCM')}  ${d('block=')}${or(hex().slice(0,10))}  ${flag}`, 4);
   }
   line(`${mv('[EVANS]')} ${gr('15/15 scenes decrypted')}  ${d('size=40.2KB  t=')}${or(rms())}`);
   line(`${mv('[EVANS]')} ${ye('WARNING')}  ${d('scene ')}${re('S15')}${d(' flagged ')}${re('RESTRICTED')}${d(' — access event logged')}`);
@@ -890,7 +890,7 @@ function enterDatastream() {
   });
 
   // 总时长后淡出 → enterStage2
-  const STREAM_DURATION = 18000;
+  const STREAM_DURATION = 5000;
   setTimeout(() => {
     term.style.transition = 'opacity 0.7s ease';
     term.style.opacity = '0';

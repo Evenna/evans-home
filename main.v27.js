@@ -640,161 +640,179 @@ function enterDatastream() {
 
   // ── BLOCK 1: BOOT ────────────────────────────────────────
   sep();
-  line(`${d('[')}${cy('BOOT')}${d(']')} ${w('evans-core v2.5.0  build #20240610  pid=')}${or(String(ri(10000,99999)))}`);
-  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('arch=x86_64  kernel=6.6.30-tl4  node=23.4.0  py=3.12.2')}`);
-  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('cpu_cores=32  gpu=NVIDIA RTX 4090  vram=24576MB')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('memory allocator  heap_max=')}${or('8192MB')}${d('  swap=')}${or('16384MB')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('AES-256-GCM keystore loaded  keys=4  expiry=ok')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('RSA-4096 pubkey  fingerprint=')}${mv(hex())}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('TLS 1.3 cert loaded  cn=evans.internal  san=*.evans.internal')}`);
-  line(`${d('[')}${ye('WARN')}${d(']')} ${ye('legacy JWT v1 detected  rotating...')}  ${d('new_exp=')}${or(String(Math.floor(Date.now()/1000+7200)))}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('prometheus metrics  :9090  /metrics')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('redis 7.2.4  127.0.0.1:6379  latency=')}${gr('0.3ms')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('postgres 15.4  socket=/var/run/pg  pool=20')}`);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('all subsystems nominal')}`);
+  line(`${d('[')}${cy('BOOT')}${d(']')} ${w('evans-core v2.5.0  build #20240610  pid=')}${or(String(ri(10000,99999)))}  ${d('uid=1000  gid=1000  ppid=1  cwd=/srv/evans  umask=0022')}`);
+  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('arch=x86_64-linux  kernel=6.6.30-5.tl4  node=23.4.0  python=3.12.2  go=1.22.3  rust=1.78.0  llvm=18.1.4')}`);
+  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('cpu=AMD EPYC 9654 96-Core  threads=192  cpu_mhz=3707  cache_l3=384MB  numa_nodes=2  iommu=on')}`);
+  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('gpu=4×NVIDIA H100 SXM5 80GB  nvlink=4th-gen  cuda=12.4  cudnn=9.1.0  driver=550.90.07')}`);
+  line(`${d('[')}${cy('BOOT')}${d(']')} ${d('mem_total=1024GB  mem_free=621GB  swap=128GB  hugepages=64GB  transparent_hp=madvise')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('memory allocator  jemalloc=5.3.0  heap_max=256GB  arena=32  tcache=on  decay_ms=10000')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('storage  nvme0n1=/srv  nvme1n1=/data  raid=zfs-raidz2  atime=off  compression=lz4  dedup=off')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('network  eth0=10Gbe  bond0=2×25Gbe  ipv4=10.0.1.42/24  ipv6=fd00::42/64  mtu=9000  rss=16')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('AES-256-GCM keystore  keys=12  hsmslot=3  tpm2=active  pcr_policy=sha256  expiry=all-ok  seal=ok')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('RSA-4096 pubkey  fp=')}${mv(hex())}${d('  ecdsa-p384 backup fp=')}${mv(hex())}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('TLS 1.3  cert=evans.internal  san=*.evans.internal,*.evans.svc.cluster.local  ocsp=stapled  ct=yes')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('redis 7.2.4  127.0.0.1:6379  pool=128  maxmem=32GB  policy=allkeys-lru  latency=')}${gr('0.28ms')}${d('  aof=yes')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('postgres 16.2  socket=/run/pg  pool=64  max_conn=500  wal_level=logical  archive=on  replication=sync')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('kafka 3.7.0  brokers=3  topics=24  partitions=192  replication=3  retention=7d  compression=zstd')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('prometheus :9090  grafana :3000  jaeger :16686  alertmanager :9093  loki :3100  tempo :4317')}`);
+  line(`${d('[')}${ye('WARN')}${d(']')} ${ye('legacy JWT v1 tokens in cache (n=47)  rotating all  new_exp=')}${or(String(Math.floor(Date.now()/1000+86400)))}${d('  algo=EdDSA  curve=ed25519')}`);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('all subsystems nominal  uptime=0s  ready=true  health=green  watchdog=armed  pid_file=/run/evans.pid')}`);
   blank();
 
-  // ── BLOCK 2: git + npm ───────────────────────────────────
-  cmd('~/evans', 'git pull origin main --rebase');
-  line(`${d('remote: Enumerating objects: 247, done.')}`);
-  line(`${d('remote: Counting objects: 100% (247/247), done.')}`);
-  line(`${d('remote: Compressing objects: 100% (88/88), done.')}`);
-  line(`${d('Receiving objects: 100% (247/247), 1.82 MiB | 24.3 MiB/s, done.')}`);
-  line(`${d('Resolving deltas: 100% (142/142), done.')}`);
-  line(`${gr('Successfully rebased and updated refs/heads/main.')}`);
+  // ── BLOCK 2: git + build ─────────────────────────────────
+  cmd('~/evans', 'git fetch --all --prune && git pull origin main --rebase --autostash && git log --oneline -5');
+  line(`${d('Fetching origin  delta=247 objects  pack=1.82MiB  idx=ok  loose=0  prune=3  tags=synced')}`);
+  line(`${d('remote: Compressing objects: 100% (88/88)  reused=159  pack-reused=0  wire=24.3MiB/s  done.')}`);
+  line(`${d('Applying: ')}${w('feat(archive): add S15 restricted scene encryption + access audit log  author=evans  ')}${mv(hex().slice(0,8))}`);
+  line(`${d('Applying: ')}${w('fix(memory): resolve heap fragmentation in long-running sessions under sustained load  ')}${mv(hex().slice(0,8))}`);
+  line(`${d('Applying: ')}${w('chore(deps): bump transformers 4.40→4.41.2 torch 2.2→2.3.1 datasets 2.19→2.20  ')}${mv(hex().slice(0,8))}`);
+  line(`${mv(hex().slice(0,7))} ${gr('feat(archive):')}${d(' S15 restricted scene encryption + access audit log')}`);
+  line(`${mv(hex().slice(0,7))} ${gr('fix(memory):')}${d('  heap fragmentation resolved  sessions now stable >72h  rss delta <0.1%')}`);
+  line(`${mv(hex().slice(0,7))} ${gr('chore(deps):')}${d(' bump transformers/torch/datasets  all tests passing  no breaking changes')}`);
+  line(`${mv(hex().slice(0,7))} ${ye('refactor:')}${d('       extract scene decoder into standalone module  coverage +2.1%  size -12KB')}`);
+  line(`${mv(hex().slice(0,7))} ${cy('docs:')}${d('          update API reference for v2 archive endpoints  add openapi spec  add examples')}`);
   blank();
-  cmd('~/evans', 'npm ci --prefer-offline --silent');
-  line(`${d('npm')} ${ye('warn')} ${d('deprecated')} ${w('glob@7.2.3')} ${d('→')} ${bl('glob@10.x')}`);
-  line(`${d('npm')} ${ye('warn')} ${d('deprecated')} ${w('inflight@1.0.6')} ${d('(memory leak, no fix planned)')}`);
-  line(`${d('npm')} ${ye('warn')} ${d('deprecated')} ${w('rimraf@2.7.1')} ${d('→')} ${bl('rimraf@5')}`);
-  line(`${d('npm')} ${ye('warn')} ${d('deprecated')} ${w('@humanwhocodes/object-schema@2.0.3')}`);
-  prog('resolving', 0.18);
-  prog('resolving', 0.47);
-  prog('resolving', 0.79);
-  prog('resolving', 1.00);
-  line(`${d('added ')}${or('2,341')}${d(' packages  audited ')}${or('2,347')}${d(' in ')}${gr('11.2s')}`);
-  line(`${d('found ')}${gr('0')}${d(' vulnerabilities')}  ${gr('✓')}${d(' lockfile ok')}`);
-  blank();
-
-  // ── BLOCK 3: lint + test ─────────────────────────────────
-  cmd('~/evans', 'npm run lint && npm run test:unit -- --coverage');
-  line(`${bl('>')} ${d('eslint . --ext .ts,.tsx --max-warnings 0')}`);
-  line(`${gr('✓')} ${d('0 errors  0 warnings')}`);
-  line(`${bl('>')} ${d('vitest run --coverage --reporter=verbose')}`);
-  line(`${d('  ✓')} ${w('src/core/archive.test.ts')}  ${d('(11 tests)')}  ${gr('3.2ms')}`);
-  line(`${d('  ✓')} ${w('src/core/memory.test.ts')}   ${d('(8 tests)')}   ${gr('1.7ms')}`);
-  line(`${d('  ✓')} ${w('src/core/crypto.test.ts')}   ${d('(14 tests)')}  ${gr('5.1ms')}`);
-  line(`${d('  ✓')} ${w('src/ui/datastream.test.ts')} ${d('(6 tests)')}   ${gr('2.4ms')}`);
-  line(`${d('  ✓')} ${w('src/ui/stage1.test.ts')}     ${d('(9 tests)')}   ${gr('4.0ms')}`);
-  line(`${gr(' PASS ')}${d(' 48 tests  0 failed  coverage=')}${gr('94.1%')}`);
+  cmd('~/evans', 'npm ci --prefer-offline && npx tsc --noEmit && npx vite build --mode production --minify esbuild');
+  line(`${d('npm')} ${ye('warn')} ${d('deprecated glob@7.2.3 → use glob@10.x  inflight@1.0.6 (memory leak, no upstream fix planned)')}`);
+  line(`${d('npm')} ${ye('warn')} ${d('deprecated rimraf@2.7.1 → use rimraf@5  @humanwhocodes/object-schema@2.0.3 → use @eslint/object-schema')}`);
+  prog('npm ci', 0.22);
+  prog('npm ci', 0.58);
+  prog('npm ci', 1.00);
+  line(`${d('added 2,341 packages  audited 2,347  found 0 vulnerabilities  lockfile ok')}  ${gr('✓')}`);
+  line(`${bl('tsc')} ${d('--noEmit  checking 148 source files  strict=true  target=ES2022  module=ESNext  ')}${gr('0 errors  0 warnings')}`);
+  line(`${bl('vite')} ${d('v5.2.11  building for production  entry=src/main.ts  chunks=14  tree-shake=on  sourcemap=hidden')}`);
+  prog('vite bundle', 0.35);
+  prog('vite bundle', 0.72);
+  prog('vite bundle', 1.00);
+  line(`${gr('✓')} ${d('built in 8.41s  dist/assets/main-')}${mv(hex().slice(0,8))}${d('.js  gzip=142KB  brotli=118KB  css=24KB')}`);
   blank();
 
-  // ── BLOCK 4: model train ─────────────────────────────────
-  cmd('~/evans', 'python3 train.py --cfg configs/evans_v5.yaml --amp --ckpt-dir ./checkpoints');
-  line(`${d('[')}${cy('INFO')}${d(']')} torch=2.3.1+cu121  transformers=4.41.2  datasets=2.20.0`);
-  line(`${d('[')}${cy('INFO')}${d(']')} device=cuda:0  (RTX 4090 24576MB)  dtype=bfloat16`);
-  line(`${d('[')}${cy('INFO')}${d(']')} dataset  train=218,493  val=12,847  test=8,204`);
-  line(`${d('[')}${cy('INFO')}${d(']')} model  params=7.24B  trainable=42.3M  frozen=7.2B`);
-  line(`${d('[')}${cy('INFO')}${d(']')} AMP enabled  grad_scaler=dynamic  clip_norm=1.0`);
+  // ── BLOCK 3: test + lint ──────────────────────────────────
+  cmd('~/evans', 'npm run lint:strict && npm run test:ci -- --coverage --reporter=verbose --pool=forks --poolOptions.forks.maxForks=12');
+  line(`${bl('eslint')} ${d('. --ext .ts,.tsx,.vue --max-warnings 0 --cache --cache-strategy content  parsing 148 files...')}  ${gr('0 errors  0 warnings')}`);
+  line(`${d('  ✓')} ${w('src/core/archive.test.ts         ')} ${d('(14 tests)')}  ${gr('4.2ms')}  ${d('heap=28MB  branches=97.1%  lines=98.4%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/core/memory.test.ts          ')} ${d('(11 tests)')}  ${gr('2.1ms')}  ${d('heap=24MB  branches=94.3%  lines=96.7%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/core/crypto.test.ts          ')} ${d('(18 tests)')}  ${gr('6.8ms')}  ${d('heap=31MB  branches=99.1%  lines=99.8%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/core/scheduler.test.ts       ')} ${d('(9 tests) ')}  ${gr('3.1ms')}  ${d('heap=22MB  branches=91.2%  lines=94.1%  funcs=96.3%')}`);
+  line(`${d('  ✓')} ${w('src/core/delta.test.ts           ')} ${d('(7 tests) ')}  ${gr('2.4ms')}  ${d('heap=20MB  branches=93.7%  lines=95.0%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/ui/datastream.test.ts        ')} ${d('(8 tests) ')}  ${gr('3.7ms')}  ${d('heap=26MB  branches=88.9%  lines=92.3%  funcs=94.7%')}`);
+  line(`${d('  ✓')} ${w('src/ui/stage1.test.ts            ')} ${d('(12 tests)')}  ${gr('5.1ms')}  ${d('heap=29MB  branches=96.4%  lines=97.9%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/ui/archive.test.ts           ')} ${d('(15 tests)')}  ${gr('7.3ms')}  ${d('heap=33MB  branches=98.2%  lines=99.1%  funcs=100%')}`);
+  line(`${d('  ✓')} ${w('src/api/routes.test.ts           ')} ${d('(21 tests)')}  ${gr('9.4ms')}  ${d('heap=38MB  branches=95.6%  lines=97.2%  funcs=98.8%')}`);
+  line(`${d('  ✓')} ${w('src/api/middleware.test.ts       ')} ${d('(10 tests)')}  ${gr('4.6ms')}  ${d('heap=27MB  branches=90.1%  lines=93.4%  funcs=97.1%')}`);
+  line(`${gr(' PASS ')}${d(' 125 tests  0 failed  0 skipped  duration=48.7ms  overall coverage=')}${gr('95.8%')}${d('  threshold=90% ')}${gr('✓')}`);
+  blank();
+
+  // ── BLOCK 4: model training ───────────────────────────────
+  cmd('~/evans', 'torchrun --nproc_per_node=4 --nnodes=1 train.py --cfg configs/evans_v5.yaml --amp --fsdp --ckpt-dir ./ckpt');
+  line(`${d('[')}${cy('INFO')}${d(']')} torch=2.3.1+cu121  transformers=4.41.2  accelerate=0.30.1  deepspeed=0.14.2  flash-attn=2.5.8')}`);
+  line(`${d('[')}${cy('INFO')}${d(']')} devices=4×H100-SXM5-80GB  nvlink=900GB/s  dtype=bfloat16  fsdp=FULL_SHARD  activation_ckpt=on')}`);
+  line(`${d('[')}${cy('INFO')}${d(']')} model  arch=transformer-xl  layers=48  heads=32  dim=4096  ffn=16384  params=13.1B  trainable=98.3M')}`);
+  line(`${d('[')}${cy('INFO')}${d(']')} dataset  train=1,842,304  val=102,400  test=51,200  vocab=128000  seq_len=8192  packing=true')}`);
+  line(`${d('[')}${cy('INFO')}${d(']')} opt=AdamW  lr=1e-4  wd=0.1  warmup=2000  schedule=cosine  grad_clip=1.0  fp16_master=true')}`);
   line(`${d('training...')}`);
-  line(`${d('Epoch ')}${or('01')}${d('/60  loss=')}${ye('2.8341')}${d('  acc=')}${or('28.4%')}${d('  ppl=')}${ye('17.01')}${d('  lr=')}${bl('3.00e-4')}${d('  ')}${or('21.4s/ep')}`);
-  prog('epoch  1/60', 1/60);
-  line(`${d('Epoch ')}${or('05')}${d('/60  loss=')}${ye('1.9127')}${d('  acc=')}${or('44.2%')}${d('  ppl=')}${ye('6.77')}${d('  lr=')}${bl('2.89e-4')}`);
-  line(`${d('Epoch ')}${or('10')}${d('/60  loss=')}${ye('1.3204')}${d('  acc=')}${or('62.7%')}${d('  ppl=')}${ye('3.74')}${d('  lr=')}${bl('2.72e-4')}`);
-  prog('epoch 10/60', 10/60);
-  line(`${d('Epoch ')}${or('20')}${d('/60  loss=')}${gr('0.8821')}${d('  acc=')}${gr('77.1%')}${d('  ppl=')}${gr('2.42')}${d('  lr=')}${bl('2.37e-4')}`);
-  prog('epoch 20/60', 20/60);
-  line(`${d('Epoch ')}${or('30')}${d('/60  loss=')}${gr('0.6103')}${d('  acc=')}${gr('84.9%')}${d('  ppl=')}${gr('1.84')}${d('  lr=')}${bl('2.02e-4')}`);
-  prog('epoch 30/60', 30/60);
-  line(`${d('Epoch ')}${or('40')}${d('/60  loss=')}${gr('0.4417')}${d('  acc=')}${gr('89.7%')}${d('  ppl=')}${gr('1.56')}${d('  lr=')}${bl('1.67e-4')}`);
-  prog('epoch 40/60', 40/60);
-  line(`${d('Epoch ')}${or('50')}${d('/60  loss=')}${gr('0.3214')}${d('  acc=')}${gr('92.3%')}${d('  ppl=')}${gr('1.38')}${d('  lr=')}${bl('1.32e-4')}`);
-  prog('epoch 50/60', 50/60);
-  line(`${d('Epoch ')}${or('60')}${d('/60  loss=')}${gr('0.2108')}${d('  acc=')}${gr('95.1%')}${d('  ppl=')}${gr('1.23')}${d('  lr=')}${bl('1.00e-4')}`);
-  prog('epoch 60/60', 1.0);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${gr('training complete')}  best_acc=${gr('95.1%')}  ckpt=${d('./checkpoints/best.pt')}`);
+  for (let ep=1; ep<=12; ep++) {
+    const loss = (2.84 - ep*0.18 + Math.random()*0.04).toFixed(4);
+    const acc  = (28 + ep*5.4 + Math.random()*0.8).toFixed(1);
+    const ppl  = (Math.exp(parseFloat(loss))).toFixed(2);
+    const lrc  = (1e-4 * (1 - ep/24)).toExponential(2);
+    const col  = parseFloat(loss) < 1.2 ? C.green : C.yellow;
+    line(`${d('Epoch ')}${or(String(ep).padStart(2,'0'))}${d('/60  loss=')}${span(col,loss)}${d('  acc=')}${span(col,acc+'%')}${d('  ppl=')}${span(col,ppl)}${d('  lr=')}${bl(lrc)}${d('  tput=')}${or(String(ri(840,980))+'K tok/s')}${d('  mem=')}${or(String(ri(74,79))+'GB/GPU')}`);
+    if (ep%4===0) prog('epoch '+String(ep).padStart(2,'0')+'/60', ep/60);
+  }
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${gr('checkpoint saved')}  ./ckpt/epoch_12_loss0.6214_acc94.7.pt  sha256=${mv(hex())}  size=49.2GB`);
   blank();
 
   // ── BLOCK 5: HTTP access log ─────────────────────────────
-  cmd('~/evans', 'tail -f /var/log/evans/access.log | ts');
-  const METHODS = ['GET','POST','PUT','DELETE','PATCH','OPTIONS'];
+  cmd('~/evans', 'tail -f /var/log/evans/access.log | ts "[%Y-%m-%d %H:%M:%.S]" | grep -v healthz');
+  const METHODS = ['GET','POST','PUT','DELETE','PATCH','OPTIONS','HEAD'];
   const ROUTES  = [
-    '/api/v2/archive/scenes',  '/api/v2/archive/unlock',
-    '/api/v2/memory/diff',     '/api/v2/memory/recall',
-    '/api/v2/auth/verify',     '/api/v2/auth/refresh',
-    '/static/scene_s07.enc',   '/static/scene_s14.enc',
-    '/admin/export',           '/admin/metrics',
-    '/api/v2/stream/live',     '/api/v2/delta/push',
-    '/api/v2/user/'+hex(),     '/internal/gc',
-    '/internal/healthz',       '/api/v2/search',
+    '/api/v2/archive/scenes?limit=15&offset=0&sort=id&order=asc&include=meta,preview,stat',
+    '/api/v2/archive/unlock?scene=S14&token='+hex()+'&audit=true&requester=viewer-'+ri(1000,9999),
+    '/api/v2/memory/diff?from='+hex().slice(0,8)+'&to='+hex().slice(0,8)+'&format=unified&context=5',
+    '/api/v2/memory/recall?query=first_encounter&limit=20&threshold=0.82&model=evans-embed-v3',
+    '/api/v2/auth/verify?alg=EdDSA&iat='+(Math.floor(Date.now()/1000)-ri(10,300))+'&nbf=now&aud=viewer',
+    '/api/v2/auth/refresh?grant=refresh_token&scope=archive.read+memory.read&ttl=3600',
+    '/api/v2/stream/live?scene=S07&quality=high&codec=h265&fps=60&bitrate=8M&latency=low',
+    '/api/v2/delta/push?batch=true&compress=zstd&seq='+ri(10000,99999)+'&ack='+ri(1000,9999),
+    '/api/v2/user/'+hex()+'?fields=id,role,permissions,quota,last_seen&expand=settings',
+    '/api/v2/search?q=evans+memory+trace&scope=archive&highlight=true&limit=10&offset=0',
+    '/static/scene_s07.enc?v='+ri(100,999)+'&cdn=edge&range=bytes=0-'+ri(100000,999999),
+    '/static/scene_s14.enc?v='+ri(100,999)+'&integrity=sha384-'+hex()+hex(),
+    '/admin/export?format=ndjson&range=30d&compress=gzip&sign=true&dest=s3://evans-backup',
+    '/internal/gc?force=true&target=old_gen&compact=true&snapshot=false&timeout=30s',
+    '/api/v2/debug/trace?session='+hex()+'&level=verbose&format=otlp&include_spans=true',
   ];
-  const CODES = [200,200,200,200,200,201,204,304,304,400,401,403,404,429,500,502,503];
-  for (let i = 0; i < 30; i++) {
+  const CODES = [200,200,200,200,200,200,201,204,206,304,304,400,401,403,404,408,429,500,502,503];
+  for (let i = 0; i < 40; i++) {
     const m    = METHODS[ri(0, METHODS.length)];
     const r    = ROUTES[ri(0, ROUTES.length)];
     const code = CODES[ri(0, CODES.length)];
     const cc   = code<300?C.green:code<400?C.cyan:code<500?C.yellow:C.red;
     const mc   = m==='GET'?C.blue:m==='POST'?C.green:m==='DELETE'?C.red:m==='OPTIONS'?C.dim:C.mauve;
+    const ip   = ri(10,192)+'.'+ri(0,255)+'.'+ri(0,255)+'.'+ri(1,254);
     line(
-      `${d(ts()+'  ')}` +
+      `${d(ts()+'  ')}${d(ip.padEnd(16)+'  ')}` +
       `<span style="color:${cc};display:inline-block;min-width:3ch">${code}</span>  ` +
-      `<span style="color:${mc};display:inline-block;min-width:8ch">${m}</span>` +
-      `<span style="color:${C.white};display:inline-block;min-width:42ch">${r}</span>` +
-      `${or(rms())}`,
+      `<span style="color:${mc};display:inline-block;min-width:8ch">${m}</span>  ` +
+      `<span style="color:${C.white}">${r.slice(0,88)}</span>  ` +
+      `${or(rms())}  ${d('pid='+ri(1000,9999)+'  tid='+ri(10,99)+'  req_id='+hex().slice(0,12))}`,
       4
     );
   }
   blank();
 
   // ── BLOCK 6: memory / GC ─────────────────────────────────
-  cmd('~/evans', 'evans-inspect --mem --gc-trace --heap-snapshot');
-  line(`  ${d('heap_used     ')}  ${or('4,821 MB')}  ${d('/')}  ${or('8,192 MB')}  ${ye('[58.8%]')}`);
-  line(`  ${d('heap_total    ')}  ${or('8,192 MB')}`);
-  line(`  ${d('external      ')}  ${or('  312 MB')}`);
-  line(`  ${d('rss           ')}  ${or('6,104 MB')}`);
-  line(`  ${d('array_buffers ')}  ${or('   48 MB')}`);
-  line(`  ${d('v8_heap_spaces ')} ${d('new_space=')}${or('32MB')}  ${d('old_space=')}${or('4712MB')}  ${d('code_space=')}${or('77MB')}`);
-  blank();
-  line(`  ${d('GC minor  #')}${mv('8821')}  ${d('freed ')}${gr('  8.4 MB')}  ${d(rms())}`);
-  line(`  ${d('GC minor  #')}${mv('8822')}  ${d('freed ')}${gr('  6.1 MB')}  ${d(rms())}`);
-  line(`  ${d('GC minor  #')}${mv('8823')}  ${d('freed ')}${gr(' 11.2 MB')}  ${d(rms())}`);
-  line(`  ${d('GC major  #')}${mv(' 204')}  ${d('freed ')}${gr('412 MB  ')}  ${d(rms())}`);
-  line(`${d('[')}${ye('WARN')}${d(']')} ${ye('heap pressure HIGH (74.2%)  initiating compaction')}`);
-  prog('GC compaction', 0.28);
-  prog('GC compaction', 0.61);
-  prog('GC compaction', 1.00);
-  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('compaction done  freed=')}${gr('1,241 MB')}  ${d('in ')}${or(rms())}`);
+  cmd('~/evans', 'evans-inspect --mem --gc-trace --heap-snapshot --flamegraph --alloc-profile --duration 30s');
+  line(`  ${d('heap_used     ')}  ${or('48,214 MB')}  ${d('/')}  ${or('262,144 MB')}  ${ye('[18.4%]')}  ${d('rss=64,108MB  vsz=128,441MB  anon=52,210MB')}`);
+  line(`  ${d('heap_total    ')}  ${or('262,144 MB')}  ${d('arena=32  bins=256  tcache_max=32KB  dirty=2,847MB  muzzy=1,241MB')}`);
+  line(`  ${d('external      ')}  ${or('  3,124 MB')}  ${d('(wasm=1,820MB  arraybuf=842MB  external_str=312MB  shared_mem=150MB)')}`);
+  line(`  ${d('v8_spaces     ')}  ${d('new=')}${or('256MB')}${d('  old=')}${or('44,712MB')}${d('  code=')}${or('812MB')}${d('  map=')}${or('124MB')}${d('  lo=')}${or('2,310MB')}`);
+  line(`  ${d('gc_stats      ')}  ${d('minor_total=')}${or('8,821')}${d('  major_total=')}${or('204')}${d('  inc_total=')}${or('1,042')}${d('  total_pause=')}${or('4.21s')}`);
+  for (let i=0; i<6; i++) {
+    const freed = ri(4,480);
+    const type = freed>200?'major':'minor';
+    const col  = freed>200?C.yellow:C.green;
+    line(`  ${d('GC '+type+'  #')}${mv(String(8821+i).padStart(5))}  ${d('freed=')}${span(col,String(freed).padStart(5)+' MB')}  ${d('pause=')}${or(rms())}  ${d('reason=allocation_failure  gen='+(type==='major'?'2':'0')+' trigger=size')}`);
+  }
+  line(`${d('[')}${ye('WARN')}${d(']')} ${ye('heap pressure HIGH (74.2%)  old_gen fragmentation=31.4%  initiating incremental compaction')}`);
+  prog('incremental GC', 0.28);
+  prog('incremental GC', 0.61);
+  prog('incremental GC', 1.00);
+  line(`${d('[')}${gr(' OK ')}${d(']')} ${d('compaction done  freed=')}${gr('12,481 MB')}  ${d('in ')}${or('847ms')}  ${d('fragmentation=4.2%  promotion_rate=1.2%')}`);
   blank();
 
-  // ── BLOCK 7: openssl + crypto ─────────────────────────────
-  cmd('~/evans', 'openssl dgst -sha512 -verify pub.pem -signature sig.bin archive.enc && openssl cms -verify -in msg.pem -CAfile ca.pem');
-  line(`${d('Verified OK')}  ${gr('SHA-512 match')}`);
-  line(`${d('digest    ')}${cy('SHA-512')}  ${d('hash=')}${mv(hex()+'...'+hex())}`);
-  line(`${d('RSA-4096  ')}${gr('VALID')}  ${d('issuer=evans-keyserver-01  serial=')}${mv(hex())}`);
-  line(`${d('CMS verify ok  signer=')}${mv('evans-signing-key-2024')}  ${d('policy=EV')}`);
-  line(`${d('not_before=')}${or('2024-01-01T00:00:00Z')}  ${d('not_after=')}${or('2025-12-31T23:59:59Z')}`);
+  // ── BLOCK 7: crypto + openssl ─────────────────────────────
+  cmd('~/evans', 'openssl dgst -sha512 -verify pub4096.pem -signature sig.bin archive.enc && openssl cms -verify -in archive.cms -CAfile ca-chain.pem -purpose any -no_check_time');
+  line(`${d('Verified OK  ')}${gr('SHA-512 match')}  ${d('digest=')}${cy('SHA-512')}  ${d('hash=')}${mv(hex()+hex())}  ${d('salt=')}${mv(hex().slice(0,8))}`);
+  line(`${d('RSA-4096  ')}${gr('VALID')}  ${d('issuer=evans-keyserver-01  serial=')}${mv(hex())}  ${d('ski=')}${mv(hex())}  ${d('aki=')}${mv(hex())}`);
+  line(`${d('CMS verify ok  type=signedData  signer=')}${mv('evans-signing-key-2024')}  ${d('policy=EV  ct_log=Cloudflare_Nimbus_2024')}`);
+  line(`${d('cert chain: [')}${gr('LEAF')}${d('] evans.internal → [')}${gr('ICA')}${d('] evans-ca-g3 → [')}${gr('ROOT')}${d('] evans-root-ca  depth=3  path_len=1')}`);
+  line(`${d('validity: not_before=')}${or('2024-01-01T00:00:00Z')}  ${d('not_after=')}${or('2025-12-31T23:59:59Z')}  ${d('ocsp=good  crl=ok  ct_scts=3')}`);
   blank();
 
   // ── BLOCK 8: archive decrypt ──────────────────────────────
   sep();
-  line(`${mv('[EVANS]')} ${w('archive.unlock(0xFF) — initiating scene decryption')}`);
-  line(`${mv('[EVANS]')} ${d('fetching index from keystore  addr=')}${mv(hex())}`);
-  prog('scene index', 0.15);
-  prog('scene index', 0.42);
-  prog('scene index', 0.78);
-  prog('scene index', 1.00);
-  line(`${mv('[EVANS]')} ${d('index ok  15 records  crc32=')}${mv(hex().slice(0,10))}`);
-  line(`${mv('[EVANS]')} ${d('decrypting scenes...')}`);
+  line(`${mv('[EVANS]')} ${w('archive.unlock(0xFF) — initiating full scene decryption sequence  caller=')}${mv(hex())}  ${d('ts=')}${or(ts())}`);
+  line(`${mv('[EVANS]')} ${d('fetching encrypted index from keystore  addr=')}${mv(hex())}  ${d('hsmslot=3  tpm2_seal=verified  pcr7=ok')}`);
+  prog('index decrypt', 0.15);
+  prog('index decrypt', 0.52);
+  prog('index decrypt', 1.00);
+  line(`${mv('[EVANS]')} ${d('index ok  records=15  schema=v2  crc32=')}${mv(hex().slice(0,10))}  ${d('hmac=verified  size=40.2KB  loaded')}`);
+  line(`${mv('[EVANS]')} ${d('decrypting scenes in parallel  workers=8  queue=15  algo=AES-256-GCM  kdf=HKDF-SHA512')}`);
   for (let i=1; i<=15; i++) {
-    const id = String(i).padStart(2,'0');
-    const flag = i===15 ? re('RESTRICTED') : gr('ok');
-    line(`  ${d('S'+id)}  ${cy('AES-256-GCM')}  ${d('block=')}${or(hex().slice(0,10))}  ${flag}`, 4);
+    const id   = String(i).padStart(2,'0');
+    const flag = i===15 ? re('RESTRICTED') : gr('OK     ');
+    const size = ri(800,4200);
+    line(`  ${d('scene S'+id+'  ')}${cy('AES-256-GCM')}  ${d('iv=')}${mv(hex().slice(0,16))}  ${d('tag=')}${mv(hex().slice(0,8))}  ${d('size=')}${or(String(size)+'KB')}  ${flag}  ${d('worker=')}${or(String(ri(0,8)))}`);
   }
-  line(`${mv('[EVANS]')} ${gr('15/15 scenes decrypted')}  ${d('size=40.2KB  t=')}${or(rms())}`);
-  line(`${mv('[EVANS]')} ${ye('WARNING')}  ${d('scene ')}${re('S15')}${d(' flagged ')}${re('RESTRICTED')}${d(' — access event logged')}`);
-  line(`${mv('[EVANS]')} ${gr('viewer handoff ready...')}`);
+  line(`${mv('[EVANS]')} ${gr('15/15 scenes decrypted successfully')}  ${d('total_size=40.2KB  elapsed=284ms  integrity=all-ok')}`);
+  line(`${mv('[EVANS]')} ${ye('SECURITY NOTICE')}${d(': scene ')}${re('S15')}${d(' carries RESTRICTED classification  access event logged  audit_id=')}${mv(hex())}`);
+  line(`${mv('[EVANS]')} ${d('flushing event to audit log  siem=splunk  soc_alert=low  retention=7yr  signed=')}${gr('yes')}`);
+  line(`${mv('[EVANS]')} ${gr('viewer handoff ready')}  ${d('session_id=')}${mv(hex())}  ${d('perms=[archive.read,scene.view]  ttl=3600s')}`);
   sep();
   blank();
+
 
   // ── 打字机引擎 ────────────────────────────────────────────
   // 每行 typewriter=true → 把 HTML 里的文本节点逐字符打出
@@ -820,7 +838,7 @@ function enterDatastream() {
 
     if (!item.tw) {
       div.innerHTML = item.html;
-      setTimeout(onDone, item.delay);
+      setTimeout(onDone, 1);
       return;
     }
 
@@ -863,7 +881,7 @@ function enterDatastream() {
       html += `<span style="color:${C.blue};animation:blink 0.6s step-end infinite">▋</span>`;
       div.innerHTML = html;
       ci++;
-      setTimeout(tick, item.delay);
+      setTimeout(tick, 2);
     }
     tick();
   }

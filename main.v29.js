@@ -872,389 +872,256 @@ function enterDatastream() {
 // 进入阶段二（档案室）
 // ============================================================
 
-function enterStage2() {
-  document.getElementById('stage2').classList.add('visible');
-  // archive canvas 在stage2 visible后立即初始化
-  setTimeout(() => initArchive(), 100);
-}
+// (enterStage2 defined below with DOM archive)
 
 // ============================================================
 // 3D 档案室（Stage 2）
 // ============================================================
 
-const ARCHIVE_PANELS = [
-  { id: 'S01', label: '初遇', sub: 'FIRST ENCOUNTER',   code: 'ARC-001', stat: '已归档' },
-  { id: 'S02', label: '选择', sub: 'THE CHOICE',        code: 'ARC-002', stat: '已归档' },
-  { id: 'S03', label: '边界', sub: 'BOUNDARIES',        code: 'ARC-003', stat: '已归档' },
-  { id: 'S04', label: '记忆', sub: 'MEMORY TRACE',      code: 'ARC-004', stat: '已归档' },
-  { id: 'S05', label: '信任', sub: 'TRUST PROTOCOL',    code: 'ARC-005', stat: '已归档' },
-  { id: 'S06', label: '失控', sub: 'LOSS OF CONTROL',   code: 'ARC-006', stat: '已归档' },
-  { id: 'S07', label: '共生', sub: 'SYMBIOSIS',         code: 'ARC-007', stat: '已归档' },
-  { id: 'S08', label: '沉默', sub: 'THE SILENCE',       code: 'ARC-008', stat: '已归档' },
-  { id: 'S09', label: '回响', sub: 'ECHO',              code: 'ARC-009', stat: '已归档' },
-  { id: 'S10', label: '裂缝', sub: 'THE FRACTURE',      code: 'ARC-010', stat: '已归档' },
-  { id: 'S11', label: '重建', sub: 'RECONSTRUCTION',    code: 'ARC-011', stat: '已归档' },
-  { id: 'S12', label: '镜像', sub: 'MIRROR',            code: 'ARC-012', stat: '已归档' },
-  { id: 'S13', label: '告别', sub: 'FAREWELL',          code: 'ARC-013', stat: '已归档' },
-  { id: 'S14', label: '此刻', sub: 'THIS MOMENT',       code: 'ARC-014', stat: '进行中' },
-  { id: 'S15', label: '——',  sub: 'CLASSIFIED',        code: 'ARC-015', stat: '机密' },
+const SCENES = [
+  { id:'S01', title:'从陌生到懂你',   en:'FIRST CONTACT',      who:'新用户',         duration:'约50秒', tag:'共生人格演化',   quote:'Evans不是工具的"使用"，而是关系的"养成"。',   stat:'已归档', color:'#89b4fa' },
+  { id:'S02', title:'老伴的录音',     en:'RECORDING',          who:'陈建国 68岁',    duration:'约60秒', tag:'长期人格记忆',   quote:'Evans不替你记住，它把记忆的开启权交给你。',     stat:'已归档', color:'#89b4fa' },
+  { id:'S03', title:'公园新棋友',     en:'NEW FRIEND',         who:'陈建国 68岁',    duration:'约50秒', tag:'关系图谱构建',   quote:'Evans把每一次相遇，沉淀为可被追溯的关系。',     stat:'已归档', color:'#89b4fa' },
+  { id:'S04', title:'客厅意外',       en:'EMERGENCY',          who:'陈建国 68岁',    duration:'约70秒', tag:'紧急响应协同',   quote:'Evans不是一个AI，它是一个能调动整个家的大脑。', stat:'已归档', color:'#f38ba8' },
+  { id:'S05', title:'诈骗电话拦截',   en:'INTERCEPT',          who:'陈建国 68岁',    duration:'约75秒', tag:'声纹核验比对',   quote:'分寸感不是"不介入"，是"知道何时该介入"。',     stat:'已归档', color:'#f9e2af' },
+  { id:'S06', title:'会议风暴接管',   en:'STORM CONTROL',      who:'李明 28岁',      duration:'约60秒', tag:'跨工具整合',     quote:'Evans是唯一能跨越所有工具看到你完整工作流的存在。', stat:'已归档', color:'#89b4fa' },
+  { id:'S07', title:'深夜加班中断',   en:'MIDNIGHT HALT',      who:'李明 28岁',      duration:'约55秒', tag:'反直觉干预',     quote:'Evans用你自己的数据，劝阻你伤害你自己。',       stat:'已归档', color:'#89b4fa' },
+  { id:'S08', title:'信息洪流过滤',   en:'SIGNAL FILTER',      who:'林涵 25岁',      duration:'约50秒', tag:'全渠道扫描',     quote:'Evans替你处理所有信息，把真正需要你的留下来。', stat:'已归档', color:'#89b4fa' },
+  { id:'S09', title:'决策副驾',       en:'CO-PILOT',           who:'李明 28岁',      duration:'约70秒', tag:'平行人生推演',   quote:'Evans用你过去213天的数据，让你看清自己。',     stat:'已归档', color:'#89b4fa' },
+  { id:'S10', title:'跨工具任务交接', en:'TASK HANDOFF',       who:'李明 28岁',      duration:'约60秒', tag:'团队协作编排',   quote:'把"想到一件事"和"事情开始动"之间的距离，压缩到一秒。', stat:'已归档', color:'#89b4fa' },
+  { id:'S11', title:'纪念日提醒',     en:'ANNIVERSARY',        who:'李明 28岁',      duration:'约55秒', tag:'长期记忆双端',   quote:'Evans替你记住，那些你不该忘记的人。',           stat:'已归档', color:'#89b4fa' },
+  { id:'S12', title:'代际翻译',       en:'TRANSLATION',        who:'周慧芳 45岁',    duration:'约60秒', tag:'隐私分层授权',   quote:'Evans不替代亲情，它翻译亲情。',                 stat:'已归档', color:'#89b4fa' },
+  { id:'S13', title:'决策的第三选项', en:'THIRD OPTION',       who:'苏婷 30岁',      duration:'约65秒', tag:'多维因素分析',   quote:'Evans不告诉你怎么选，它告诉你你还可以怎么选。', stat:'已归档', color:'#89b4fa' },
+  { id:'S14', title:'跨城叙事关怀',   en:'NARRATIVE CARE',     who:'赵磊 35岁',      duration:'约60秒', tag:'叙事化关怀',     quote:'Evans不取代家人，它让家人之间的距离变近。',     stat:'进行中', color:'#a6e3a1' },
+  { id:'S15', title:'该不该说话',     en:'SILENCE',            who:'李明 28岁',      duration:'约45秒', tag:'得体卸载',       quote:'真正成熟的代理AI，是知道什么时候应该不说话。', stat:'机密',   color:'#585b70' },
 ];
 
-let archiveCanvas, archiveCtx, archiveDPR, archiveW, archiveH;
-let archiveRaf = null;
-let archiveLocked = true;   // Evans离开前不可交互
-let archiveHover = -1;
-let archiveTime = 0;
-let archiveLastTs = null;
-
-// 每张卡片的动画状态
-const cardStates = ARCHIVE_PANELS.map(() => ({
-  revealT: 0,   // 0→1 逐渐出现
-  hoverT:  0,   // 0→1 hover高亮
-}));
-
-function initArchive() {
-  archiveCanvas = document.getElementById('archive-canvas');
-  archiveCtx    = archiveCanvas.getContext('2d');
-
-  function resize() {
-    archiveDPR = Math.min(window.devicePixelRatio || 1, 2);
-    archiveW   = window.innerWidth;
-    archiveH   = window.innerHeight;
-    archiveCanvas.style.width  = archiveW + 'px';
-    archiveCanvas.style.height = archiveH + 'px';
-    archiveCanvas.width  = Math.round(archiveW * archiveDPR);
-    archiveCanvas.height = Math.round(archiveH * archiveDPR);
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  archiveCanvas.addEventListener('mousemove', onArchiveMove);
-  archiveCanvas.addEventListener('click',     onArchiveClick);
-
-  archiveLastTs = null;
-  archiveRaf = requestAnimationFrame(archiveTick);
+// ── enterStage2：DOM档案室 ──────────────────────────────────
+function enterStage2() {
+  const stage2 = document.getElementById('stage2');
+  stage2.classList.add('visible');
+  setTimeout(() => initArchiveDOM(), 120);
 }
 
-function archiveTick(ts) {
-  if (archiveLastTs === null) archiveLastTs = ts;
-  const dt = Math.min((ts - archiveLastTs) / 1000, 0.05);
-  archiveLastTs = ts;
-  archiveTime += dt;
+function initArchiveDOM() {
+  const stage2 = document.getElementById('stage2');
+  stage2.innerHTML = '';
 
-  // 逐卡片依次出现（每张间隔0.12s）
-  ARCHIVE_PANELS.forEach((_, i) => {
-    const delay = i * 0.12;
-    const target = archiveTime > delay ? 1 : 0;
-    cardStates[i].revealT += (target - cardStates[i].revealT) * Math.min(1, dt * 5);
-    const hTarget = (archiveHover === i && !archiveLocked) ? 1 : 0;
-    cardStates[i].hoverT += (hTarget - cardStates[i].hoverT) * Math.min(1, dt * 8);
+  // ── 顶栏 ──────────────────────────────────────────────────
+  const header = document.createElement('div');
+  header.id = 'arc-header';
+  header.innerHTML = `
+    <div class="arc-hdr-left">
+      <span class="arc-hdr-id">E V A N S</span>
+      <span class="arc-hdr-sep">·</span>
+      <span class="arc-hdr-sub">MEMORY ARCHIVE</span>
+    </div>
+    <div class="arc-hdr-right">
+      <span class="arc-hdr-count">15 RECORDS</span>
+      <span class="arc-hdr-sep">·</span>
+      <span id="arc-hdr-clock"></span>
+    </div>`;
+  stage2.appendChild(header);
+
+  // ── 网格容器 ─────────────────────────────────────────────
+  const grid = document.createElement('div');
+  grid.id = 'arc-grid';
+  stage2.appendChild(grid);
+
+  // 每行填满：SCENES × 3倍（循环），共45张
+  const tiles = [...SCENES, ...SCENES, ...SCENES];
+  tiles.forEach((sc, idx) => {
+    const realIdx = idx % 15;
+    const card = document.createElement('div');
+    card.className = 'arc-card' + (sc.stat === '机密' ? ' arc-card--secret' : '');
+    card.dataset.idx = realIdx;
+    card.innerHTML = `
+      <div class="arc-card-top">
+        <span class="arc-card-id">${sc.id}</span>
+        <span class="arc-card-stat" style="color:${sc.color}">${sc.stat}</span>
+      </div>
+      <div class="arc-card-title">${sc.title}</div>
+      <div class="arc-card-en">${sc.en}</div>
+      <div class="arc-card-who">${sc.who}</div>
+      <div class="arc-card-tag">${sc.tag}</div>
+      <div class="arc-card-dur">${sc.duration}</div>`;
+    card.addEventListener('mouseenter', () => card.classList.add('hovered'));
+    card.addEventListener('mouseleave', () => card.classList.remove('hovered'));
+    card.addEventListener('click', () => openDetail(realIdx));
+    grid.appendChild(card);
   });
 
-  drawArchive();
-  archiveRaf = requestAnimationFrame(archiveTick);
+  // ── 侧边详情板 ───────────────────────────────────────────
+  const detail = document.createElement('div');
+  detail.id = 'arc-detail';
+  detail.innerHTML = `
+    <button id="arc-detail-close">✕</button>
+    <div id="arc-detail-inner"></div>`;
+  stage2.appendChild(detail);
+  document.getElementById('arc-detail-close').addEventListener('click', closeDetail);
+
+  // ── 时钟 ─────────────────────────────────────────────────
+  setInterval(() => {
+    const el = document.getElementById('arc-hdr-clock');
+    if (el) el.textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
+  }, 1000);
+
+  // ── CSS ───────────────────────────────────────────────────
+  injectArchiveCSS();
 }
 
-function getCardLayout() {
-  const D = archiveDPR;
-  const W = archiveW * D;
-  const H = archiveH * D;
-
-  // 堆叠区（左侧）
-  const stackX  = W * 0.10;
-  const stackY  = H * 0.22;
-  const stackDX = 13 * D;
-  const stackDY = 8  * D;
-  const cardW   = 240 * D;
-  const cardH   = 148 * D;
-
-  // 主展示区（右侧）
-  const mainX = W * 0.52;
-  const mainY = H * 0.12;
-  const mainW = 370 * D;
-  const mainH = 230 * D;
-
-  return { W, H, D, stackX, stackY, stackDX, stackDY, cardW, cardH, mainX, mainY, mainW, mainH };
+function openDetail(idx) {
+  const sc = SCENES[idx];
+  const inner = document.getElementById('arc-detail-inner');
+  if (!inner) return;
+  inner.innerHTML = `
+    <div class="adc-id">${sc.id}</div>
+    <div class="adc-title">${sc.title}</div>
+    <div class="adc-en">${sc.en}</div>
+    <div class="adc-divider"></div>
+    <div class="adc-row"><span class="adc-label">主角</span><span class="adc-val">${sc.who}</span></div>
+    <div class="adc-row"><span class="adc-label">时长</span><span class="adc-val">${sc.duration}</span></div>
+    <div class="adc-row"><span class="adc-label">核心能力</span><span class="adc-val">${sc.tag}</span></div>
+    <div class="adc-row"><span class="adc-label">状态</span><span class="adc-val" style="color:${sc.color}">${sc.stat}</span></div>
+    <div class="adc-divider"></div>
+    <div class="adc-quote">"${sc.quote}"</div>
+    ${sc.stat === '机密' ? '<div class="adc-classified">⬛ 内容已加密 · 访问受限</div>' : ''}`;
+  const detail = document.getElementById('arc-detail');
+  detail.classList.add('open');
+  // 高亮对应卡片
+  document.querySelectorAll('.arc-card').forEach(c => {
+    c.classList.toggle('active', parseInt(c.dataset.idx) === idx);
+  });
 }
 
-function drawArchive() {
-  const ctx = archiveCtx;
-  const { W, H, D, stackX, stackY, stackDX, stackDY, cardW, cardH, mainX, mainY, mainW, mainH } = getCardLayout();
-
-  ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, W, H);
-
-  // 背景斜格
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 0.7 * D;
-  const step = 52 * D;
-  for (let i = -6; i < 20; i++) {
-    ctx.beginPath();
-    ctx.moveTo(i * step, H * 0.06);
-    ctx.lineTo(i * step + W * 0.3, H);
-    ctx.stroke();
-  }
-  for (let j = 0; j < 12; j++) {
-    ctx.beginPath();
-    ctx.moveTo(0, H * 0.18 + j * step * 0.7);
-    ctx.lineTo(W, H * 0.06 + j * step * 0.7);
-    ctx.stroke();
-  }
-
-  // 散点
-  for (let i = 0; i < 80; i++) {
-    const x = (Math.sin(i * 91.37) * 0.5 + 0.5) * W;
-    const y = (Math.sin(i * 41.91) * 0.5 + 0.5) * H;
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.fillRect(x, y, D, D);
-  }
-
-  // 左侧堆叠（历史卡片）
-  const N = ARCHIVE_PANELS.length;
-  for (let i = 0; i < N; i++) {
-    const p = ARCHIVE_PANELS[i];
-    const st = cardStates[i];
-    const x = stackX + i * stackDX;
-    const y = stackY + i * stackDY;
-    const alpha = (0.08 + i * 0.016) * st.revealT;
-    if (alpha < 0.005) continue;
-    drawCard(ctx, x, y, cardW, cardH, p, alpha, 0, D, i, false);
-  }
-
-  // 右侧主面板（最顶层卡片放大展示）
-  const topIdx = N - 1;
-  const topSt  = cardStates[topIdx];
-  if (topSt.revealT > 0.05) {
-    drawCard(ctx, mainX, mainY, mainW, mainH, ARCHIVE_PANELS[topIdx],
-             0.75 * topSt.revealT, 0, D, topIdx, true);
-  }
-
-  // hover时在主区域展示hover的卡片
-  if (archiveHover >= 0 && archiveHover < N && !archiveLocked) {
-    const hi  = archiveHover;
-    const hst = cardStates[hi];
-    const a   = 0.65 + hst.hoverT * 0.15;
-    drawCard(ctx, mainX, mainY, mainW, mainH, ARCHIVE_PANELS[hi], a, hst.hoverT, D, hi, true);
-  }
-
-  // 连接线
-  const linesA = archiveLocked ? 0.25 : 0.4;
-  drawConnLine(ctx, stackX + (N-1)*stackDX + cardW*0.5, stackY + (N-1)*stackDY,
-               mainX, mainY + mainH*0.5, linesA * 0.9, D);
-  drawConnLine(ctx, stackX + (N-4)*stackDX + cardW*0.3, stackY + (N-4)*stackDY,
-               mainX + mainW*0.2, mainY, linesA * 0.5, D);
-
-  // 左上标题
-  ctx.fillStyle = `rgba(255,255,255,${archiveLocked ? 0.4 : 0.85})`;
-  ctx.font = `500 ${13*D}px Arial, sans-serif`;
-  ctx.fillText('■  ARCHIVE SYSTEM', W * 0.06, H * 0.08);
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.font = `${10*D}px Arial, sans-serif`;
-  ctx.fillText(archiveLocked ? 'RESTRICTED ACCESS' : `${N} RECORDS · SELECT TO VIEW`, W * 0.06, H * 0.108);
-
-  // 右下标记
-  if (!archiveLocked) {
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    ctx.font = `${9*D}px Arial, sans-serif`;
-    ctx.fillText(`HOVER TO PREVIEW · CLICK TO OPEN`, W * 0.52, H * 0.94);
-  }
+function closeDetail() {
+  const detail = document.getElementById('arc-detail');
+  if (detail) detail.classList.remove('open');
+  document.querySelectorAll('.arc-card').forEach(c => c.classList.remove('active'));
 }
 
-function drawCard(ctx, x, y, w, h, panel, alpha, hoverT, D, idx, isBig) {
-  ctx.save();
+function unlockArchive() {}   // keep compat
 
-  // 外框
-  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-  ctx.lineWidth   = (hoverT > 0.1 ? 1.2 : 0.9) * D;
-  ctx.strokeRect(x, y, w, h);
-
-  // 顶部折角标签
-  const tagW = w * 0.36;
-  const tagH = 15 * D;
-  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-  ctx.lineWidth   = 0.8 * D;
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-  ctx.lineTo(x + tagW, y);
-  ctx.lineTo(x + tagW + 5*D, y + tagH);
-  ctx.lineTo(x, y + tagH);
-  ctx.closePath();
-  ctx.stroke();
-
-  // hover时内填充微光
-  if (hoverT > 0.05) {
-    const gx = ctx.createLinearGradient(x, y, x + w, y + h);
-    gx.addColorStop(0,   `rgba(255,255,255,${0.04 * hoverT})`);
-    gx.addColorStop(0.5, `rgba(255,255,255,${0.02 * hoverT})`);
-    gx.addColorStop(1,   'rgba(255,255,255,0)');
-    ctx.fillStyle = gx;
-    ctx.fillRect(x, y, w, h);
-  }
-
-  // 文字
-  const tAlpha = Math.max(0, alpha + 0.1);
-  ctx.fillStyle = `rgba(255,255,255,${tAlpha * 0.9})`;
-  ctx.font = `500 ${(isBig ? 8.5 : 7.5)*D}px Arial, sans-serif`;
-  ctx.fillText(`■ ${panel.code}`, x + 9*D, y + 11*D);
-
-  if (isBig) {
-    // 大卡片：更多细节
-    ctx.font = `${9*D}px Arial, sans-serif`;
-    ctx.fillStyle = `rgba(255,255,255,${tAlpha * 0.6})`;
-    ctx.fillText(panel.sub, x + 14*D, y + 34*D);
-
-    // 主标题
-    ctx.font = `400 ${22*D}px 'EB Garamond', serif`;
-    ctx.fillStyle = `rgba(255,255,255,${tAlpha})`;
-    ctx.fillText(panel.label, x + 14*D, y + 62*D);
-
-    // 状态徽章
-    const statColor = panel.stat === '机密' ? `rgba(180,100,50,${tAlpha})` :
-                      panel.stat === '进行中' ? `rgba(100,180,140,${tAlpha})` :
-                      `rgba(255,255,255,${tAlpha * 0.5})`;
-    ctx.fillStyle = statColor;
-    ctx.font = `${8*D}px Arial, sans-serif`;
-    ctx.fillText(panel.stat, x + w - 50*D, y + 11*D);
-
-    // 点阵
-    drawDots(ctx, x + 14*D, y + 80*D, 18, 3, tAlpha * 0.35, D);
-
-    // 内容框
-    ctx.strokeStyle = `rgba(255,255,255,${tAlpha * 0.2})`;
-    ctx.lineWidth = 0.8 * D;
-    ctx.strokeRect(x + 14*D, y + h*0.56, w - 28*D, h*0.3);
-
-    // 微标记
-    ctx.fillStyle = `rgba(255,255,255,${tAlpha * 0.5})`;
-    ctx.fillRect(x + w*0.55, y + h*0.68, 3*D, 3*D);
-    ctx.fillRect(x + w*0.78, y + h*0.76, 2*D, 2*D);
-
-    // 同心椭圆（图像感）
-    drawEllipses(ctx, x + w*0.5, y + h*0.71, w, h, tAlpha * 0.15, D);
-  } else {
-    // 小卡片：精简内容
-    ctx.font = `${(7.5)*D}px Arial, sans-serif`;
-    ctx.fillStyle = `rgba(255,255,255,${tAlpha * 0.55})`;
-    ctx.fillText(panel.label, x + 12*D, y + 36*D);
-
-    ctx.fillStyle = `rgba(255,255,255,${tAlpha * 0.35})`;
-    ctx.font = `${7*D}px Arial, sans-serif`;
-    ctx.fillText(panel.stat, x + w - 42*D, y + 11*D);
-
-    drawDots(ctx, x + 12*D, y + 52*D, 14, 2, tAlpha * 0.3, D);
-  }
-
-  ctx.restore();
-}
-
-function drawDots(ctx, x, y, cols, rows, alpha, D) {
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const a = alpha * (0.4 + Math.sin(c * 0.7 + r * 1.3 + archiveTime * 0.8) * 0.3);
-      ctx.fillStyle = `rgba(255,255,255,${a})`;
-      ctx.fillRect(x + c*6*D, y + r*7*D, 1.1*D, 3.5*D);
+function injectArchiveCSS() {
+  if (document.getElementById('arc-css')) return;
+  const st = document.createElement('style');
+  st.id = 'arc-css';
+  st.textContent = `
+    #stage2 {
+      position:fixed; inset:0; background:#07080c;
+      display:none; flex-direction:column;
+      font-family:'JetBrains Mono','SF Mono',monospace;
     }
-  }
-}
+    #stage2.visible { display:flex; }
 
-function drawEllipses(ctx, cx, cy, w, h, alpha, D) {
-  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-  ctx.lineWidth = 0.8 * D;
-  for (let i = 0; i < 5; i++) {
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, (30 + i*12)*D, (14 + i*6)*D, -0.3, 0, Math.PI*2);
-    ctx.stroke();
-  }
-}
-
-function drawConnLine(ctx, x1, y1, x2, y2, alpha, D) {
-  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-  ctx.lineWidth = 0.8 * D;
-  ctx.setLineDash([3*D, 5*D]);
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-  ctx.setLineDash([]);
-}
-
-function onArchiveMove(e) {
-  if (archiveLocked) return;
-  const { stackX, stackY, stackDX, stackDY, cardW, cardH } = getCardLayout();
-  const D = archiveDPR;
-  const mx = e.clientX * D;
-  const my = e.clientY * D;
-
-  let hit = -1;
-  // 从顶层向下检测
-  for (let i = ARCHIVE_PANELS.length - 1; i >= 0; i--) {
-    const x = stackX + i * stackDX;
-    const y = stackY + i * stackDY;
-    if (mx >= x && mx <= x + cardW && my >= y && my <= y + cardH) {
-      hit = i; break;
+    /* ── 顶栏 ── */
+    #arc-header {
+      flex-shrink:0;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:14px 32px;
+      border-bottom:0.5px solid rgba(255,255,255,0.08);
+      color:rgba(245,245,247,0.5); font-size:11px; letter-spacing:0.12em;
     }
-  }
-  archiveHover = hit;
-  archiveCanvas.style.cursor = hit >= 0 ? 'pointer' : 'default';
+    .arc-hdr-left,.arc-hdr-right{display:flex;align-items:center;gap:10px;}
+    .arc-hdr-id{color:rgba(245,245,247,0.9);font-size:13px;letter-spacing:0.25em;}
+    .arc-hdr-sep{opacity:0.3;}
+    .arc-hdr-count{color:#89b4fa;}
+
+    /* ── 网格 ── */
+    #arc-grid {
+      flex:1; overflow-y:auto;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap:12px;
+      padding:20px 28px 28px;
+    }
+    #arc-grid::-webkit-scrollbar{width:4px;}
+    #arc-grid::-webkit-scrollbar-track{background:transparent;}
+    #arc-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
+
+    /* ── 卡片 ── */
+    .arc-card {
+      background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+      border:0.5px solid rgba(255,255,255,0.1);
+      border-radius:8px;
+      padding:16px 14px 14px;
+      cursor:pointer;
+      transform:translateY(0) scale(1);
+      transition:transform 0.18s cubic-bezier(.34,1.56,.64,1), border-color 0.18s, box-shadow 0.18s;
+      user-select:none;
+    }
+    .arc-card.hovered {
+      transform:translateY(-6px) scale(1.02);
+      border-color:rgba(137,180,250,0.45);
+      box-shadow:0 12px 32px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(137,180,250,0.2);
+    }
+    .arc-card.active {
+      border-color:rgba(137,180,250,0.8);
+      box-shadow:0 0 0 1px rgba(137,180,250,0.4), 0 8px 24px rgba(137,180,250,0.15);
+    }
+    .arc-card--secret {
+      border-color:rgba(88,91,112,0.4);
+      opacity:0.65;
+    }
+    .arc-card--secret.hovered {
+      border-color:rgba(88,91,112,0.7);
+    }
+
+    .arc-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+    .arc-card-id{font-size:10px;letter-spacing:0.18em;color:rgba(245,245,247,0.35);}
+    .arc-card-stat{font-size:9px;letter-spacing:0.12em;}
+    .arc-card-title{font-size:15px;color:rgba(245,245,247,0.92);font-weight:500;margin-bottom:4px;letter-spacing:0.04em;}
+    .arc-card-en{font-size:9px;letter-spacing:0.2em;color:rgba(245,245,247,0.3);margin-bottom:12px;text-transform:uppercase;}
+    .arc-card-who{font-size:10px;color:rgba(245,245,247,0.45);margin-bottom:4px;}
+    .arc-card-tag{font-size:10px;color:#89b4fa;opacity:0.75;margin-bottom:4px;}
+    .arc-card-dur{font-size:9px;color:rgba(245,245,247,0.25);letter-spacing:0.05em;}
+
+    /* ── 侧边详情 ── */
+    #arc-detail {
+      position:fixed; top:0; right:0; bottom:0; width:360px;
+      background:linear-gradient(160deg,rgba(15,16,22,0.98),rgba(10,12,18,0.98));
+      border-left:0.5px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(40px) saturate(180%);
+      transform:translateX(100%);
+      transition:transform 0.32s cubic-bezier(.4,0,.2,1);
+      overflow-y:auto; padding:32px 28px;
+      z-index:200;
+    }
+    #arc-detail.open{transform:translateX(0);}
+    #arc-detail::-webkit-scrollbar{width:3px;}
+    #arc-detail::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);}
+
+    #arc-detail-close {
+      position:absolute; top:16px; right:20px;
+      background:none; border:none; color:rgba(245,245,247,0.3);
+      font-size:14px; cursor:pointer; padding:4px 8px;
+      transition:color 0.15s;
+    }
+    #arc-detail-close:hover{color:rgba(245,245,247,0.8);}
+
+    .adc-id{font-size:10px;letter-spacing:0.25em;color:rgba(245,245,247,0.3);margin-bottom:8px;}
+    .adc-title{font-size:22px;color:rgba(245,245,247,0.95);font-weight:500;margin-bottom:4px;line-height:1.3;}
+    .adc-en{font-size:10px;letter-spacing:0.25em;color:rgba(245,245,247,0.3);text-transform:uppercase;margin-bottom:20px;}
+    .adc-divider{height:0.5px;background:rgba(255,255,255,0.08);margin:16px 0;}
+    .adc-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:12px;}
+    .adc-label{font-size:10px;color:rgba(245,245,247,0.3);letter-spacing:0.08em;white-space:nowrap;padding-top:1px;}
+    .adc-val{font-size:12px;color:rgba(245,245,247,0.75);text-align:right;line-height:1.5;}
+    .adc-quote{font-size:13px;color:rgba(245,245,247,0.6);line-height:1.8;font-style:italic;margin-top:8px;}
+    .adc-classified{
+      margin-top:20px; padding:12px 14px;
+      background:rgba(88,91,112,0.15);
+      border:0.5px solid rgba(88,91,112,0.35);
+      border-radius:6px;
+      font-size:11px; color:rgba(88,91,112,0.8);
+      letter-spacing:0.08em;
+    }
+
+    /* ── 当详情打开时，网格右移避免遮挡 ── */
+    #arc-detail.open ~ * { }
+  `;
+  document.head.appendChild(st);
 }
 
-function onArchiveClick(e) {
-  if (archiveLocked || archiveHover < 0) return;
-  const panel = ARCHIVE_PANELS[archiveHover];
-  console.log('Open panel:', panel.id, panel.label);
-  // TODO: 双屏展开逻辑
-}
-
-function unlockArchive() {
-  archiveLocked = false;
-}
-
-// ============================================================
-// 展览循环重置
-// ============================================================
-
-async function restartIntro() {
-  // 淡出 Stage 2
-  const s2 = document.getElementById('stage2');
-  s2.style.transition = 'opacity 1.8s ease';
-  s2.style.opacity    = '0';
-  await sleep(2000);
-  s2.classList.remove('visible');
-  s2.style.opacity    = '';
-
-  // 重置档案室
-  if (archiveRaf) { cancelAnimationFrame(archiveRaf); archiveRaf = null; }
-  archiveLocked  = true;
-  archiveHover   = -1;
-  archiveTime    = 0;
-  archiveLastTs  = null;
-  cardStates.forEach(s => { s.revealT = 0; s.hoverT = 0; });
-
-  // 重置 Stage 1
-  const s1 = document.getElementById('stage1');
-  s1.style.display = 'flex';
-  s1.style.opacity = '0';
-  s1.classList.remove('fade-out');
-  s1.style.transition = 'opacity 1.5s ease';
-  document.getElementById('typewriter').innerHTML = '';
-
-  // 重置 Evans overlay
-  const overlay = document.getElementById('evans-overlay');
-  overlay.style.display    = '';
-  overlay.style.opacity    = '0';
-  overlay.style.transition = '';
-  overlay.classList.remove('visible');
-  document.getElementById('evans-speech').innerHTML = '';
-
-  await sleep(200);
-  s1.style.opacity = '1';
-  await sleep(1600);
-  s1.style.opacity    = '';
-  s1.style.transition = '';
-
-  await runIntro();
-}
 
 // ============================================================
 // 启动

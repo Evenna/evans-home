@@ -840,17 +840,13 @@ function enterDatastream() {
     setTimeout(runQueue, 60);
   });
 
-  // 总时长后淡出 → enterStage2
+  // 总时长后直接切换 → enterStage2（无停顿无淡出）
   const STREAM_DURATION = 10000;
   setTimeout(() => {
-    term.style.transition = 'opacity 0.7s ease';
-    term.style.opacity = '0';
-    setTimeout(() => {
-      term.remove();
-      layer.style.display = 'none';
-      enterStage2();
-      resolve();
-    }, 750);
+    term.remove();
+    layer.style.display = 'none';
+    enterStage2();
+    resolve();
   }, STREAM_DURATION);
 
   // stage1 + HUD 淡出
