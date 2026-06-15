@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>曼塔AI课 — 成人版</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#08090b;
+  --card:#111318;
+  --card2:#15171d;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --txt:rgba(245,245,247,0.95);
+  --txt2:rgba(245,245,247,0.5);
+  --txt3:rgba(245,245,247,0.25);
+  --blue:#0A84FF;
+  --green:#30D158;
+  --orange:#FF9F0A;
+  --red:#FF453A;
+  --blue-bg:rgba(10,132,255,0.1);
+  --green-bg:rgba(48,209,88,0.1);
+  --orange-bg:rgba(255,159,10,0.1);
+  --red-bg:rgba(255,69,58,0.1);
+}
+
+html,body{
+  background:var(--bg);
+  font-family:'Inter',-apple-system,sans-serif;
+  color:var(--txt);
+  -webkit-font-smoothing:antialiased;
+}
+
+.poster{
+  width:820px;
+  margin:0 auto;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+  padding:64px 64px 72px;
+}
+
+/* background texture */
+.poster::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* glows */
+.glow1{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(10,132,255,0.07) 0%,transparent 65%);top:-300px;right:-250px;pointer-events:none;}
+.glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,69,58,0.05) 0%,transparent 65%);bottom:-100px;left:-100px;pointer-events:none;}
+
+.inner{position:relative;z-index:1;}
+
+/* ── HEADER ── */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:56px;
+}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{font-size:26px;}
+.logo-name{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;letter-spacing:0.04em;}
+.header-badge{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--blue);background:var(--blue-bg);
+  border:0.5px solid rgba(10,132,255,0.3);
+  padding:6px 14px;border-radius:20px;
+}
+
+/* ── HERO ── */
+.hero{margin-bottom:52px;}
+.hero-eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--red);margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
+
+.hero-title{
+  font-family:'Noto Serif SC',serif;
+  font-size:58px;font-weight:700;
+  line-height:1.15;
+  color:var(--txt);
+  margin-bottom:22px;
+  letter-spacing:-0.01em;
+}
+.hero-title .dim{color:var(--txt2);}
+.hero-title .hi{color:var(--blue);}
+
+.hero-sub{
+  font-size:15px;color:var(--txt2);line-height:1.75;
+  max-width:540px;
+  border-left:2px solid var(--red);
+  padding-left:16px;
+}
+
+/* ── HAPPENING NOW ── */
+.section-label{
+  font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--txt3);margin-bottom:16px;
+}
+
+.alert-list{
+  background:var(--card);
+  border:0.5px solid rgba(255,69,58,0.2);
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:44px;
+}
+.alert-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 22px;
+  border-bottom:0.5px solid var(--border);
+}
+.alert-item:last-child{border-bottom:none;}
+.alert-icon{
+  font-size:14px;line-height:1;margin-top:2px;flex-shrink:0;
+  width:28px;height:28px;border-radius:6px;
+  background:var(--red-bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.alert-text{font-size:13.5px;color:var(--txt);line-height:1.6;}
+.alert-text strong{color:var(--red);font-weight:700;}
+
+/* ── DIVIDER ── */
+.divider{height:0.5px;background:var(--border);margin:44px 0;}
+
+/* ── THREE BENEFITS ── */
+.benefits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:44px;}
+.benefit-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:14px;padding:24px 20px;
+  position:relative;overflow:hidden;
+}
+.benefit-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.bc-blue::before{background:linear-gradient(90deg,var(--blue),transparent);}
+.bc-orange::before{background:linear-gradient(90deg,var(--orange),transparent);}
+.bc-green::before{background:linear-gradient(90deg,var(--green),transparent);}
+
+.bc-icon{font-size:26px;margin-bottom:12px;display:block;}
+.bc-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:10px;}
+.bc-points{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.bc-points li{font-size:12px;color:var(--txt2);line-height:1.55;padding-left:12px;position:relative;}
+.bc-points li::before{content:'—';position:absolute;left:0;color:var(--txt3);font-size:10px;top:3px;}
+
+/* ── SITUATION ── */
+.situation{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-bottom:44px;
+}
+.sit-card{
+  background:var(--card2);border:0.5px solid var(--border);
+  border-radius:14px;padding:22px 20px;
+}
+.sit-bad{border-color:rgba(255,69,58,0.2);}
+.sit-good{border-color:rgba(48,209,88,0.2);}
+.sit-label{
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:6px;
+}
+.sit-bad .sit-label{color:var(--red);}
+.sit-good .sit-label{color:var(--green);}
+.sit-row{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:12.5px;color:var(--txt2);line-height:1.55;
+  margin-bottom:8px;
+}
+.sit-row:last-child{margin-bottom:0;}
+.sit-row span{font-size:12px;flex-shrink:0;margin-top:1px;}
+
+/* ── COURSE PATH ── */
+.course-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-bottom:44px;
+  background:var(--border);
+  border:0.5px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.course-step{
+  background:var(--card);padding:22px 16px;
+  text-align:center;
+  border-right:0.5px solid var(--border);
+}
+.course-step:last-child{border-right:none;}
+.cs-icon{font-size:24px;margin-bottom:10px;}
+.cs-name{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px;}
+.cs-count{font-size:11px;color:var(--blue);font-weight:600;margin-bottom:6px;}
+.cs-desc{font-size:11px;color:var(--txt3);line-height:1.5;}
+
+/* ── WHY NOT FREE ── */
+.why-list{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-bottom:44px;
+}
+.why-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:10px;padding:16px 18px;
+}
+.why-check{
+  width:20px;height:20px;border-radius:5px;
+  background:var(--green-bg);border:0.5px solid rgba(48,209,88,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--green);flex-shrink:0;margin-top:1px;font-weight:700;
+}
+.why-text{font-size:12.5px;color:var(--txt2);line-height:1.6;}
+.why-text strong{color:var(--txt);font-weight:600;}
+
+/* ── OWN ── */
+.own-box{
+  background:linear-gradient(135deg,rgba(10,132,255,0.07),rgba(10,132,255,0.02));
+  border:0.5px solid rgba(10,132,255,0.2);
+  border-radius:14px;padding:26px 28px;margin-bottom:44px;
+}
+.own-title{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;}
+.own-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.own-tag{
+  font-size:12.5px;color:var(--txt);
+  background:rgba(255,255,255,0.05);
+  border:0.5px solid var(--border2);
+  border-radius:6px;padding:6px 13px;
+  display:flex;align-items:center;gap:6px;
+}
+.tag-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+
+/* ── FOOTER ── */
+.footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:32px;border-top:0.5px solid var(--border);
+}
+.footer-left{}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--txt2);}
+.footer-url{font-size:11.5px;color:var(--txt3);margin-top:4px;letter-spacing:0.02em;}
+.footer-cta{
+  background:var(--blue);color:#fff;
+  font-size:13px;font-weight:700;
+  padding:12px 26px;border-radius:8px;
+  letter-spacing:0.02em;
+}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="inner">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <span class="logo-mark">🦈</span>
+        <span class="logo-name">曼塔 AI 课</span>
+      </div>
+      <div class="header-badge">清北教授 × 大厂工程师</div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow"><span class="eyebrow-dot"></span>警告：你的职场竞争力正在缩水</div>
+      <h1 class="hero-title">
+        不会 AI<br>
+        <span class="dim">你已经在</span><span class="hi">被淘汰了</span>
+      </h1>
+      <p class="hero-sub">
+        2025 年，互联网、金融、医疗、教育、设计、运营……<br>
+        每一个行业的招聘要求里，AI 能力已经悄悄变成标配。
+      </p>
+    </div>
+
+    <!-- HAPPENING NOW -->
+    <div class="section-label">这些事正在发生</div>
+    <div class="alert-list">
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">会 AI 的应届生，起薪比你<strong>高 30%</strong></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">同岗位竞争，对方用 AI <strong>一天干完你一周的活</strong></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">大厂裁员，最先走的是<strong>"只会执行、不会用 AI"的岗位</strong></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">投了 100 份简历，HR 只看有没有 <strong>"AI 实战经验"</strong></div>
+      </div>
+    </div>
+
+    <!-- THREE BENEFITS -->
+    <div class="section-label">学会了，差距就是你的优势</div>
+    <div class="benefits">
+      <div class="benefit-card bc-blue">
+        <span class="bc-icon">⚡</span>
+        <div class="bc-title">升职加薪</div>
+        <ul class="bc-points">
+          <li>一句话出方案、生成报告、自动化流程</li>
+          <li>别人做一周的你一天交付</li>
+          <li>简历加"独立搭建AI系统"，谈薪底气翻倍</li>
+        </ul>
+      </div>
+      <div class="benefit-card bc-orange">
+        <span class="bc-icon">💰</span>
+        <div class="bc-title">副业赚钱</div>
+        <ul class="bc-points">
+          <li>用 AI 做产品、接外包、批量生产内容</li>
+          <li>一个人运营，AI 帮你干设计写文案</li>
+          <li>技术门槛归零，现在入场正是时候</li>
+        </ul>
+      </div>
+      <div class="benefit-card bc-green">
+        <span class="bc-icon">🤖</span>
+        <div class="bc-title">打造护城河</div>
+        <ul class="bc-points">
+          <li>会用 AI 的人，在用 AI 替代别人</li>
+          <li>掌握底层能力，换行换岗都带得走</li>
+          <li>24h 专属 AI，越用越懂你</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SITUATION -->
+    <div class="section-label">你现在的处境</div>
+    <div class="situation">
+      <div class="sit-card sit-bad">
+        <div class="sit-label">❌ 不会用 AI</div>
+        <div class="sit-row"><span>→</span>效率低，竞争力弱</div>
+        <div class="sit-row"><span>→</span>投简历没人看</div>
+        <div class="sit-row"><span>→</span>被边缘化、被替代</div>
+        <div class="sit-row"><span>→</span>差距越来越难追回</div>
+      </div>
+      <div class="sit-card sit-good">
+        <div class="sit-label">✅ 系统学会 AI</div>
+        <div class="sit-row"><span>→</span>效率翻倍，结果碾压</div>
+        <div class="sit-row"><span>→</span>简历有实战作品，抢手</div>
+        <div class="sit-row"><span>→</span>升职 / 加薪 / 接单</div>
+        <div class="sit-row"><span>→</span>不可替代，越来越值钱</div>
+      </div>
+    </div>
+
+    <!-- COURSE PATH -->
+    <div class="section-label">课程体系</div>
+    <div class="course-row">
+      <div class="course-step">
+        <div class="cs-icon">🎣</div>
+        <div class="cs-name">体验课</div>
+        <div class="cs-count">3 节</div>
+        <div class="cs-desc">马上上手，做出第一个在线作品</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">📡</div>
+        <div class="cs-name">基础课</div>
+        <div class="cs-count">10 节</div>
+        <div class="cs-desc">系统掌握 AI Agent 全部核心能力</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">🚀</div>
+        <div class="cs-name">进阶课</div>
+        <div class="cs-count">20 节</div>
+        <div class="cs-desc">理解原理，独立构建完整 AI 系统</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">🎯</div>
+        <div class="cs-name">主题课</div>
+        <div class="cs-count">100+ 节</div>
+        <div class="cs-desc">终身免费，持续更新，按需自选</div>
+      </div>
+    </div>
+
+    <!-- WHY NOT FREE -->
+    <div class="section-label">为什么不自己看免费视频</div>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>看视频 ≠ 会用</strong>——没有真实项目练手，看完还是不会</div>
+      </div>
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>全程直播</strong>，遇到问题当场解决，不是自己摸索</div>
+      </div>
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>真实基础设施</strong>即开即用：云服务器 + 专属域名 + 顶级大模型 API</div>
+      </div>
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>清北教授 + 大厂工程师</strong>教，含金量不一样</div>
+      </div>
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>毕业作品上线</strong>，简历直接贴链接，有据可查</div>
+      </div>
+      <div class="why-item">
+        <div class="why-check">✓</div>
+        <div class="why-text"><strong>专家一对一点评</strong>，结业作品展示会，不是自己闷头学</div>
+      </div>
+    </div>
+
+    <!-- OWN -->
+    <div class="own-box">
+      <div class="own-title">加入即永久拥有</div>
+      <div class="own-tags">
+        <div class="own-tag"><span class="tag-dot"></span>独立云服务器</div>
+        <div class="own-tag"><span class="tag-dot"></span>专属域名</div>
+        <div class="own-tag"><span class="tag-dot"></span>24h AI Agent</div>
+        <div class="own-tag"><span class="tag-dot"></span>100+ 课程终身免费</div>
+        <div class="own-tag"><span class="tag-dot"></span>DeepSeek v4 等顶级 API</div>
+        <div class="own-tag"><span class="tag-dot"></span>Skill 技能市场接入</div>
+        <div class="own-tag"><span class="tag-dot"></span>专属学员社群</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-left">
+        <div class="footer-brand">🦈 曼塔 AI 课</div>
+        <div class="footer-url">lessons.dolphinai.fun</div>
+      </div>
+      <div class="footer-cta">现在开始学，还来得及 →</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

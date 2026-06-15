@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>曼塔AI课 — 家长版</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#08090b;
+  --card:#111318;
+  --card2:#15171d;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --txt:rgba(245,245,247,0.95);
+  --txt2:rgba(245,245,247,0.5);
+  --txt3:rgba(245,245,247,0.25);
+  --blue:#0A84FF;
+  --green:#30D158;
+  --orange:#FF9F0A;
+  --red:#FF453A;
+  --amber:#FF9F0A;
+}
+
+html,body{
+  background:var(--bg);
+  font-family:'Inter',-apple-system,sans-serif;
+  color:var(--txt);
+  -webkit-font-smoothing:antialiased;
+}
+
+.poster{
+  width:820px;
+  margin:0 auto;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+  padding:64px 64px 72px;
+}
+
+.poster::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;z-index:0;
+}
+
+.glow1{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(255,159,10,0.06) 0%,transparent 65%);top:-300px;right:-200px;pointer-events:none;}
+.glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(48,209,88,0.05) 0%,transparent 65%);bottom:-100px;left:-100px;pointer-events:none;}
+
+.inner{position:relative;z-index:1;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:56px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{font-size:26px;}
+.logo-name{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;letter-spacing:0.04em;}
+.header-badge{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--orange);background:rgba(255,159,10,0.1);
+  border:0.5px solid rgba(255,159,10,0.3);
+  padding:6px 14px;border-radius:20px;
+}
+
+/* HERO */
+.hero{margin-bottom:52px;}
+.hero-eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--red);margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
+
+.hero-title{
+  font-family:'Noto Serif SC',serif;
+  font-size:48px;font-weight:700;
+  line-height:1.2;color:var(--txt);
+  margin-bottom:22px;letter-spacing:-0.01em;
+}
+.hero-title .dim{color:var(--txt2);}
+.hero-title .hi-o{color:var(--orange);}
+.hero-title .hi-g{color:var(--green);}
+
+.hero-sub{
+  font-size:15px;color:var(--txt2);line-height:1.75;
+  max-width:560px;
+  border-left:2px solid var(--orange);
+  padding-left:16px;
+}
+
+/* SECTION LABEL */
+.section-label{
+  font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--txt3);margin-bottom:16px;
+}
+
+/* ALERT LIST */
+.alert-list{
+  background:var(--card);
+  border:0.5px solid rgba(255,69,58,0.2);
+  border-radius:14px;overflow:hidden;
+  margin-bottom:44px;
+}
+.alert-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 22px;
+  border-bottom:0.5px solid var(--border);
+}
+.alert-item:last-child{border-bottom:none;}
+.alert-icon{
+  width:28px;height:28px;border-radius:6px;
+  background:rgba(255,69,58,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+.alert-text{font-size:13.5px;color:var(--txt);line-height:1.6;}
+.alert-text strong{color:var(--red);font-weight:700;}
+
+/* GAP COMPARE */
+.gap-box{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-bottom:44px;
+}
+.gap-card{
+  background:var(--card2);border:0.5px solid var(--border);
+  border-radius:14px;padding:22px 20px;
+}
+.gap-bad{border-color:rgba(255,69,58,0.2);}
+.gap-good{border-color:rgba(48,209,88,0.2);}
+.gap-label{
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:6px;
+}
+.gap-bad .gap-label{color:var(--red);}
+.gap-good .gap-label{color:var(--green);}
+.gap-row{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:12.5px;color:var(--txt2);line-height:1.55;
+  margin-bottom:8px;
+}
+.gap-row:last-child{margin-bottom:0;}
+.gap-row span{font-size:11px;flex-shrink:0;margin-top:2px;}
+
+/* BENEFITS 3 COLS */
+.benefits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:44px;}
+.benefit-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:14px;padding:24px 20px;
+  position:relative;overflow:hidden;
+}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.bc-orange::before{background:linear-gradient(90deg,var(--orange),transparent);}
+.bc-green::before{background:linear-gradient(90deg,var(--green),transparent);}
+.bc-blue::before{background:linear-gradient(90deg,var(--blue),transparent);}
+
+.bc-icon{font-size:26px;margin-bottom:12px;display:block;}
+.bc-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:10px;}
+.bc-points{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.bc-points li{font-size:12px;color:var(--txt2);line-height:1.55;padding-left:12px;position:relative;}
+.bc-points li::before{content:'—';position:absolute;left:0;color:var(--txt3);font-size:10px;top:3px;}
+
+/* WHAT KIDS MAKE — 2×3 grid */
+.make-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:44px;}
+.make-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:12px;padding:18px 16px;
+}
+.mc-top{border-top:2px solid;}
+.mc-green{border-color:var(--green);}
+.mc-blue{border-color:var(--blue);}
+.mc-orange{border-color:var(--orange);}
+.mc-purple{border-color:#BF5AF2;}
+.mc-red{border-color:var(--red);}
+.mc-teal{border-color:#5AC8FA;}
+.mc-icon{font-size:24px;margin-bottom:8px;display:block;}
+.mc-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:5px;}
+.mc-desc{font-size:11px;color:var(--txt3);line-height:1.55;}
+
+/* COURSE PATH */
+.course-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-bottom:44px;
+  background:var(--border);
+  border:0.5px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.course-step{
+  background:var(--card);padding:22px 16px;
+  text-align:center;
+  border-right:0.5px solid var(--border);
+}
+.course-step:last-child{border-right:none;}
+.cs-icon{font-size:24px;margin-bottom:10px;}
+.cs-name{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px;}
+.cs-count{font-size:11px;color:var(--orange);font-weight:600;margin-bottom:6px;}
+.cs-desc{font-size:11px;color:var(--txt3);line-height:1.5;}
+
+/* TEACHER */
+.teacher-box{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:14px;padding:24px 26px;
+  margin-bottom:44px;
+  display:flex;gap:32px;align-items:flex-start;
+}
+.teacher-col{flex:1;}
+.teacher-title{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--txt3);margin-bottom:12px;}
+.teacher-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.teacher-row:last-child{margin-bottom:0;}
+.teacher-check{
+  width:18px;height:18px;border-radius:4px;
+  background:rgba(255,159,10,0.1);border:0.5px solid rgba(255,159,10,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:var(--orange);font-weight:700;flex-shrink:0;margin-top:1px;
+}
+.teacher-text{font-size:12.5px;color:var(--txt2);line-height:1.55;}
+.teacher-text strong{color:var(--txt);font-weight:600;}
+
+/* OWN */
+.own-box{
+  background:linear-gradient(135deg,rgba(48,209,88,0.06),rgba(48,209,88,0.02));
+  border:0.5px solid rgba(48,209,88,0.2);
+  border-radius:14px;padding:26px 28px;margin-bottom:44px;
+}
+.own-title{font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;}
+.own-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.own-tag{
+  font-size:12.5px;color:var(--txt);
+  background:rgba(255,255,255,0.05);
+  border:0.5px solid var(--border2);
+  border-radius:6px;padding:6px 13px;
+  display:flex;align-items:center;gap:6px;
+}
+.tag-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+/* CLOSING QUOTE */
+.quote-box{
+  background:var(--card2);border:0.5px solid var(--border);
+  border-radius:12px;padding:20px 24px;
+  margin-bottom:44px;
+  display:flex;gap:16px;align-items:flex-start;
+}
+.quote-bar{width:3px;border-radius:2px;background:var(--orange);min-height:36px;flex-shrink:0;margin-top:2px;}
+.quote-text{font-size:14px;font-weight:500;color:var(--txt);line-height:1.7;}
+.quote-text strong{color:var(--orange);font-weight:700;}
+
+/* FOOTER */
+.footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:32px;border-top:0.5px solid var(--border);
+}
+.footer-brand{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--txt2);}
+.footer-url{font-size:11.5px;color:var(--txt3);margin-top:4px;letter-spacing:0.02em;}
+.footer-cta{
+  background:var(--orange);color:#000;
+  font-size:13px;font-weight:700;
+  padding:12px 26px;border-radius:8px;
+  letter-spacing:0.02em;
+}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="inner">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <span class="logo-mark">🦈</span>
+        <span class="logo-name">曼塔 AI 课</span>
+      </div>
+      <div class="header-badge">清北教授 × 大厂工程师联合研发</div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow"><span class="eyebrow-dot"></span>现在不行动，差距五年后追不回来</div>
+      <h1 class="hero-title">
+        你的孩子还在<span class="hi-o">用豆包聊天</span><br>
+        海淀的孩子已经在<br>
+        <span class="hi-g">用 AI 做产品、拿竞赛奖项</span>了
+      </h1>
+      <p class="hero-sub">
+        还在学 Python / Scratch？AI 已经让编程门槛归零。<br>
+        孩子们拼的不再是"会写代码"——是谁能用 AI 创造。
+      </p>
+    </div>
+
+    <!-- HAPPENING NOW -->
+    <div class="section-label">这些事正在发生</div>
+    <div class="alert-list">
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text"><strong>用 AI 聊天是消费者，用 Agent 造产品才是创造者</strong>——两类孩子，五年后差距不是一点点</div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">海淀 · 张江 · 南山的孩子，正在用 AI Agent <strong>独立搭建系统、发表科创论文、拿竞赛奖项</strong></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">顶尖高中、竞赛圈、留学文书——<strong>没有 AI 实战作品，你的孩子拿什么和别人比？</strong></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-icon">📉</div>
+        <div class="alert-text">你的孩子还在：刷短视频、玩游戏、<strong>用豆包问作业答案</strong></div>
+      </div>
+    </div>
+
+    <!-- GAP -->
+    <div class="section-label">不焦虑是因为不知道差距有多大</div>
+    <div class="gap-box">
+      <div class="gap-card gap-bad">
+        <div class="gap-label">❌ 同龄人已经会的</div>
+        <div class="gap-row"><span>✅</span>用自然语言指挥 AI Agent 完成复杂任务</div>
+        <div class="gap-row"><span>✅</span>独立做出真实在线产品并部署上线</div>
+        <div class="gap-row"><span>✅</span>完成科创项目，参加蓝桥杯 / NOC / 全国青少年科创大赛</div>
+        <div class="gap-row"><span>✅</span>有自己的云服务器、域名、AI 系统</div>
+      </div>
+      <div class="gap-card gap-good">
+        <div class="gap-label">❌ 你的孩子还在</div>
+        <div class="gap-row"><span>→</span>刷短视频、打游戏</div>
+        <div class="gap-row"><span>→</span>用豆包问作业答案</div>
+        <div class="gap-row"><span>→</span>学 Scratch / Python 基础语法</div>
+        <div class="gap-row"><span>→</span>没有任何可以展示的作品</div>
+      </div>
+    </div>
+
+    <!-- THREE BENEFITS -->
+    <div class="section-label">学完孩子能获得什么</div>
+    <div class="benefits">
+      <div class="benefit-card bc-orange">
+        <span class="bc-icon">📈</span>
+        <div class="bc-title">成绩与学习能力</div>
+        <ul class="bc-points">
+          <li>AI 辅助学习：数学闯关、英语外教</li>
+          <li>结构化思维训练，学会拆解问题</li>
+          <li>专注力和逻辑力同步提升</li>
+        </ul>
+      </div>
+      <div class="benefit-card bc-green">
+        <span class="bc-icon">🏆</span>
+        <div class="bc-title">竞赛 · 升学 / 留学</div>
+        <ul class="bc-points">
+          <li>蓝桥杯 AI 赛道、NOC、全国科创大赛</li>
+          <li>优秀作品协助发表科创论文</li>
+          <li>竞赛证书 + 作品集，申请直接加分</li>
+        </ul>
+      </div>
+      <div class="benefit-card bc-blue">
+        <span class="bc-icon">🧠</span>
+        <div class="bc-title">思维活跃 · 创造力</div>
+        <ul class="bc-points">
+          <li>每节课动手做出真实作品，有成就感</li>
+          <li>越学越主动，不再坐不住</li>
+          <li>和同龄人一起创作，激发主动学习</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WHAT KIDS MAKE -->
+    <div class="section-label">孩子能做出什么</div>
+    <div class="make-grid">
+      <div class="make-card mc-top mc-green">
+        <span class="mc-icon">🎮</span>
+        <div class="mc-title">造游戏</div>
+        <div class="mc-desc">狼人杀 · 密室逃脱 · 答题对战</div>
+      </div>
+      <div class="make-card mc-top mc-blue">
+        <span class="mc-icon">🌐</span>
+        <div class="mc-title">造网站</div>
+        <div class="mc-desc">班级主页 · 个人作品集 · 有自己的域名</div>
+      </div>
+      <div class="make-card mc-top mc-orange">
+        <span class="mc-icon">🤖</span>
+        <div class="mc-title">造 AI 助手</div>
+        <div class="mc-desc">24h 专属 AI，帮写作业、搜资料</div>
+      </div>
+      <div class="make-card mc-top mc-purple">
+        <span class="mc-icon">🔬</span>
+        <div class="mc-title">做科创项目</div>
+        <div class="mc-desc">参赛级 AI 系统 · 科创论文</div>
+      </div>
+      <div class="make-card mc-top mc-red">
+        <span class="mc-icon">🎬</span>
+        <div class="mc-title">造内容</div>
+        <div class="mc-desc">短视频 · 漫画 · 歌曲 · AI 主播</div>
+      </div>
+      <div class="make-card mc-top mc-teal">
+        <span class="mc-icon">🏅</span>
+        <div class="mc-title">参加比赛</div>
+        <div class="mc-desc">蓝桥杯 · NOC · 全国青少年科创大赛</div>
+      </div>
+    </div>
+
+    <!-- COURSE PATH -->
+    <div class="section-label">学习路径</div>
+    <div class="course-row">
+      <div class="course-step">
+        <div class="cs-icon">🎣</div>
+        <div class="cs-name">体验课</div>
+        <div class="cs-count">3 节</div>
+        <div class="cs-desc">认识 AI，做出第一个上线作品</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">📡</div>
+        <div class="cs-name">基础课</div>
+        <div class="cs-count">10 节</div>
+        <div class="cs-desc">系统掌握 AI 能力，5+ 作品带走</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">🚀</div>
+        <div class="cs-name">进阶课</div>
+        <div class="cs-count">20 节</div>
+        <div class="cs-desc">理解原理，独立完成参赛级项目</div>
+      </div>
+      <div class="course-step">
+        <div class="cs-icon">🎯</div>
+        <div class="cs-name">主题课</div>
+        <div class="cs-count">100+ 节</div>
+        <div class="cs-desc">终身免费，兴趣驱动，持续成长</div>
+      </div>
+    </div>
+
+    <!-- TEACHER -->
+    <div class="teacher-box">
+      <div class="teacher-col">
+        <div class="teacher-title">师资保障</div>
+        <div class="teacher-row"><div class="teacher-check">✓</div><div class="teacher-text"><strong>清华北大教授 + 一线大厂 AI 工程师</strong>联合研发</div></div>
+        <div class="teacher-row"><div class="teacher-check">✓</div><div class="teacher-text"><strong>全程直播 + 实时答疑</strong>，非录播视频</div></div>
+      </div>
+      <div class="teacher-col">
+        <div class="teacher-title">特别权益</div>
+        <div class="teacher-row"><div class="teacher-check">✓</div><div class="teacher-text">结业<strong>毕业作品展示会</strong>，教授工程师一对一点评</div></div>
+        <div class="teacher-row"><div class="teacher-check">✓</div><div class="teacher-text">优秀学员受邀<strong>参观清北 AI 实验室</strong>，与学长学姐交流</div></div>
+      </div>
+    </div>
+
+    <!-- OWN -->
+    <div class="own-box">
+      <div class="own-title">加入即永久拥有</div>
+      <div class="own-tags">
+        <div class="own-tag"><span class="tag-dot"></span>独立云服务器</div>
+        <div class="own-tag"><span class="tag-dot"></span>专属域名</div>
+        <div class="own-tag"><span class="tag-dot"></span>24h AI 助手</div>
+        <div class="own-tag"><span class="tag-dot"></span>100+ 课程终身免费</div>
+        <div class="own-tag"><span class="tag-dot"></span>顶级大模型 API</div>
+        <div class="own-tag"><span class="tag-dot"></span>毕业作品展教授点评</div>
+        <div class="own-tag"><span class="tag-dot"></span>清北研学机会</div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-box">
+      <div class="quote-bar"></div>
+      <div class="quote-text">起跑线的差距，五年后很难追回来。<strong>现在开始，还不晚。</strong></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        <div class="footer-brand">🦈 曼塔 AI 课</div>
+        <div class="footer-url">lessons.dolphinai.fun</div>
+      </div>
+      <div class="footer-cta">免费体验 3 节，先让孩子试试 →</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
