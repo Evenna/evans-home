@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞鱼AI课 — 小孩版海报</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0c;
+    --surface: #111115;
+    --card: #16161c;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.13);
+    --txt: rgba(245,245,247,0.95);
+    --txt2: rgba(245,245,247,0.55);
+    --txt3: rgba(245,245,247,0.28);
+    --blue: #0A84FF;
+    --green: #30D158;
+    --orange: #FF9F0A;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--txt);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .poster {
+    width: 800px;
+    min-height: 1200px;
+    margin: 0 auto;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid texture */
+  .poster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Glow */
+  .glow-a {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(48,209,88,0.07) 0%, transparent 65%);
+    top: -200px; right: -200px;
+    pointer-events: none;
+  }
+  .glow-b {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,132,255,0.07) 0%, transparent 65%);
+    bottom: 50px; left: -150px;
+    pointer-events: none;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    padding: 56px 60px 56px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 52px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-fish { font-size: 22px; }
+  .logo-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: rgba(48,209,88,0.1);
+    border: 0.5px solid rgba(48,209,88,0.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  /* Hero — big, bold, punchy */
+  .hero {
+    margin-bottom: 48px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--txt);
+    margin-bottom: 18px;
+    letter-spacing: -0.03em;
+  }
+  .hero-title .accent-g { color: var(--green); }
+  .hero-title .accent-b { color: var(--blue); }
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--txt2);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* What can you make */
+  .make-section {
+    margin-bottom: 48px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--txt3);
+    margin-bottom: 18px;
+  }
+  .make-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .make-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .make-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+    pointer-events: none;
+  }
+  .make-card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .make-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: 6px;
+  }
+  .make-card-examples {
+    font-size: 11.5px;
+    color: var(--txt3);
+    line-height: 1.6;
+  }
+  .card-green { border-top: 2px solid var(--green); }
+  .card-blue { border-top: 2px solid var(--blue); }
+  .card-orange { border-top: 2px solid var(--orange); }
+  .card-purple { border-top: 2px solid #BF5AF2; }
+  .card-pink { border-top: 2px solid #FF375F; }
+  .card-teal { border-top: 2px solid #5AC8FA; }
+
+  /* Journey — horizontal timeline */
+  .journey {
+    margin-bottom: 48px;
+  }
+  .journey-track {
+    display: flex;
+    position: relative;
+    gap: 0;
+  }
+  .journey-track::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 28px; right: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--green), var(--blue), var(--orange));
+    opacity: 0.3;
+  }
+  .journey-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .journey-dot {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--card);
+    border: 0.5px solid var(--border-strong);
+    position: relative;
+    z-index: 1;
+  }
+  .journey-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--txt);
+    text-align: center;
+  }
+  .journey-desc {
+    font-size: 11px;
+    color: var(--txt3);
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+  .jdot-1 { background: rgba(48,209,88,0.08); border-color: rgba(48,209,88,0.3); }
+  .jdot-2 { background: rgba(10,132,255,0.08); border-color: rgba(10,132,255,0.3); }
+  .jdot-3 { background: rgba(255,159,10,0.08); border-color: rgba(255,159,10,0.3); }
+  .jdot-4 { background: rgba(191,90,242,0.08); border-color: rgba(191,90,242,0.3); }
+
+  /* Real things you own */
+  .own-section {
+    background: linear-gradient(135deg, rgba(48,209,88,0.05), rgba(10,132,255,0.04));
+    border: 0.5px solid rgba(48,209,88,0.18);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 44px;
+  }
+  .own-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: 6px;
+  }
+  .own-sub {
+    font-size: 12.5px;
+    color: var(--txt2);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .own-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .own-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    color: var(--txt);
+    font-weight: 500;
+  }
+  .own-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* Quote / hook */
+  .hook {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 24px;
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 44px;
+  }
+  .hook-bar {
+    width: 3px;
+    min-height: 40px;
+    background: var(--green);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .hook-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--txt);
+    line-height: 1.65;
+  }
+  .hook-text strong {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+  }
+  .footer-brand {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--txt2);
+  }
+  .footer-url {
+    font-size: 12px;
+    color: var(--txt3);
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+  }
+  .footer-cta {
+    background: var(--green);
+    color: #000;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 8px;
+    letter-spacing: 0.01em;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="glow-a"></div>
+  <div class="glow-b"></div>
+
+  <div class="content">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <span class="logo-fish">🐟</span>
+        <span class="logo-name">飞鱼 AI 课</span>
+      </div>
+      <div class="badge">真实上线 · 马上能做</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-eyebrow">不写代码，也能做出来</div>
+      <h1 class="hero-title">
+        你能做出<br>
+        <span class="accent-g">游戏</span>、<span class="accent-b">网站</span><br>
+        和<span class="accent-g"> AI </span>助手
+      </h1>
+      <p class="hero-sub">
+        用 AI 把你的任何想法直接变成真实作品，发给朋友——不用学编程，真的能用。
+      </p>
+    </div>
+
+    <!-- What can you make -->
+    <div class="make-section">
+      <div class="section-label">你可以做什么</div>
+      <div class="make-grid">
+        <div class="make-card card-green">
+          <span class="make-card-icon">🎮</span>
+          <div class="make-card-title">造游戏</div>
+          <div class="make-card-examples">狼人杀 · 密室逃脱<br>答题对战 · 闯关挑战</div>
+        </div>
+        <div class="make-card card-blue">
+          <span class="make-card-icon">🌐</span>
+          <div class="make-card-title">造网站</div>
+          <div class="make-card-examples">班级主页 · 个人作品集<br>生日网页 · 有自己的网址</div>
+        </div>
+        <div class="make-card card-orange">
+          <span class="make-card-icon">🎬</span>
+          <div class="make-card-title">造内容</div>
+          <div class="make-card-examples">短视频 · 漫画 · 歌曲<br>小说 · AI 主播</div>
+        </div>
+        <div class="make-card card-purple">
+          <span class="make-card-icon">🤖</span>
+          <div class="make-card-title">造 AI 助手</div>
+          <div class="make-card-examples">24h 专属 AI<br>帮你搜、写、做作业</div>
+        </div>
+        <div class="make-card card-pink">
+          <span class="make-card-icon">🔬</span>
+          <div class="make-card-title">造研究报告</div>
+          <div class="make-card-examples">深度调研 · 科创论文<br>一句话生成 PPT</div>
+        </div>
+        <div class="make-card card-teal">
+          <span class="make-card-icon">🏆</span>
+          <div class="make-card-title">参加比赛</div>
+          <div class="make-card-examples">蓝桥杯 · NOC<br>全国青少年科创大赛</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hook quote -->
+    <div class="hook">
+      <div class="hook-bar"></div>
+      <div class="hook-text">
+        你有什么想法，<strong>一句话告诉 AI</strong>，它帮你写代码、做设计、部署上线。三节课就能做出一个真实在线的作品，发给任何人，他们用手机就能打开。
+      </div>
+    </div>
+
+    <!-- Journey -->
+    <div class="journey">
+      <div class="section-label">从体验到大神</div>
+      <div class="journey-track">
+        <div class="journey-step">
+          <div class="journey-dot jdot-1">🎣</div>
+          <div class="journey-label">体验 3 节</div>
+          <div class="journey-desc">认识 AI，做出第一个在线作品</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-dot jdot-2">📡</div>
+          <div class="journey-label">基础 10 节</div>
+          <div class="journey-desc">掌握 AI 全部能力，5+ 作品</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-dot jdot-3">🚀</div>
+          <div class="journey-label">进阶 20 节</div>
+          <div class="journey-desc">懂原理，做参赛级 AI 系统</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-dot jdot-4">🎯</div>
+          <div class="journey-label">主题 100+</div>
+          <div class="journey-desc">想做什么做什么，终身免费</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Own -->
+    <div class="own-section">
+      <div class="own-title">加入就拥有，永远是你的</div>
+      <div class="own-sub">不是租来用的——是真正属于你的一套 AI 基础设施</div>
+      <div class="own-items">
+        <div class="own-item"><span class="own-dot"></span>专属云服务器</div>
+        <div class="own-item"><span class="own-dot"></span>你自己的域名网址</div>
+        <div class="own-item"><span class="own-dot"></span>24小时在线 AI 助手</div>
+        <div class="own-item"><span class="own-dot"></span>100+ 课程终身免费</div>
+        <div class="own-item"><span class="own-dot"></span>顶级大模型 API</div>
+        <div class="own-item"><span class="own-dot"></span>毕业作品展 · 教授点评</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div>
+        <div class="footer-brand">🐟 飞鱼 AI 课</div>
+        <div class="footer-url">lessons.dolphinai.fun</div>
+      </div>
+      <div class="footer-cta">
+        免费体验 3 节 →
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
