@@ -95,13 +95,45 @@ slide('elva', function(el) {
 });
 
 // ─────────────────────────────────────────
-// 08 · Fly.pieter.com — Vibe Coding 飞行模拟
+// 08 · WebGL Fluid — 多模态手势交互
+// ─────────────────────────────────────────
+slide('gesture', function(el) {
+  el.innerHTML = `
+    <div class="split">
+      <div class="info">
+        <div class="eyebrow" style="color:var(--teal)">08 · 多模态手势交互</div>
+        <div class="award">📷 摄像头 · 骨骼追踪 · 实时流体</div>
+        <h2 class="title">WebGL 流体<br>手势控制</h2>
+        <div class="author">Evans · 张一文 · 清华美院 · 2026</div>
+        <p class="desc">
+          调用摄像头，用 <strong>MediaPipe Hands</strong> 实时追踪双手 21 个骨骼关节点——五指指尖各自驱动一束彩色粒子流体，<strong>零按钮、零学习成本</strong>，身体动作直接成为界面输入。<br><br>
+          这是"分寸感引擎"研究的早期原型：探索肢体语言如何成为数字界面的第一语言。
+        </p>
+        <div class="tags">
+          <span class="tag">WebGL</span>
+          <span class="tag">MediaPipe Hands</span>
+          <span class="tag">21点骨骼追踪</span>
+          <span class="tag">Vibe Coding</span>
+        </div>
+        <a class="link" href="https://evenna.github.io/WebGL-Fluid-Simulation/" target="_blank">evenna.github.io/WebGL-Fluid-Simulation ↗</a>
+      </div>
+      <div class="demo">
+        <iframe src="https://evenna.github.io/WebGL-Fluid-Simulation/" loading="lazy" allow="camera; microphone"></iframe>
+        <span class="demo-tag">✋ 开启摄像头 · 挥手控制流体</span>
+        <span class="demo-src">evenna.github.io</span>
+      </div>
+    </div>
+  `;
+});
+
+// ─────────────────────────────────────────
+// 09 · Fly.pieter.com — Vibe Coding 飞行模拟
 // ─────────────────────────────────────────
 slide('fly', function(el) {
   el.innerHTML = `
     <div class="split">
       <div class="info">
-        <div class="eyebrow" style="color:var(--orange)">08 · Vibe Coding 传奇</div>
+        <div class="eyebrow" style="color:var(--orange)">09 · Vibe Coding 传奇</div>
         <div class="award">🏆 病毒式传播 · 100万+ 曝光</div>
         <h2 class="title">浏览器<br>飞行模拟器</h2>
         <div class="author">Pieter Levels · @levelsio · 2025</div>
