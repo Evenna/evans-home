@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebGL 流体模拟 · 课件</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 左侧：流体模拟 iframe -->
+<div id="sim-panel">
+  <iframe id="sim-iframe" src="https://evenna.github.io/WebGL-Fluid-Simulation/" allowfullscreen></iframe>
+  <div id="sim-hint">← 在这里拖动鼠标 / 点击 体验流体</div>
+</div>
+
+<!-- 右侧：课件面板 -->
+<div id="tutorial-panel">
+  <div id="tut-header">
+    <div id="tut-logo">WebGL 流体</div>
+    <div id="tut-progress-wrap">
+      <div id="tut-progress-bar"></div>
+    </div>
+    <div id="tut-step-label">1 / 7</div>
+  </div>
+
+  <div id="tut-slides-wrap">
+    <div id="tut-slides"></div>
+  </div>
+
+  <div id="tut-nav">
+    <button id="btn-prev" onclick="tutPrev()">←</button>
+    <div id="tut-dots"></div>
+    <button id="btn-next" onclick="tutNext()">→</button>
+  </div>
+</div>
+
+<!-- resize handle -->
+<div id="resize-handle"></div>
+
+<script src="slides.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
