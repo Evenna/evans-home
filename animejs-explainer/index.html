@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anime.js 小白课件 — Vibe Coding 视角</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090b; --surf:#0d1015; --card:#13161c;
+  --txt:#e8e6e0; --txt2:#8a8f98; --txt3:#4a4e57;
+  --accent:#4f8fff; --green:#30d158; --orange:#ff9f0a;
+  --gold:#c8a96e; --purple:#bf5af2; --red:#ff453a;
+  --serif:'EB Garamond',Georgia,serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --rp:430px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font-family:var(--sans)}
+
+/* ── Layout ── */
+#app{display:flex;height:100vh;width:100vw;overflow:hidden}
+#left{flex:1;min-width:0;position:relative;background:#000;border-right:1px solid rgba(255,255,255,0.06)}
+#left iframe{width:100%;height:100%;border:none;display:block}
+#iframe-fallback{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:var(--bg);padding:40px;text-align:center}
+#iframe-fallback p{color:var(--txt2);font-size:14px;line-height:1.7;max-width:320px}
+#iframe-fallback a{color:var(--accent);text-decoration:none;font-size:13px;border:1px solid rgba(79,143,255,.35);padding:8px 18px;border-radius:8px}
+#iframe-fallback a:hover{background:rgba(79,143,255,.12)}
+
+/* left overlay label */
+#left-label{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.72);backdrop-filter:blur(12px);border:0.5px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 14px;font-size:11px;color:var(--txt2);letter-spacing:.06em;pointer-events:none;white-space:nowrap}
+
+#right{width:var(--rp);min-width:var(--rp);max-width:var(--rp);display:flex;flex-direction:column;background:var(--surf);overflow:hidden}
+
+/* ── Progress bar ── */
+#progress-bar{height:2px;background:var(--txt3);position:relative;flex-shrink:0}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--purple));transition:width .4s ease}
+
+/* ── Tabs ── */
+#tabs{display:flex;overflow-x:auto;gap:2px;padding:10px 12px 0;flex-shrink:0;scrollbar-width:none}
+#tabs::-webkit-scrollbar{display:none}
+.tab{cursor:pointer;padding:6px 12px;border-radius:8px 8px 0 0;font-size:11.5px;font-family:var(--mono);color:var(--txt3);white-space:nowrap;transition:all .2s;border:0.5px solid transparent;background:transparent;user-select:none}
+.tab:hover{color:var(--txt2);background:rgba(255,255,255,.04)}
+.tab.active{color:var(--txt);background:var(--card);border-color:rgba(255,255,255,.08);border-bottom-color:var(--card)}
+
+/* ── Chapter header ── */
+#ch-header{padding:20px 24px 0;flex-shrink:0}
+#ch-num{font-family:var(--mono);font-size:10px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+#ch-title{font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.25;color:var(--txt);margin-bottom:4px}
+#ch-sub{font-size:12.5px;color:var(--txt2);line-height:1.5}
+
+/* ── Content area ── */
+#content{flex:1;overflow-y:auto;padding:20px 24px 100px;scrollbar-width:thin;scrollbar-color:var(--txt3) transparent}
+#content::-webkit-scrollbar{width:4px}
+#content::-webkit-scrollbar-thumb{background:var(--txt3);border-radius:2px}
+
+/* ── Bottom nav ── */
+#bottom-nav{position:absolute;bottom:0;right:0;width:var(--rp);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to top,var(--surf) 70%,transparent);border-top:0.5px solid rgba(255,255,255,.06)}
+.nav-btn{cursor:pointer;padding:8px 18px;border-radius:10px;font-size:12.5px;font-family:var(--sans);font-weight:500;border:0.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--txt2);transition:all .2s}
+.nav-btn:hover{background:rgba(255,255,255,.09);color:var(--txt)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+#ch-counter{font-family:var(--mono);font-size:11px;color:var(--txt3)}
+
+/* ── Content primitives ── */
+.section{margin-bottom:22px}
+.section h3{font-size:13px;font-weight:600;color:var(--txt);letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+
+.analogy{background:var(--card);border:0.5px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}
+.analogy::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.analogy-icon{font-size:26px;margin-bottom:8px}
+.analogy p{font-size:13.5px;line-height:1.75;color:var(--txt2)}
+.analogy p em{color:var(--txt);font-style:normal;font-weight:500}
+.analogy-label{font-family:var(--mono);font-size:10px;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+
+.box{border-radius:12px;padding:14px 16px;margin-bottom:12px;border-left:3px solid;font-size:13px;line-height:1.7;color:var(--txt2)}
+.box.blue{background:rgba(79,143,255,.08);border-color:var(--accent)}
+.box.green{background:rgba(48,209,88,.08);border-color:var(--green)}
+.box.orange{background:rgba(255,159,10,.08);border-color:var(--orange)}
+.box.gold{background:rgba(200,169,110,.08);border-color:var(--gold)}
+.box.purple{background:rgba(191,90,242,.08);border-color:var(--purple)}
+.box strong{color:var(--txt);font-weight:600}
+
+.step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-l{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-line{width:1px;flex:1;min-height:16px;background:linear-gradient(to bottom,var(--accent),transparent);margin-top:4px}
+.step-body h4{font-size:13.5px;font-weight:600;color:var(--txt);margin-bottom:4px}
+.step-body p{font-size:12.5px;color:var(--txt2);line-height:1.65}
+
+.prompt{background:#0a0f0e;border:0.5px solid rgba(48,209,88,.25);border-radius:14px;padding:16px;margin-bottom:14px;position:relative}
+.prompt-lbl{font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:.1em;margin-bottom:10px;text-transform:uppercase}
+.prompt-body{font-size:12px;line-height:1.75;color:#a8d8b0;font-family:var(--mono);white-space:pre-wrap;word-break:break-word;max-height:200px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--txt3) transparent}
+.copy-btn{margin-top:12px;cursor:pointer;padding:6px 14px;border-radius:8px;font-size:11.5px;font-family:var(--sans);border:0.5px solid rgba(48,209,88,.35);background:rgba(48,209,88,.08);color:var(--green);transition:all .2s}
+.copy-btn:hover{background:rgba(48,209,88,.16)}
+.copy-btn.copied{color:var(--txt);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
+
+.checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.ci{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--txt2);line-height:1.6}
+.ci-icon{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;margin-top:1px}
+.ci-icon.ok{background:rgba(48,209,88,.18);color:var(--green)}
+.ci-icon.warn{background:rgba(255,159,10,.18);color:var(--orange)}
+.ci-icon.info{background:rgba(79,143,255,.18);color:var(--accent)}
+.ci-icon.tip{background:rgba(191,90,242,.18);color:var(--purple)}
+
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.hcard{background:var(--card);border:0.5px solid rgba(255,255,255,.07);border-radius:12px;padding:13px 14px}
+.hcard .hc-icon{font-size:18px;margin-bottom:6px}
+.hcard .hc-title{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:4px}
+.hcard .hc-body{font-size:11.5px;color:var(--txt2);line-height:1.6}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.vs-col{border-radius:12px;padding:13px 14px}
+.vs-col.bad{background:rgba(255,69,58,.08);border:0.5px solid rgba(255,69,58,.2)}
+.vs-col.good{background:rgba(48,209,88,.08);border:0.5px solid rgba(48,209,88,.2)}
+.vs-col h4{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.vs-col.bad h4{color:var(--red)}
+.vs-col.good h4{color:var(--green)}
+.vs-col p{font-size:12px;color:var(--txt2);line-height:1.65;font-family:var(--mono)}
+
+.vis{background:var(--card);border:0.5px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.vis canvas{display:block;width:100%}
+.vis-caption{font-family:var(--mono);font-size:10px;color:var(--txt3);padding:8px 14px;border-top:0.5px solid rgba(255,255,255,.05);text-align:center}
+
+.trap{background:var(--card);border:0.5px solid rgba(255,159,10,.2);border-radius:14px;padding:15px;margin-bottom:12px}
+.trap-title{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.trap-body{font-size:12.5px;color:var(--txt2);line-height:1.65;margin-bottom:10px}
+
+/* ── intro overlay ── */
+#intro{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:40px}
+#intro h1{font-family:var(--serif);font-size:36px;color:var(--txt)}
+#intro p{font-size:14px;color:var(--txt2);max-width:380px;line-height:1.8}
+#intro-btn{margin-top:10px;cursor:pointer;padding:12px 32px;border-radius:12px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;border:none;font-family:var(--sans);transition:opacity .2s}
+#intro-btn:hover{opacity:.85}
+#intro-sub{font-family:var(--mono);font-size:11px;color:var(--txt3);letter-spacing:.1em}
+
+/* scrollbar */
+*{scrollbar-width:thin;scrollbar-color:var(--txt3) transparent}
+</style>
+</head>
+<body>
+
+<!-- Intro splash -->
+<div id="intro">
+  <div style="font-family:var(--mono);font-size:11px;color:var(--txt3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px">小白 × Vibe Coding 课件</div>
+  <h1>Anime.js 完全拆解</h1>
+  <p>你将看到：左边是网站的真实交互，右边是我的讲解。<br>9 个章节，带你从「这是什么」到「自己做出来」。</p>
+  <button id="intro-btn" onclick="startCourse()">开始学习 →</button>
+  <div id="intro-sub">零基础 · 无代码 · 直接上手</div>
+</div>
+
+<!-- Main app -->
+<div id="app" style="display:none">
+  <!-- Left pane: live site -->
+  <div id="left">
+    <div id="left-label">◉ 真实网站 — 可以交互</div>
+    <iframe id="main-iframe" src="https://animejs.com/" title="Anime.js 官网" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" loading="lazy"></iframe>
+    <div id="iframe-fallback">
+      <div style="font-size:32px">🔗</div>
+      <p>该网站限制了嵌入显示，但不影响学习。你可以<br>直接打开右侧讲解，同时另开一个窗口访问网站。</p>
+      <a href="https://animejs.com/" target="_blank">在新窗口打开 animejs.com ↗</a>
+    </div>
+  </div>
+
+  <!-- Right pane: explainer -->
+  <div id="right">
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="tabs"></div>
+    <div id="ch-header">
+      <div id="ch-num"></div>
+      <div id="ch-title"></div>
+      <div id="ch-sub"></div>
+    </div>
+    <div id="content"></div>
+    <div id="bottom-nav">
+      <button class="nav-btn" id="btn-prev" onclick="goRel(-1)">← 上一章</button>
+      <span id="ch-counter">1 / 9</span>
+      <button class="nav-btn" id="btn-next" onclick="goRel(1)">下一章 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- iframe blocked detection -->
+<script>
+function startCourse(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('app').style.display='flex';
+  // check if iframe loaded
+  setTimeout(()=>{
+    const iframe=document.getElementById('main-iframe');
+    try{
+      const doc=iframe.contentDocument||iframe.contentWindow.document;
+      if(!doc||doc.title==='')throw new Error('blocked');
+    }catch(e){
+      document.getElementById('iframe-fallback').style.display='flex';
+      iframe.style.display='none';
+    }
+  },3000);
+}
+</script>
+
+<script src="chapters.js"></script>
+<script src="r1.js"></script>
+<script src="r2.js"></script>
+<script src="r3.js"></script>
+<script src="mount.js"></script>
+</body>
+</html>
