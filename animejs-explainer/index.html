@@ -6,6 +6,8 @@
 <title>Anime.js 课件 — Vibe Coding 小白指南</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Anime.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/animejs@4/lib/anime.iife.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -32,43 +34,64 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 /* ===== LAYOUT ===== */
 #app{display:flex;height:100vh;width:100vw}
 
-/* left: preview */
-#preview{flex:1;position:relative;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#preview iframe{width:100%;height:100%;border:none;opacity:0;transition:opacity .6s}
-#preview iframe.loaded{opacity:1}
-#iframe-fallback{
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:24px;
-  padding:48px;
-  text-align:center;
-  width:100%;
-  height:100%;
+/* left: live demo stage */
+#stage{
+  flex:1;
+  position:relative;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
 }
-#iframe-fallback .site-thumb{
-  width:380px;max-width:90%;
-  aspect-ratio:16/9;
-  border-radius:16px;
-  background:linear-gradient(135deg,#0d1015 0%,#13161c 100%);
-  border:0.5px solid rgba(255,255,255,0.08);
+#stage::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(79,143,255,0.04) 0%, transparent 70%);
+  pointer-events:none;
+}
+/* grid overlay */
+#stage::after{
+  content:'';
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+#demo-area{
+  position:relative;z-index:1;
+  width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
-  font-size:48px;
-  box-shadow:0 32px 80px rgba(0,0,0,0.6);
 }
-#iframe-fallback h3{font-family:var(--serif);font-size:24px;color:var(--txt);font-weight:400}
-#iframe-fallback p{color:var(--txt2);font-size:14px;line-height:1.6;max-width:340px}
-#iframe-fallback a{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:12px 28px;
+
+/* demo badge */
+#demo-badge{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+  padding:7px 16px;
   border-radius:100px;
-  background:var(--accent);
-  color:#fff;font-size:14px;font-weight:500;
-  text-decoration:none;
-  transition:opacity .2s;
+  background:rgba(13,16,21,0.8);
+  backdrop-filter:blur(16px);
+  border:0.5px solid rgba(255,255,255,0.08);
+  font-family:var(--mono);font-size:10px;color:var(--txt3);
+  z-index:10;
+  pointer-events:none;
 }
-#iframe-fallback a:hover{opacity:.8}
+#demo-badge .dot-live{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* chapter label overlay */
+#ch-overlay{
+  position:absolute;top:20px;left:20px;
+  font-family:var(--mono);font-size:10px;color:var(--txt3);
+  z-index:10;pointer-events:none;
+}
 
 /* right: panel */
 #panel{
@@ -81,10 +104,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 }
 
 /* progress bar */
-#progress{
-  height:2px;background:rgba(255,255,255,0.05);
-  position:relative;flex-shrink:0;
-}
+#progress{height:2px;background:rgba(255,255,255,0.05);position:relative;flex-shrink:0}
 #progress-fill{height:100%;background:var(--accent);transition:width .4s ease;width:11.11%}
 
 /* tabs */
@@ -96,13 +116,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 }
 #tabs::-webkit-scrollbar{display:none}
 .tab{
-  flex-shrink:0;
-  width:34px;height:28px;
+  flex-shrink:0;width:34px;height:28px;
   display:flex;align-items:center;justify-content:center;
   font-family:var(--mono);font-size:12px;
   color:var(--txt3);cursor:pointer;
   border-radius:6px 6px 0 0;
-  transition:color .2s, background .2s;
+  transition:color .2s,background .2s;
   user-select:none;
 }
 .tab:hover{color:var(--txt2);background:rgba(255,255,255,0.04)}
@@ -110,9 +129,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 
 /* chapter content */
 #chapter-wrap{
-  flex:1;
-  overflow-y:auto;
-  padding:28px 24px;
+  flex:1;overflow-y:auto;padding:28px 24px;
   scrollbar-width:thin;
   scrollbar-color:rgba(255,255,255,0.08) transparent;
 }
@@ -125,7 +142,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 20px;
   border-top:0.5px solid rgba(255,255,255,0.06);
-  background:var(--surf);
 }
 .nav-btn{
   width:36px;height:36px;
@@ -140,173 +156,57 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 #chapter-label{font-family:var(--mono);font-size:11px;color:var(--txt3)}
 
 /* ===== CONTENT STYLES ===== */
-.ch-title{
-  font-family:var(--serif);
-  font-size:26px;font-weight:400;
-  line-height:1.3;
-  margin-bottom:6px;
-  color:var(--txt);
-}
-.ch-eyebrow{
-  font-family:var(--mono);font-size:10px;
-  color:var(--accent);letter-spacing:.1em;
-  text-transform:uppercase;margin-bottom:10px;
-}
-.ch-lead{
-  font-size:14px;line-height:1.75;color:var(--txt2);
-  margin-bottom:20px;
-}
-.card{
-  background:var(--card);
-  border-radius:12px;
-  border:0.5px solid rgba(255,255,255,0.06);
-  padding:18px;
-  margin-bottom:14px;
-}
-.card-title{
-  font-size:13px;font-weight:600;
-  color:var(--txt);margin-bottom:8px;
-  display:flex;align-items:center;gap:8px;
-}
-.card-title .dot{
-  width:8px;height:8px;border-radius:50%;
-  flex-shrink:0;
-}
+.ch-title{font-family:var(--serif);font-size:26px;font-weight:400;line-height:1.3;margin-bottom:6px;color:var(--txt)}
+.ch-eyebrow{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.ch-lead{font-size:14px;line-height:1.75;color:var(--txt2);margin-bottom:20px}
+.card{background:var(--card);border-radius:12px;border:0.5px solid rgba(255,255,255,0.06);padding:18px;margin-bottom:14px}
+.card-title{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .card-body{font-size:13px;line-height:1.7;color:var(--txt2)}
-
-.analogy{
-  background:linear-gradient(135deg,rgba(79,143,255,0.07),rgba(79,143,255,0.02));
-  border:0.5px solid rgba(79,143,255,0.2);
-  border-radius:12px;padding:16px 18px;
-  margin-bottom:14px;
-}
+.analogy{background:linear-gradient(135deg,rgba(79,143,255,0.07),rgba(79,143,255,0.02));border:0.5px solid rgba(79,143,255,0.2);border-radius:12px;padding:16px 18px;margin-bottom:14px}
 .analogy-icon{font-size:24px;margin-bottom:8px}
 .analogy p{font-size:13px;line-height:1.75;color:var(--txt2)}
 .analogy p em{color:var(--accent);font-style:normal;font-weight:500}
-
 .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.tag{
-  padding:4px 10px;border-radius:20px;
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  background:rgba(255,255,255,0.05);
-  color:var(--txt2);
-  border:0.5px solid rgba(255,255,255,0.08);
-}
+.tag{padding:4px 10px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:500;background:rgba(255,255,255,0.05);color:var(--txt2);border:0.5px solid rgba(255,255,255,0.08)}
 .tag.blue{background:rgba(79,143,255,0.1);color:var(--accent);border-color:rgba(79,143,255,0.2)}
 .tag.green{background:rgba(48,209,88,0.1);color:var(--green);border-color:rgba(48,209,88,0.2)}
 .tag.orange{background:rgba(255,159,10,0.1);color:var(--orange);border-color:rgba(255,159,10,0.2)}
 .tag.purple{background:rgba(191,90,242,0.1);color:var(--purple);border-color:rgba(191,90,242,0.2)}
-
-canvas.diagram{
-  display:block;
-  width:100%;height:auto;
-  border-radius:10px;
-  margin-bottom:6px;
-  background:#0d1015;
-}
-.diagram-caption{
-  font-family:var(--mono);font-size:10px;
-  color:var(--txt3);text-align:center;
-  margin-bottom:16px;
-}
-
-.prompt{
-  background:var(--card2);
-  border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);
-  padding:16px;margin-bottom:14px;
-}
-.prompt-lbl{
-  font-family:var(--mono);font-size:10px;
-  color:var(--green);letter-spacing:.08em;
-  text-transform:uppercase;margin-bottom:8px;
-}
-.prompt-body{
-  font-family:var(--mono);font-size:11px;
-  line-height:1.65;color:var(--txt2);
-  white-space:pre-wrap;word-break:break-all;
-  max-height:160px;overflow-y:auto;
-  scrollbar-width:thin;
-  scrollbar-color:rgba(255,255,255,0.06) transparent;
-}
-.copy-btn{
-  margin-top:10px;
-  padding:6px 14px;border-radius:6px;
-  border:0.5px solid rgba(255,255,255,0.1);
-  background:rgba(255,255,255,0.05);
-  color:var(--txt2);font-family:var(--mono);font-size:10px;
-  cursor:pointer;transition:all .15s;
-}
+canvas.diagram{display:block;width:100%;height:auto;border-radius:10px;margin-bottom:6px;background:#0d1015}
+.diagram-caption{font-family:var(--mono);font-size:10px;color:var(--txt3);text-align:center;margin-bottom:16px}
+.prompt{background:var(--card2);border-radius:12px;border:0.5px solid rgba(255,255,255,0.08);padding:16px;margin-bottom:14px}
+.prompt-lbl{font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.prompt-body{font-family:var(--mono);font-size:11px;line-height:1.65;color:var(--txt2);white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.06) transparent}
+.copy-btn{margin-top:10px;padding:6px 14px;border-radius:6px;border:0.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--txt2);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .15s}
 .copy-btn:hover{background:rgba(255,255,255,0.1);color:var(--txt)}
 .copy-btn.copied{color:var(--green);border-color:rgba(48,209,88,0.3)}
-
-.trap{
-  border-left:2px solid var(--orange);
-  padding-left:14px;margin-bottom:16px;
-}
+.trap{border-left:2px solid var(--orange);padding-left:14px;margin-bottom:16px}
 .trap-name{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:4px}
 .trap-cause{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:8px}
-
 .milestone-list{list-style:none;padding:0;margin-bottom:16px}
-.milestone-item{
-  display:flex;gap:12px;
-  padding:12px 0;
-  border-bottom:0.5px solid rgba(255,255,255,0.05);
-}
+.milestone-item{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
 .milestone-item:last-child{border-bottom:none}
-.milestone-num{
-  width:24px;height:24px;border-radius:50%;
-  flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  background:rgba(79,143,255,0.15);color:var(--accent);
-  border:0.5px solid rgba(79,143,255,0.3);
-}
+.milestone-num{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:500;background:rgba(79,143,255,0.15);color:var(--accent);border:0.5px solid rgba(79,143,255,0.3)}
 .milestone-text{font-size:13px;color:var(--txt2);line-height:1.6}
 .milestone-text strong{color:var(--txt);font-weight:500}
-
-/* play button overlay */
-#play-hint{
-  position:absolute;
-  bottom:24px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:8px;
-  padding:8px 18px;border-radius:100px;
-  background:rgba(13,16,21,0.85);
-  backdrop-filter:blur(12px);
-  border:0.5px solid rgba(255,255,255,0.1);
-  font-size:12px;color:var(--txt2);
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .4s;
-}
-#play-hint.show{opacity:1}
 </style>
 </head>
 <body>
-
 <div id="app">
-  <!-- LEFT: site preview -->
-  <div id="preview">
-    <iframe id="site-frame"
-      src="https://animejs.com/"
-      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-      allow="autoplay"
-      title="animejs.com preview"
-    ></iframe>
-    <div id="iframe-fallback">
-      <div class="site-thumb">🎬</div>
-      <h3>animejs.com</h3>
-      <p>该网站限制了嵌入预览。<br>点击下方按钮在新标签页体验完整效果。</p>
-      <a href="https://animejs.com/" target="_blank" rel="noopener">
-        <span>↗</span> 在新标签页打开
-      </a>
+  <!-- LEFT: live demo stage -->
+  <div id="stage">
+    <div id="demo-area"></div>
+    <div id="ch-overlay"></div>
+    <div id="demo-badge">
+      <div class="dot-live"></div>
+      <span id="demo-label">Live Demo — Anime.js</span>
     </div>
-    <div id="play-hint">← 点击左侧区域与网站互动</div>
   </div>
 
   <!-- RIGHT: chapter panel -->
   <div id="panel">
     <div id="progress"><div id="progress-fill"></div></div>
-
     <div id="tabs">
       <div class="tab active" data-i="0" title="先玩一遍">1</div>
       <div class="tab" data-i="1" title="它是什么">2</div>
@@ -318,9 +218,7 @@ canvas.diagram{
       <div class="tab" data-i="7" title="怎么跟AI说">8</div>
       <div class="tab" data-i="8" title="会踩什么坑">9</div>
     </div>
-
     <div id="chapter-wrap"></div>
-
     <div id="bottom-nav">
       <div class="nav-btn disabled" id="btn-prev">←</div>
       <div id="chapter-label">1 / 9</div>
@@ -333,28 +231,7 @@ canvas.diagram{
 <script src="r1.js"></script>
 <script src="r2.js"></script>
 <script src="r3.js"></script>
+<script src="demos.js"></script>
 <script src="mount.js"></script>
-<script>
-// iframe embed detection
-const iframe = document.getElementById('site-frame');
-const fallback = document.getElementById('iframe-fallback');
-const hint = document.getElementById('play-hint');
-
-iframe.addEventListener('load', () => {
-  iframe.classList.add('loaded');
-  hint.classList.add('show');
-});
-
-setTimeout(() => {
-  try {
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    if (!doc || doc.title === '') throw new Error('blocked');
-  } catch(e) {
-    iframe.style.display = 'none';
-    fallback.style.display = 'flex';
-    hint.style.display = 'none';
-  }
-}, 3000);
-</script>
 </body>
 </html>

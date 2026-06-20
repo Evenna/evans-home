@@ -1,4 +1,4 @@
-// mount.js — navigation logic
+// mount.js — navigation logic + stage demo sync
 
 (function() {
   let current = 0;
@@ -16,55 +16,44 @@
   const label = document.getElementById('chapter-label');
   const progressFill = document.getElementById('progress-fill');
 
-  // Stop any running canvas animations in the current chapter
   function stopCanvasAnims() {
     const canvases = wrap.querySelectorAll('canvas');
-    canvases.forEach(cv => {
-      if (typeof cv._stopAnim === 'function') cv._stopAnim();
-    });
+    canvases.forEach(cv => { if (typeof cv._stopAnim === 'function') cv._stopAnim(); });
   }
 
   function goTo(i) {
     stopCanvasAnims();
     current = Math.max(0, Math.min(total - 1, i));
 
-    // Render
+    // Render right panel
     const ch = window.CHAPTERS[current];
     const fn = renderMap[ch.render];
     if (fn) fn(wrap);
     wrap.scrollTop = 0;
 
+    // Run left stage demo
+    const demo = window.DEMOS && window.DEMOS[current];
+    if (demo) demo();
+
     // Update tabs
-    tabs.forEach((tab, idx) => {
-      tab.classList.toggle('active', idx === current);
-    });
+    tabs.forEach((tab, idx) => tab.classList.toggle('active', idx === current));
 
     // Update nav buttons
     btnPrev.classList.toggle('disabled', current === 0);
     btnNext.classList.toggle('disabled', current === total - 1);
 
-    // Update label
+    // Update label & progress
     label.textContent = `${current + 1} / ${total}`;
-
-    // Update progress bar
     progressFill.style.width = `${((current + 1) / total) * 100}%`;
   }
 
-  // Tab clicks
-  tabs.forEach((tab, idx) => {
-    tab.addEventListener('click', () => goTo(idx));
-  });
-
-  // Nav buttons
+  tabs.forEach((tab, idx) => tab.addEventListener('click', () => goTo(idx)));
   btnPrev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
   btnNext.addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
-
-  // Keyboard
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
   });
 
-  // Init
   goTo(0);
 })();
