@@ -34,6 +34,25 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
 #demo-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(8,9,11,.9);border:1px solid var(--border2);backdrop-filter:blur(16px);border-radius:10px;padding:9px 16px;font-size:12.5px;color:var(--txt2);pointer-events:none;opacity:0;transition:opacity .4s;white-space:nowrap;font-family:var(--mono)}
 #demo-tip.show{opacity:1}
 
+/* ── Click-to-activate overlay ── */
+#demo-overlay{
+  position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;cursor:pointer;
+  background:rgba(8,9,11,.55);backdrop-filter:blur(2px);
+  transition:opacity .35s;
+}
+#demo-overlay.gone{opacity:0;pointer-events:none}
+#demo-overlay .ov-icon{font-size:40px;line-height:1}
+#demo-overlay .ov-title{font-family:var(--serif);font-size:20px;color:var(--txt)}
+#demo-overlay .ov-sub{font-family:var(--mono);font-size:11px;color:var(--txt3);letter-spacing:.08em}
+#demo-overlay .ov-btn{
+  margin-top:4px;padding:9px 22px;border-radius:8px;
+  background:rgba(79,143,255,.15);border:1px solid rgba(79,143,255,.4);
+  color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;
+  transition:all .15s;
+}
+#demo-overlay:hover .ov-btn{background:rgba(79,143,255,.25);border-color:var(--accent)}
+
 /* ── Right course pane ── */
 #course-pane{width:430px;flex-shrink:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
 
@@ -152,8 +171,20 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font
         bruno-simon.com
       </div>
     </div>
-    <iframe id="demo-frame" src="https://bruno-simon.com/" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+    <iframe id="demo-frame" src="https://bruno-simon.com/" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"></iframe>
+    <div id="demo-overlay">
+      <div class="ov-icon">🚗</div>
+      <div class="ov-title">点一下，开始开车</div>
+      <div class="ov-sub">需要先点击激活，键盘才能控制车子</div>
+      <div class="ov-btn">点击进入 →</div>
+    </div>
     <div id="demo-tip"></div>
+    <script>
+      document.getElementById('demo-overlay').addEventListener('click',function(){
+        this.classList.add('gone');
+        document.getElementById('demo-frame').focus();
+      });
+    </script>
   </div>
   <div id="course-pane">
     <div id="tabs"></div>
