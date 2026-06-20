@@ -1,372 +1,324 @@
-// r2.js — 章节 4-6 渲染函数
+// r2.js — Chapters 4, 5, 6 (Canvas animations)
 
-function renderCh4(el) {
-  el.innerHTML = `
-<div class="section">
-  <h3>先感受再理解</h3>
-  <div class="box blue">
-    下面这个动画里，<strong>同样的距离、同样的时长</strong>，但两个球的「感觉」完全不一样。这就是缓动曲线的力量。
-  </div>
-  <div class="vis">
-    <canvas id="cv-ease" height="160"></canvas>
-    <div class="vis-caption">上：linear（匀速，像机器人）  下：easeOutElastic（弹性，像生物）</div>
-  </div>
-</div>
+// ── easing helpers ──
+function easeOutQuad(t) { return 1 - (1 - t) * (1 - t); }
+function easeOutElastic(t) {
+  if (t === 0 || t === 1) return t;
+  const c4 = (2 * Math.PI) / 3;
+  return Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+}
 
-<div class="section">
-  <h3>缓动曲线是什么</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🏎</div>
-    <div class="analogy-label">类比</div>
-    <p>赛车起步时猛踩油门，进弯时刹车，出弯时再加速。<br>
-    速度不是一直恒定的——快慢的变化本身就创造了「感觉」。<br><br>
-    <em>缓动曲线</em>描述的就是「动画速度随时间的变化方式」。<br>
-    匀速运动看起来机械死板；有缓动的运动看起来自然有生命。</p>
-  </div>
-</div>
+// ── Chapter 4: Easing ──
+function renderCh4(wrap) {
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 04 — 让动作有灵魂</div>
+    <h2 class="ch-title">缓动曲线</h2>
+    <p class="ch-lead">
+      同样是「从A移动到B」，速度节奏不同，感觉完全不同。这就是缓动曲线（Easing）的魔法。
+    </p>
 
-<div class="section">
-  <h3>Anime.js 内置了多少种缓动</h3>
-  <div class="hgrid">
-    <div class="hcard">
-      <div class="hc-icon">📈</div>
-      <div class="hc-title">easeIn 系列</div>
-      <div class="hc-body">慢→快。像球从斜面滚下来——先慢慢动，越来越快</div>
+    <div class="analogy">
+      <div class="analogy-icon">🏎️</div>
+      <p>
+        想象赛车从起点到终点：<br>
+        <em>linear（匀速）</em>——机器一样，感觉假<br>
+        <em>easeOut（先快后慢）</em>——刹车停稳，最自然<br>
+        <em>easeElastic（弹性）</em>——像橡皮筋，超过终点再弹回
+      </p>
     </div>
-    <div class="hcard">
-      <div class="hc-icon">📉</div>
-      <div class="hc-title">easeOut 系列</div>
-      <div class="hc-body">快→慢。像刹车——冲过来然后轻轻停下，最自然</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🌊</div>
-      <div class="hc-title">easeInOut 系列</div>
-      <div class="hc-body">慢→快→慢。优雅的全程过渡，常用于页面切换</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🔁</div>
-      <div class="hc-title">Elastic / Spring</div>
-      <div class="hc-body">弹性超出目标再回弹。最有「手感」，Anime.js 的招牌</div>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <h3>Spring（弹簧）— 最特别的那个</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🪀</div>
-    <div class="analogy-label">类比</div>
-    <p>你把一根橡皮筋拉到终点位置然后松手——它不是直接停在那里，而是先超过，再弹回来，振荡几次才停稳。<br><br>
-    Anime.js 的 <em>Spring 弹簧</em>就是这个效果。你可以调节「硬度」「质量」「阻尼」，就像调弹簧的物理参数一样自然。</p>
-  </div>
-</div>`;
+    <canvas id="cv-ease" class="diagram" height="170"></canvas>
+    <p class="diagram-caption">蓝色 = linear 匀速　紫色 = easeOutElastic 弹性（循环播放）</p>
 
-  requestAnimationFrame(() => {
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>常用缓动速查</div>
+      <div class="card-body">
+        <p style="margin-bottom:6px">• <strong style="color:var(--txt)">easeOut</strong>——最常用，冲过来轻轻停下，自然</p>
+        <p style="margin-bottom:6px">• <strong style="color:var(--txt)">easeInOut</strong>——慢→快→慢，页面切换首选</p>
+        <p style="margin-bottom:6px">• <strong style="color:var(--txt)">easeElastic</strong>——弹弹弹，游戏 UI 必备</p>
+        <p>• <strong style="color:var(--txt)">spring</strong>——物理弹簧，模拟真实质量感</p>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-icon">👁️</div>
+      <p>你看不到缓动曲线本身，但你<em>感受得到</em>它的存在。<br>
+      区别高手和新手的一个关键：<em>会不会选缓动</em>。</p>
+    </div>
+  `;
+
+  // Animate easing comparison
+  let rafId4 = null;
+  let t4 = 0;
+  requestAnimationFrame(function init() {
     const cv = document.getElementById('cv-ease');
     if (!cv) return;
-    cv.width = cv.parentElement.offsetWidth || 382;
-    cv.height = 160;
-    const ctx = cv.getContext('2d');
+    cv.width = cv.parentElement.offsetWidth || 372;
     const W = cv.width, H = cv.height;
-    let t = 0;
-
-    function ease(x) { return x; } // linear
-    function easeElastic(x) {
-      const c4 = (2 * Math.PI) / 3;
-      if (x === 0) return 0;
-      if (x === 1) return 1;
-      return Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
-    }
+    const ctx = cv.getContext('2d');
+    const CYCLE = 140, TRACK = W - 80, startX = 40;
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = '#0d1015';
       ctx.fillRect(0, 0, W, H);
 
-      const progress = (t % 120) / 120;
-      const trackStart = 32, trackEnd = W - 32;
-      const trackLen = trackEnd - trackStart;
+      const progress = (t4 % CYCLE) / CYCLE;
 
-      // Ball 1 — linear
-      const x1 = trackStart + ease(progress) * trackLen;
-      const y1 = H * 0.33;
-      // trail
-      ctx.strokeStyle = 'rgba(79,143,255,0.15)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(trackStart, y1);
-      ctx.lineTo(trackEnd, y1);
-      ctx.stroke();
-      // ball
-      ctx.fillStyle = '#4f8fff';
-      ctx.beginPath();
-      ctx.arc(x1, y1, 9, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#8a8f98';
-      ctx.font = '10px "JetBrains Mono"';
-      ctx.textAlign = 'left';
-      ctx.fillText('linear', trackStart, y1 - 16);
+      // Track 1: linear
+      const y1 = H * 0.35, y2 = H * 0.65;
+      const ballR = 9;
+      const labels = ['linear', 'easeOutElastic'];
+      const colors = ['#4f8fff', '#bf5af2'];
+      const trackYs = [y1, y2];
+      const progValues = [progress, Math.max(0, Math.min(1.3, easeOutElastic(progress)))];
 
-      // Ball 2 — elastic
-      const x2 = trackStart + Math.max(0, Math.min(1, easeElastic(progress))) * trackLen;
-      const y2 = H * 0.67;
-      ctx.strokeStyle = 'rgba(191,90,242,0.15)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(trackStart, y2);
-      ctx.lineTo(trackEnd, y2);
-      ctx.stroke();
-      ctx.fillStyle = '#bf5af2';
-      ctx.beginPath();
-      ctx.arc(x2, y2, 9, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#8a8f98';
-      ctx.fillText('easeOutElastic', trackStart, y2 - 16);
+      trackYs.forEach((ty, idx) => {
+        // track line
+        ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(startX, ty);
+        ctx.lineTo(startX + TRACK, ty);
+        ctx.stroke();
 
-      t++;
-      requestAnimationFrame(draw);
+        // end markers
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.beginPath(); ctx.arc(startX, ty, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(startX + TRACK, ty, 3, 0, Math.PI * 2); ctx.fill();
+
+        // label
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.font = `10px 'JetBrains Mono',monospace`;
+        ctx.textAlign = 'left';
+        ctx.fillText(labels[idx], startX, ty - 14);
+
+        // ball
+        const bx = startX + Math.max(0, Math.min(1, progValues[idx])) * TRACK;
+        ctx.shadowColor = colors[idx];
+        ctx.shadowBlur = 14;
+        ctx.fillStyle = colors[idx];
+        ctx.beginPath(); ctx.arc(bx, ty, ballR, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      t4++;
+      rafId4 = requestAnimationFrame(draw);
     }
     draw();
+
+    // cleanup on chapter change
+    cv._stopAnim = () => { if (rafId4) cancelAnimationFrame(rafId4); };
   });
 }
 
-// ─────────────────────────────────────────
-function renderCh5(el) {
-  el.innerHTML = `
-<div class="section">
-  <h3>问题：100个元素同时动</h3>
-  <div class="box orange">
-    假设你有100个方块，你想让它们一个接一个地飞进来，每个延迟 50ms。<br><br>
-    如果手动写，你要给每个方块单独设置延迟……那是 100 行重复代码。
-  </div>
-</div>
+// ── Chapter 5: Stagger ──
+function renderCh5(wrap) {
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 05 — 批量美学</div>
+    <h2 class="ch-title">Stagger 骨牌效应</h2>
+    <p class="ch-lead">
+      想让 10 个方块依次出现，你不需要写 10 段动画代码——只需要告诉 Anime.js「每个方块比上一个晚 80 毫秒」。
+    </p>
 
-<div class="section">
-  <h3>Stagger 的解法</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🀄</div>
-    <div class="analogy-label">类比</div>
-    <p>你站在骨牌阵的一头，推倒第一张。接下来的事你不用管——每张牌自动感知自己的序号，延迟相应的时间倒下。<br><br>
-    <em>Stagger</em> 就是给每个元素「告诉它自己排第几」，然后自动乘以延迟时间。你只写一次规则，它应用到全部元素上。</p>
-  </div>
-</div>
+    <canvas id="cv-stagger" class="diagram" height="140"></canvas>
+    <p class="diagram-caption">10 个色块依次从上方落下（骨牌效应，循环）</p>
 
-<div class="section">
-  <h3>动态演示</h3>
-  <div class="vis">
-    <canvas id="cv-stagger" height="120"></canvas>
-    <div class="vis-caption">每个方块延迟 60ms 依次飞入 — 这就是 Stagger 效果</div>
-  </div>
-</div>
+    <div class="analogy">
+      <div class="analogy-icon">🃏</div>
+      <p>
+        就像打牌时发牌——庄家不是把所有牌同时扔出去，<br>
+        而是<em>一张一张带间隔地滑出</em>。<br>
+        Stagger 做的就是这件事：<em>只写一次规则，批量生效</em>。
+      </p>
+    </div>
 
-<div class="section">
-  <h3>Stagger 还能做什么</h3>
-  <div class="checklist">
-    <div class="ci"><div class="ci-icon tip">⚡</div><span><strong>从中心向外扩散</strong>：让最中间的元素先动，两边依次延迟</span></div>
-    <div class="ci"><div class="ci-icon tip">⚡</div><span><strong>随机延迟</strong>：每个元素的延迟是随机的，产生「混乱飞入」效果</span></div>
-    <div class="ci"><div class="ci-icon tip">⚡</div><span><strong>二维网格</strong>：按行列顺序，像波纹一样向外扩散</span></div>
-    <div class="ci"><div class="ci-icon tip">⚡</div><span><strong>值也能 Stagger</strong>：不只是时间，颜色、位置、大小都能递增变化</span></div>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--orange)"></span>三种 Stagger 模式</div>
+      <div class="card-body">
+        <p style="margin-bottom:8px">• <strong style="color:var(--txt)">时间 Stagger</strong>——每个元素延迟 n 毫秒出现</p>
+        <p style="margin-bottom:8px">• <strong style="color:var(--txt)">数值 Stagger</strong>——每个元素的大小/颜色/位移依次递增</p>
+        <p>• <strong style="color:var(--txt)">从中心扩散</strong>——先中间后两边，或先两边后中间</p>
+      </div>
+    </div>
 
-<div class="section">
-  <div class="box green">
-    <strong>animejs.com 首页的字母动画</strong>就是 Stagger——每个字母 delay 递增，形成文字「打字机 × 飞入」的组合效果。
-  </div>
-</div>`;
+    <div class="analogy">
+      <div class="analogy-icon">✨</div>
+      <p>
+        Stagger 是<em>让平淡列表变成视觉表演</em>的最快方法。<br>
+        加一行代码，立刻高级 10 倍。
+      </p>
+    </div>
+  `;
 
-  requestAnimationFrame(() => {
+  let rafId5 = null, t5 = 0;
+  requestAnimationFrame(function init() {
     const cv = document.getElementById('cv-stagger');
     if (!cv) return;
-    cv.width = cv.parentElement.offsetWidth || 382;
-    cv.height = 120;
-    const ctx = cv.getContext('2d');
+    cv.width = cv.parentElement.offsetWidth || 372;
     const W = cv.width, H = cv.height;
-    const N = 10;
-    const bw = 24, bh = 24, gap = 6;
-    const totalW = N * (bw + gap) - gap;
-    const startX = (W - totalW) / 2;
-    const startY = (H - bh) / 2;
-    const CYCLE = 160;
-    const STAGGER = 16;
-    let t = 0;
-
-    const colors = ['#4f8fff','#bf5af2','#30d158','#ff9f0a','#c8a96e','#4f8fff','#bf5af2','#30d158','#ff9f0a','#c8a96e'];
-
-    function easeOut(x) { return 1 - Math.pow(1 - x, 3); }
+    const ctx = cv.getContext('2d');
+    const N = 10, STAGGER = 10, CYCLE = 180;
+    const colors = ['#4f8fff','#30d158','#ff9f0a','#bf5af2','#ff6b6b','#4f8fff','#30d158','#ff9f0a','#bf5af2','#c8a96e'];
+    const bw = (W - 48 - (N - 1) * 6) / N;
+    const bh = 50, startY = H * 0.3;
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#0d1015';
-      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#0d1015'; ctx.fillRect(0, 0, W, H);
 
       for (let i = 0; i < N; i++) {
         const delay = i * STAGGER;
-        const progress = Math.max(0, Math.min(1, ((t - delay) % CYCLE) / (CYCLE * 0.45)));
-        const ep = easeOut(Math.min(1, progress));
-        const x = startX + i * (bw + gap);
-        const y = startY + (1 - ep) * 40;
+        const raw = ((t5 - delay) % CYCLE) / (CYCLE * 0.45);
+        const ep = easeOutQuad(Math.max(0, Math.min(1, raw)));
+        const x = 24 + i * (bw + 6);
+        const y = startY + (1 - ep) * 50;
         const alpha = ep;
 
         ctx.globalAlpha = alpha;
+        ctx.shadowColor = colors[i];
+        ctx.shadowBlur = ep * 10;
         ctx.fillStyle = colors[i];
-        ctx.beginPath();
-        ctx.roundRect(x, y, bw, bh, 5);
+        roundRect(ctx, x, y, bw, bh, 6);
         ctx.fill();
+        ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
 
-        // index label
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.font = '8px "JetBrains Mono"';
+        // number below
+        ctx.fillStyle = `rgba(255,255,255,${0.2 * ep})`;
+        ctx.font = `9px 'JetBrains Mono',monospace`;
         ctx.textAlign = 'center';
-        ctx.fillText(i + 1, x + bw / 2, startY + bh + 14);
+        ctx.fillText(i + 1, x + bw / 2, startY + bh + 20);
       }
-      t += 1.5;
-      requestAnimationFrame(draw);
+      t5++;
+      rafId5 = requestAnimationFrame(draw);
     }
     draw();
+    cv._stopAnim = () => { if (rafId5) cancelAnimationFrame(rafId5); };
   });
 }
 
-// ─────────────────────────────────────────
-function renderCh6(el) {
-  el.innerHTML = `
-<div class="section">
-  <h3>什么是滚动触发</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🛣</div>
-    <div class="analogy-label">类比</div>
-    <p>高速公路上每隔一段有路灯感应器：<em>车开过去，灯亮；车离开，灯灭</em>。<br><br>
-    Scroll Observer 就是给网页元素装了这个感应器——<em>用户滚动到这里，动画开始；滚走了，动画可以反向播放</em>。</p>
-  </div>
-</div>
+// ── Chapter 6: Scroll Observer ──
+function renderCh6(wrap) {
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 06 — 滚动感应器</div>
+    <h2 class="ch-title">Scroll Observer</h2>
+    <p class="ch-lead">
+      现代网站的动画，有 80% 是「滚动触发」的——元素滑入视野才动，滑出去就停。Scroll Observer 就是做这件事的工具。
+    </p>
 
-<div class="section">
-  <h3>三种触发模式</h3>
-  <div class="checklist">
-    <div class="ci"><div class="ci-icon ok">▶</div><span><strong>进入视口 → 播放</strong>：元素滚到屏幕里，动画开始一次，不倒带</span></div>
-    <div class="ci"><div class="ci-icon info">⇄</div><span><strong>进出同步</strong>：滚进来时正向播，滚出去时反向播</span></div>
-    <div class="ci"><div class="ci-icon tip">🔗</div><span><strong>滚动进度绑定</strong>：动画进度 = 滚动进度，滚到哪动到哪，完全同步</span></div>
-  </div>
-</div>
+    <canvas id="cv-scroll" class="diagram" height="160"></canvas>
+    <p class="diagram-caption">滚动进度 → 同步驱动元素位移 + 透明度（循环演示）</p>
 
-<div class="section">
-  <h3>滚动进度绑定的原理</h3>
-  <div class="vis">
-    <canvas id="cv-scroll" height="150"></canvas>
-    <div class="vis-caption">滚动条位置 → 直接控制动画播放进度</div>
-  </div>
-</div>
-
-<div class="section">
-  <h3>animejs.com 上哪里用了它</h3>
-  <div class="checklist">
-    <div class="ci"><div class="ci-icon ok">✓</div><span>每个功能模块滚进来时，标题和说明从下往上飞入</span></div>
-    <div class="ci"><div class="ci-icon ok">✓</div><span>「Lightweight and modular」那一段，模块条目依次出现</span></div>
-    <div class="ci"><div class="ci-icon ok">✓</div><span>赞助商部分，卡片跟随滚动横向位移</span></div>
-  </div>
-</div>
-
-<div class="section">
-  <h3>它比 CSS 滚动动画强在哪</h3>
-  <div class="hgrid">
-    <div class="hcard">
-      <div class="hc-icon">⚙️</div>
-      <div class="hc-title">精确阈值</div>
-      <div class="hc-body">可以设置「元素进入屏幕 30%」才触发，而不是一露头就触发</div>
+    <div class="analogy">
+      <div class="analogy-icon">💡</div>
+      <p>
+        就像路边的感应路灯——<em>人走近就亮，人走远就灭</em>。<br>
+        Scroll Observer 监听你的滚动位置，<em>把进度数字喂给动画</em>，动画跟着动。
+      </p>
     </div>
-    <div class="hcard">
-      <div class="hc-icon">🔄</div>
-      <div class="hc-title">可逆</div>
-      <div class="hc-body">CSS 动画触发后无法反向，Anime.js 可以滚回去时倒放</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🎯</div>
-      <div class="hc-title">任意属性</div>
-      <div class="hc-body">不只是透明度/位置，颜色、SVG路径、任何数字都能跟滚动联动</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🧩</div>
-      <div class="hc-title">与 Timeline 组合</div>
-      <div class="hc-body">把一整段 Timeline 动画绑到滚动进度上，做出电影级滚动叙事</div>
-    </div>
-  </div>
-</div>`;
 
-  requestAnimationFrame(() => {
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--purple)"></span>三种同步模式</div>
+      <div class="card-body">
+        <p style="margin-bottom:8px">• <strong style="color:var(--txt)">enter/leave 触发</strong>——进入视野一次性触发动画</p>
+        <p style="margin-bottom:8px">• <strong style="color:var(--txt)">progress 同步</strong>——动画进度实时等于滚动进度</p>
+        <p>• <strong style="color:var(--txt)">parallax</strong>——不同速度滚动，制造深度感</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--green)"></span>为什么现代网站都用它</div>
+      <div class="card-body">
+        滚动触发把「静态翻页」变成了「电影叙事」。<br>
+        用户每次滚动都有新鲜感，停留时间 ×3。
+      </div>
+    </div>
+  `;
+
+  let rafId6 = null, t6 = 0;
+  requestAnimationFrame(function init() {
     const cv = document.getElementById('cv-scroll');
     if (!cv) return;
-    cv.width = cv.parentElement.offsetWidth || 382;
-    cv.height = 150;
-    const ctx = cv.getContext('2d');
+    cv.width = cv.parentElement.offsetWidth || 372;
     const W = cv.width, H = cv.height;
-    let scrollPos = 0, dir = 1;
+    const ctx = cv.getContext('2d');
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#0d1015';
-      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#0d1015'; ctx.fillRect(0, 0, W, H);
 
-      // Scrollbar visualization
-      const sbX = 20, sbY = 20, sbW = 12, sbH = H - 40;
-      ctx.fillStyle = '#1e2128';
-      ctx.beginPath(); ctx.roundRect(sbX, sbY, sbW, sbH, 6); ctx.fill();
-      const thumbH = 30;
-      const thumbY = sbY + (scrollPos / 100) * (sbH - thumbH);
-      ctx.fillStyle = '#4f8fff';
-      ctx.beginPath(); ctx.roundRect(sbX, thumbY, sbW, thumbH, 6); ctx.fill();
-      ctx.fillStyle = '#8a8f98';
-      ctx.font = '9px "JetBrains Mono"';
-      ctx.textAlign = 'center';
-      ctx.fillText('滚动条', sbX + sbW / 2, H - 4);
+      // oscillate scroll 0→100
+      const cycle = 180;
+      const half = cycle / 2;
+      const raw = (t6 % cycle);
+      const progress = raw < half ? raw / half : 1 - (raw - half) / half;
 
-      // Arrow
-      const arrX = sbX + sbW + 20;
-      ctx.strokeStyle = '#4a4e57';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(arrX, H / 2);
-      ctx.lineTo(arrX + 30, H / 2);
+      // LEFT: scrollbar
+      const sbX = 30, sbY = 20, sbW = 12, sbH = H - 40;
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 0.5;
+      roundRect(ctx, sbX, sbY, sbW, sbH, 6);
       ctx.stroke();
+
+      const thumbH = 28;
+      const thumbY = sbY + (sbH - thumbH) * progress;
+      ctx.fillStyle = '#4f8fff';
+      ctx.shadowColor = '#4f8fff'; ctx.shadowBlur = 8;
+      roundRect(ctx, sbX, thumbY, sbW, thumbH, 6);
+      ctx.fill(); ctx.shadowBlur = 0;
+
+      // label above scrollbar
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.font = `9px 'JetBrains Mono',monospace`;
+      ctx.textAlign = 'center';
+      ctx.fillText('scroll', sbX + sbW/2, sbY - 6);
+
+      // dashed arrow
+      const arrowX1 = sbX + sbW + 8;
+      const arrowX2 = W / 2 - 20;
+      const arrowY = H / 2;
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(arrowX1, arrowY); ctx.lineTo(arrowX2, arrowY); ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = '#4a4e57';
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
       ctx.beginPath();
-      ctx.moveTo(arrX + 30, H / 2 - 5);
-      ctx.lineTo(arrX + 40, H / 2);
-      ctx.lineTo(arrX + 30, H / 2 + 5);
-      ctx.fill();
-      ctx.fillStyle = '#4a4e57';
-      ctx.font = '9px "JetBrains Mono"';
-      ctx.textAlign = 'center';
-      ctx.fillText('进度', arrX + 20, H / 2 - 8);
+      ctx.moveTo(arrowX2 + 6, arrowY);
+      ctx.lineTo(arrowX2 - 2, arrowY - 5);
+      ctx.lineTo(arrowX2 - 2, arrowY + 5);
+      ctx.closePath(); ctx.fill();
 
-      // Animated element
-      const elX = arrX + 50;
-      const progress = scrollPos / 100;
-      const targetX = elX + 30 + progress * (W - elX - 100);
-      const alpha = 0.2 + progress * 0.8;
-      const ew = 60, eh = 36;
-      ctx.globalAlpha = alpha;
+      // RIGHT: animated element
+      const elW = 90, elH = 44;
+      const elBaseX = W / 2 + 10;
+      const maxDist = W - elBaseX - elW - 20;
+      const elX = elBaseX + progress * maxDist;
+      const elY = (H - elH) / 2;
+      const elAlpha = 0.15 + progress * 0.85;
+      ctx.globalAlpha = elAlpha;
       ctx.fillStyle = '#bf5af2';
-      ctx.beginPath();
-      ctx.roundRect(targetX, H / 2 - eh / 2, ew, eh, 8);
-      ctx.fill();
+      ctx.shadowColor = '#bf5af2'; ctx.shadowBlur = elAlpha * 16;
+      roundRect(ctx, elX, elY, elW, elH, 8);
+      ctx.fill(); ctx.shadowBlur = 0;
       ctx.globalAlpha = 1;
-      ctx.fillStyle = '#e8e6e0';
-      ctx.font = '10px "Space Grotesk"';
+
+      // progress % label
+      ctx.fillStyle = `rgba(191,90,242,${elAlpha * 0.8})`;
+      ctx.font = `bold 11px 'JetBrains Mono',monospace`;
       ctx.textAlign = 'center';
-      ctx.fillText('元素', targetX + ew / 2, H / 2 + 4);
+      ctx.fillText(Math.round(progress * 100) + '%', elX + elW / 2, elY + elH / 2 + 4);
 
-      ctx.fillStyle = '#8a8f98';
-      ctx.font = '9px "JetBrains Mono"';
-      ctx.fillText(`进度 ${Math.round(progress * 100)}%`, targetX + ew / 2, H - 4);
+      // label above box
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.font = `9px 'JetBrains Mono',monospace`;
+      ctx.fillText('动画进度', elX + elW / 2, elY - 6);
 
-      scrollPos += dir * 0.6;
-      if (scrollPos >= 100) dir = -1;
-      if (scrollPos <= 0) dir = 1;
-      requestAnimationFrame(draw);
+      t6++;
+      rafId6 = requestAnimationFrame(draw);
     }
     draw();
+    cv._stopAnim = () => { if (rafId6) cancelAnimationFrame(rafId6); };
   });
 }

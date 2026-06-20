@@ -1,101 +1,70 @@
-// mount.js — 导航、tab 渲染、键盘交互
+// mount.js — navigation logic
 
-(function () {
+(function() {
   let current = 0;
-  const N = window.CHAPTERS.length;
+  const total = window.CHAPTERS.length;
+  const renderMap = {
+    renderCh1, renderCh2, renderCh3,
+    renderCh4, renderCh5, renderCh6,
+    renderCh7, renderCh8, renderCh9
+  };
 
-  // Render function map
-  const renderMap = {};
-  window.CHAPTERS.forEach(ch => {
-    renderMap[ch.id] = window[ch.renderFn];
-  });
+  const wrap = document.getElementById('chapter-wrap');
+  const tabs = document.querySelectorAll('.tab');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const label = document.getElementById('chapter-label');
+  const progressFill = document.getElementById('progress-fill');
 
-  function buildTabs() {
-    const tabs = document.getElementById('tabs');
-    tabs.innerHTML = '';
-    window.CHAPTERS.forEach((ch, i) => {
-      const t = document.createElement('div');
-      t.className = 'tab' + (i === 0 ? ' active' : '');
-      t.textContent = `${i + 1}`;
-      t.title = ch.title;
-      t.onclick = () => goTo(i);
-      tabs.appendChild(t);
+  // Stop any running canvas animations in the current chapter
+  function stopCanvasAnims() {
+    const canvases = wrap.querySelectorAll('canvas');
+    canvases.forEach(cv => {
+      if (typeof cv._stopAnim === 'function') cv._stopAnim();
     });
   }
 
   function goTo(i) {
-    if (i < 0 || i >= N) return;
-    current = i;
-    update();
-  }
+    stopCanvasAnims();
+    current = Math.max(0, Math.min(total - 1, i));
 
-  function goRel(d) { goTo(current + d); }
-  window.goRel = goRel;
-
-  function update() {
+    // Render
     const ch = window.CHAPTERS[current];
+    const fn = renderMap[ch.render];
+    if (fn) fn(wrap);
+    wrap.scrollTop = 0;
 
-    // tabs
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', i === current);
+    // Update tabs
+    tabs.forEach((tab, idx) => {
+      tab.classList.toggle('active', idx === current);
     });
 
-    // progress
-    document.getElementById('progress-fill').style.width = `${((current + 1) / N) * 100}%`;
+    // Update nav buttons
+    btnPrev.classList.toggle('disabled', current === 0);
+    btnNext.classList.toggle('disabled', current === total - 1);
 
-    // header
-    document.getElementById('ch-num').textContent = ch.num;
-    document.getElementById('ch-title').textContent = ch.title;
-    document.getElementById('ch-sub').textContent = ch.sub;
+    // Update label
+    label.textContent = `${current + 1} / ${total}`;
 
-    // content
-    const content = document.getElementById('content');
-    content.innerHTML = '';
-    content.scrollTop = 0;
-    const fn = renderMap[ch.id];
-    if (fn) fn(content);
-
-    // nav buttons
-    document.getElementById('btn-prev').disabled = current === 0;
-    document.getElementById('btn-next').disabled = current === N - 1;
-    document.getElementById('ch-counter').textContent = `${current + 1} / ${N}`;
-
-    // scroll tab into view
-    const activeTab = document.querySelectorAll('.tab')[current];
-    if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    // Update progress bar
+    progressFill.style.width = `${((current + 1) / total) * 100}%`;
   }
 
-  // Keyboard navigation
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goRel(1);
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goRel(-1);
+  // Tab clicks
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener('click', () => goTo(idx));
   });
 
-  // Copy prompt helper (chapter 8)
-  window.copyPrompt = function (i) {
-    const el = document.getElementById(`pb${i}`);
-    const btn = document.getElementById(`cb${i}`);
-    if (!el || !btn) return;
-    navigator.clipboard.writeText(el.textContent).then(() => {
-      btn.textContent = '✓ 已复制';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = '复制这条提示词'; btn.classList.remove('copied'); }, 2000);
-    });
-  };
+  // Nav buttons
+  btnPrev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
+  btnNext.addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
 
-  // Copy trap helper (chapter 9)
-  window.copyTrap = function (i) {
-    const el = document.getElementById(`tp${i}`);
-    const btn = document.getElementById(`tc${i}`);
-    if (!el || !btn) return;
-    navigator.clipboard.writeText(el.textContent).then(() => {
-      btn.textContent = '✓ 已复制';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = '复制修复提示词'; btn.classList.remove('copied'); }, 2000);
-    });
-  };
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+  });
 
   // Init
-  buildTabs();
-  update();
+  goTo(0);
 })();

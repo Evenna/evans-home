@@ -1,231 +1,207 @@
-// r1.js — 章节 1-3 渲染函数
+// r1.js — Chapters 1, 2, 3
 
-function renderCh1(el) {
-  el.innerHTML = `
-<div class="section">
-  <div class="box blue">
-    <strong>👆 左边就是真实网站，直接点击交互。</strong><br>
-    试着往下滚动，观察文字是怎么出现的；试着把鼠标移到按钮上，看看有没有动画效果。先玩 1 分钟，再继续看讲解。
-  </div>
-</div>
+function renderCh1(wrap) {
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 01 — 体验优先</div>
+    <h2 class="ch-title">先玩一遍，<em style="font-style:italic;color:var(--txt2)">不用懂</em></h2>
+    <p class="ch-lead">
+      左边就是 animejs.com 的官网。别急着看文字，先拖动、滚动、点击各个动效——感受一下这些动画带来的「感觉」。
+    </p>
 
-<div class="section">
-  <h3>你刚才看到了什么</h3>
-  <div class="checklist">
-    <div class="ci"><div class="ci-icon ok">✓</div><span>标题文字一个一个字母「飞进来」</span></div>
-    <div class="ci"><div class="ci-icon ok">✓</div><span>滚动时，每个功能卡片依次淡出来</span></div>
-    <div class="ci"><div class="ci-icon ok">✓</div><span>鼠标悬停时，元素有弹性的缩放</span></div>
-    <div class="ci"><div class="ci-icon ok">✓</div><span>颜色、位置、透明度 — 所有东西都在「动」</span></div>
-  </div>
-</div>
-
-<div class="section">
-  <h3>这些效果是怎么来的</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🎬</div>
-    <div class="analogy-label">类比</div>
-    <p>你在 PowerPoint 里给每张幻灯片加「进入动画」——点一下，文字飞进来，图片淡出来。<br><br>
-    <em>Anime.js 就是网页版的「幻灯片动画面板」。</em><br><br>
-    只不过它比 PPT 强100倍：可以精确控制每一毫秒、可以跟鼠标互动、可以根据滚动触发。</p>
-  </div>
-</div>
-
-<div class="section">
-  <h3>这个网站本身就是最好的演示</h3>
-  <div class="hgrid">
-    <div class="hcard">
-      <div class="hc-icon">🧩</div>
-      <div class="hc-title">官网即作品集</div>
-      <div class="hc-body">animejs.com 用自己的库做的，每个特效都是真实案例</div>
+    <div class="analogy">
+      <div class="analogy-icon">🎮</div>
+      <p>你不需要会开车，就能感受出跑车和面包车的区别。<br>
+      同样，你不需要会写代码，就能感受出<em>「有动画」和「没动画」</em>的区别。<br>
+      这个课件的目标：让你理解那种区别从哪来，怎么用 AI 做出来。</p>
     </div>
-    <div class="hcard">
-      <div class="hc-icon">👁</div>
-      <div class="hc-title">设计语言</div>
-      <div class="hc-body">极简黑白、精准克制 — 动画只为强调内容，不是炫技</div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>你要注意的三件事</div>
+      <div class="card-body">
+        <p style="margin-bottom:10px">① <strong style="color:var(--txt)">速度节奏</strong>——动画不是匀速的，它会先快后慢或先慢后快</p>
+        <p style="margin-bottom:10px">② <strong style="color:var(--txt)">先后顺序</strong>——多个元素不是同时动的，有时间差</p>
+        <p>③ <strong style="color:var(--txt)">触发时机</strong>——滚动、hover、点击，不同操作触发不同动画</p>
+      </div>
     </div>
-  </div>
-</div>`;
+
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--green)"></span>Anime.js 是什么</div>
+      <div class="card-body">
+        一个 <strong style="color:var(--txt)">JavaScript 动画库</strong>。你可以把它想成网页版的「幻灯片动画面板」——但比 PPT 的动画强 100 倍：
+        精确到毫秒、能跟鼠标互动、能跟滚动触发、能同时控制几十个元素。
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <p style="font-family:var(--mono);font-size:11px;color:var(--txt3)">探索完毕后 →</p>
+      <p style="font-size:13px;color:var(--txt2);margin-top:6px">点右下角 <strong style="color:var(--txt)">→</strong> 进入第 2 章</p>
+    </div>
+  `;
 }
 
-// ─────────────────────────────────────────
-function renderCh2(el) {
-  el.innerHTML = `
-<div class="section">
-  <h3>一句话定义</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🎭</div>
-    <div class="analogy-label">核心类比</div>
-    <p>网页上的所有东西（文字、图片、按钮）默认都是<em>静止不动的纸片</em>。<br><br>
-    Anime.js 是一个<em>「让纸片动起来的遥控器」</em>：你告诉它「这个方块，0.8秒内，从左边滑到右边，用弹性曲线」——它就帮你算出中间每一帧的位置，然后一帧一帧画出来。</p>
-  </div>
-</div>
+function renderCh2(wrap) {
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 02 — 大局观</div>
+    <h2 class="ch-title">它是什么</h2>
+    <p class="ch-lead">
+      理解 Anime.js 之前，先理解它在整个网页里扮演什么角色。
+    </p>
 
-<div class="section">
-  <h3>跟普通方法有什么区别</h3>
-  <div class="vs">
-    <div class="vs-col bad">
-      <h4>❌ 没有 Anime.js</h4>
-      <p>自己写：每 16ms 算一次位置，考虑缓动，考虑暂停/继续，考虑多个动画同步……</p>
+    <div class="analogy">
+      <div class="analogy-icon">🎬</div>
+      <p>把网页想象成一部电影的拍摄现场：<br>
+      <em>HTML</em> 是布景和演员（决定有什么）<br>
+      <em>CSS</em> 是服装和化妆（决定长什么样）<br>
+      <em>Anime.js</em> 是导演——喊「第3秒，演员A向右走；第5秒，灯光变暗」</p>
     </div>
-    <div class="vs-col good">
-      <h4>✓ 有 Anime.js</h4>
-      <p>告诉它目标和时长，它帮你搞定一切。3 行完成一个丝滑动画。</p>
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <h3>它是一个「库」，不是一个「工具」</h3>
-  <div class="box gold">
-    <strong>「库」是什么？</strong><br>
-    想象你要盖一栋楼，「砖头」你要自己搬，「库」就是帮你批量订砖、送到工地的服务。你只需要说「要多少块」，不用管运输细节。<br><br>
-    Anime.js 是别人写好的动画代码合集，你直接拿来用，不用从零造。
-  </div>
-</div>
+    <canvas id="cv-arch" class="diagram" height="160"></canvas>
+    <p class="diagram-caption">Anime.js 在技术栈中的位置</p>
 
-<div class="section">
-  <h3>它在整个技术栈里的位置</h3>
-  <div class="vis" id="vis-stack">
-    <canvas id="cv-stack" height="130"></canvas>
-    <div class="vis-caption">Anime.js 运行在浏览器里，直接操控 HTML 元素和 CSS 属性</div>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Anime.js 能控制什么</div>
+      <div class="card-body">
+        <p style="margin-bottom:8px">• 任意 <strong style="color:var(--txt)">HTML 元素</strong>的位置、大小、颜色、透明度</p>
+        <p style="margin-bottom:8px">• <strong style="color:var(--txt)">SVG 图形</strong>的路径、线条、变形</p>
+        <p style="margin-bottom:8px">• CSS 变量、数字——几乎一切<strong style="color:var(--txt)">数值类的东西</strong></p>
+        <p>本质上：给它一个<em style="color:var(--accent)">起点</em>、一个<em style="color:var(--accent)">终点</em>、一个<em style="color:var(--accent)">时长</em>，它负责算中间每一帧</p>
+      </div>
+    </div>
 
-<div class="section">
-  <h3>用数字感受一下它的规模</h3>
-  <div class="hgrid">
-    <div class="hcard">
-      <div class="hc-icon">⭐</div>
-      <div class="hc-title">52,000+ GitHub Stars</div>
-      <div class="hc-body">相当于全球5万多个开发者给它点了赞</div>
+    <div class="tag-row">
+      <span class="tag blue">轻量</span>
+      <span class="tag blue">开源免费</span>
+      <span class="tag green">纯 JS，无依赖</span>
+      <span class="tag orange">CDN 一行引入</span>
+      <span class="tag purple">V4 最新版</span>
     </div>
-    <div class="hcard">
-      <div class="hc-icon">📦</div>
-      <div class="hc-title">极轻量</div>
-      <div class="hc-body">整个库只有不到 20KB，比一张低质量照片还小</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🕐</div>
-      <div class="hc-title">v4 全新重写</div>
-      <div class="hc-body">2024年重写，速度提升 10 倍，这个网站展示的就是 v4</div>
-    </div>
-    <div class="hcard">
-      <div class="hc-icon">🔧</div>
-      <div class="hc-title">零依赖</div>
-      <div class="hc-body">不需要 React、Vue 或任何其他框架，单独使用即可</div>
-    </div>
-  </div>
-</div>`;
+  `;
 
+  // Draw architecture diagram
   requestAnimationFrame(() => {
-    const cv = document.getElementById('cv-stack');
+    const cv = document.getElementById('cv-arch');
     if (!cv) return;
-    cv.width = cv.parentElement.offsetWidth || 382;
-    cv.height = 130;
+    cv.width = cv.parentElement.offsetWidth || 372;
     const ctx = cv.getContext('2d');
-    const w = cv.width, h = cv.height;
-    ctx.fillStyle = '#13161c';
-    ctx.fillRect(0, 0, w, h);
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0d1015';
+    ctx.fillRect(0, 0, W, H);
 
     const layers = [
-      { label: '浏览器 (Chrome / Firefox)', color: 'rgba(79,143,255,0.25)', border: '#4f8fff' },
-      { label: 'HTML + CSS  ←  你的网页内容', color: 'rgba(48,209,88,0.15)', border: '#30d158' },
-      { label: '✨ Anime.js  ←  让内容动起来', color: 'rgba(191,90,242,0.25)', border: '#bf5af2' },
+      { label: 'HTML + CSS', sub: '结构与样式', color: '#30d158' },
+      { label: 'Anime.js', sub: '动画控制器', color: '#4f8fff' },
+      { label: '浏览器屏幕', sub: '用户看到的一切', color: '#bf5af2' },
     ];
-    const bh = 30, gap = 8, startY = (h - (layers.length * bh + (layers.length - 1) * gap)) / 2;
+
+    const bw = W - 48, bh = 36, gapY = 8;
+    const totalH = layers.length * bh + (layers.length - 1) * gapY;
+    let y0 = (H - totalH) / 2;
+
     layers.forEach((l, i) => {
-      const y = startY + i * (bh + gap);
-      const bw = w - 48;
-      const x = 24;
-      ctx.fillStyle = l.color;
-      ctx.strokeStyle = l.border;
+      const y = y0 + i * (bh + gapY);
+      // glow
+      ctx.shadowColor = l.color;
+      ctx.shadowBlur = 12;
+      // box
+      ctx.fillStyle = `rgba(${hexToRgb(l.color)},0.1)`;
+      ctx.strokeStyle = `rgba(${hexToRgb(l.color)},0.4)`;
       ctx.lineWidth = 0.5;
-      ctx.beginPath();
-      ctx.roundRect(x, y, bw, bh, 7);
-      ctx.fill();
-      ctx.stroke();
-      ctx.fillStyle = '#e8e6e0';
-      ctx.font = '12px "Space Grotesk", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(l.label, x + bw / 2, y + 19);
+      roundRect(ctx, 24, y, bw, bh, 8);
+      ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // label
+      ctx.fillStyle = l.color;
+      ctx.font = `500 13px 'Space Grotesk',sans-serif`;
+      ctx.textAlign = 'left';
+      ctx.fillText(l.label, 40, y + bh / 2 + 1);
+
+      // sub
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.font = `10px 'JetBrains Mono',monospace`;
+      ctx.textAlign = 'right';
+      ctx.fillText(l.sub, W - 40, y + bh / 2 + 1);
     });
+
+    // arrows between layers
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    for (let i = 0; i < layers.length - 1; i++) {
+      const y1 = y0 + i * (bh + gapY) + bh;
+      const y2 = y1 + gapY;
+      const cx = W / 2;
+      ctx.beginPath(); ctx.moveTo(cx, y1 + 2); ctx.lineTo(cx, y2 - 2); ctx.stroke();
+      // arrowhead
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.beginPath();
+      ctx.moveTo(cx, y2 + 1);
+      ctx.lineTo(cx - 4, y2 - 4);
+      ctx.lineTo(cx + 4, y2 - 4);
+      ctx.closePath(); ctx.fill();
+      ctx.setLineDash([3, 3]);
+    }
+    ctx.setLineDash([]);
   });
 }
 
-// ─────────────────────────────────────────
-function renderCh3(el) {
-  el.innerHTML = `
-<div class="section">
-  <h3>工具箱总览</h3>
-  <div class="box blue">
-    Anime.js v4 有 <strong>6 大核心模块</strong>，就像一个完整的动画工作室。下面用类比，把每个模块讲清楚。
-  </div>
-</div>
+function renderCh3(wrap) {
+  const modules = [
+    { name: 'Animation', icon: '▶', color: 'var(--accent)', analogy: '跑步计划执行者', desc: '你设定起点/终点/时长，它算每帧位置' },
+    { name: 'Timeline', icon: '♩', color: 'var(--green)', analogy: '乐谱', desc: '钢琴第0秒进，小提琴第3秒进——多个动画按剧本走' },
+    { name: 'Stagger', icon: '≋', color: 'var(--orange)', analogy: '骨牌', desc: '推第一张，后面依次倒下，你只设间隔规则' },
+    { name: 'Scroll Observer', icon: '☲', color: 'var(--purple)', analogy: '路灯感应器', desc: '元素进入视野就触发，离开就暂停或反转' },
+    { name: 'Draggable', icon: '✥', color: 'var(--gold)', analogy: '磁铁', desc: '拖动后松手弹回固定点，带惯性，可以甩飞' },
+    { name: 'SVG 工具', icon: '✏', color: '#ff6b6b', analogy: '画笔在纸上留痕', desc: '线条被「画出来」而不是直接出现，形状可以变形' },
+  ];
 
-<div class="section">
-  <h3>① Animation — 动画机器</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🏃</div>
-    <div class="analogy-label">类比</div>
-    <p>你设定了一个跑步计划：「从 A 点跑到 B 点，用 2 秒，先快后慢」。<br><br>
-    <em>Animation 模块</em>就是执行这个计划的人——你告诉它「这个方块，透明度从 0 变到 1，用 600ms」，它就自动计算每一帧该是多少，然后执行。</p>
-  </div>
-</div>
+  wrap.innerHTML = `
+    <div class="ch-eyebrow">Chapter 03 — 6大模块</div>
+    <h2 class="ch-title">工具箱里有什么</h2>
+    <p class="ch-lead">
+      Anime.js 不是一个工具，是六个工具。就像厨房里有炒锅、蒸笼、烤箱——各有用途，组合起来才能做出大餐。
+    </p>
+    ${modules.map(m => `
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">
+        <span style="font-size:16px;color:${m.color}">${m.icon}</span>
+        <span style="color:var(--txt)">${m.name}</span>
+        <span style="font-size:11px;color:var(--txt3);margin-left:auto;font-family:var(--mono)">${m.analogy}</span>
+      </div>
+      <div class="card-body">${m.desc}</div>
+    </div>`).join('')}
 
-<div class="section">
-  <h3>② Timeline — 乐谱</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🎼</div>
-    <div class="analogy-label">类比</div>
-    <p>乐队演奏一首曲子：钢琴在第 0 秒进，小提琴在第 3 秒进，鼓在第 5 秒进。<br><br>
-    <em>Timeline 模块</em>就是这张乐谱——你把多个动画排在时间轴上，精确控制「第几秒谁开始动、谁结束」。多个东西配合起来的复杂效果就靠它。</p>
-  </div>
-</div>
+    <div class="analogy" style="margin-top:18px">
+      <div class="analogy-icon">💡</div>
+      <p>
+        做一个网页动效，你通常只需要用其中 <em>1–2 个工具</em>。<br>
+        新手入门从 <em>Animation + Stagger</em> 开始就够了，能做出 80% 的效果。
+      </p>
+    </div>
+  `;
+}
 
-<div class="section">
-  <h3>③ Stagger — 骨牌效应</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🀄</div>
-    <div class="analogy-label">类比</div>
-    <p>你把100张扑克牌竖着排成一排，推倒第一张，后面依次倒下，有一个延迟间隔。<br><br>
-    <em>Stagger 模块</em>就是这个骨牌机制——你有100个方块，一行代码让它们依次延迟 50ms 动起来，形成波浪效果。animejs.com 首页那个字母飞入就是这样做的。</p>
-  </div>
-</div>
+// ── utilities shared across render files ──
+function hexToRgb(hex) {
+  const h = hex.replace('#','');
+  const r = parseInt(h.slice(0,2),16);
+  const g = parseInt(h.slice(2,4),16);
+  const b = parseInt(h.slice(4,6),16);
+  return `${r},${g},${b}`;
+}
 
-<div class="section">
-  <h3>④ Scroll Observer — 路灯感应器</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🔦</div>
-    <div class="analogy-label">类比</div>
-    <p>有些路灯有感应器：人走近就亮，人离开就灭。<br><br>
-    <em>Scroll Observer</em> 就是这个感应器——你滚动到某个区域，绑定的动画就触发；滚过去了，可以让它反向播放。网站上那种「越滚越出现」的效果就是它。</p>
-  </div>
-</div>
-
-<div class="section">
-  <h3>⑤ Draggable — 手感物理</h3>
-  <div class="analogy">
-    <div class="analogy-icon">🧲</div>
-    <div class="analogy-label">类比</div>
-    <p>你拖动一个磁铁，松手后它弹回到固定位置，带着惯性，甚至可以甩飞出去。<br><br>
-    <em>Draggable 模块</em>让 HTML 元素可以被拖拽，并且内置物理感：惯性滑动、回弹、吸附到格子。做卡片滑动、拖拽排序都用它。</p>
-  </div>
-</div>
-
-<div class="section">
-  <h3>⑥ SVG 工具组 — 向量画笔</h3>
-  <div class="analogy">
-    <div class="analogy-icon">✏️</div>
-    <div class="analogy-label">类比</div>
-    <p>在纸上画一条线：先看到笔尖，然后线逐渐延伸，最后画完。<br><br>
-    <em>SVG 模块</em>可以让网页上的矢量图形「被画出来」——Logo 动态描边、路径动画、形状变形都靠它。</p>
-  </div>
-</div>
-
-<div class="section">
-  <div class="box green">
-    <strong>关键认知：</strong>你不需要同时用全部 6 个模块。<br>
-    大部分项目只用 Animation + Timeline，其他模块按需加。
-  </div>
-</div>`;
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
 }
