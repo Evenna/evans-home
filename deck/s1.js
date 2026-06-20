@@ -214,4 +214,90 @@ SLIDES.push(
   </div>
 </div>`
 
+,
+
+// ── 07 优秀案例 · 多模态交互 ──────────────────────────────────
+`<div class="slide" style="background:var(--bg);overflow:hidden;">
+  <div class="blob" style="width:480px;height:480px;background:rgba(30,60,32,0.35);bottom:-120px;right:-120px;"></div>
+  <div class="inner" style="padding-top:52px;padding-bottom:44px;justify-content:flex-start;height:100%;gap:0;">
+
+    <!-- header -->
+    <div class="eye" style="margin-bottom:10px;">Related Work · Multi-modal Interaction</div>
+    <div style="display:flex;align-items:baseline;gap:20px;margin-bottom:6px;">
+      <div class="h-section" style="font-size:32px;line-height:1.1;">优秀案例 · <em>多模态交互</em></div>
+    </div>
+    <div class="hr" style="margin-bottom:20px;"></div>
+
+    <!-- body: left iframe + right info -->
+    <div style="display:flex;gap:28px;flex:1;min-height:0;align-items:stretch;">
+
+      <!-- left: live iframe demo -->
+      <div style="flex:1.05;display:flex;flex-direction:column;gap:10px;min-width:0;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:2px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.7;"></div>
+          <span style="font-family:var(--ff-mon);font-size:9px;color:var(--txt3);letter-spacing:.14em;text-transform:uppercase;">Live Demo · WebGL Fluid + MediaPipe Hands</span>
+        </div>
+        <div style="flex:1;position:relative;border:0.5px solid rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;background:#000;">
+          <iframe
+            src="https://evenna.github.io/WebGL-Fluid-Simulation/"
+            style="width:100%;height:100%;border:none;display:block;"
+            allow="camera;microphone"
+            loading="lazy"
+          ></iframe>
+          <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+            background:rgba(0,0,0,0.6);border:0.5px solid rgba(255,255,255,0.12);
+            padding:4px 14px;border-radius:12px;
+            font-family:var(--ff-mon);font-size:9px;color:rgba(255,255,255,0.4);
+            letter-spacing:.1em;pointer-events:none;white-space:nowrap;">
+            点击 iframe → 开摄像头 → 手势控制流体
+          </div>
+        </div>
+        <div style="font-family:var(--ff-mon);font-size:9px;color:var(--txt3);letter-spacing:.06em;opacity:.6;">
+          evenna.github.io/WebGL-Fluid-Simulation &nbsp;·&nbsp; Pavel Dobryakov fork + MediaPipe overlay
+        </div>
+      </div>
+
+      <!-- right: case info -->
+      <div style="width:320px;display:flex;flex-direction:column;gap:14px;flex-shrink:0;">
+
+        <!-- title card -->
+        <div style="padding:20px 22px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,0.015);">
+          <div style="font-family:var(--ff-mon);font-size:9px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;opacity:.8;">交互形式</div>
+          <div style="font-family:var(--ff-ser);font-size:19px;color:var(--white);margin-bottom:6px;line-height:1.3;">手势驱动<br>流体粒子场</div>
+          <div style="font-size:11px;color:var(--txt3);line-height:1.7;">摄像头实时追踪手部 21 个关键点，手经过的轨迹产生彩色流体特效与液化扭曲，零延迟响应。</div>
+        </div>
+
+        <!-- tech stack -->
+        <div style="padding:16px 22px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,0.015);">
+          <div style="font-family:var(--ff-mon);font-size:9px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">技术栈</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${['WebGL 流体模拟','MediaPipe Hands','21点骨骼追踪','指尖粒子发射','摄像头液化'].map(t=>`
+            <span style="font-family:var(--ff-mon);font-size:9px;padding:3px 9px;border:0.5px solid rgba(200,164,94,0.25);border-radius:2px;color:rgba(200,164,94,0.65);">${t}</span>`).join('')}
+          </div>
+        </div>
+
+        <!-- why relevant -->
+        <div style="padding:16px 22px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,0.015);flex:1;">
+          <div style="font-family:var(--ff-mon);font-size:9px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">与本研究的关联</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            ${[
+              ['多模态感知','手势作为非语言输入通道，补充语音之外的交互维度'],
+              ['身体-界面融合','身体动作直接成为创作媒介，消解人机边界感'],
+              ['零学习成本','无需培训，直觉交互——与 Evans「无感」介入理念一致'],
+            ].map(([t,d])=>`
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:14px;height:0.5px;background:var(--gold);opacity:.4;margin-top:8px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-family:var(--ff-ser);font-size:13px;color:var(--white);margin-bottom:2px;">${t}</div>
+                <div style="font-size:10.5px;color:var(--txt3);line-height:1.65;">${d}</div>
+              </div>
+            </div>`).join('')}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>`
+
 ); // end s1.js
