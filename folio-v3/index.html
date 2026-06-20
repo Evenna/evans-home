@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>零基础做一个「可以开车逛的网站」</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090b; --surf:#0d1015; --card:#13161c; --card2:#181c23;
+  --border:rgba(255,255,255,0.06); --border2:rgba(255,255,255,0.11);
+  --txt:#e8e6e0; --txt2:#8a8f98; --txt3:#4a4e57;
+  --accent:#4f8fff; --green:#30d158; --orange:#ff9f0a;
+  --gold:#c8a96e; --purple:#bf5af2; --pink:#ff6b9d;
+  --serif:'EB Garamond',Georgia,serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+/* ── Layout ── */
+#app{display:flex;height:100vh;position:relative;z-index:1}
+#noise-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45}
+
+/* ── Left demo pane ── */
+#demo-pane{flex:1 1 0;display:flex;flex-direction:column;border-right:1px solid var(--border);background:#000;position:relative;overflow:hidden;min-width:0}
+#demo-bar{display:flex;align-items:center;gap:8px;padding:0 14px;height:38px;flex-shrink:0;background:var(--surf);border-bottom:1px solid var(--border)}
+.bd{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.bd-r{background:#ff5f57}.bd-y{background:#ffbd2e}.bd-g{background:#28c840}
+#url-bar{flex:1;height:22px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--txt2);padding:0 10px;display:flex;align-items:center;gap:5px}
+#demo-frame{flex:1;width:100%;border:none;display:block;min-height:0}
+#demo-tip{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(8,9,11,.9);border:1px solid var(--border2);backdrop-filter:blur(16px);border-radius:10px;padding:9px 16px;font-size:12.5px;color:var(--txt2);pointer-events:none;opacity:0;transition:opacity .4s;white-space:nowrap;font-family:var(--mono)}
+#demo-tip.show{opacity:1}
+
+/* ── Right course pane ── */
+#course-pane{width:430px;flex-shrink:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+
+/* ── Chapter tabs ── */
+#tabs{display:flex;align-items:center;gap:2px;padding:7px 10px;background:var(--surf);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+#tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:5px 10px;border-radius:6px;font-size:11px;font-family:var(--mono);color:var(--txt3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap}
+.tab:hover{color:var(--txt2);background:rgba(255,255,255,.05)}
+.tab.on{color:var(--accent);background:rgba(79,143,255,.1);border-color:rgba(79,143,255,.25)}
+#prog-wrap{height:2px;background:var(--surf);flex-shrink:0}
+#prog-bar{height:100%;background:var(--accent);transition:width .3s;box-shadow:0 0 6px rgba(79,143,255,.4)}
+
+/* ── Scroll area ── */
+#scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:26px 22px 60px;scroll-behavior:smooth}
+#scroll::-webkit-scrollbar{width:3px}
+#scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── Bottom nav ── */
+#bot{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--border);background:var(--surf);flex-shrink:0}
+.nbtn{display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--txt2);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:500;transition:all .15s}
+.nbtn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);background:rgba(79,143,255,.07)}
+.nbtn:disabled{opacity:.2;cursor:not-allowed}
+#ch-num{font-family:var(--mono);font-size:11px;color:var(--txt3)}
+
+/* ── Typography ── */
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt3);margin-bottom:8px}
+.ch-title{font-family:var(--serif);font-size:28px;line-height:1.2;font-weight:400;margin-bottom:5px;color:var(--txt)}
+.ch-title em{font-style:italic;color:var(--gold)}
+.ch-lead{font-size:14px;line-height:1.8;color:var(--txt2);margin-bottom:22px}
+.sec{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3);margin:22px 0 11px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── Analogy card ── */
+.analogy{border-radius:12px;border:1px solid var(--border2);background:linear-gradient(135deg,var(--card),var(--card2));padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.analogy::before{content:'';position:absolute;top:0;right:0;width:80px;height:80px;border-radius:0 12px 0 80px;background:rgba(200,169,110,.04)}
+.analogy-icon{font-size:32px;margin-bottom:10px}
+.analogy-compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:12px}
+.analogy-side{padding:10px;background:rgba(255,255,255,.03);border-radius:8px;text-align:center}
+.analogy-side .label{font-size:10px;font-family:var(--mono);color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.analogy-side .val{font-size:13px;color:var(--txt);line-height:1.4}
+.analogy-arrow{color:var(--txt3);font-size:18px;font-family:var(--serif)}
+
+/* ── Step cards ── */
+.steps{display:flex;flex-direction:column;gap:0;margin-bottom:16px}
+.step{display:flex;gap:0;position:relative}
+.step-l{display:flex;flex-direction:column;align-items:center;width:34px;flex-shrink:0}
+.step-n{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;z-index:1;flex-shrink:0}
+.step-line{flex:1;width:1px;background:var(--border);margin:3px 0}
+.step:last-child .step-line{display:none}
+.step-body{padding:0 0 18px 12px;flex:1}
+.step-body h4{font-size:13.5px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.step-body p{font-size:12.5px;color:var(--txt2);line-height:1.65}
+.step-body .note{margin-top:6px;font-size:12px;color:var(--txt3);background:rgba(255,255,255,.03);border-radius:6px;padding:7px 10px;border:1px solid var(--border)}
+
+/* ── Info box ── */
+.box{border-radius:10px;padding:14px 16px;margin-bottom:12px;border-left:2.5px solid}
+.box.blue{border-color:var(--accent);background:rgba(79,143,255,.06)}
+.box.green{border-color:var(--green);background:rgba(48,209,88,.06)}
+.box.orange{border-color:var(--orange);background:rgba(255,159,10,.06)}
+.box.gold{border-color:var(--gold);background:rgba(200,169,110,.06)}
+.box h5{font-size:12.5px;font-weight:600;margin-bottom:5px;color:var(--txt)}
+.box p{font-size:13px;line-height:1.7;color:var(--txt2)}
+.box em{font-style:normal;color:var(--txt);font-weight:600}
+
+/* ── Prompt copy ── */
+.prompt{border-radius:11px;border:1px solid rgba(79,143,255,.22);background:rgba(79,143,255,.05);padding:16px 18px;margin-bottom:12px;position:relative}
+.prompt-lbl{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.prompt-lbl::before{content:'✦';font-size:9px}
+.prompt-body{font-size:13px;line-height:1.75;color:var(--txt);white-space:pre-wrap;word-break:break-word}
+.copy-btn{position:absolute;top:12px;right:12px;padding:4px 11px;border-radius:5px;border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--txt3);cursor:pointer;font-family:var(--mono);font-size:10px;transition:all .15s}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn.ok{border-color:var(--green);color:var(--green)}
+
+/* ── Checklist ── */
+.checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.ci{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:9px;background:var(--card);border:1px solid var(--border)}
+.ci-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.ci h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.ci p{font-size:12px;color:var(--txt2);line-height:1.6}
+.ci a{color:var(--accent);text-decoration:none}
+
+/* ── Pill tag ── */
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--txt2)}
+
+/* ── Vis block ── */
+.vis{border-radius:10px;border:1px solid var(--border);background:var(--card);overflow:hidden;margin-bottom:14px}
+.vis canvas,.vis svg{display:block}
+.vis-cap{padding:7px 13px;font-family:var(--mono);font-size:10px;color:var(--txt3);border-top:1px solid var(--border);letter-spacing:.07em}
+
+/* ── highlight grid ── */
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.hcard{padding:13px 14px;border-radius:9px;background:var(--card);border:1px solid var(--border)}
+.hcard .icon{font-size:24px;margin-bottom:7px}
+.hcard h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.hcard p{font-size:11.5px;color:var(--txt2);line-height:1.55}
+
+/* ── vs compare ── */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.vs-col{padding:13px;border-radius:9px}
+.vs-col.bad{background:rgba(255,100,100,.04);border:1px solid rgba(255,100,100,.12)}
+.vs-col.good{background:rgba(48,209,88,.04);border:1px solid rgba(48,209,88,.14)}
+.vs-lbl{font-size:10px;font-family:var(--mono);letter-spacing:.08em;margin-bottom:8px}
+.vs-col.bad .vs-lbl{color:#ff7b7b}
+.vs-col.good .vs-lbl{color:var(--green)}
+.vs-item{font-size:12px;color:var(--txt2);padding:3px 0;display:flex;gap:6px;align-items:baseline;line-height:1.5}
+</style>
+</head>
+<body>
+<canvas id="noise-bg"></canvas>
+<div id="app">
+  <div id="demo-pane">
+    <div id="demo-bar">
+      <div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div>
+      <div id="url-bar">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6c0-1.5.9-2.5 2-2.5s2 1 2 2.5-.9 2.5-2 2.5S4 7.5 4 6z" stroke="currentColor" stroke-width="1"/></svg>
+        bruno-simon.com
+      </div>
+    </div>
+    <iframe id="demo-frame" src="https://bruno-simon.com/" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+    <div id="demo-tip"></div>
+  </div>
+  <div id="course-pane">
+    <div id="tabs"></div>
+    <div id="prog-wrap"><div id="prog-bar"></div></div>
+    <div id="scroll"></div>
+    <div id="bot">
+      <button class="nbtn" id="bp" disabled>
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M7.5 2l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>上一章
+      </button>
+      <span id="ch-num">1 / 9</span>
+      <button class="nbtn" id="bn">
+        下一章<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4.5 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<script src="noise.js"></script>
+<script src="chapters.js"></script>
+<script>window.R={};</script>
+<script src="r1.js"></script>
+<script src="r2.js"></script>
+<script src="r3.js"></script>
+<script src="mount.js"></script>
+</body>
+</html>
