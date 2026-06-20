@@ -1,5 +1,4 @@
-// mount.js — navigation logic + stage demo sync
-
+// mount.js — navigation logic
 (function() {
   let current = 0;
   const total = window.CHAPTERS.length;
@@ -9,12 +8,22 @@
     renderCh7, renderCh8, renderCh9
   };
 
-  const wrap = document.getElementById('chapter-wrap');
-  const tabs = document.querySelectorAll('.tab');
-  const btnPrev = document.getElementById('btn-prev');
-  const btnNext = document.getElementById('btn-next');
-  const label = document.getElementById('chapter-label');
+  const wrap     = document.getElementById('chapter-wrap');
+  const tabs     = document.querySelectorAll('.tab');
+  const btnPrev  = document.getElementById('btn-prev');
+  const btnNext  = document.getElementById('btn-next');
+  const label    = document.getElementById('chapter-label');
   const progressFill = document.getElementById('progress-fill');
+
+  // iframe loading overlay
+  const iframe  = document.getElementById('mirror-frame');
+  const loading = document.getElementById('stage-loading');
+  if (iframe && loading) {
+    iframe.addEventListener('load', () => {
+      loading.classList.add('hidden');
+      setTimeout(() => { loading.style.display = 'none'; }, 700);
+    });
+  }
 
   function stopCanvasAnims() {
     const canvases = wrap.querySelectorAll('canvas');
@@ -30,10 +39,6 @@
     const fn = renderMap[ch.render];
     if (fn) fn(wrap);
     wrap.scrollTop = 0;
-
-    // Run left stage demo
-    const demo = window.DEMOS && window.DEMOS[current];
-    if (demo) demo();
 
     // Update tabs
     tabs.forEach((tab, idx) => tab.classList.toggle('active', idx === current));
@@ -52,7 +57,7 @@
   btnNext.addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
   });
 
   goTo(0);
