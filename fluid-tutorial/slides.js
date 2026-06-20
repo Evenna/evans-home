@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-// slides.js — 7 张课件幻灯片数据
+// slides.js — 面向零基础小白，AI vibe coding 操作手册
 // ══════════════════════════════════════════
 
 window.SLIDES = [
@@ -9,314 +9,380 @@ window.SLIDES = [
   id: 'cover',
   html: `
 <div class="cover-slide">
-  <div class="cover-kicker">Vibe Coding · 技术解析</div>
-  <div class="cover-h1">WebGL<br><em>流体模拟</em><br>是怎么做的？</div>
+  <div class="cover-kicker">零基础 · AI 辅助 · 可复刻</div>
+  <div class="cover-h1">不会写代码，<br>也能做出<br><em>这个效果</em></div>
   <div class="cover-lead">
-    你现在看到的这个会流动的彩色液体，<br>
-    不是视频，不是 GIF——它是实时在你的显卡里跑的物理计算。<br><br>
-    这个课件带你从 <strong style="color:var(--txt)">原理 → 技术 → 复刻步骤</strong> 全部搞懂。
+    你现在看到的流动液体，是用 AI 对话一步步「说」出来的。<br><br>
+    这个课件告诉你：<strong style="color:var(--txt)">怎么说、说什么、按什么顺序说。</strong>
+  </div>
+  <div class="cover-lead" style="margin-bottom:10px; font-size:12px;">
+    👈 左边就是最终效果，边看边学
   </div>
   <div class="s-tags">
-    <span class="s-tag blue">WebGL</span>
-    <span class="s-tag green">流体力学</span>
-    <span class="s-tag orange">GLSL 着色器</span>
-    <span class="s-tag purple">Vibe Coding</span>
+    <span class="s-tag blue">不用写代码</span>
+    <span class="s-tag green">只需要 AI 对话</span>
+    <span class="s-tag orange">约 30 分钟完成</span>
   </div>
-  <div class="cover-meta">共 7 页 · 左侧可随时体验 · 向右滑动或点 →</div>
+  <div class="cover-meta">共 8 页 · 点击右下角 → 开始</div>
 </div>
 `
 },
 
-// ── Slide 1: 这是什么 ────────────────────────────────
+// ── Slide 1: 先看懂你在做什么 ────────────────────────
 {
   id: 'what',
   html: `
-<div class="s-eyebrow">第 1 页 · 这是什么</div>
-<div class="s-title">你眼前的「液体」<br>到底是什么？</div>
-<div class="s-sub">先搞清楚你在体验的东西，再谈怎么做。</div>
+<div class="s-eyebrow">第 1 页 · 先搞清楚</div>
+<div class="s-title">这个效果<br>到底是什么？</div>
+<div class="s-sub">在动手之前，先用大白话理解它。</div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--blue)">●</span> 不是视频，是实时计算
-  </div>
+  <div class="s-card-title"><span style="color:var(--blue)">●</span> 它是一个网页</div>
   <div class="s-card-body">
-    每一帧（1/60秒）屏幕都在重新计算几十万个点的速度和颜色。
-    你的每次拖动都是真实的「力」，液体会对它做出物理响应。
+    打开浏览器就能看，不需要安装任何软件。你可以把链接发给任何人，他们也能体验。
   </div>
 </div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--green)">●</span> 运行在 GPU 里，不是 CPU
-  </div>
+  <div class="s-card-title"><span style="color:var(--green)">●</span> 液体是「算」出来的，不是视频</div>
   <div class="s-card-body">
-    普通 JS 代码跑在 CPU（一核一核地算）。<br>
-    这个程序通过 <strong>WebGL</strong> 把计算扔给显卡，显卡有几千个核心<strong>同时并行</strong>算，所以才能这么流畅。
+    每当你拖动鼠标，屏幕就重新计算一次液体怎么流动。<br>
+    所以它会对你的操作实时响应——这叫<strong>实时模拟</strong>。
   </div>
 </div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--orange)">●</span> 背后的数学：Navier-Stokes 方程
-  </div>
+  <div class="s-card-title"><span style="color:var(--orange)">●</span> 它用了显卡的算力</div>
   <div class="s-card-body">
-    流体力学里最著名的方程，描述液体/气体怎么流动。<br>
-    听起来很难？程序帮你全部算好了，你只需要理解「它在模拟真实流体」。
+    普通网页用 CPU（电脑的大脑）计算。<br>
+    这个效果用的是 <strong>GPU（显卡）</strong>，显卡专门做图形计算，
+    速度快得多，才能让液体实时流动不卡顿。<br><br>
+    这个技术叫 <strong>WebGL</strong>，是浏览器调用显卡的接口。
   </div>
 </div>
 
 <div class="s-tip">
   <span class="s-tip-icon">💡</span>
-  现在去左边用鼠标慢慢划一个圆——感受液体被带动的惯性。
+  记住这三个词：<strong>网页 / 实时模拟 / WebGL（显卡）</strong>。后面跟 AI 说话时用得到。
 </div>
 `
 },
 
-// ── Slide 2: 技术栈 ──────────────────────────────────
-{
-  id: 'tech',
-  html: `
-<div class="s-eyebrow">第 2 页 · 用了什么技术</div>
-<div class="s-title">三层技术叠在一起</div>
-<div class="s-sub">从外到内拆开看，每一层都有它的分工。</div>
-
-<div class="s-card">
-  <div class="s-card-title">① HTML Canvas</div>
-  <div class="s-card-body">
-    就是网页里一个 <code>&lt;canvas&gt;</code> 标签，相当于一块画布。<br>
-    WebGL 把渲染结果画在这块画布上，你才能看到。
-  </div>
-</div>
-
-<div class="s-card">
-  <div class="s-card-title">② WebGL（Web Graphics Library）</div>
-  <div class="s-card-body">
-    浏览器提供的 3D 绘图接口，可以直接控制显卡。<br>
-    它的核心是：把<strong>数据传给 GPU</strong>，让 GPU 跑「着色器程序」，
-    结果直接画在屏幕上。一行 CPU 代码 → 几千核 GPU 并行执行。
-  </div>
-</div>
-
-<div class="s-card">
-  <div class="s-card-title">③ GLSL 着色器（Shader）</div>
-  <div class="s-card-body">
-    跑在 GPU 上的小程序，写法像 C 语言。<br>
-    这个项目里有 <strong>20+ 个着色器</strong>，分别负责：<br>
-    · 计算速度场 → · 扩散颜色 → · 处理压力 → · 最终渲染发光效果
-  </div>
-</div>
-
-<div class="s-card">
-  <div class="s-card-title">④ JavaScript（粘合剂）</div>
-  <div class="s-card-body">
-    JS 不做计算，只做<strong>调度</strong>：<br>
-    接收鼠标位置 → 告诉 WebGL 在哪里「泼一滴颜料」→ 每帧触发一次完整的模拟循环。
-  </div>
-</div>
-`
-},
-
-// ── Slide 3: 工作原理 ────────────────────────────────
+// ── Slide 2: 幕后原理（极简版）────────────────────────
 {
   id: 'how',
   html: `
-<div class="s-eyebrow">第 3 页 · 工作原理</div>
-<div class="s-title">每帧发生了什么？</div>
-<div class="s-sub">液体模拟的核心循环，每秒重复 60 次。</div>
+<div class="s-eyebrow">第 2 页 · 幕后原理（30秒版）</div>
+<div class="s-title">液体为什么<br>看起来那么真？</div>
+<div class="s-sub">不用记住细节，只需要有个感觉。</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--blue)">●</span> 网格 + 速度</div>
+  <div class="s-card-body">
+    屏幕被切成很多很多小格子。每个格子记住两件事：<br>
+    现在是什么颜色？流动方向和速度是多少？<br><br>
+    每一帧（1/60 秒），所有格子同时更新一次——这就是液体「动」的原因。
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--green)">●</span> 鼠标 = 扔进去一滴颜料</div>
+  <div class="s-card-body">
+    你拖动鼠标，程序在那个位置「扔」一滴彩色颜料，同时给周围的格子施加一个速度。
+    颜料顺着速度扩散——就是你看到的效果。
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--purple)">●</span> 发光效果是后期加的</div>
+  <div class="s-card-body">
+    液体渲染好之后，再叠一层「Bloom 发光」滤镜，
+    让亮色往外晕染——这就是为什么看起来像霓虹灯。
+  </div>
+</div>
+
+<div class="s-tip">
+  <span class="s-tip-icon">💡</span>
+  去左边试试：<strong>快速划动</strong>颜色更浓；<strong>慢慢画圆</strong>会出现漩涡。
+</div>
+`
+},
+
+// ── Slide 3: 准备工作 ────────────────────────────────
+{
+  id: 'prep',
+  html: `
+<div class="s-eyebrow">第 3 页 · 准备工作</div>
+<div class="s-title">开始之前<br>需要准备什么？</div>
+<div class="s-sub">全部免费，15 分钟搞定。</div>
 
 <ol class="s-steps">
   <li>
     <span class="step-num">1</span>
     <div>
-      <strong>输入：鼠标 / 触摸事件</strong><br>
-      JS 把鼠标拖动距离转换成「速度向量」和「颜色」，通过 WebGL 写入 GPU 纹理。
+      <strong>注册 GitHub 账号</strong><br>
+      去 github.com 注册，用邮箱就行。GitHub 是存放代码的地方，也是免费发布网页的平台。
     </div>
   </li>
   <li>
     <span class="step-num">2</span>
     <div>
-      <strong>平流（Advection）</strong><br>
-      每个格子里的流体，沿着速度方向「往前搬」。颜色和速度都做这一步，这就是为什么颜色会顺着流动。
+      <strong>打开 Claude 或 ChatGPT</strong><br>
+      claude.ai 或 chatgpt.com，注册免费账号。这是你的 AI 助手，全程帮你写代码。
     </div>
   </li>
   <li>
     <span class="step-num">3</span>
     <div>
-      <strong>扩散（Diffusion）</strong><br>
-      速度和颜色会慢慢向周围扩散、衰减，模拟黏性（viscosity）。
+      <strong>找到原始源代码</strong><br>
+      在 GitHub 搜索 <strong>「paveldogreat WebGL-Fluid-Simulation」</strong>，找到这个项目。
+      这是原版开源代码，免费可以用。
     </div>
   </li>
   <li>
     <span class="step-num">4</span>
     <div>
-      <strong>压力求解（Pressure）</strong><br>
-      流体必须是「不可压缩的」（不能凭空消失），用 20 次迭代求解压力场来纠正速度。这是最贵的一步。
+      <strong>Fork（复制）到自己名下</strong><br>
+      进入项目页，点右上角 <strong>Fork</strong> 按钮，选择「复制到我的账号」。
+      现在你有了一份一模一样的代码，归你所有。
+    </div>
+  </li>
+</ol>
+
+<div class="s-tip">
+  <span class="s-tip-icon">💡</span>
+  Fork 就像「复印」——原作者的不变，你拿着副本随意改。
+</div>
+`
+},
+
+// ── Slide 4: 发布网页 ────────────────────────────────
+{
+  id: 'deploy',
+  html: `
+<div class="s-eyebrow">第 4 页 · 发布网页</div>
+<div class="s-title">三步让它<br>变成公开链接</div>
+<div class="s-sub">GitHub Pages = 免费网站托管，零成本。</div>
+
+<ol class="s-steps">
+  <li>
+    <span class="step-num">1</span>
+    <div>
+      <strong>进入你 Fork 的仓库</strong><br>
+      地址是 github.com/你的用户名/WebGL-Fluid-Simulation
+    </div>
+  </li>
+  <li>
+    <span class="step-num">2</span>
+    <div>
+      <strong>点 Settings → Pages</strong><br>
+      在页面左侧找到 Settings（设置），进去后找 Pages 选项。
+    </div>
+  </li>
+  <li>
+    <span class="step-num">3</span>
+    <div>
+      <strong>Source 选 main 分支，点 Save</strong><br>
+      等 1-2 分钟，GitHub 给你生成一个链接：<br>
+      <strong>https://你的用户名.github.io/WebGL-Fluid-Simulation/</strong><br>
+      打开它——效果就在线了！
+    </div>
+  </li>
+</ol>
+
+<div class="s-card" style="margin-top:14px;">
+  <div class="s-card-title"><span style="color:var(--green)">✓</span> 现在你已经有了一个和左边一样的网页</div>
+  <div class="s-card-body">
+    链接可以直接分享给任何人，手机电脑都能打开，完全免费。
+  </div>
+</div>
+
+<div class="s-tip">
+  <span class="s-tip-icon">💡</span>
+  卡住了？直接截图发给 Claude：「我想开启 GitHub Pages，截图在这里，下一步怎么做？」
+</div>
+`
+},
+
+// ── Slide 5: 用 AI 改效果 ───────────────────────────
+{
+  id: 'ai-modify',
+  html: `
+<div class="s-eyebrow">第 5 页 · 用 AI 改效果</div>
+<div class="s-title">怎么跟 AI 说话<br>才能改出你想要的？</div>
+<div class="s-sub">说清楚「你看到什么 / 你想要什么」就够了。</div>
+
+<div class="s-card">
+  <div class="s-card-title">❌ 说这种话没用</div>
+  <div class="s-card-body">
+    「帮我改一下代码」「让它好看一点」<br>
+    → AI 不知道你想要什么
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--green)">✓</span> 这样说 AI 能精准执行</div>
+  <div class="s-card-body" style="line-height:2;">
+    「我有一个 WebGL 流体模拟网页，文件叫 script.js。
+    我想让它打开时<strong>自动喷出彩色液体</strong>，不用等我拖鼠标。
+    帮我改 script.js，给我完整代码。」<br><br>
+    「我想把背景颜色改成深蓝色，不是黑色。在哪里改？」<br><br>
+    「我想让液体消散得更慢，流动更久，调哪个参数？」
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--blue)">●</span> 万能句式模板</div>
+  <div class="s-card-body">
+    <strong>「我有一个 ___，我想实现 ___，文件是 ___，帮我给出完整修改后的代码。」</strong>
+  </div>
+</div>
+
+<div class="s-tip">
+  <span class="s-tip-icon">💡</span>
+  把 script.js 的内容直接粘给 AI，让它看着代码改，比描述更精准。
+</div>
+`
+},
+
+// ── Slide 6: 分步提示词示例 ─────────────────────────
+{
+  id: 'prompts',
+  html: `
+<div class="s-eyebrow">第 6 页 · 完整操作流程</div>
+<div class="s-title">从零到成品<br>的完整对话路径</div>
+<div class="s-sub">按顺序发给 AI，每步拿到代码就替换文件。</div>
+
+<ol class="s-steps">
+  <li>
+    <span class="step-num">1</span>
+    <div>
+      <strong>让 AI 解释代码</strong><br>
+      「把这段 script.js 用最简单的中文解释给我，我没有编程基础，
+      告诉我每个参数是什么意思。」<br>
+      → 先搞懂，再改。
+    </div>
+  </li>
+  <li>
+    <span class="step-num">2</span>
+    <div>
+      <strong>改开场效果</strong><br>
+      「帮我让页面打开后 3 秒内自动喷出 5 朵彩色液体花，
+      之后停止，等用户自己操作。给我完整的 script.js。」
+    </div>
+  </li>
+  <li>
+    <span class="step-num">3</span>
+    <div>
+      <strong>改视觉风格</strong><br>
+      「我想要更少的颜色种类，只用紫色和青色，其他颜色去掉。
+      在哪里改，给我代码。」
+    </div>
+  </li>
+  <li>
+    <span class="step-num">4</span>
+    <div>
+      <strong>加自己的文字</strong><br>
+      「在流体上层叠加一行居中的白色文字『Evans』，
+      字体大而透明，不影响液体交互。给我 index.html 和 CSS。」
     </div>
   </li>
   <li>
     <span class="step-num">5</span>
     <div>
-      <strong>Bloom + 光线散射（Sunrays）</strong><br>
-      后处理效果：让亮色发光晕染，让整体看起来像发光液体。
-    </div>
-  </li>
-  <li>
-    <span class="step-num">6</span>
-    <div>
-      <strong>渲染到屏幕</strong><br>
-      最终把颜色纹理画到 canvas 上，你就看到这一帧了。
+      <strong>保存上传</strong><br>
+      把 AI 给的代码替换掉 GitHub 里的文件，
+      等 1 分钟，刷新你的网页链接——改动就生效了。
     </div>
   </li>
 </ol>
 `
 },
 
-// ── Slide 4: 参数解读 ────────────────────────────────
+// ── Slide 7: 遇到问题怎么办 ──────────────────────────
 {
-  id: 'params',
+  id: 'debug',
   html: `
-<div class="s-eyebrow">第 4 页 · 参数解读</div>
-<div class="s-title">右上角那些数字<br>是什么意思？</div>
-<div class="s-sub">去左边面板调一个，马上能看到变化。</div>
+<div class="s-eyebrow">第 7 页 · 遇到问题</div>
+<div class="s-title">改坏了 / 没效果<br>怎么办？</div>
+<div class="s-sub">不用慌，AI 也能帮你修。</div>
 
-<div class="s-params">
-  <div class="s-param">
-    <div class="s-param-name">density diffusion</div>
-    <div class="s-param-val">颜色消散速度</div>
-    <div class="s-param-desc">越大颜色消失越快，调到 4 试试</div>
-  </div>
-  <div class="s-param">
-    <div class="s-param-name">velocity diffusion</div>
-    <div class="s-param-val">流速衰减速度</div>
-    <div class="s-param-desc">接近 0 = 永不停止的湍流</div>
-  </div>
-  <div class="s-param">
-    <div class="s-param-name">pressure</div>
-    <div class="s-param-val">压力迭代强度</div>
-    <div class="s-param-desc">越高流体越「弹」，有弹性感</div>
-  </div>
-  <div class="s-param">
-    <div class="s-param-name">vorticity</div>
-    <div class="s-param-val">涡旋强度</div>
-    <div class="s-param-desc">调到 50+ 会产生卷曲的螺旋</div>
-  </div>
-  <div class="s-param">
-    <div class="s-param-name">splat radius</div>
-    <div class="s-param-val">笔触半径</div>
-    <div class="s-param-desc">每次拖动倒入的「颜料量」</div>
-  </div>
-  <div class="s-param">
-    <div class="s-param-name">sim resolution</div>
-    <div class="s-param-val">模拟精度</div>
-    <div class="s-param-desc">越高越细腻，越吃 GPU 性能</div>
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--orange)">●</span> 改完页面变空白</div>
+  <div class="s-card-body">
+    在浏览器按 <strong>F12</strong> 打开开发者工具，看「Console」（控制台）里红色的报错文字，
+    截图发给 AI：「出现了这个报错，帮我修复。」
   </div>
 </div>
 
-<div class="s-tip">
-  <span class="s-tip-icon">💡</span>
-  试试：vorticity 调到 80，velocity diffusion 调到 0.01——流体会变成永不平静的漩涡。
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--orange)">●</span> 改了没变化</div>
+  <div class="s-card-body">
+    GitHub Pages 有缓存，改完可能要等 <strong>1-3 分钟</strong>。
+    等等再刷新，或者按 <strong>Ctrl+Shift+R</strong> 强制刷新。
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--orange)">●</span> AI 给的代码不知道放哪</div>
+  <div class="s-card-body">
+    直接问 AI：「你给的这段代码，我应该放在 script.js 的什么位置？
+    帮我给出替换后的完整文件。」
+    → 让 AI 给你完整文件，不要只给片段。
+  </div>
+</div>
+
+<div class="s-card">
+  <div class="s-card-title"><span style="color:var(--green)">✓</span> 万能修复咒语</div>
+  <div class="s-card-body">
+    「我按照你说的改了，但出现了问题：___（描述现象）。
+    这是目前的完整代码：（粘贴代码）。帮我找到问题并修复，给我正确的完整代码。」
+  </div>
 </div>
 `
 },
 
-// ── Slide 5: Vibe Coding 复刻步骤 ───────────────────
+// ── Slide 8: 下一步 ──────────────────────────────────
 {
-  id: 'vibecode',
+  id: 'next',
   html: `
-<div class="s-eyebrow">第 5 页 · Vibe Coding 复刻</div>
-<div class="s-title">怎么自己做一个？</div>
-<div class="s-sub">不需要懂流体力学，这是 Vibe Coding 的魔法。</div>
-
-<ol class="s-steps">
-  <li>
-    <span class="step-num">1</span>
-    <div>
-      <strong>找到开源源码</strong><br>
-      GitHub 搜 <code>WebGL fluid simulation</code>，原作者 Pavel Dobryakov 的版本是最经典的，MIT 开源可以直接用。
-    </div>
-  </li>
-  <li>
-    <span class="step-num">2</span>
-    <div>
-      <strong>Fork 到自己的仓库</strong><br>
-      在 GitHub 点 Fork → 改成自己的名字。开启 GitHub Pages，立刻就有一个公开链接。
-    </div>
-  </li>
-  <li>
-    <span class="step-num">3</span>
-    <div>
-      <strong>读懂 config 对象，改默认参数</strong><br>
-      <code>script.js</code> 最上面有一个 <code>config</code> 对象，改 <code>CURL</code>/<code>SPLAT_RADIUS</code> 等默认值，让页面打开就有你想要的风格。
-    </div>
-  </li>
-  <li>
-    <span class="step-num">4</span>
-    <div>
-      <strong>用 AI 加自己的功能</strong><br>
-      把 <code>script.js</code> 粘给 Claude/GPT，说「帮我加手势控制」「开场自动播放彩色 splat」，AI 会直接改代码。
-    </div>
-  </li>
-  <li>
-    <span class="step-num">5</span>
-    <div>
-      <strong>嵌入自己的项目</strong><br>
-      用 <code>&lt;iframe&gt;</code> 就能把它嵌进任何网页——就像你现在看到的左侧。
-    </div>
-  </li>
-</ol>
-`
-},
-
-// ── Slide 6: Evans 版本 ──────────────────────────────
-{
-  id: 'evans',
-  html: `
-<div class="s-eyebrow">第 6 页 · Evans 版本改动</div>
-<div class="s-title">这个版本做了<br>哪些定制？</div>
-<div class="s-sub">在原版基础上加了手势控制层。</div>
+<div class="s-eyebrow">第 8 页 · 下一步</div>
+<div class="s-title">做出来之后<br>还能怎么玩？</div>
+<div class="s-sub">这只是起点，下面是更多方向。</div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--blue)">●</span> MediaPipe 手势识别
-  </div>
+  <div class="s-card-title"><span style="color:var(--blue)">●</span> 嵌入你自己的作品集网页</div>
   <div class="s-card-body">
-    通过摄像头实时检测手部骨架（21个关键点），
-    把手指位置转换成流体的「splat」坐标。
-    不用触摸屏幕，在空气中挥手就能控制液体。
+    用 <strong>&lt;iframe&gt;</strong> 标签把流体页面嵌进你的个人主页，
+    一行代码就能让你的网站多一个活的背景。<br>
+    让 AI 帮你写嵌入代码。
   </div>
 </div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--green)">●</span> 双通道注入
-  </div>
+  <div class="s-card-title"><span style="color:var(--green)">●</span> 加摄像头 / 手势控制</div>
   <div class="s-card-body">
-    手势速度 → 速度场（<code>_splatVelocityOnly</code>）<br>
-    摄像头画面 → 颜色纹理（<code>dye.read.texture</code>）<br>
-    让流体的颜色里带着真实人像的影子。
+    跟 AI 说：「帮我加一个功能，用摄像头捕捉手势，
+    挥手就能控制液体流动，不用鼠标。」
+    AI 会引入 <strong>MediaPipe</strong> 手势识别库来实现这个。
+    （这就是 Evans 版本做的事）
   </div>
 </div>
 
 <div class="s-card">
-  <div class="s-card-title">
-    <span style="color:var(--orange)">●</span> 粒子球叠加
-  </div>
+  <div class="s-card-title"><span style="color:var(--purple)">●</span> 加文字 / 品牌 / 叙事层</div>
   <div class="s-card-body">
-    首页另有一个 WebGL 粒子球场景（Evans-home），
-    用 Three.js 渲染，两极密集赤道稀疏的分布
-    + 聚簇扰动算法，产生有机感的球体。
+    在流体上叠加你的名字、一句话、或者整个展览说明，
+    技术做背景，你的内容做前景——这就是 Vibe Coding 的本质。
   </div>
-</div>
-
-<div class="s-tip">
-  <span class="s-tip-icon">💡</span>
-  整个项目的核心思路：<strong>找成熟开源 + AI 改造 + 自己的叙事层</strong>。技术不需要从零写，但用法和组合方式是你的。
 </div>
 
 <div class="s-divider"></div>
-<div style="font-size:11px; color: var(--txt3); line-height:1.8;">
-  源码：github.com/Evenna/WebGL-Fluid-Simulation<br>
-  原作者：Pavel Dobryakov（MIT License）
+
+<div style="font-size:12px; color:var(--txt2); line-height:1.9;">
+  <strong style="color:var(--txt)">核心思路：</strong><br>
+  找到开源效果 → Fork 到自己名下 → 跟 AI 对话改造 → 加上自己的叙事<br><br>
+  你不需要懂技术细节，你需要懂<strong style="color:var(--txt)">「我想表达什么」</strong>。
 </div>
 `
 },

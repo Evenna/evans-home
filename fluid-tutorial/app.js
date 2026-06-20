@@ -3,7 +3,7 @@
 // ══════════════════════════════════════════
 
 (function () {
-  const TOTAL = window.SLIDES.length;
+  const TOTAL = window.SLIDES.length; // auto from slides.js
   let cur = 0;
 
   const slidesEl = document.getElementById('tut-slides');
