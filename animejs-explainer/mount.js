@@ -5,7 +5,8 @@
   const renderMap = {
     renderCh1, renderCh2, renderCh3,
     renderCh4, renderCh5, renderCh6,
-    renderCh7, renderCh8, renderCh9
+    renderCh7, renderCh8, renderCh9,
+    renderCh10, renderCh11, renderCh12
   };
 
   const wrap     = document.getElementById('chapter-wrap');
