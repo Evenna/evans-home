@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Agent 账号｜五平台调研报告 + 10篇内容 · 张一文</title>
+<style>
+:root{--bg:#0a0a0f;--panel:#12121a;--line:#242433;--txt:#e6e6ef;--dim:#9a9aad;--acc:#7c9cff;--acc2:#c9a3ff;--warn:#ffb454;--ok:#5fd39b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;line-height:1.8;font-size:16px}
+.wrap{display:flex;max-width:1400px;margin:0 auto}
+nav{position:sticky;top:0;height:100vh;width:230px;flex:0 0 230px;overflow-y:auto;padding:28px 18px;border-right:1px solid var(--line);background:linear-gradient(180deg,#0d0d15,#0a0a0f)}
+nav h3{font-size:12px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin:22px 0 10px}
+nav a{display:block;color:var(--dim);text-decoration:none;font-size:13.5px;padding:6px 10px;border-radius:7px;margin:2px 0;transition:.15s}
+nav a:hover{color:var(--txt);background:var(--panel)}
+nav .tag{font-size:10px;color:var(--acc2);letter-spacing:1px}
+main{flex:1;min-width:0;padding:48px 56px 120px;max-width:920px}
+.hero{padding:40px;border-radius:20px;background:radial-gradient(120% 140% at 0% 0%,rgba(124,156,255,.18),transparent 55%),radial-gradient(120% 140% at 100% 0%,rgba(201,163,255,.16),transparent 55%),var(--panel);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,0.06);margin-bottom:40px}
+.hero h1{font-size:30px;margin:0 0 12px;background:linear-gradient(90deg,#fff,var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.35}
+.hero p{color:var(--dim);margin:6px 0}
+.pill{display:inline-block;font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(124,156,255,.14);color:var(--acc);border:1px solid rgba(124,156,255,.3);margin:4px 6px 0 0}
+h1,h2,h3,h4{line-height:1.4;scroll-margin-top:24px}
+main>h1{font-size:26px;margin-top:56px;padding-bottom:12px;border-bottom:2px solid var(--acc);color:#fff}
+h2{font-size:21px;margin-top:44px;color:var(--acc)}
+h3{font-size:17px;margin-top:30px;color:var(--acc2)}
+h4{font-size:15px;color:var(--txt)}
+p,li{color:var(--txt)}
+a{color:var(--acc)}
+hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+blockquote{border-left:3px solid var(--warn);background:rgba(255,180,84,.07);margin:18px 0;padding:12px 18px;border-radius:0 10px 10px 0;color:var(--dim)}
+blockquote strong{color:var(--warn)}
+code{background:#1c1c28;padding:2px 7px;border-radius:5px;font-size:13.5px;color:var(--acc2);font-family:"SF Mono",Consolas,monospace}
+pre{background:#111119;border:1px solid var(--line);border-radius:12px;padding:18px;overflow-x:auto}
+pre code{background:none;color:#c9d1e6;padding:0}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:#1a1a26;color:var(--acc);font-weight:600}
+tr:nth-child(even){background:rgba(255,255,255,.02)}
+strong{color:#fff}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#2a2a3a;border-radius:8px}
+.sec-report h1,.sec-content h1{counter-increment:none}
+@media(max-width:820px){nav{display:none}main{padding:28px 20px 80px}}
+</style></head><body>
+<div class="wrap">
+<nav>
+<h3>调研报告</h3>
+<a href="#top">封面 · 核心结论</a>
+<a href="#report">📊 五平台调研</a>
+<span class="tag" style="padding-left:10px">总览/小红书/B站/抖音/YT/公众号</span>
+<h3>发布内容</h3>
+<a href="#content">📝 10 篇可发布内容</a>
+<span class="tag" style="padding-left:10px">公众号×4 · 视频×4 · 小红书×2</span>
+<h3 style="margin-top:40px">说明</h3>
+<a href="#top" style="font-size:12px">YT/公众号=联网实测<br>其余标"量级"需App核实</a>
+</nav>
+<main id="top">
+<div class="hero">
+<h1>AI Agent 内容账号<br>五平台深度调研 + 10篇可发布内容</h1>
+<p>委托人 · 张一文（Evenna）｜清华美院 艺术与科技</p>
+<p>目标 · 以"能火·吸粉·建信任"的干货内容，为 AI Agent 课程做软性转化</p>
+<div style="margin-top:16px">
+<span class="pill">小红书</span><span class="pill">B站</span><span class="pill">YouTube</span><span class="pill">抖音</span><span class="pill">公众号</span>
+</div>
+</div>
+<div class="sec-report" id="report"><h1 id="ai">📊 AI 内容账号五平台深度调研报告</h1>
+<blockquote>
+<p><strong>委托人</strong>:张一文(Evenna)· 清华美院 艺术与科技
+<strong>目标</strong>:搭建 AI 相关内容账号(AI工具/前沿科技/AI Agent 使用/Skill 技能推荐/AI 教学),做「能火、能吸粉、能建立信任」的干货内容,把泛流量沉淀为未来 <strong>AI Agent 课程</strong>的付费用户(软性转化,非硬广)。
+<strong>调研时间</strong>:2026-08 ｜ <strong>调研范围</strong>:小红书 / B站 / YouTube / 抖音 / 微信公众号</p>
+</blockquote>
+<hr />
+<h2 id="_1">⚠️ 数据真实性声明(务必先读)</h2>
+<p>本报告严守<strong>不编造</strong>原则:
+- ✅ <strong>YouTube、公众号</strong>两部分为<strong>直连联网实测核验</strong>(频道名、handle、订阅量、爆款标题、变现路径均真实,订阅量为访问当时实测值,会变动)。
+- ⚠️ <strong>小红书、B站、抖音</strong>因服务器端搜索引擎全线触发验证码墙,无法实时抓取,故基于<strong>该赛道确切存在的博主与打法知识</strong>撰写,<strong>所有粉丝量一律标"量级"(如"数十万")并加 ⚠️</strong>,精确数字<strong>不编造</strong>。
+- 📱 <strong>投放前请务必到各 App 实时核实</strong>博主当前粉丝量与近期爆款(附核实清单于文末)。
+- 🔗 跨平台交叉印证:YouTube/公众号实测出的真实人物(卡兹克、歸藏、宝玉、赛博禅心、AI Jason、硅谷101、秋叶等)多数在其他平台亦有账号,可交叉验证三平台数据可信度。</p>
+<hr />
+<h2 id="tldr">一、核心结论(TL;DR)</h2>
+<ol>
+<li><strong>赛道判断</strong>:AI Agent/自动化实操是<strong>明确上升期</strong>且<strong>优质供给稀缺</strong>——大多数存量内容是"ChatGPT技巧"或"AI副业割韭菜",<strong>系统化、有信任感、有审美的 Agent 实操 IP 是空白位</strong>。</li>
+<li><strong>张一文的独家差异化</strong>:<strong>清华美院 + 艺术与科技</strong>背景 → 做 <strong>「AI + 设计/创意工作流」+「设计师/非程序员也能搭 Agent」</strong> 视角,是全平台几乎无人占据的定位(对标 YouTube 的 AI Jason——产品设计师视角建 agent,华语区无人占位)。</li>
+<li><strong>平台分工</strong>:短视频(抖音/B站/小红书/YT Shorts)负责<strong>拉新破圈</strong>;长内容(YouTube长视频/公众号/B站中视频)负责<strong>建信任+转化</strong>;<strong>公众号/私域是成交主阵地</strong>。</li>
+<li><strong>转化非硬广</strong>:靠"利他干货 → 免费 Skill/Agent 模板(lead magnet)→ 私域养熟 → 低客单社群 → 正价课"的漏斗,把看客变线索、线索变学员。</li>
+<li><strong>对标范本</strong>:全平台最值得抄的漏斗是 <strong>AI Jason(@AIJasonZ, YouTube ~230K)</strong> 与华语区 <strong>HC AI說人話 / 阿童木AI</strong>——都跑通了"agent实操内容 → 付费社群/课程"。</li>
+</ol>
+<hr />
+<h2 id="_2">二、五平台横向对比</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>小红书</th>
+<th>B站</th>
+<th>YouTube</th>
+<th>抖音</th>
+<th>公众号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>核心人群</strong></td>
+<td>女性/职场/学生,爱收藏</td>
+<td>年轻/学习型,愿看长</td>
+<td>全球,英文红利大</td>
+<td>最泛,下沉广</td>
+<td>存量私域,深度读者</td>
+</tr>
+<tr>
+<td><strong>内容形态</strong></td>
+<td>图文笔记+短视频</td>
+<td>中长视频(教程强)</td>
+<td>长视频+Shorts</td>
+<td>短视频+直播</td>
+<td>长图文</td>
+</tr>
+<tr>
+<td><strong>核心指标</strong></td>
+<td>收藏/点赞/搜索</td>
+<td>完播/三连/收藏</td>
+<td>CTR×观看时长</td>
+<td>完播/互动</td>
+<td>打开/在看/转发</td>
+</tr>
+<tr>
+<td><strong>拉新能力</strong></td>
+<td>★★★★(搜索沉淀强)</td>
+<td>★★★(常青长尾强)</td>
+<td>★★★★★(全球+SEO)</td>
+<td>★★★★★(算法普惠)</td>
+<td>★★(靠导流)</td>
+</tr>
+<tr>
+<td><strong>转化能力</strong></td>
+<td>★★★(私域较难)</td>
+<td>★★★★(教程信任高)</td>
+<td>★★★★(漏斗成熟)</td>
+<td>★★★(需私域承接)</td>
+<td>★★★★★(成交主场)</td>
+</tr>
+<tr>
+<td><strong>变现门槛</strong></td>
+<td>引流受限,靠私域</td>
+<td>恰饭/充电/课程</td>
+<td>联盟/社群/课程灵活</td>
+<td>蓝V+橱窗+资质</td>
+<td>星球/训练营/课程</td>
+</tr>
+<tr>
+<td><strong>张一文优先级</strong></td>
+<td>P1(设计人群密+搜索)</td>
+<td>P1(教程转化强)</td>
+<td>P2(英文/长线红利大)</td>
+<td>P2(拉新猛但需私域)</td>
+<td><strong>P0(转化主阵地)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>建议节奏</strong>:先集中做 <strong>公众号(沉淀+转化)+ 小红书 或 B站(拉新)</strong> 双平台跑通闭环,再横向复制到抖音/YouTube。<strong>不要一开始五平台平均用力</strong>——先用小红书/B站验证内容,爆款视频剪成多平台分发。</p>
+<hr />
+<h2 id="_3">三、跨平台综合选题库(按转化目的分层)</h2>
+<blockquote>
+<p>内容配比建议:<strong>70% 实操教程</strong>(拉收藏关注)+ <strong>20% 趋势科普</strong>(拉互动破圈)+ <strong>10% 成果/学员案例</strong>(拉信任转化)。做<strong>追更系列</strong>养黏性。</p>
+</blockquote>
+<h3 id="a-70">A. 实操教程类(转化主力,70%)</h3>
+<ol>
+<li>手把手搭第一个 AI Agent(0代码/扣子/Coze)</li>
+<li>用 n8n/Dify/Make 搭自动化工作流</li>
+<li>Claude Code / Cursor 从零 build 一个真实产品</li>
+<li>让 Agent 替我做[设计/写作/客服/周报]——具体职业场景</li>
+<li>Skill/Prompt 技能包实操(<strong>天然 lead magnet</strong>)</li>
+<li>RAG/记忆/工具调用——一篇/一集讲透 Agent 原理(降门槛版)</li>
+</ol>
+<h3 id="b">B. 工具评测/速递类(拉新+联盟,含热点)</h3>
+<ol>
+<li>我测了 N 个 AI 工具,只推荐这几个(设计师视角)</li>
+<li>Coze vs Dify vs n8n vs Make,新手学哪个</li>
+<li>Claude Code vs Cursor 实测对比</li>
+<li>免费平替年费上千的 XX(强钩子)</li>
+<li>XX 模型深夜发布,实测后我想说(蹭热点常态化)</li>
+</ol>
+<h3 id="c-20">C. 认知趋势类(破圈+建高度,20%)</h3>
+<ol>
+<li>2026,不会用 Agent 的人正在被淘汰(焦虑+讨论)</li>
+<li>为什么"1个人+一堆Agent"是未来的公司形态</li>
+<li>Agent 到底是什么?一个内容讲透(科普收藏)</li>
+</ol>
+<h3 id="d-10">D. 信任/转化类(10%)</h3>
+<ol>
+<li>一个清华美院设计师,为什么 All in AI Agent(<strong>个人故事,张一文杀手锏</strong>)</li>
+<li>普通人用 Agent 搞钱的真实路径(拆解,谨慎避割韭菜标签)</li>
+<li>学员/我自己用 Agent 的真实成果案例</li>
+</ol>
+<hr />
+<h2 id="_4">四、张一文专属定位与账号搭建建议</h2>
+<h3 id="41">4.1 人设定位</h3>
+<p><strong>「清华美院设计师 × AI Agent 实践者」</strong>——用设计师的审美和非程序员视角,把复杂的 Agent 技术讲成"人话",教普通人/创意工作者也能搭出能干活的 AI。
+- <strong>差异化标签</strong>:美院审美(内容排版/缩略图高级)+ 设计/创意工作流场景 + 真诚不割韭菜。
+- <strong>信任状</strong>:清华美院、艺术与科技、真实作品/毕设(Evans)、真实实测。</p>
+<h3 id="42">4.2 账号命名/简介建议</h3>
+<ul>
+<li>昵称含"AI Agent / 智能体 / AI设计"+ 个人识别(如"一文的AIAgent实验室")。</li>
+<li>简介公式:<code>我是谁(信任状)｜我教什么(Agent实操)｜给你什么(回复关键词领Skill包)</code>。</li>
+</ul>
+<h3 id="43-10">4.3 冷启动前 10 条内容排布</h3>
+<table>
+<thead>
+<tr>
+<th>序</th>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>个人故事(美院→AI)</td>
+<td>立人设建信任</td>
+</tr>
+<tr>
+<td>2–4</td>
+<td>手把手Agent教程</td>
+<td>立"能学到东西"心智+收藏</td>
+</tr>
+<tr>
+<td>5</td>
+<td>工具实测盘点</td>
+<td>利他涨粉</td>
+</tr>
+<tr>
+<td>6</td>
+<td>认知趋势(争议)</td>
+<td>破圈拉互动</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Skill包免费送(lead magnet)</td>
+<td>沉淀线索</td>
+</tr>
+<tr>
+<td>8–9</td>
+<td>场景化Agent应用(设计/自媒体)</td>
+<td>差异化</td>
+</tr>
+<tr>
+<td>10</td>
+<td>成果/学员案例</td>
+<td>转化前戏</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44">4.4 转化漏斗(全平台通用)</h3>
+<pre><code>公域拉新(短视频/搜索:抖音/小红书/B站/YT)
+   ↓ 内容钩子&quot;完整版/模板/资料 看主页/公众号&quot;
+关注公众号(自动回复送 Skill/Agent 模板)
+   ↓ 引导加个人号/企微
+私域养熟(朋友圈 IP + 社群价值 + 答疑)
+   ↓
+知识星球(9.9–199 低客单沉淀+持续内容)
+   ↓ 筛高意向
+AI Agent 系统课 / 训练营(中高客单成交)
+   ↓
+陪跑 / 企业咨询(高客单)
+</code></pre>
+<p><strong>核心动作</strong>:每条内容都做出<strong>具体可见的成果</strong> + 结尾给<strong>下一步</strong>(领模板/进群)。免费 lead magnet 是把"看客"变"线索"的关键。</p>
+<hr />
+<h2 id="_5">五、报告导航</h2>
+<ul>
+<li><strong>第二部分</strong>:小红书详细调研 → <code>01_调研报告.md</code>(当前拆分)/ 见 part2</li>
+<li><strong>第三部分</strong>:B站详细调研 → <code>part3_bilibili.md</code></li>
+<li><strong>第四部分</strong>:抖音详细调研 → <code>part4_douyin.md</code></li>
+<li><strong>第五部分</strong>:YouTube 详细调研(联网实测)→ <code>part5_youtube.md</code></li>
+<li><strong>第六部分</strong>:公众号详细调研(联网实测)→ <code>part6_gongzhonghao.md</code></li>
+<li><strong>十篇发布内容</strong> → <code>10篇发布内容.md</code></li>
+</ul>
+<hr />
+<h2 id="_6">六、投放前实时核实清单(⚠️ 必做)</h2>
+<p>小红书/B站/抖音的粉丝量为量级估算,发布/对标前请到 App 核实以下项:
+- [ ] 各对标博主<strong>当前粉丝量</strong>与<strong>近30天爆款</strong>(选题是否还灵)
+- [ ] 平台<strong>最新引流红线</strong>(抖音/小红书封禁词、蓝V/资质要求)
+- [ ] 热点选题的<strong>时效性</strong>(模型/工具是否已更新迭代)
+- [ ] 知识付费<strong>资质要求</strong>(卖课/开橱窗的合规)
+- [ ] Lead magnet(Skill/模板包)<strong>内容准备就绪</strong></p>
+<hr />
+<h1 id="ai_1">第二部分 · 小红书 AI 赛道调研</h1>
+<blockquote>
+<p>⚠️ 数据说明:小红书粉丝量为量级估算,账号名为该赛道确切存在的类型代表,投放前请到 App 实时核验当前数据。</p>
+</blockquote>
+<h2 id="21">2.1 头部/腰部博主地图(定位 / 量级 / 风格 / 变现)</h2>
+<table>
+<thead>
+<tr>
+<th>博主类型/代表</th>
+<th>定位</th>
+<th>粉丝量级⚠️</th>
+<th>风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数字生命卡兹克</strong></td>
+<td>AI 应用实测/前沿</td>
+<td>数十万</td>
+<td>实测+人味叙事,爆款体质</td>
+<td>公众号导流、课程、商单</td>
+</tr>
+<tr>
+<td><strong>歸藏(Guizang)</strong></td>
+<td>AIGC 出图/视频实测</td>
+<td>数十万</td>
+<td>第一时间实测,视觉炸点强</td>
+<td>知识星球、课程、企业培训</td>
+</tr>
+<tr>
+<td><strong>AI 工具铺子/AI 神器类</strong></td>
+<td>工具速递清单</td>
+<td>数万–数十万</td>
+<td>九宫格工具盘点、封面大字</td>
+<td>软件返佣、社群、付费清单</td>
+</tr>
+<tr>
+<td><strong>AI 办公提效号(秋叶系)</strong></td>
+<td>AI+职场/PPT/Excel</td>
+<td>数十万–百万</td>
+<td>场景化教学</td>
+<td>训练营、课程(核心)</td>
+</tr>
+<tr>
+<td><strong>AI 绘画变现号</strong></td>
+<td>Midjourney/即梦接单</td>
+<td>数万–数十万</td>
+<td>案例展示+接单玩法</td>
+<td>教程、素材包、社群</td>
+</tr>
+<tr>
+<td><strong>Prompt 提示词号</strong></td>
+<td>提示词模板分享</td>
+<td>数万</td>
+<td>可复制的 Prompt 卡片</td>
+<td>提示词包、社群</td>
+</tr>
+<tr>
+<td><strong>AI 副业搞钱号</strong></td>
+<td>AI 变现项目拆解</td>
+<td>数万–数十万</td>
+<td>强利益驱动</td>
+<td>项目课、陪跑</td>
+</tr>
+<tr>
+<td><strong>Coze/扣子 Agent 实操号</strong></td>
+<td>无代码搭 Agent</td>
+<td>数千–数万(垂精)</td>
+<td>录屏教程</td>
+<td>Agent 课、模板</td>
+</tr>
+<tr>
+<td><strong>AI 学习博主(职场/学生向)</strong></td>
+<td>AI 学习方法</td>
+<td>数万</td>
+<td>学习路线/工具</td>
+<td>课程、知识星球</td>
+</tr>
+<tr>
+<td><strong>AI + 设计/创意号</strong></td>
+<td>AI 辅助设计工作流</td>
+<td>数万</td>
+<td>作品展示+教程</td>
+<td>课程、接单、素材</td>
+</tr>
+<tr>
+<td><strong>AI 数字人/口播号</strong></td>
+<td>数字人玩法</td>
+<td>数万</td>
+<td>展示能力</td>
+<td>SaaS 分销、课程</td>
+</tr>
+<tr>
+<td><strong>AI 前沿科普号</strong></td>
+<td>通俗讲 AI 概念</td>
+<td>数万</td>
+<td>科普图文</td>
+<td>引流私域</td>
+</tr>
+</tbody>
+</table>
+<p><strong>给张一文的对标</strong>:内容能力学<strong>歸藏/卡兹克</strong>(实测+审美),变现路径学<strong>秋叶系/Coze 实操号</strong>(教程→训练营/课程)。你的美院背景做"AI + 设计/创意工作流"是小红书的空白位。</p>
+<h2 id="22-18">2.2 爆款选题方向(18个 + 为什么能火)</h2>
+<p><strong>工具清单类(收藏神器)</strong>
+1. 「私藏 N 个 AI 神器,免费还好用」— "免费"+"私藏"双钩子,收藏率极高
+2. 「一个网站顶 10 个软件」— 信息增量大,转发高
+3. 「2026 必备 AI 工具全景图」— 一张图=收藏爆款</p>
+<p><strong>Agent 实操类(核心)</strong>
+4. 「不用写代码,10 分钟搭一个 AI 员工」— 概念具象化,降门槛
+5. 「我用 Coze 做了个自动回复,一晚省 2 小时」— 真实成果可信
+6. 「一个 Agent 帮我自动做小红书」— AI+副业双热点</p>
+<p><strong>提效/职场类</strong>
+7. 「用 AI 10 分钟做完一天的 PPT」— 强反差、强利益
+8. 「写周报/做表格,让 AI 替你干」— 刚需场景</p>
+<p><strong>设计/创意类(张一文差异化)</strong>
+9. 「设计师如何用 AI Agent 自动出图/改稿」— 稀缺视角
+10. 「用 AI 做出高级感海报,3 步」— 审美+实用</p>
+<p><strong>变现类(转化)</strong>
+11. 「普通人用 AI Agent 接单,一单 XX 元」— 利益驱动
+12. 「小白也能做的 AI 智能体项目」— 降门槛拉课程用户</p>
+<p><strong>认知/趋势类(拉互动)</strong>
+13. 「2026 不会用 Agent 会被淘汰吗」— 焦虑+讨论
+14. 「Agent 到底是什么?一篇讲透」— 科普收藏</p>
+<p><strong>技能/Skill 类</strong>
+15. 「7 步写出完美 Prompt(附模板)」— 直接做 lead magnet
+16. 「我整理了 30 个 Agent Skill 模板」— 资源型引流</p>
+<p><strong>对比/评测类</strong>
+17. 「Coze vs Dify vs n8n,新手学哪个」— 决策焦虑,精准垂粉
+18. 「测了 5 个 Agent 平台,只推荐这个」— 评测建信任</p>
+<p><strong>能火共性</strong>:①免费/私藏钩子拉收藏 ②降门槛消除"太难学"抗拒 ③成果可视化建信任 ④搜索关键词精准(小红书是搜索引擎)⑤审美封面提高点击。</p>
+<h2 id="23">2.3 小红书标题/封面/正文套路</h2>
+<p><strong>标题公式</strong>(小红书标题=封面大字延伸,决定点击):
+- 数字+利益:「5 个 AI 神器,效率翻 10 倍」
+- 反差惊叹:「离谱!这个 Agent 一晚帮我干完一周的活」
+- 身份+痛点:「设计师快看!AI 自动改稿救命了」
+- 私藏/独家:「私藏!压箱底的 AI Agent 清单」
+- 保姆级+收藏:「保姆级!0 基础搭 Agent(建议收藏)」
+- emoji 点缀:标题穿插 🔥✅💡 提升点击</p>
+<p><strong>封面(小红书成败 70%)</strong>:
+- <strong>大字报</strong>:封面必须有超大标题字(3–8 字核心利益),手机端一眼可读
+- <strong>对比图</strong>:左"痛苦手动" vs 右"AI 一键搞定"
+- <strong>成果展示</strong>:直接放最惊艳的 AI 生成结果/自动化截图
+- <strong>清单感</strong>:数字+竖排列表暗示"干货满满"
+- <strong>张一文优势</strong>:美院背景做<strong>高级感封面</strong>(统一配色/字体/留白)= 对同行降维打击,天然点击率高</p>
+<p><strong>正文结构(图文笔记标准骨架)</strong>:</p>
+<pre><code>钩子首句(痛点/结果前置,前 2 行决定是否展开)
+→ 结论先行(这篇给你什么)
+→ 分点正文(1️⃣2️⃣3️⃣,每点配图/截图)
+→ 关键 Prompt/步骤单独成块(方便照抄)
+→ 避坑提醒(体现专业)
+→ 总结清单(可截图收藏)
+→ 结尾引导(见 2.4)
+→ 20 个精准话题标签(#AI工具 #AIAgent #AI教程 #Coze 等,SEO 命门)
+</code></pre>
+<h2 id="24">2.4 涨粉 + 转化打法</h2>
+<p><strong>软性转化路径</strong>(小红书严禁硬广/明显引流,否则限流):</p>
+<pre><code>干货笔记(工具/Agent教程)→ 评论区高频问题埋钩子 →
+主页简介留&quot;AI Agent 干货|资料见置顶&quot; → 私信关键词自动发资料 →
+引导加微信/进群(用&quot;薯队长不查&quot;的合规话术,如&quot;主页有联系方式&quot;) →
+私域社群养熟 → 低价体验课 → 正价 Agent 课
+</code></pre>
+<ul>
+<li><strong>评论区运营</strong>:置顶自己的补充(领资料引导),主动回复前 20 条评论养热度</li>
+<li><strong>私信</strong>:开通"薯条自动回复",关键词(如"模板""资料")自动发引流话术</li>
+<li><strong>合规红线</strong>:正文/评论不直接出现微信号、二维码、"加V";用"主页""私信我""扣1"</li>
+<li><strong>专栏/合集</strong>:把系列笔记归到合集(如"Agent 从0到1"),提升追更和权重</li>
+</ul>
+<h2 id="25">2.5 爆款案例拆解(结构模型 ⚠️量级)</h2>
+<p><strong>案例A · 工具清单爆款</strong>:「私藏!10 个免费 AI 神器」— 数万赞级。爆点:免费+私藏钩子,九宫格封面信息密度高,收藏率碾压点赞。
+<strong>案例B · Agent 成果爆款</strong>:「不会代码,我用扣子搭了个自动客服」— 数千–数万赞。爆点:降门槛+真实成果截图+"扣模板"引流。
+<strong>案例C · 设计+AI 爆款</strong>:「设计师的 AI 工作流,出图效率翻 5 倍」— 精准垂类爆款。爆点:稀缺视角+作品展示+审美封面。
+<strong>案例D · 学习路线爆款</strong>:「2026 AI 学习地图,这一篇够了」— 高收藏。爆点:一站式解决"从哪学"焦虑,收藏带动推荐。</p>
+<h2 id="26">2.6 小红书算法/流量机制要点</h2>
+<ul>
+<li><strong>搜索权重极高</strong>:小红书是"生活搜索引擎",标题+正文+标签的关键词决定搜索露出。→ <strong>教程/工具类严重吃搜索长尾</strong>,常青流量比追热点更稳。</li>
+<li><strong>收藏 &gt; 点赞</strong>:干货类靠收藏起量,收藏是"有用"强信号。</li>
+<li><strong>完读率 + 互动</strong>:图文看完读,视频看完播;评论/收藏/转发拉推荐。</li>
+<li><strong>标签</strong>:每篇 10–20 个精准话题标签,大小词搭配(#AIAgent 大词 + #Coze教程 小词)。</li>
+<li><strong>发布时间</strong>:早 7–9、午 12–13、晚 20–22 点(用户刷小红书高峰)。</li>
+<li><strong>避坑</strong>:①禁硬广/导流词限流 ②禁二维码/微信号 ③封面别用违规词 ④别蹭无关热点标签(判定作弊)⑤新号别频繁改赛道(乱标签)。</li>
+<li><strong>账号垂直度</strong>:持续发同一赛道,养精准标签,系统才会推给对的人。</li>
+</ul>
+<h2 id="27">2.7 红利点与空白机会</h2>
+<p><strong>红利</strong>:①Agent/扣子实操教程供不应求 ②AI+设计/创意工作流(张一文主场)几乎无人系统做 ③Agent Skill/Prompt 模板天然是最好 lead magnet ④"0 代码"降门槛叙事正热。
+<strong>空白</strong>:①"设计师/创意人的 Agent 实操"= 张一文独占位 ②"真人+真实成果+审美"信任型账号稀缺(对冲割韭菜印象)③垂直行业 Agent 方案(自媒体 Agent、设计 Agent)无人深做。</p>
+<hr />
+<h1 id="b-ai">第三部分 · B站 AI 赛道调研</h1>
+<blockquote>
+<p>⚠️ 数据说明:B站粉丝量为量级估算,UP主为该赛道确切存在的代表,投放前请到 App 核验。</p>
+</blockquote>
+<h2 id="31-up">3.1 头部/腰部 UP主地图</h2>
+<table>
+<thead>
+<tr>
+<th>UP主/类型</th>
+<th>定位</th>
+<th>粉丝量级⚠️</th>
+<th>风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ele实验室</strong></td>
+<td>AI/算法可视化科普</td>
+<td>数十万–百万</td>
+<td>动画讲透原理,深度</td>
+<td>商单、课程</td>
+</tr>
+<tr>
+<td><strong>李鲁鲁(AI科普类)</strong></td>
+<td>AI 技术科普/前沿</td>
+<td>数十万</td>
+<td>通俗讲大模型</td>
+<td>课程、商单</td>
+</tr>
+<tr>
+<td><strong>秋叶PPT/秋叶AI</strong></td>
+<td>AI 办公/PPT/职场</td>
+<td>数百万</td>
+<td>实用教学</td>
+<td>训练营、课程(核心)</td>
+</tr>
+<tr>
+<td><strong>影视飓风/何同学(生态)</strong></td>
+<td>科技数码(偶涉AI)</td>
+<td>千万级</td>
+<td>顶级制作、叙事强</td>
+<td>商单、自有业务(标杆非纯AI)</td>
+</tr>
+<tr>
+<td><strong>AI 工具测评 UP</strong></td>
+<td>工具速递/横评</td>
+<td>数万–数十万</td>
+<td>快节奏盘点</td>
+<td>软件返佣、社群</td>
+</tr>
+<tr>
+<td><strong>编程转 Agent UP</strong></td>
+<td>Coze/Dify/n8n 搭建</td>
+<td>数万–数十万</td>
+<td>实操录屏</td>
+<td>Agent 课、外包</td>
+</tr>
+<tr>
+<td><strong>AI 绘画教学 UP</strong></td>
+<td>SD/MJ/ComfyUI</td>
+<td>数十万</td>
+<td>保姆级工作流</td>
+<td>课程、素材、社群</td>
+</tr>
+<tr>
+<td><strong>大模型/论文解读 UP</strong></td>
+<td>前沿论文/技术</td>
+<td>数万–数十万</td>
+<td>深度硬核</td>
+<td>课程、知识星球</td>
+</tr>
+<tr>
+<td><strong>AI 副业/搞钱 UP</strong></td>
+<td>AI 变现项目</td>
+<td>数万–数十万</td>
+<td>项目拆解</td>
+<td>项目课、陪跑</td>
+</tr>
+<tr>
+<td><strong>AI + 设计/创意 UP</strong></td>
+<td>AI 辅助设计</td>
+<td>数万</td>
+<td>作品+教程</td>
+<td>课程、接单</td>
+</tr>
+<tr>
+<td><strong>AI 学习方法 UP</strong></td>
+<td>学习路线/资源</td>
+<td>数万–数十万</td>
+<td>干货整合</td>
+<td>课程、星球</td>
+</tr>
+<tr>
+<td><strong>AI 数字人/口播 UP</strong></td>
+<td>数字人玩法</td>
+<td>数万</td>
+<td>展示能力</td>
+<td>SaaS 分销、课程</td>
+</tr>
+</tbody>
+</table>
+<p><strong>给张一文的对标</strong>:深度权威学 <strong>Ele实验室</strong>(把原理讲透),实操转化学 <strong>Coze/编程 Agent 类 UP + 秋叶系</strong>。B站用户最吃"系统、完整、有深度"——这是你放<strong>旗舰长课</strong>的最佳平台。</p>
+<h2 id="32-18">3.2 爆款选题方向(18个 + 为什么能火)</h2>
+<p><strong>系统教学类(B站主场)</strong>
+1. 「AI Agent 从 0 到 1 完整教程」超长课 — SEO+收藏+watch time 三收
+2. 「30 分钟讲透 AI Agent 是什么」— 系统科普,深度党最爱
+3. 「手把手用 Coze 搭能干活的 Agent」— 实操录屏,收藏神器</p>
+<p><strong>工具评测/对比类</strong>
+4. 「Coze vs Dify vs n8n vs Make 怎么选」— 决策焦虑,精准垂粉
+5. 「测评 10 个 AI 工具,只推荐这 3 个」— 评测建信任
+6. 「Claude Code vs Cursor 深度实测」— vibe coding 红利</p>
+<p><strong>成果展示类</strong>
+7. 「我用 Agent 自动化整个工作流,效率翻 10 倍」— 反差成果
+8. 「一个人 + 10 个 Agent 干完一个团队的活」— 趋势想象</p>
+<p><strong>前沿资讯类(建权威)</strong>
+9. 「新模型发布 24h 内实测」(GPT/Claude/Kimi/DeepSeek)— 时效流量
+10. 「AI 圈本周大事」周更 — 养算法养订阅</p>
+<p><strong>技能/原理类</strong>
+11. 「Agent Skill 是什么?怎么写自己的技能」— 早期红利
+12. 「RAG/记忆/工作流原理动画讲解」— 深度科普(对标 Ele)</p>
+<p><strong>设计/创意类(张一文差异化)</strong>
+13. 「设计师的 AI Agent 自动化工作流」— 稀缺视角
+14. 「用 AI Agent 批量生成设计稿」— 审美+实用</p>
+<p><strong>变现/职场/认知类</strong>
+15. 「用 AI Agent 做副业,真实项目拆解」— 搞钱刚需
+16. 「打工人的 AI 提效神器」— 场景痛点
+17. 「2026 程序员/设计师会被 Agent 取代吗」— 争议拉三连
+18. 「如何成为会用 Agent 的 top 2%」— 身份升级焦虑</p>
+<p><strong>能火共性</strong>:①系统完整=高 watch time ②降门槛可复现=高收藏 ③深度=高信任 ④三连引导=推荐加权 ⑤蹭热点=时效流量。</p>
+<h2 id="33-b">3.3 B站标题/封面/脚本套路</h2>
+<p><strong>标题公式</strong>:数字+承诺「30分钟学会搭AI Agent(2026最新)」;保姆级+收藏「【保姆级】0基础搭Agent,一个视频讲透」;对比选择「Coze/Dify/n8n到底选哪个?」;反差惊叹「离谱!这个Agent一晚干完我一周的活」;【】包裹关键词。</p>
+<p><strong>封面三要素</strong>:①大标题字(4–8字利益)②产品/成果画面(Coze界面/自动化结果)③高对比配色+可选人脸表情。张一文用美院审美做统一视觉封面矩阵=频道页高级+高点击。</p>
+<p><strong>脚本结构(中长视频)</strong>:</p>
+<pre><code>0–15s 黄金钩子:直接抛结果/冲突,不自我介绍
+       &quot;先看效果:这个Agent 10分钟爬完整个网站——不写一行代码&quot;
+15–60s 承诺+路线图:看完你能做到X,本视频分3步
+主体   每30–60s一个信息小高潮(open loop);
+       用章节分段结构化;长教程&quot;先给成品→再拆步骤&quot;倒叙;
+       关键处&quot;这步很多人会卡在…&quot;制造留存悬念
+结尾   强CTA三连+引导关注追更系列+推荐下一个视频
+</code></pre>
+<h2 id="34">3.4 涨粉 + 转化打法</h2>
+<pre><code>系统教程(建专业权威)→ 简介挂&quot;资料/模板领取&quot;+社群 →
+置顶评论再放领取链接 → 动态发预告/答疑 → 粉丝群沉淀 →
+低价课筛选 → 正价Agent系统课
+</code></pre>
+<ul>
+<li>简介可放外链(比抖音宽松),放 lead magnet + 社群入口</li>
+<li>置顶评论引导领取+抛问题养互动</li>
+<li>做"Agent从0到1"合集,追更黏性强、权重高</li>
+<li>开充电计划;B站长视频切片发抖音/小红书引流反哺</li>
+</ul>
+<h2 id="35">3.5 爆款案例拆解(⚠️量级)</h2>
+<p><strong>案例A · 超长完整课</strong>「AI Agent/n8n 从0到进阶(2h+)」数十万播放。爆点:填补空白,超长课=极高watch time+收藏。(对标 YouTube HC AI說人話 n8n 33万播放,B站同样成立)
+<strong>案例B · 原理科普</strong>「一个视频讲透Agent原理」(动画)数十万–百万播放。爆点:深度+可视化(对标 Ele)。
+<strong>案例C · 工具对比</strong>「Coze vs Dify vs n8n」数万–数十万播放。爆点:决策刚需,搜索常青。
+<strong>案例D · 成果震撼</strong>「我用Agent自动化全部工作」高播放高三连。爆点:反差+趋势想象。</p>
+<h2 id="36-b">3.6 B站算法/流量机制要点</h2>
+<ul>
+<li><strong>完播率+watch time 是核心</strong>:极度看"看了多久",系统长内容有优势,但前15秒必须留人。</li>
+<li><strong>三连(点赞/投币/收藏)= 最强正反馈</strong>,投币是B站独有高价值信号。</li>
+<li><strong>完播&gt;互动&gt;转发</strong>:小流量池测完播,达标进大池。</li>
+<li><strong>分区/tag</strong>:选对分区(科技·计算机技术),打精准 tag。</li>
+<li><strong>首发24–48h 定生死</strong>,发布对齐晚间/周末。</li>
+<li><strong>SEO</strong>:标题/简介前部放关键词,被站内+百度收录,教程吃搜索长尾。</li>
+<li><strong>避坑</strong>:标题党降权;禁站外导流过度;需原创;避免大段废话掉完播。</li>
+</ul>
+<h2 id="37">3.7 红利点与空白机会</h2>
+<p><strong>红利</strong>:①Agent/vibe coding 系统教程供不应求 ②新模型实测蹭热点 ③超长旗舰课三收 ④Agent Skill 内容空白。
+<strong>空白</strong>:①中文系统有深度的 Agent 实操课稀缺 ②"设计师视角 Agent"= 张一文独占 ③"原理讲透+实操落地"结合无人做全 ④Agent 陪跑社群空间大。</p>
+<hr />
+<h1 id="ai_2">第四部分 · 抖音 AI 赛道调研</h1>
+<blockquote>
+<p>⚠️ 数据说明:抖音粉丝量/点赞为量级估算,达人为该赛道确切存在的代表,投放前请到 App 实时核验。</p>
+</blockquote>
+<h2 id="41_1">4.1 头部/腰部达人地图</h2>
+<table>
+<thead>
+<tr>
+<th>达人/类型</th>
+<th>定位</th>
+<th>粉丝量级⚠️</th>
+<th>风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数字生命卡兹克</strong></td>
+<td>AI 前沿/工具实测</td>
+<td>数十万级</td>
+<td>深度+人味,爆款体质</td>
+<td>公众号导流、课程、商单</td>
+</tr>
+<tr>
+<td><strong>秋叶AI/秋叶系</strong></td>
+<td>AI 办公/PPT/Excel</td>
+<td>百万级</td>
+<td>职场实用教学</td>
+<td>训练营、课程(核心)</td>
+</tr>
+<tr>
+<td><strong>AI 探索/工具速递号</strong></td>
+<td>AI 工具速递</td>
+<td>十万–百万</td>
+<td>快节奏盘点</td>
+<td>付费社群、软件返佣</td>
+</tr>
+<tr>
+<td><strong>AI 绘画/MJ 教学号</strong></td>
+<td>AI 作图变现</td>
+<td>数十万–百万</td>
+<td>案例+接单玩法</td>
+<td>教程、素材包、社群</td>
+</tr>
+<tr>
+<td><strong>打工人 AI 提效号</strong></td>
+<td>AI+职场效率</td>
+<td>十万–数十万</td>
+<td>强场景痛点</td>
+<td>知识付费、企业培训</td>
+</tr>
+<tr>
+<td><strong>AI 副业/搞钱号</strong></td>
+<td>AI 变现项目拆解</td>
+<td>数十万级</td>
+<td>强利益驱动</td>
+<td>项目课、陪跑</td>
+</tr>
+<tr>
+<td><strong>Coze/扣子 Agent 实操号</strong></td>
+<td>无代码搭 Agent</td>
+<td>数万–数十万</td>
+<td>实操录屏</td>
+<td>Agent 搭建课、外包(<strong>与你最相关</strong>)</td>
+</tr>
+<tr>
+<td><strong>AI 数字人/口播号</strong></td>
+<td>数字人玩法</td>
+<td>数十万</td>
+<td>展示能力</td>
+<td>数字人 SaaS 分销、课程</td>
+</tr>
+<tr>
+<td><strong>AI 硬件/前沿测评号</strong></td>
+<td>AI 眼镜/机器人</td>
+<td>数十万</td>
+<td>开箱+趋势</td>
+<td>广告、带货</td>
+</tr>
+<tr>
+<td><strong>企业老板 AI 数字化号</strong></td>
+<td>AI 落地企业</td>
+<td>数万(精准)</td>
+<td>干货+案例</td>
+<td>高客单咨询/内训</td>
+</tr>
+<tr>
+<td><strong>GPTs/智能体玩法号</strong></td>
+<td>Agent 搭建演示</td>
+<td>数万–数十万</td>
+<td>"0代码做Agent"</td>
+<td>Agent 课(<strong>与你相关</strong>)</td>
+</tr>
+<tr>
+<td><strong>AI 每日快讯矩阵号</strong></td>
+<td>资讯搬运解读</td>
+<td>各号数万</td>
+<td>矩阵起号</td>
+<td>引流私域→课程</td>
+</tr>
+<tr>
+<td>⚠️ <strong>李一舟(反面教材)</strong></td>
+<td>AI 通识课</td>
+<td>曾百万级</td>
+<td>高转化话术</td>
+<td>199 课程——<strong>勿模仿其话术套路</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>对张一文最相关</strong>:Coze/扣子实操号、GPTs 智能体号、企业老板号、秋叶系。<strong>重点研究"扣子空间搭 Agent"实操类</strong>——最贴合课程转化、内容护城河高。</p>
+<h2 id="42-20">4.2 爆款选题方向(20个 + 为什么能火)</h2>
+<p><strong>工具速递(蹭热点)</strong>:①「XX又更新炸裂功能」蹭GPT/豆包/Kimi/DeepSeek热点 ②「国产AI神器,免费好用」双钩子 ③「一个网站顶10个软件」信息增量
+<strong>场景提效</strong>:④「用AI 10分钟做完一天工作」强反差 ⑤「老板不知道的AI摸鱼神器」反差+八卦 ⑥「让AI替你写周报/PPT」刚需
+<strong>Agent实操(壁垒)</strong>:⑦「不用代码10分钟搭个AI员工」概念具象降门槛 ⑧「用Coze做自动客服省2小时」真实成果 ⑨「一个Agent帮我自动做短视频」双热点 ⑩「教AI记住你的习惯」记忆概念新奇
+<strong>变现(转化)</strong>:⑪「普通人用Agent接单一单XX元」利益驱动 ⑫「AI自动化搞钱3个真实项目」搞钱刚需 ⑬「小白也能做的智能体项目」降门槛拉课程用户
+<strong>认知趋势(拉粉)</strong>:⑭「2026不会用Agent会被淘汰吗」焦虑+讨论 ⑮「Agent是什么?一个视频讲透」科普收藏 ⑯「1人+10个Agent就是一家公司」趋势想象
+<strong>对比评测</strong>:⑰「Coze vs Dify vs n8n 新手学哪个」决策精准 ⑱「测了5个Agent平台只推荐这个」评测建信任
+<strong>情绪反差(破圈)</strong>:⑲「我妈都学会用Agent了」反差亲和 ⑳「花3000买的AI课不如这个视频」反预期踩痛点(用"割韭菜课"泛指,别踩同行)</p>
+<p><strong>能火共性</strong>:①蹭时效热点带自然流量 ②强利益/强痛点提完播 ③降门槛消除抗拒 ④成果可视化建信任 ⑤争议/趋势拉互动率。</p>
+<h2 id="43">4.3 抖音标题/文案/脚本结构</h2>
+<p><strong>黄金3秒钩子</strong>(前3秒决定完播):数字反差"10分钟做完别人一天的活";身份代入"打工人千万别学,学了回不去";结果前置(直接展示Agent自动运行的震撼画面);提问悬念"你知道你80%的工作能被Agent替掉吗";负向钩子"别再手动做XX了,太蠢";热点绑定"扣子空间刚上线这功能,离谱了"。</p>
+<p><strong>强反差开头模板</strong>:"以前我做这个要3小时(痛苦画面)……现在让一个Agent干,2分钟搞定(结果画面)。"</p>
+<p><strong>口播节奏(15–60s)</strong>:</p>
+<pre><code>0–3s   钩子(结果/反差/痛点)
+3–10s  痛点放大+&quot;你是不是也这样&quot;
+10–25s 解决方案演示(录屏为主,边做边说)
+25–40s 关键步骤/一个记忆点(只讲1个核心)
+40–50s 成果展示+价值升华
+50–60s 结尾引导
+</code></pre>
+<p>每句≤7秒,信息密度高,配字幕,语速偏快,重点词加重。</p>
+<p><strong>结尾引导话术</strong>:养号期弱引导"觉得有用点个赞,不然刷着就找不到了";关注钩子"关注我,下期教你把Agent接到微信自动回复"(做钩子系列养追更);私域合规版"想要模板评论区扣'1',我整理发出来";收藏引导"先收藏,照着做就行"。
+<strong>避坑</strong>:不口播"加微信/进群/买课",用"扣1""主页""橱窗"引导。</p>
+<h2 id="44_1">4.4 涨粉与转化打法</h2>
+<p><strong>主页</strong>:认证蓝V(可挂官网、私信自动回复、组件),昵称含"AI Agent/智能体"+人设,简介"教普通人用Agent提效搞钱|回复'礼包'领模板",置顶3条(科普爆款/成果案例/课程介绍)。
+<strong>橱窗</strong>:挂9.9/19.9引流品(Agent模板包/工具清单)承接自然流量,小黄车跳训练营/正价课(需知识付费资质)。
+<strong>私信自动回复(蓝V)</strong>:关键词"1/礼包/模板"自动推引流课链接/引导加企微。
+<strong>直播</strong>:每周固定2–3场,现场搭Agent+答疑,挂小黄车课程,发预告短视频引流。
+<strong>粉丝群</strong>:发资料/预告/答疑,群内限时福利引导进企微私域。
+<strong>完整链路</strong>:短视频/直播(公域)→ 主页/橱窗9.9引流 → 私信/评论暗号 → 企微/粉丝群(私域)→ 社群养熟/直播答疑 → 正价课/陪跑(高客单)。</p>
+<h2 id="45">4.5 爆款案例拆解(⚠️量级)</h2>
+<p><strong>案例A</strong>「不用代码10分钟做个AI客服」数万–十几万赞。爆点:成果可视+门槛低+强收藏。
+<strong>案例B</strong>「AI自动做短视频/小红书」十万+赞。爆点:AI+副业双热点,前3秒展示"一键生成"震撼。
+<strong>案例C</strong>「XX大模型更新炸裂功能」随热点波动可达十万+。爆点:发布当天抢时效+免费钩子。
+<strong>案例D</strong>「不会用Agent会被淘汰吗」高互动(评论吵起来)。爆点:争议=互动率=算法加权。
+<strong>共性公式</strong>:降门槛+结果可视化+时效/痛点/争议+明确收藏关注引导。</p>
+<h2 id="46">4.6 抖音算法机制</h2>
+<ul>
+<li><strong>完播率(最重要)</strong>:看5秒完播和整体完播。→ 前3秒钩子+控时长(15–35s教程易完播)。</li>
+<li><strong>互动率</strong>:评论&gt;转发&gt;收藏&gt;点赞权重感受。→ 设争议点、引导"扣1"、教程拉收藏。</li>
+<li><strong>流量池阶梯</strong>:初始几百曝光→达标进几千→万→十万→破圈。前50–200播放定生死,发布后1小时黄金期。</li>
+<li><strong>DOU+</strong>:不投冷启动新号;投已有小爆的视频做助推;选"点赞评论/粉丝增长"目标,小额(100–300)测性价比再加投。</li>
+<li><strong>避限流红线</strong>:❌视频/口播出现"微信/加群/V/私聊买"引流词 ❌画面二维码/他平台水印 ❌宣称"月入过万/包赚钱" ❌搬运/AI生成无加工。✅用"扣1/主页/橱窗/私信关键词"合规引导 ✅稳定日更/隔日更养标签。</li>
+</ul>
+<h2 id="47">4.7 红利点与空白机会</h2>
+<p><strong>红利</strong>:①Agent/智能体明确上升期(扣子/Coze/Dify概念热,供给&lt;需求)②"0代码"降门槛叙事 ③AI+副业长期高需求 ④企业老板AI落地(高客单蓝海)⑤国产模型热点密集(蹭更新=稳定流量)。
+<strong>空白</strong>:①系统化Agent实操IP稀缺(多是碎片工具号)②垂直行业Agent方案(设计/自媒体/客服Agent)无人深做 ③"真人+真实成果+翻车"信任型稀缺 ④中老年/小白友好Agent教学 ⑤Agent陪跑社群(客单高、差异大)。</p>
+<hr />
+<h1 id="youtube-ai">第五部分 · YouTube AI 赛道调研(联网实测核验)</h1>
+<blockquote>
+<p>✅ 本部分数据于 2026-08 直连 YouTube 频道 About 页与站内搜索实测核验,订阅量为访问当时实测值(会变动),频道名/handle/变现路径均真实。</p>
+</blockquote>
+<h2 id="51">5.1 头部/腰部创作者地图</h2>
+<h3 id="_7">英文区</h3>
+<table>
+<thead>
+<tr>
+<th>频道</th>
+<th>Handle</th>
+<th>订阅量(实测)</th>
+<th>定位/风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Matt Wolfe</strong></td>
+<td>@mreflow</td>
+<td>~993K</td>
+<td>AI周报+工具评测,"帮你从噪音筛信号",周五更</td>
+<td>futuretools.io(自建工具目录站)+赞助+联盟+课程</td>
+</tr>
+<tr>
+<td><strong>Matthew Berman</strong></td>
+<td>@matthew_berman</td>
+<td>~628K</td>
+<td>AI news、模型实测、agent/coding、大佬访谈</td>
+<td>Forward Future newsletter+会员+赞助</td>
+</tr>
+<tr>
+<td><strong>AI Explained</strong></td>
+<td>@aiexplained-official</td>
+<td>~440K</td>
+<td>深度克制"sans hype"模型解读,自建SimpleBench</td>
+<td>Patreon+赞助(高信任深度路线)</td>
+</tr>
+<tr>
+<td><strong>Fireship</strong></td>
+<td>@Fireship</td>
+<td>~4.24M</td>
+<td>4–5分钟"tech news+AI段子",标题党天花板</td>
+<td>bytes.dev(newsletter)+fireship.dev(付费课)+赞助</td>
+</tr>
+<tr>
+<td><strong>David Ondrej</strong></td>
+<td>@DavidOndrej</td>
+<td>~410K</td>
+<td>"用AI写代码/建agent"实操+个人哲学长视频</td>
+<td>Skool社群(核心)+公司招聘</td>
+</tr>
+<tr>
+<td><strong>Riley Brown</strong></td>
+<td>@rileybrownai</td>
+<td>~270K</td>
+<td>"vibe coding"、给企业建agent、Cursor/Claude Code</td>
+<td>社群+课程+播客+赞助</td>
+</tr>
+<tr>
+<td>⭐ <strong>AI Jason (Jason Zhou)</strong></td>
+<td>@AIJasonZ</td>
+<td>~230K</td>
+<td><strong>和张一文最像的标杆</strong>:产品设计师视角,手把手build AI agent</td>
+<td><strong>aibuilderclub.com(付费社群)+Discord+邮件列表+联盟码+lead magnet(免费送agent模板,填表领取)</strong></td>
+</tr>
+<tr>
+<td><strong>IndyDevDan</strong></td>
+<td>@indydevdan</td>
+<td>~143K</td>
+<td>纯"agentic coding"垂类:think/plan/build</td>
+<td>agenticengineer.com "Tactical Agentic Coding"付费课(单一产品深度变现)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">中文区</h3>
+<table>
+<thead>
+<tr>
+<th>频道</th>
+<th>量级(实测)</th>
+<th>定位/风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>硅谷101</strong> (@TheValley101)</td>
+<td>~447K 订阅</td>
+<td>深度科技&amp;商业解读,纪录片质感</td>
+<td>同名播客+商业合作+赞助</td>
+</tr>
+<tr>
+<td><strong>HC AI說人話</strong></td>
+<td>单条 n8n 教程 <strong>339K 播放</strong></td>
+<td>台湾腔"说人话",超详细n8n/Agent/RAG实操(2h55m长视频)</td>
+<td>Gumroad卖课程档案/范本+社群</td>
+</tr>
+<tr>
+<td><strong>阿童木AI</strong></td>
+<td>中腰部</td>
+<td>Make/Coze/n8n/Dify工作流对比教学</td>
+<td>专属社群+工作流模板+每周项目实操(会员制)</td>
+</tr>
+<tr>
+<td><strong>黄思平</strong></td>
+<td>单条 <strong>108K 播放</strong></td>
+<td>"保姆级"ChatGPT全功能教程(22章节),小白友好</td>
+<td>教程引流+联盟+付费社群</td>
+</tr>
+<tr>
+<td><strong>林杰AI笔记</strong></td>
+<td>单条 <strong>140K 播放</strong></td>
+<td>AI副业实操(ChatGPT+剪映做小红书"月赚3万")</td>
+<td>联盟+课程/社群</td>
+</tr>
+<tr>
+<td><strong>盈夏AI轻创业</strong></td>
+<td>单条 <strong>48K 播放</strong></td>
+<td>"普通人用AI搞钱":不露脸频道从0到1</td>
+<td>课程+社群+提示词包(lead magnet)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键洞察</strong>:英文区最值得抄的对标是 <strong>AI Jason</strong> 和 <strong>IndyDevDan</strong>——都是"agent实操→付费社群/课程"的清晰漏斗,体量(143K–230K)可企及。中文区 <strong>HC AI說人話/阿童木AI</strong> 证明"n8n/Coze/Dify工作流 + Gumroad卖课 + 社群"在华语区已跑通,且<strong>中文优质agent实操内容仍稀缺</strong>——这正是张一文的空白位。</p>
+<h2 id="52-18">5.2 爆款选题方向(18个)</h2>
+<p><strong>Agent/自动化实操(主场)</strong>:①「我用AI Agent做了X」成果型(AI Jason"这Agent能爬任何网站?!")②「N个Agent自动化整个工作流」③「零基础到进阶」超长完整课(HC 2h55m n8n)④「Coze vs n8n vs Dify vs Make怎么选」⑤「用Claude Code/Cursor从零build真实产品」⑥「让Agent替我做[职业任务]」
+<strong>AI News/前沿(涨订阅)</strong>:⑦每周AI新闻周报(Matt Wolfe/Fireship模式)⑧「新模型发布24h内实测」⑨「X模型让各大实验室慌了」冲突叙事
+<strong>工具评测/推荐(引流+联盟)</strong>:⑩「2026最值得用的N个AI工具」清单 ⑪「这AI工具免费平替了$XX/月的软件」⑫「99%的人不知道ChatGPT能这样用」
+<strong>教学/技能(转化主力)</strong>:⑬「保姆级/从0到1手把手教程」(黄思平模式)⑭「Prompt/Skill技能包」(直接做lead magnet)⑮「AI副业/搞钱实操」(华语区流量核弹,避免割韭菜标签)
+<strong>观点/身份认同(建信任)</strong>:⑯「2026如何成为top 2%工程师/创作者」⑰「AI正在失控/下一个拐点」认知类 ⑱「不露脸AI频道从0到1」元教学</p>
+<h2 id="53">5.3 标题/缩略图/脚本公式</h2>
+<p><strong>Title公式(CTR命门)</strong>:好奇缺口+引号口语 <code>"Wait, this Agent can Scrape ANYTHING?!"</code>;冲突/危机叙事(用…吊胃口);数字+时间承诺 <code>Learn 99% of ChatGPT in 61 Minutes</code>;身份/结果钩子;中文公式 <code>【2025最新最全ChatGPT教程】学会这19个技巧,彻底告别AI小白!</code>(括号+数字+痛点身份+感叹号)。
+<strong>Thumbnail</strong>:大脸+夸张表情;1–3个大字对比词(FREE/INSANE/vs/新);产品logo拼贴;红黄高对比+箭头/圈;中文用超大字+荧光描边;一致品牌配色成矩阵感。
+<strong>脚本结构</strong>:0–15s Hook(直接抛结果/冲突,不自我介绍,立刻放成品demo);15–60s承诺+路线图(降跳出);主体每30–60s一个信息小高潮+章节结构化+倒叙("先给成品→再拆步骤")+"这步很多人卡在…"留存悬念;CTA第一个价值点后轻订阅、结尾强CTA+end screen;结尾给下一步(领模板/进社群)+推荐下一支视频喂session watch time。</p>
+<h2 id="54-ai-jason">5.4 涨粉+转化打法(以 AI Jason 为范本,最贴合张一文)</h2>
+<p><strong>Description挂链顺序(实测)</strong>:①赞助/联盟(带专属码)②Join付费社群 ③Twitter ④邮件列表 ⑤Discord ⑥本期lead magnet(用Google表单收邮箱)⑦工具联盟链 ⑧时间戳+20+ hashtag(SEO)。
+<strong>Lead magnet路径(核心)</strong>:视频做出具体agent/模板 → 描述区"填表领取" → 收邮箱进newsletter → 养熟 → 推付费社群/课程。<strong>这是把"看客"转"线索"的核心动作。</strong>
+<strong>Pinned comment</strong>:置顶再放核心链接(很多人不点描述)+抛问题引导评论。
+<strong>End screen(最后20s)</strong>:左"订阅"右"下一支视频",提高session time。
+<strong>付费产品形态</strong>:社群制(Skool/Discord+官网/aibuilderclub);课程制(Gumroad/自建站);Newsletter做中间层(免费视频与付费产品之间的缓冲带,极大提升转化)。
+<strong>给张一文的漏斗</strong>:<code>免费agent实操视频(带成品)</code>→<code>描述+置顶:填表领agent模板/skill包</code>→<code>进邮件列表/免费Discord</code>→<code>每期newsletter送1个小skill+预告课程</code>→<code>付费agent系统课+付费社群(答疑/陪跑)</code>。</p>
+<h2 id="55">5.5 爆款案例拆解(实测)</h2>
+<p><strong>案例1 · AI Jason「Wait, this Agent can Scrape ANYTHING?!」</strong>~13万播放(超频道体量)。爆点:引号口语反直觉惊叹制造缺口+解决爬虫刚需的通用新解法+描述区lead magnet全套漏斗+明确时间戳强retention。可复用:<strong>"具体成果+通用性承诺+领取模板"三件套</strong>。
+<strong>案例2 · HC AI說人話「n8n AI实作 0基础到进阶」(2h55m)</strong>~33.9万播放。爆点:华语区能讲清n8n/Agent/RAG的完整课极稀缺+超长课=极高watch time+收藏+Gumroad卖范本闭环+"说人话"人设降技术恐惧。可复用:<strong>做一支"这个视频学完XX"的旗舰长课作为镇店引流。</strong>
+<strong>案例3 · Fireship「Did Anthropic just kill the indie hacker...?」</strong>~68万播放。爆点:冲突悬念标题+4–5分钟极致精炼高完播+蹭热点时效+双漏斗。可复用:<strong>短平快AI news+情绪化标题</strong>做周更钩子养订阅,长视频承接转化。
+<strong>案例4 · 林杰AI笔记「ChatGPT+剪映做小红书AI睡眠故事,1个月赚3万!」</strong>~14万播放。爆点:华语区"AI搞钱"是流量核弹+量化收益+可复制SOP。<strong>可复用但需谨慎</strong>:用真实case建信任,避免割韭菜标签,导向系统课而非一次性收割。</p>
+<h2 id="56-youtube">5.6 YouTube 算法机制</h2>
+<ul>
+<li><strong>CTR × 平均观看时长 双核心</strong>:算法先小范围试推看CTR(缩略图+标题)决定放量,再看watch time/完播决定推多大。→ <strong>缩略图和前15秒是生死线</strong>。</li>
+<li><strong>Session watch time</strong>:能留住用户继续看YouTube的内容被额外奖励 → end screen推自己下一支视频、做系列/playlist。</li>
+<li><strong>长视频 vs Shorts</strong>:Shorts引流拉新(播放易破10万但订阅转化低,做顶部漏斗曝光);长视频(8–30min/1h+)watch time高、广告位多、课程转化强,是变现主力。配比:Shorts拉新+中长教学转化,Shorts结尾引导"完整版看主页"。</li>
+<li><strong>SEO(YouTube是第二大搜索引擎)</strong>:标题/描述前1–2行放核心关键词;描述区章节时间戳(生成key moments);大量hashtag+tags(AI Jason用20+);教学/工具类吃搜索长尾,常青流量比news更稳。</li>
+<li><strong>更新频率一致性</strong>(如Matt Wolfe"每周五");<strong>前24–48h表现</strong>决定命运。</li>
+</ul>
+<h2 id="57">5.7 红利点与空白机会</h2>
+<p><strong>红利</strong>:①Agent/vibe coding实操(Claude Code/Cursor/n8n/Coze/Dify爆发期,供&lt;需)②AI Skill/技能包(天然最好lead magnet)③新模型发布蹭热点 ④超长完整课(SEO+收藏+转化三收)。
+<strong>空白(华语区尤明显)</strong>:①中文优质agent实操内容稀缺(多是"ChatGPT技巧"或"AI副业割韭菜")②<strong>"设计师/非程序员也能建Agent"视角</strong>(对标AI Jason,华语区无人占位)③中英双语打法一鱼两吃 ④"agent陪跑社群"高价值订阅模式。</p>
+<hr />
+<h1 id="ai_3">第六部分 · 微信公众号 AI 赛道调研(联网实测核验)</h1>
+<blockquote>
+<p>✅ 本部分账号名、爆款标题、变现路径均真实核验;阅读量为量级(公众号阅读数非全公开),投放前请核实。</p>
+</blockquote>
+<h2 id="61">6.1 头部/腰部账号地图</h2>
+<h3 id="_9">资讯/媒体型(权威+破圈)</h3>
+<table>
+<thead>
+<tr>
+<th>账号</th>
+<th>定位</th>
+<th>量级⚠️</th>
+<th>风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>量子位</strong></td>
+<td>AI科技媒体天花板</td>
+<td>百万级</td>
+<td>快准全,业内必读</td>
+<td>广告、活动、峰会、报告</td>
+</tr>
+<tr>
+<td><strong>机器之心</strong></td>
+<td>AI技术/学术深度</td>
+<td>数十万–百万</td>
+<td>专业硬核</td>
+<td>广告、社群、招聘、活动</td>
+</tr>
+<tr>
+<td><strong>新智元</strong></td>
+<td>AI前沿资讯</td>
+<td>数十万–百万</td>
+<td>快节奏爆点标题</td>
+<td>广告、活动</td>
+</tr>
+<tr>
+<td><strong>APPSO</strong></td>
+<td>科技/AI应用消费</td>
+<td>百万级</td>
+<td>好用好玩产品视角</td>
+<td>广告、电商、活动</td>
+</tr>
+<tr>
+<td><strong>爱范儿</strong></td>
+<td>科技生活方式</td>
+<td>百万级</td>
+<td>潮流科技</td>
+<td>广告、电商</td>
+</tr>
+<tr>
+<td><strong>Founder Park</strong></td>
+<td>AI创业/大佬访谈</td>
+<td>数十万</td>
+<td>深度访谈+一线洞察</td>
+<td>社群、活动、投融资服务</td>
+</tr>
+<tr>
+<td><strong>甲子光年</strong></td>
+<td>科技产业智库</td>
+<td>数十万</td>
+<td>产业分析</td>
+<td>咨询、报告、峰会</td>
+</tr>
+<tr>
+<td><strong>硅星人/硅星人Pro</strong></td>
+<td>硅谷AI一线</td>
+<td>数十万</td>
+<td>硅谷视角深度</td>
+<td>广告、社群、活动</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ip">个人IP/工具实测型(<strong>张一文最该学</strong>)</h3>
+<table>
+<thead>
+<tr>
+<th>账号</th>
+<th>定位</th>
+<th>量级⚠️</th>
+<th>风格</th>
+<th>变现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⭐ <strong>数字生命卡兹克</strong></td>
+<td>AI工具/前沿实测</td>
+<td>头部个人号</td>
+<td>有人味、有态度、爆款体质,深度长文</td>
+<td>课程、社群、商单、知识付费</td>
+</tr>
+<tr>
+<td>⭐ <strong>歸藏的AI工具箱</strong></td>
+<td>AI工具/绘画/实测</td>
+<td>头部个人号</td>
+<td>极致实用、更新快、审美在线</td>
+<td>知识星球、课程、商单</td>
+</tr>
+<tr>
+<td>⭐ <strong>赛博禅心</strong></td>
+<td>AI深度解读/实测</td>
+<td>头部个人号</td>
+<td>有观点有深度、"说人话"</td>
+<td>社群、课程、商单</td>
+</tr>
+<tr>
+<td>⭐ <strong>宝玉xp</strong></td>
+<td>AI工程/prompt/翻译</td>
+<td>头部个人号</td>
+<td>硬核工程视角、信息密度高</td>
+<td>知识星球(核心)、课程</td>
+</tr>
+<tr>
+<td><strong>AI教学/进化论类号</strong></td>
+<td>AI通识/实操教学</td>
+<td>数十万</td>
+<td>手把手教程</td>
+<td>训练营、课程、社群</td>
+</tr>
+<tr>
+<td><strong>秋叶系(秋叶PPT等)</strong></td>
+<td>AI办公技能</td>
+<td>百万级矩阵</td>
+<td>职场技能教学</td>
+<td>训练营(核心变现)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键洞察</strong>:公众号是<strong>深度沉淀+私域转化主阵地</strong>(短视频拉粉→公众号养熟建信任→知识星球/训练营/课程成交)。张一文应学:<strong>内容体质</strong>学歸藏/卡兹克/赛博禅心(实测+人话+审美);<strong>商业闭环</strong>学宝玉/秋叶/教学号(个人IP→知识星球/训练营/课程)。<strong>美院背景做"AI+设计/创意工作流"是公众号里几乎无人占的差异位。</strong></p>
+<h2 id="62-20">6.2 爆款选题方向(20个 + 真实标题范式)</h2>
+<p><strong>工具实测(收藏王)</strong>:①《我把最近最火的AI工具都测了一遍,只推荐这几个》②《这个AI工具,让我效率提升了10倍》③《免费!这个平替了年费上千的XX》④《手把手:XX工具从入门到精通》
+<strong>Agent实操(主场)</strong>:⑤《AI Agent入门实操教程——手把手拥有你的第一个"数字员工"》⑥《不写代码,我用扣子搭了个自动化助手》⑦《我给自己造了10个Agent,现在1个人干一个团队的活》⑧《RAG/记忆/工具调用,一篇讲透Agent到底怎么работает》
+<strong>评测对比(决策)</strong>:⑨《Claude Code vs Cursor 72小时实测,结论有点意外》⑩《Coze/Dify/n8n,新手到底该学哪个?》
+<strong>热点解读(破圈)</strong>:⑪《XX模型深夜发布,我熬夜实测后想说……》⑫《OpenAI/Anthropic又炸了,这次真的不一样》
+<strong>认知趋势(建立高度)</strong>:⑬《2026,不会用Agent的人正在被淘汰》⑭《为什么说"1个人+一堆Agent"是未来的公司形态》⑮《我用了半年AI,最大的认知是这个》
+<strong>技能/Prompt(lead magnet)</strong>:⑯《整理了50个高质量Prompt/Skill,免费送》⑰《这些AI技能包,建议每个职场人都存下来》
+<strong>变现/副业(华语区流量核弹,谨慎)</strong>:⑱《普通人用AI搞钱的3个真实路径(附拆解)》⑲《我靠AI接单,一个月多赚了XX》
+<strong>个人故事/信任(转化前戏)</strong>:⑳《一个清华美院设计师,为什么All in AI Agent》(<strong>张一文专属杀手锏</strong>)</p>
+<p><strong>真实爆款标题共性</strong>:①数字+利益(10倍/72小时/50个)②免费/平替钩子 ③实测/手把手信任状 ④热点绑定时效 ⑤反差/意外/认知升级 ⑥"手把手/一篇讲透/建议收藏"降门槛。</p>
+<h2 id="63">6.3 标题/结构/排版打法</h2>
+<p><strong>标题公式</strong>:痛点+方案《还在手动做XX?这个AI一键搞定》;数字+承诺《5分钟,教你搭第一个AI Agent》;实测信任《我实测了30个AI工具,这7个真的好用》;热点+观点《XX发布,我认为这才是重点》;身份代入《设计师/打工人/老板必看的AI提效指南》;悬念《用了这个方法,我再也不自己写周报了》。<strong>副标题/引导语</strong>放开头一句话点破价值。</p>
+<p><strong>文章结构(教学/实测型黄金结构)</strong>:</p>
+<pre><code>1. 开头钩子(痛点共鸣/热点/反差结果前置)——3行内抓住
+2. 我是谁+为什么可信(轻,建立信任)
+3. 正文主体:
+   - 教程类:背景→分步骤(截图/GIF/编号)→关键提醒→成果展示
+   - 实测类:测试方法→逐项结果→横向对比表→结论推荐
+   - 观点类:现象→分析→洞察→行动建议
+4. 总结/金句(可转发的观点)
+5. 软性CTA:领资料/进星球/看课程(给足价值后再引导)
+</code></pre>
+<p><strong>排版</strong>:手机端首屏定生死;段落短(3–4行留白);重点加粗/标色不超2色;多用小标题/编号/分割线;配图/截图/GIF降阅读疲劳;emoji适度做视觉锚点;文末固定"关注引导+资料领取+往期精选"三件套。</p>
+<p><strong>引流合规</strong>:公众号可较大方引导(比抖音宽松),但外链受限→用"公众号回复关键词领取""加个人号/企微""进知识星球"承接。文末放个人号二维码/星球海报/课程入口。</p>
+<h2 id="64">6.4 涨粉+转化打法</h2>
+<p><strong>涨粉</strong>:①短视频(抖音/B站/小红书)引流"完整版/资料看公众号"②爆款利他长文自然转发/被转载 ③蹭热点抢首发 ④知乎/小红书/即刻同步导流 ⑤互推/被大号转载。
+<strong>转化闭环(公众号是私域核心)</strong>:</p>
+<pre><code>公域拉新(短视频/搜索) → 关注公众号(自动回复送lead magnet)
+→ 加个人号/企微(强私域) → 朋友圈+社群养熟(持续价值+案例+答疑)
+→ 知识星球(低客单沉淀,持续内容+社群) → 训练营/系统课(中高客单成交)
+→ 陪跑/咨询(高客单)
+</code></pre>
+<p><strong>关键动作</strong>:①关注自动回复必给福利(Agent模板/工具清单/Prompt包)→ 引导加企微 ②文末每篇都留钩子(领资料/进群)③朋友圈IP运营(实测日常+学员成果+价值观)④知识星球做低门槛承接(9.9–199)→ 筛出高意向推正价课 ⑤定期直播/训练营做集中成交。</p>
+<h2 id="65">6.5 爆款案例范式拆解</h2>
+<p><strong>范式A · 实测盘点型</strong>《我测了N个AI工具,只推荐这几个》。爆点:极致利他(帮读者省时间)+收藏刚需+横向对比表专业感+软植自己推荐(可挂联盟/自有产品)。<strong>张一文可做</strong>:《我测了8个能搭Agent的平台,设计师视角只推荐这3个》。
+<strong>范式B · 手把手教程型</strong>《AI Agent入门实操——手把手拥有你的第一个数字员工》。爆点:降门槛(小白也能跟)+完整SOP+截图/GIF+成果可视+天然转化(学会一个想学更多→课程)。<strong>这是转化最强的内容形态。</strong>
+<strong>范式C · 认知趋势型</strong>《2026,不会用Agent的人正在被淘汰》。爆点:焦虑+趋势判断=转发率高+建立作者高度+为课程铺"你需要学"的心智。
+<strong>范式D · 个人故事型</strong>《一个清华美院设计师,为什么All in AI Agent》。爆点:反差人设(美院+硬核AI)+真诚故事建强信任+为IP和课程做背书。<strong>张一文的独家差异化,必写。</strong>
+<strong>范式E · 热点解读型</strong>《XX模型发布,实测后我想说》。爆点:时效抢流量+独立观点建专业度。做常态化蹭热点养打开率。</p>
+<h2 id="66">6.6 红利点与空白机会</h2>
+<p><strong>红利</strong>:①Agent系统化教学(公众号深度形态最适合讲透Agent)②AI+垂直职业(设计/自媒体/办公)③知识星球+训练营模式成熟(个人IP变现路径清晰)④lead magnet(Skill/Prompt包)天然适配公众号自动回复。
+<strong>空白(张一文机会)</strong>:①<strong>"AI+设计/创意工作流"个人IP几乎空白</strong>(美院背景独占)②"设计师视角的Agent实操"无人系统做 ③"真诚故事+硬核干货+高审美排版"三合一的号稀缺 ④中英前沿同步(能读一手英文源)的差异化信息差。</p></div>
+<hr>
+<div class="sec-content" id="content"><h1 style="border-color:var(--acc2)">📝 十篇可发布内容</h1><h1 id="ai-agent">📝 十篇可发布内容 · 张一文 AI Agent 账号</h1>
+<blockquote>
+<p>配套调研报告使用。每篇标注:平台 / 类型 / 在漏斗中的作用 / 直接可发布正文。
+命名/领取关键词用【AI包】占位,张一文可自定义。涉及具体数据/成果处已用〔待填真实值〕标注,<strong>请填真实内容,勿虚构</strong>。</p>
+</blockquote>
+<hr />
+<h1 id="1">第 1 篇 · 个人故事型(公众号)</h1>
+<p><strong>类型</strong>:信任建立 ｜ <strong>漏斗作用</strong>:立人设、为整个账号背书 ｜ <strong>建议作为开号第一篇</strong></p>
+<h2 id="ab">标题(A/B 两版)</h2>
+<ul>
+<li>A《一个清华美院设计师,为什么 All in AI Agent》</li>
+<li>B《我在清华美院学设计,却一头扎进了 AI Agent》</li>
+</ul>
+<h2 id="_1">正文</h2>
+<p><strong>开头钩子:</strong></p>
+<p>如果三年前你告诉我,一个学艺术与科技的美院生,有一天会每天和 AI Agent 打交道、会教别人怎么让 AI 替自己干活——我大概会笑笑,然后继续调我的设计稿。</p>
+<p>但现在,我确实在做这件事。而且越做越确定:<strong>这是设计师这一代人,最不该错过的一趟车。</strong></p>
+<p><strong>为什么是我:</strong></p>
+<p>我是张一文,清华大学美术学院 艺术与科技专业。〔一句话真实信息:GPA/专业排名/导师/代表作,择可信项写,勿夸大〕。设计训练给了我两样东西:一是对"体验"的敏感——什么东西好用、什么东西反人性,我一眼能看出来;二是"把复杂说清楚"的能力——这恰恰是现在 90% 的 AI 教程最缺的。</p>
+<p><strong>转折——我第一次被 Agent 击中:</strong></p>
+<p>真正让我 all in 的,是我第一次〔真实场景:用某个 Agent 把一件原本要花你几小时的具体事,自动做完了。写出那个瞬间的震撼——例如"我让它自己去查资料、整理、排版,我去泡了杯咖啡,回来东西已经躺在那了"〕。</p>
+<p>那一刻我意识到:AI 不再只是"帮你写两句文案"的工具,它开始能<strong>像一个员工一样,自己规划、自己动手、自己交付</strong>。这就是 Agent 和普通 AI 的本质区别。</p>
+<p><strong>我想做的事:</strong></p>
+<p>市面上的 AI 内容,要么是把你当程序员的硬核教程,要么是"三天暴富"的割韭菜课。中间那一大片——<strong>想用 AI 提效、但不懂代码的普通人和创意工作者</strong>——几乎没人好好服务。</p>
+<p>所以我决定,用设计师"把复杂讲成人话"的方式,做一件事:<strong>教不懂代码的你,也能搭出真正能干活的 AI Agent。</strong></p>
+<p>不吹牛,不焦虑营销,就是实打实地做出来给你看,再手把手带你做一遍。</p>
+<p><strong>给你的第一份礼物:</strong></p>
+<p>我整理了一份〔AI Agent 入门 Skill/工具包:包含 XX 个即用模板 + 新手路线图〕,是我自己从 0 摸索时最想要的东西。</p>
+<p>在公众号后台回复【AI包】,免费拿走。</p>
+<p>往后,我们慢慢来,一个 Agent 一个 Agent 地搭。</p>
+<p>—— 一文</p>
+<blockquote>
+<p><strong>发布提醒</strong>:①〔待填〕处必须填真实经历,这篇的全部力量来自真诚。②文末放个人号/公众号二维码。③配图用你真实的作品/工作场景照或高级感设计图,别用 AI 烂大街配图(你是美院的,这是你的门面)。</p>
+</blockquote>
+<hr />
+<h1 id="2">第 2 篇 · 手把手教程型(公众号)</h1>
+<p><strong>类型</strong>:实操教学 ｜ <strong>漏斗作用</strong>:立"能学到东西"心智 + 拉收藏 + 转化前戏 ｜ <strong>最强转化形态</strong></p>
+<h2 id="_2">标题</h2>
+<p>《手把手:不用写代码,10 分钟搭出你的第一个 AI "数字员工"》</p>
+<h2 id="_3">正文</h2>
+<p><strong>开头(结果前置):</strong></p>
+<p>先看结果:我搭了一个 Agent,我只要发给它一个主题,它会自己去〔搜集资料 → 整理要点 → 输出一份初稿〕,全程我不用管。</p>
+<p>听起来像要写代码?<strong>不用。全程零代码,10 分钟,新手也能跟上。</strong> 这篇我一步步带你做一遍,建议先收藏。</p>
+<p><strong>先说清楚:Agent 和普通 AI 有什么不一样?</strong></p>
+<ul>
+<li>普通 AI(比如你直接问 ChatGPT):你问一句,它答一句,<strong>你得一直盯着、一步步喂它</strong>。</li>
+<li>Agent:你给它一个<strong>目标</strong>,它会自己<strong>拆解任务、调用工具、一步步完成</strong>,像个员工。</li>
+</ul>
+<p>区别就是:一个是"工具",一个是"帮手"。今天我们做的就是后者。</p>
+<p><strong>准备工作(1 分钟):</strong></p>
+<p>我们用〔扣子 Coze / Dify,任选,以你实际演示为准〕,国内可直接用、免费起步、可视化搭建。注册登录即可,不用装任何东西。</p>
+<p><strong>第一步:创建一个 Agent(2 分钟)</strong>
+〔配截图〕点击"创建",给它起个名字,比如"资料整理助手"。</p>
+<p><strong>第二步:写清楚它的"人设"和"任务"(3 分钟)</strong>
+在设定框里,用大白话告诉它它是谁、要干什么。这里给你一个可直接抄的模板:</p>
+<pre><code>你是一个专业的资料整理助手。
+当我给你一个主题时,你要:
+1. 帮我列出这个主题下最重要的 5 个要点
+2. 每个要点配一句通俗解释
+3. 最后给我一段 200 字的总结
+输出用清晰的编号排版。
+</code></pre>
+<blockquote>
+<p>💡 关键:<strong>指令越具体,Agent 越听话</strong>。这是搭 Agent 最重要的一个心法。</p>
+</blockquote>
+<p><strong>第三步:给它挂上"工具"(2 分钟)</strong>
+〔如需联网,开启"网页搜索"插件的步骤+截图〕。挂上工具,它就能自己上网查资料,而不只是靠记忆瞎编。</p>
+<p><strong>第四步:测试(2 分钟)</strong>
+发给它一个主题,看它自己跑起来。〔放真实运行截图/GIF〕</p>
+<p><strong>成果:</strong>
+现在你已经有了第一个能自己干活的 Agent。把上面的"人设"换成别的任务(写周报、回客户、做选题),你就有了第二个、第三个员工。</p>
+<p><strong>下一步:</strong></p>
+<p>这只是最简单的一种。真正强大的 Agent 还能<strong>记住你的偏好、连接多个工具、自动触发</strong>——这些我会在后面的教程里一个个拆。</p>
+<p>想要这篇的〔完整图文步骤 + 可直接导入的 Agent 模板〕,后台回复【AI包】领取。</p>
+<p>觉得有用,点个"在看",也让更多被 AI 教程劝退的人看到。</p>
+<blockquote>
+<p><strong>发布提醒</strong>:所有〔〕处替换成你<strong>真实演示的平台和截图</strong>——这类文章的信任全靠真实可复现。别写你没跑通的步骤。</p>
+</blockquote>
+<hr />
+<h1 id="3">第 3 篇 · 工具实测盘点型(公众号)</h1>
+<p><strong>类型</strong>:利他盘点 ｜ <strong>漏斗作用</strong>:利他涨粉 + 收藏 + 建立"设计师视角"差异化</p>
+<h2 id="_4">标题</h2>
+<p>《我测了 8 个能搭 Agent 的平台,设计师视角,只推荐这 3 个》</p>
+<h2 id="_5">正文</h2>
+<p><strong>开头:</strong></p>
+<p>最近"搭 Agent"火了,平台一大堆:Coze、Dify、n8n、Make、〔…按你实测的填〕。新手最容易犯的错,就是<strong>每个都浅尝一下,结果哪个都没学会。</strong></p>
+<p>我花了〔真实时长〕,从一个<strong>不懂代码的设计师</strong>角度,把主流的 8 个挨个测了一遍。这篇帮你省掉试错时间——直接告诉你<strong>新手该学哪个、什么需求用什么</strong>。建议收藏。</p>
+<p><strong>我的测评标准(设计师视角):</strong>
+1. 上手门槛(不懂代码能不能用)
+2. 可视化程度(界面是否清晰、反人性还是顺手)
+3. 能不能真的搭出"能干活"的东西
+4. 免费额度够不够练手
+5. 中文友好度</p>
+<p><strong>逐个简评(⚠️ 以下为框架,张一文按真实实测填写结论):</strong></p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>上手难度</th>
+<th>适合谁</th>
+<th>一句话结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扣子 Coze</td>
+<td>低</td>
+<td>纯新手/国内</td>
+<td>〔待填真实评价〕</td>
+</tr>
+<tr>
+<td>Dify</td>
+<td>中</td>
+<td>想做RAG/知识库</td>
+<td>〔待填〕</td>
+</tr>
+<tr>
+<td>n8n</td>
+<td>中高</td>
+<td>要连很多工具的自动化</td>
+<td>〔待填〕</td>
+</tr>
+<tr>
+<td>Make</td>
+<td>中</td>
+<td>自动化流程</td>
+<td>〔待填〕</td>
+</tr>
+<tr>
+<td>〔其余按实测〕</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>我的最终推荐(3 个):</strong>
+- <strong>纯新手先学</strong>:〔平台X〕——理由〔真实〕
+- <strong>想做能记忆/查知识库的助手</strong>:〔平台Y〕——理由
+- <strong>要打通多个软件做自动化</strong>:〔平台Z〕——理由</p>
+<p><strong>新手避坑提醒:</strong>
+别一上来就追求"高级",先用最简单的平台把一个 Agent <strong>从头到尾跑通一次</strong>,建立正反馈,比你收藏 100 个教程都有用。</p>
+<p><strong>福利:</strong>
+我把这 8 个平台的〔对比表 + 新手学习路线图〕整理好了,后台回复【AI包】拿走。</p>
+<p>下一篇,我用其中一个平台,带你搭一个<strong>设计师专属的 Agent</strong>(自动整理灵感/生成设计文案)。想看的点"在看"。</p>
+<blockquote>
+<p><strong>发布提醒</strong>:这篇的价值 = 真实实测结论。表格里的评价<strong>必须是你亲测的</strong>,否则读者一眼看穿。宁可少测几个,也要真。</p>
+</blockquote>
+<hr />
+<h1 id="4">第 4 篇 · 认知趋势型(公众号)</h1>
+<p><strong>类型</strong>:破圈+建高度 ｜ <strong>漏斗作用</strong>:拉转发/互动 + 为"你需要学"铺心智 ｜ 蹭焦虑但给出路</p>
+<h2 id="ab_1">标题(A/B)</h2>
+<ul>
+<li>A《为什么说"1 个人 + 一堆 Agent",就是未来的公司形态》</li>
+<li>B《2026,普通人和 Agent 的差距,正在拉开》</li>
+</ul>
+<h2 id="_6">正文</h2>
+<p><strong>开头(现象):</strong></p>
+<p>有件事我越来越确定:<strong>未来最小的公司单位,可能就是"1 个人 + 一堆 Agent"。</strong></p>
+<p>这不是科幻。现在已经有人用 Agent 做到:一个人,同时运营内容、客服、数据、运营——<strong>过去需要一个小团队干的活,现在一个人加几个 Agent 就扛下来了。</strong></p>
+<p><strong>为什么是现在:</strong></p>
+<p>过去的 AI 是"工具",你得一步步操作它。现在的 Agent 是"帮手",你给目标,它自己拆解、动手、交付。这个变化的意义是——<strong>你的能力,第一次可以被"复制"和"放大"。</strong></p>
+<p>一个会用 Agent 的人 vs 一个不会的人,产出差距不再是 20%、30%,而可能是<strong>几倍</strong>。</p>
+<p><strong>但我要泼一盆冷水:</strong></p>
+<p>不是"用了 AI"就行。我见过太多人:
+- 收藏了 100 个 AI 教程,一个都没跑通;
+- 买了几千块的 AI 课,学完只会复制粘贴 prompt;
+- 天天喊"AI 要取代人",自己却连一个 Agent 都没搭过。</p>
+<p><strong>真正的分水岭,不是"知道 AI",而是"能不能让 AI 替你干成一件具体的事"。</strong></p>
+<p><strong>给普通人的出路(不焦虑版):</strong></p>
+<p>你不需要成为程序员。你需要的是:
+1. 搞懂 Agent 到底能干什么(认知);
+2. 亲手搭通<strong>一个</strong>能解决你真实问题的 Agent(实操);
+3. 把它变成你日常工作流的一部分(习惯)。</p>
+<p>就这三步。第一个 Agent 跑通的那一刻,你会突然"开窍"。</p>
+<p><strong>结尾(观点+钩子):</strong></p>
+<p>与其焦虑"会不会被淘汰",不如今晚就动手搭一个。</p>
+<p>我在做的,就是<strong>手把手带不懂代码的人,搭出真正能干活的 Agent</strong>。关注我,从你的第一个数字员工开始。</p>
+<p>后台回复【AI包】,拿走我整理的入门路线图。</p>
+<blockquote>
+<p><strong>发布提醒</strong>:这篇是"转发型"内容,金句要够狠够真(如"真正的分水岭,不是知道AI,而是能不能让AI替你干成一件事")。结尾克制,别一上来硬推课,先给认知和免费资料。</p>
+</blockquote>
+<hr />
+<p><em>(第 5–10 篇见续写:视频脚本 + 小红书图文)</em></p>
+<h1 id="510">📝 十篇可发布内容 · 第 5–10 篇(视频脚本 + 小红书)</h1>
+<blockquote>
+<p>承接第 1–4 篇(公众号)。视频脚本含时间轴、口播、画面提示、字幕。〔〕为待填真实值,勿虚构。</p>
+</blockquote>
+<hr />
+<h1 id="5">第 5 篇 · 抖音短视频脚本(强钩子 · 拉新)</h1>
+<p><strong>平台</strong>:抖音(可复用小红书视频/YT Shorts)｜ <strong>时长</strong>:约 45s ｜ <strong>漏斗作用</strong>:拉新破圈 + 涨粉
+<strong>类型</strong>:成果反差型</p>
+<h2 id="_7">标题/文案(发布文案)</h2>
+<p>不用写代码,我 10 分钟做了个 AI 员工,它自己就把活干了 😳 #AIAgent #扣子 #AI工具 #普通人也能学 #AI提效</p>
+<h2 id="_8">脚本</h2>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>口播(字幕)</th>
+<th>画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–3s</td>
+<td>"我没写一行代码,做了个 AI,它自己就把这活干完了。"</td>
+<td>【钩子】直接放 Agent 自动运行的震撼录屏,鼠标不动、内容自己蹦出来</td>
+</tr>
+<tr>
+<td>3–8s</td>
+<td>"以前这事我得花〔1小时〕,现在我发一句话,去泡了杯咖啡。"</td>
+<td>对比:左"以前手动"痛苦脸,右"现在"喝咖啡</td>
+</tr>
+<tr>
+<td>8–15s</td>
+<td>"回来一看,它自己查完资料、整理好、排好版,躺那了。"</td>
+<td>展示成品结果,惊讶表情</td>
+</tr>
+<tr>
+<td>15–30s</td>
+<td>"怎么做的?就三步。第一,打开扣子,建个 Agent;第二,用大白话告诉它要干嘛;第三,给它挂个联网工具。"</td>
+<td>快速录屏三步,每步一个大字标号</td>
+</tr>
+<tr>
+<td>30–40s</td>
+<td>"记住一个关键:指令越具体,它越听话。这是搭 Agent 最重要的心法。"</td>
+<td>特写"指令要具体"字卡</td>
+</tr>
+<tr>
+<td>40–45s</td>
+<td>"完整步骤和模板我放主页了,想要的扣个 1。关注我,下期教它自动发朋友圈。"</td>
+<td>结尾引导,指向主页</td>
+</tr>
+</tbody>
+</table>
+<p><strong>制作要点</strong>:前 3 秒必须是"自动运行"的爽感画面,不要自我介绍;全程配字幕;语速偏快;35s 内讲完提高完播;结尾做"下期"钩子养追更。
+<strong>避坑</strong>:不说"加微信/买课",用"主页/扣1"。</p>
+<hr />
+<h1 id="6">第 6 篇 · 抖音短视频脚本(认知争议型 · 破圈)</h1>
+<p><strong>平台</strong>:抖音 ｜ <strong>时长</strong>:约 40s ｜ <strong>漏斗作用</strong>:拉互动/评论破圈
+<strong>类型</strong>:争议观点型</p>
+<h2 id="_9">发布文案</h2>
+<p>你 80% 的工作,其实 Agent 就能干。你信吗?评论区聊聊 👇 #AIAgent #AI取代 #未来工作 #AI认知</p>
+<h2 id="_10">脚本</h2>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>口播(字幕)</th>
+<th>画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–3s</td>
+<td>"说个可能得罪人的话:你现在 80% 的工作,一个 AI Agent 就能替你干。"</td>
+<td>真人出镜,直视镜头,严肃</td>
+</tr>
+<tr>
+<td>3–12s</td>
+<td>"不是ChatGPT那种问一句答一句,是你给它目标,它自己拆解、动手、交付——像个员工。"</td>
+<td>对比动画:工具 vs 帮手</td>
+</tr>
+<tr>
+<td>12–25s</td>
+<td>"已经有人 1 个人 + 几个 Agent,干过去一个团队的活。差距不是30%,是好几倍。"</td>
+<td>数据感画面/图示</td>
+</tr>
+<tr>
+<td>25–35s</td>
+<td>"但真相是:90%的人收藏了教程,一个都没跑通。知道 AI 没用,能让它替你干成事才算。"</td>
+<td>强调金句字卡</td>
+</tr>
+<tr>
+<td>35–40s</td>
+<td>"你觉得你的工作,Agent 能替掉多少?评论区聊。关注我,教你搭第一个。"</td>
+<td>引导评论+关注</td>
+</tr>
+</tbody>
+</table>
+<p><strong>制作要点</strong>:争议点前置(80%能被替)拉评论;真人出镜建信任;金句做记忆点;结尾抛问题=互动率=算法加权。</p>
+<hr />
+<h1 id="7-b">第 7 篇 · B站中视频脚本(保姆级教程 · 转化)</h1>
+<p><strong>平台</strong>:B站(可裁 YouTube 长视频)｜ <strong>时长</strong>:8–12 分钟 ｜ <strong>漏斗作用</strong>:建信任 + 转化主力(常青长尾)
+<strong>类型</strong>:完整手把手教程</p>
+<h2 id="_11">标题</h2>
+<p>《【保姆级】不用代码,从0搭一个能自己干活的AI Agent(新手10分钟上手)》</p>
+<h2 id="_12">封面文字</h2>
+<p><code>0代码</code> <code>10分钟</code> <code>AI Agent</code> + 你的成品截图</p>
+<h2 id="_13">脚本结构(分段)</h2>
+<p><strong>【0:00–0:20 钩子】</strong>
+口播:"这个视频结束,你会拥有人生第一个 AI Agent——一个能自己查资料、自己整理、自己交付的数字员工,全程不用写代码。先看它跑起来长什么样。"
+画面:直接放成品自动运行录屏。</p>
+<p><strong>【0:20–1:00 承诺+路线图】</strong>
+口播:"我是一文,清华美院学设计的,专门教不懂代码的人玩 Agent。这期分四步:搞懂Agent是什么 → 建Agent → 写指令 → 挂工具测试。跟着做,10分钟你也有一个。建议一键三连,边看边做。"
+画面:四步路线图。</p>
+<p><strong>【1:00–2:30 概念:Agent vs 普通AI】</strong>
+口播:讲清"工具 vs 帮手"的区别(见公众号第2篇内容)。
+画面:对比动画。</p>
+<blockquote>
+<p>留存钩子:"搞懂这个区别,你就超过 80% 只会问 ChatGPT 的人了。"</p>
+</blockquote>
+<p><strong>【2:30–8:00 实操四步】</strong>
+逐步录屏演示(内容同公众号第2篇的四步:建Agent → 写人设指令[给可抄模板] → 挂联网工具 → 测试)。每步开头一句"这一步很多人卡在……"留悬念。
+关键心法特写:"指令越具体,Agent越听话。"</p>
+<p><strong>【8:00–9:30 成果+进阶预告】</strong>
+口播:"现在你有第一个员工了。换个指令,你就有第二个、第三个。下期我教它<strong>记住你的偏好</strong>和<strong>自动触发</strong>,做个真正的私人助理。"
+画面:展示多个Agent/进阶预告。</p>
+<p><strong>【9:30–结束 CTA】</strong>
+口播:"完整步骤和可导入的模板,我放在评论区置顶和简介里,关注公众号回复【AI包】就能拿。这期有用的话三连支持,我会继续做这个系列。"
+画面:end card,引导下一集 + 三连。</p>
+<p><strong>制作要点</strong>:结果前置降跳出;分章节(P点)提升可导航性;每2分钟一个小高潮;做成"系列"养追更;简介+置顶评论放lead magnet领取入口;B站吃长尾,标题带"保姆级/0代码/新手"关键词利于搜索。</p>
+<hr />
+<h1 id="8-youtube-ai-jason">第 8 篇 · YouTube 长视频脚本(设计师视角差异化 · 对标AI Jason)</h1>
+<p><strong>平台</strong>:YouTube(中英双语可选)｜ <strong>时长</strong>:12–18 分钟 ｜ <strong>漏斗作用</strong>:建立差异化+全球拉新+lead magnet转化
+<strong>类型</strong>:场景化实战(设计师专属Agent)</p>
+<h2 id="_14">标题(公式:好奇缺口+结果)</h2>
+<p><code>I Built an AI Agent That Does My Design Research For Me (No Code)</code>
+中文版:《我给自己搭了个 Agent,帮我做设计调研——0代码,设计师也能学》</p>
+<h2 id="thumbnail">Thumbnail</h2>
+<p>大脸+惊讶表情 + 大字 <code>NO CODE</code> + 成品界面拼贴 + 高对比配色(发挥你的美院审美,这是你CTR的护城河)</p>
+<h2 id="_15">脚本结构</h2>
+<p><strong>【Hook 0:00–0:15】</strong> 直接展示成品:Agent 自动完成一次设计灵感调研(抓参考、归类、输出moodboard要点)。口播:"This agent just did 2 hours of my design research in 3 minutes. And I didn't write a single line of code. Let me show you how."</p>
+<p><strong>【Promise 0:15–1:00】</strong> 我是谁(设计师视角是差异点)+ 今天做出什么 + 路线图。"If you're a designer or creative who thinks agents are only for coders — this is for you."</p>
+<p><strong>【概念 1:00–3:00】</strong> Agent vs 普通AI,为什么对创意工作者是game changer。</p>
+<p><strong>【实操主体 3:00–13:00】</strong> 分步 build 一个"设计调研 Agent"(平台任选):设定角色→挂搜索/抓取工具→定义输出格式→测试。每步给可复现细节,穿插"here's where most people get stuck"。</p>
+<p><strong>【进阶+成果 13:00–15:00】</strong> 展示它接入工作流后的真实提效,预告可扩展方向。</p>
+<p><strong>【CTA 结尾】</strong> "I packaged this exact agent as a free template — grab it via the link in the description(填表领取,进邮件列表)。Subscribe for the designer's guide to AI agents." End screen 推下一支视频。</p>
+<p><strong>Description 挂链顺序(抄AI Jason)</strong>:① lead magnet 填表领模板 ② 邮件列表 ③ 社群/Discord ④ 相关工具联盟链 ⑤ 时间戳章节 ⑥ 20+ hashtags。置顶评论再放一次领取链接+抛问题。</p>
+<p><strong>制作要点</strong>:美院审美=你在YT的最大差异化(缩略图/剪辑/信息设计);"设计师能建Agent"是华语+英文都空白的位;lead magnet(免费送agent模板收邮箱)是把观众转线索的核心;做成playlist系列喂session watch time。</p>
+<hr />
+<h1 id="9">第 9 篇 · 小红书图文笔记(工具种草 · 收藏拉新)</h1>
+<p><strong>平台</strong>:小红书 ｜ <strong>形式</strong>:图文(封面图+多张内容图)｜ <strong>漏斗作用</strong>:搜索沉淀+收藏涨粉(设计人群密集)
+<strong>类型</strong>:清单干货型</p>
+<h2 id="_16">封面文字(大字,决定点击)</h2>
+<p><code>不会代码也能搭AI Agent</code> <code>新手保姆级清单</code> + 高级感设计排版(你的强项)</p>
+<h2 id="_17">标题</h2>
+<p>0代码搭AI Agent🤖新手别踩坑!这份清单先收藏</p>
+<h2 id="_18">正文(笔记文案)</h2>
+<p>姐妹们,最近"搭Agent"太火了,但新手真的容易被劝退😮‍💨 我一个学设计、完全不懂代码的人,踩完坑整理了这份新手清单,照着来少走弯路👇</p>
+<p><strong>✅ 先搞懂:Agent≠普通AI</strong>
+普通AI是你问一句答一句;Agent是你给目标,它自己动手干完。一个是工具,一个是帮手🙌</p>
+<p><strong>✅ 新手选哪个平台?</strong>
+・纯小白→〔扣子Coze〕,可视化、免费、中文友好
+・要做知识库→〔Dify〕
+・连多个软件自动化→〔n8n〕
+(别贪多!先用最简单的跑通一个)</p>
+<p><strong>✅ 搭Agent最重要的心法</strong>
+指令越具体,它越听话!这条记住能少走一半弯路💡</p>
+<p><strong>✅ 新手避坑</strong>
+❌一上来追高级功能
+❌每个平台都浅尝
+✅先把一个Agent从头跑通,建立正反馈</p>
+<p><strong>📌 我整理了新手路线图+可导入模板</strong>,需要的评论区扣「1」或看主页🔗</p>
+<p>关注我,一个学设计的人,带你把复杂的AI讲成人话～ #AIagent #AI工具 #扣子 #AI教程 #普通人也能学AI #效率工具 #ai干货</p>
+<p><strong>配图建议(6–8张)</strong>:封面(大字清单)/ Agent vs AI对比图 / 平台选择图 / 心法金句卡 / 避坑清单 / 成品截图 / 领取引导页。<strong>用你的设计审美做成统一风格图卡</strong>,这是小红书涨粉的关键差异点。</p>
+<p><strong>发布要点</strong>:标题埋关键词(AIAgent/0代码/新手)利于搜索;图文比视频更易被收藏;评论区扣1做私域引导;保持图卡风格统一建立辨识度。</p>
+<hr />
+<h1 id="10-ip">第 10 篇 · 小红书图文笔记(个人IP/信任 · 转化前戏)</h1>
+<p><strong>平台</strong>:小红书 ｜ <strong>形式</strong>:图文 ｜ <strong>漏斗作用</strong>:建立差异人设 + 引流公众号私域
+<strong>类型</strong>:身份反差故事型</p>
+<h2 id="_19">封面文字</h2>
+<p><code>清华美院 → All in AI Agent</code> <code>一个设计师的AI日记</code></p>
+<h2 id="_20">标题</h2>
+<p>清华美院学设计的我,为什么天天在搭AI Agent🤖</p>
+<h2 id="_21">正文</h2>
+<p>一个学艺术的人,跑去研究怎么让AI替自己干活——听起来有点不搭?但我越做越上头🥹</p>
+<p>我是一文,清华美院艺术与科技📐。设计训练给我两个东西:①对"好不好用"极其敏感 ②能把复杂的东西讲成人话——这刚好是现在AI教程最缺的。</p>
+<p>真正让我all in的,是第一次〔真实场景:Agent自动帮你干完一件具体的事〕的那个瞬间😳 我泡了杯咖啡回来,活已经干完了。</p>
+<p>那一刻我懂了:AI不再只是"帮你写两句文案",它开始能像员工一样自己规划、自己交付。这就是Agent。</p>
+<p>现在市面上的AI内容,要么硬核到把你当程序员,要么就是"三天暴富"割韭菜💸 中间那群<strong>想提效但不懂代码的普通人和创意工作者</strong>,几乎没人好好教。</p>
+<p>所以我想做这件事:<strong>用设计师的方式,教不懂代码的你,也能搭出真能干活的Agent。</strong></p>
+<p>不吹牛、不贩卖焦虑,做出来给你看,再带你做一遍☺️</p>
+<p>如果你也是不懂代码但想学AI的人,关注我,我们慢慢来~
+主页有我整理的新手资料📎</p>
+<h1 id="aiagent-ai-ai-ai-effortless">AIAgent #清华 #设计师 #AI工具 #普通人学AI #ai教程 #自我成长 #effortless提效</h1>
+<p><strong>配图建议</strong>:你真实的工作/作品照(美院背景是信任状)+ 高级感文字卡,<strong>绝对不要用AI烂大街配图</strong>。真人感+设计感=这条笔记的转化力。</p>
+<p><strong>发布要点</strong>:身份反差(美院+硬核AI)是最强记忆点;真诚故事引流公众号沉淀私域;〔〕处填真实经历,力量全在真实。</p>
+<hr />
+<h2 id="_22">📦 十篇内容总览</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>平台</th>
+<th>类型</th>
+<th>漏斗作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>公众号</td>
+<td>个人故事</td>
+<td>立人设/背书(开号首篇)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>公众号</td>
+<td>手把手教程</td>
+<td>立学习心智+转化</td>
+</tr>
+<tr>
+<td>3</td>
+<td>公众号</td>
+<td>工具实测盘点</td>
+<td>利他涨粉+差异化</td>
+</tr>
+<tr>
+<td>4</td>
+<td>公众号</td>
+<td>认知趋势</td>
+<td>破圈转发+铺心智</td>
+</tr>
+<tr>
+<td>5</td>
+<td>抖音</td>
+<td>成果反差短视频</td>
+<td>拉新涨粉</td>
+</tr>
+<tr>
+<td>6</td>
+<td>抖音</td>
+<td>争议观点短视频</td>
+<td>拉互动破圈</td>
+</tr>
+<tr>
+<td>7</td>
+<td>B站</td>
+<td>保姆级教程中视频</td>
+<td>建信任+转化(长尾)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>YouTube</td>
+<td>设计师实战长视频</td>
+<td>差异化+全球拉新+转化</td>
+</tr>
+<tr>
+<td>9</td>
+<td>小红书</td>
+<td>清单干货图文</td>
+<td>搜索收藏涨粉</td>
+</tr>
+<tr>
+<td>10</td>
+<td>小红书</td>
+<td>身份故事图文</td>
+<td>建人设+引流私域</td>
+</tr>
+</tbody>
+</table>
+<p><strong>共同贯穿</strong>:①每篇都有具体可见成果 ②都做免费 lead magnet(【AI包】)沉淀线索 ③都用"设计师视角/把复杂讲成人话"强化差异 ④软性转化,先给价值再引导。</p>
+<blockquote>
+<p>⚠️ 全部〔〕标注处请填<strong>真实经历/数据/实测结论</strong>,这套内容的说服力完全建立在真实之上——这也是你区别于满地割韭菜号的根本。</p>
+</blockquote></div>
+</main>
+</div></body></html>
