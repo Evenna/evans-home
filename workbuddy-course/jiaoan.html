@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorkBuddy 实战课 · 讲师完整教案</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--card:#1c2333;--border:#2a3441;--text:#e6edf3;--dim:#9aa7b5;--accent:#4f8cff;--accent2:#7c5cff;--code:#0b0f16;--warn:#ffb454;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;font-size:16px}
+.layout{display:flex;max-width:1320px;margin:0 auto}
+.sidebar{width:300px;flex:none;height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 16px;border-right:1px solid var(--border);background:var(--panel)}
+.sidebar h1{font-size:17px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px}
+.sidebar .sub{font-size:12px;color:var(--dim);margin-bottom:18px}
+.nav-item{display:block;font-size:12.5px;color:var(--dim);text-decoration:none;padding:5px 10px;border-radius:7px;margin:1px 0;transition:.15s;border-left:2px solid transparent}
+.nav-item:hover{color:var(--text);background:var(--card)}
+.nav-item.active{color:var(--accent);background:var(--card);border-left-color:var(--accent)}
+.nav-part{color:#c9b8ff;font-weight:700;margin:16px 0 4px;font-size:12.5px;padding:0 6px;letter-spacing:.5px}
+.content{flex:1;min-width:0;padding:44px 56px 120px}
+.content>h1{font-size:32px;margin-bottom:8px;background:linear-gradient(90deg,#fff,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.content blockquote{border-left:3px solid var(--accent);background:rgba(79,140,255,.08);padding:14px 18px;border-radius:8px;color:var(--dim);margin:18px 0}
+.content h1{font-size:22px;margin:56px 0 8px;color:#c9b8ff;padding-bottom:8px;border-bottom:1px dashed var(--border)}
+.content h2{font-size:22px;margin:44px 0 18px;padding:16px 20px;background:linear-gradient(135deg,var(--card),var(--panel));border:1px solid var(--border);border-radius:12px;scroll-margin-top:20px;position:relative;overflow:hidden}
+.content h2:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--accent),var(--accent2))}
+.content h2:after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)}
+.content h3{font-size:17px;margin:26px 0 12px;color:var(--accent)}
+.content h4{font-size:15px;margin:18px 0 8px;color:var(--warn)}
+.content p{margin:12px 0;color:#d4dce4}
+.content ul,.content ol{margin:12px 0 12px 24px}
+.content li{margin:6px 0;color:#d4dce4}
+.content strong{color:#fff}
+.content table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14px;background:var(--card);border-radius:10px;overflow:hidden}
+.content th{background:linear-gradient(135deg,#243049,#1c2333);color:#fff;text-align:left;padding:11px 14px;font-weight:600}
+.content td{padding:10px 14px;border-top:1px solid var(--border);color:#cdd6df;vertical-align:top}
+.content tr:hover td{background:rgba(79,140,255,.05)}
+.content code{background:var(--code);color:#8fd3ff;padding:2px 7px;border-radius:5px;font-size:13px;font-family:"SF Mono",Consolas,monospace}
+.content pre{background:var(--code);border:1px solid var(--border);border-radius:10px;padding:16px 18px;overflow-x:auto;margin:16px 0}
+.content pre code{background:none;color:#c9d1d9;padding:0;font-size:13px;line-height:1.6}
+.content hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:12px;padding:4px 12px;border-radius:20px;margin-bottom:16px}
+@media(max-width:820px){.sidebar{display:none}.content{padding:28px 20px 80px}}
+::-webkit-scrollbar{width:9px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
+</style></head><body>
+<div class="layout">
+<aside class="sidebar">
+<h1>WorkBuddy 讲师教案</h1>
+<div class="sub">24 节正课 + 12 实战 · 逐节授课脚本</div>
+<div class="nav-part">模块一 · 入门筑基</div>
+<a href="#sec-0" class="nav-item">第 1 课 · 认识 WorkBuddy：智能体 ≠ 聊天机器人</a>
+<a href="#sec-1" class="nav-item">第 2 课 · 下载 · 安装 · 登录 · 积分体系</a>
+<a href="#sec-2" class="nav-item">第 3 课 · 主界面 · 任务 · 工作区三层结构</a>
+<a href="#sec-3" class="nav-item">第 4 课 · 三种工作模式：Craft / Plan / Ask</a>
+<a href="#sec-4" class="nav-item">第 5 课 · 完成第一个真正的任务（任务简报 + 验收）</a>
+<a href="#sec-5" class="nav-item">第 6 课 · 四种能力形态：普通任务 / Skill / 专家 / 专家团</a>
+<div class="nav-part">模块二 · 办公实战</div>
+<a href="#sec-6" class="nav-item">第 7 课 · 办公三件套：一句话出 Word / Excel / PPT</a>
+<a href="#sec-7" class="nav-item">第 8 课 · 数据分析与可视化：拖一份 Excel 出报告</a>
+<a href="#sec-8" class="nav-item">第 9 课 · 文件识别与批量处理：发票 / 图片 / 文档</a>
+<a href="#sec-9" class="nav-item">第 10 课 · 会议协同：录音 → 纪要 → 待办 → 周报</a>
+<a href="#sec-10" class="nav-item">第 11 课 · 深度调研：从一个问题到一份带证据的报告</a>
+<div class="nav-part">模块三 · 连接器与技能生态</div>
+<a href="#sec-11" class="nav-item">第 12 课 · 连接器：打通邮箱 / 文档 / 微信 / Notion</a>
+<a href="#sec-12" class="nav-item">第 13 课 · 技能 Skill：给它装外挂（安装 + 实战）</a>
+<a href="#sec-13" class="nav-item">第 14 课 · 打造自己的 Skill：把书和视频蒸馏成能力</a>
+<a href="#sec-14" class="nav-item">第 15 课 · 知识系统：ima / Obsidian / 收藏再利用</a>
+<div class="nav-part">模块四 · 自动化与可靠性</div>
+<a href="#sec-15" class="nav-item">第 16 课 · 定时自动化任务：让它自己干活</a>
+<a href="#sec-16" class="nav-item">第 17 课 · 资讯整合流水线：信息流变每日通知</a>
+<a href="#sec-17" class="nav-item">第 18 课 · 自动化工作流的可靠性：日志 / 异常 / 人工关口</a>
+<div class="nav-part">模块五 · 多 Agent 专家团</div>
+<a href="#sec-18" class="nav-item">第 19 课 · 专家与专家团：从一个人到一支团队</a>
+<a href="#sec-19" class="nav-item">第 20 课 · 多 Agent 系统设计：角色契约 + 共享产物层</a>
+<a href="#sec-20" class="nav-item">第 21 课 · 实战：一句话召唤 AI 视频团队（生成 + 拆解）</a>
+<div class="nav-part">模块六 · 提示词·岗位落地·毕业项目</div>
+<a href="#sec-21" class="nav-item">第 22 课 · 提示词工程深挖：把话说到 AI 心里去</a>
+<a href="#sec-22" class="nav-item">第 23 课 · 岗位落地：把 AI 装进你的具体工作</a>
+<a href="#sec-23" class="nav-item">第 24 课 · 毕业项目：从零搭一条属于你的 AI 生产线</a>
+<div class="nav-part">模块七 · 高频痛点实战全解（上）</div>
+<a href="#sec-24" class="nav-item">实战教学 1 · 周报/日报：从&quot;憋一小时&quot;到&quot;点一下&quot;</a>
+<a href="#sec-25" class="nav-item">实战教学 2 · 汇报 PPT：明天要讲，今晚还是白板</a>
+<a href="#sec-26" class="nav-item">实战教学 3 · &quot;帮我分析下这个数据&quot;：不会函数也能出结论</a>
+<a href="#sec-27" class="nav-item">实战教学 4 · 会议纪要：散会即出，还自动分好待办</a>
+<a href="#sec-28" class="nav-item">实战教学 5 · 一堆文件要整理：100 个几秒归类</a>
+<a href="#sec-29" class="nav-item">实战教学 6 · 竞品/市场调研：从&quot;不知从哪下手&quot;到一份带证据的报告</a>
+<div class="nav-part">模块七 · 高频痛点实战全解（下）</div>
+<a href="#sec-30" class="nav-item">实战教学 7 · 重复邮件/消息：写一次，以后一句话套用</a>
+<a href="#sec-31" class="nav-item">实战教学 8 · 每天自动帮我盯资讯：不错过又不被淹没</a>
+<a href="#sec-32" class="nav-item">实战教学 9 · 复杂项目一条龙：召唤&quot;专家团&quot;替你统筹</a>
+<a href="#sec-33" class="nav-item">实战教学 10 · 做短视频：不会剪不会拍，一句话到成片</a>
+<a href="#sec-34" class="nav-item">实战教学 11 · 想在团队推 AI：怎么落地、怎么说服人</a>
+<a href="#sec-35" class="nav-item">实战教学 12 · 怕花冤枉钱：把积分花在刀刃上</a>
+</aside>
+<main class="content">
+<span class="badge">讲师用 · 怎么讲 · 演示脚本 · 避坑</span>
+<h1 id="workbuddy">WorkBuddy 零基础实战课 · 讲师完整教案</h1>
+<blockquote>
+<p>本教案面向<strong>授课讲师</strong>：每一节写清「怎么开场、每个知识点怎么讲、话术与比方、操作怎么一步步演示、学员练什么、怎么小结与布置作业、讲师容易踩的坑」。照着教案就能把课讲完、讲好。全部内容基于课程正文，功能/价格以官网 www.workbuddy.cn 为准。</p>
+</blockquote>
+<p><strong>课程规模</strong>：7 大模块 · 24 节正课 + 12 个高频痛点实战教学。</p>
+<hr />
+<h1 id="_1">模块一 · 入门筑基 — 讲师教案</h1>
+<blockquote>
+<p>本教案是<strong>讲师上课用的脚本</strong>。照着讲、照着演示、照着带练即可。价格与功能一律以官网 <strong>www.workbuddy.cn</strong> 为准，讲师切勿口头把数字讲死。</p>
+</blockquote>
+<hr />
+<h2 id="1-workbuddy">教案 · 第 1 课 · 认识 WorkBuddy：智能体 ≠ 聊天机器人</h2>
+<h3 id="_2">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：25 分钟（导入 5' / 讲授 12' / 演示 4' / 练习 2' / 小结 2'）</li>
+<li><strong>课型</strong>：理论认知课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能用一句话说清"WorkBuddy 是能动手干活的 AI 助理，不是只会回答的聊天机器人"。</li>
+<li>学员能区分"问题思维"和"任务思维"，并把一个日常需求改写成一条任务指令。</li>
+<li>学员能列出 WorkBuddy 与普通 AI 对话在"交付物、文件操作、工作方式"上的 3 点区别。</li>
+<li><strong>教学重点</strong>：智能体 = 会执行、能交付成品；把它当"能干活的同事"而不是"顾问"。</li>
+<li><strong>教学难点</strong>：学员长期用惯了聊天式 AI，习惯"问问题拿建议"，很难切换到"交代任务拿成品"。</li>
+<li><strong>教具准备</strong>：能上网的电脑、投影；提前打开官网 www.workbuddy.cn 首页演示；准备 2 张对比截图（一段文字 vs 一个可下载的成品文件）。</li>
+</ul>
+<h3 id="5">二、导入（5 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句——"上周有多少人问过 AI '周报怎么写'？举个手。（停顿）它是不是给了你一堆'建议'，然后周报还是你自己一个字一个字敲的？"再追问："如果有个东西，你说一句'把这周三件事写成周报'，它直接给你一份能交的 Word，你要不要？"</li>
+<li><strong>本课价值钩子</strong>："这节课不装软件、不动手，就搞明白一件事——为什么 WorkBuddy 能省下你'自己动手那一步'。想明白这个，你后面每节课都用得更省钱、更顺。"</li>
+</ul>
+<h3 id="12">三、知识点讲解（12 分钟）</h3>
+<p><strong>知识点 1：什么是"智能体（Agent）"</strong>
+- <strong>怎么讲</strong>：用大白话——"普通 AI 像个坐在你对面的<strong>顾问</strong>：你问它，它出主意，活还是你干。WorkBuddy 是个<strong>助理</strong>：你把任务甩给它，它自己去拆步骤、上网查、读你的文件、动手做，最后把一份能直接用的成品递到你手上。" 打比方："顾问动嘴，助理动手。你请了个助理，结果只让它动嘴，那不亏了？"
+- <strong>板书 / 强调</strong>：<code>顾问=给建议</code> ／ <code>助理=交成品</code>
+- <strong>常见误区</strong>：学员以为"智能体"就是更聪明的聊天机器人。澄清："不是更能聊，是更能干——区别在'动手'两个字。"</p>
+<p><strong>知识点 2：三个最直观的区别</strong>
+- <strong>怎么讲</strong>：对着表格讲三行即可，每行配一个生活例子。① 能干嘛："普通 AI 只能回答；WorkBuddy 真去执行。" ② 文件："以前你得复制粘贴来回倒腾，它能直接读写你授权的文件。" ③ 交付物："以前得到一段文字，现在得到能下载的 Word/PPT/表格/网页/视频。"
+- <strong>板书 / 强调</strong>：<code>交付物：一段文字 → 一个可下载的文件</code>
+- <strong>常见误区</strong>：担心"它乱动我文件"。澄清："是你<strong>授权</strong>它才能碰，后面第 3、4 课会讲怎么控制。"</p>
+<p><strong>知识点 3（本课最重要）：从"问题思维"到"任务思维"</strong>
+- <strong>怎么讲</strong>：现场演两句话的对比——问题思维："PPT 怎么做好看？"→ 拿一堆建议。任务思维："按这个大纲做一份 15 页商务风 PPT，配色深蓝。"→ 拿到 .pptx。强调："以后你交给它的是<strong>任务</strong>，不是<strong>问题</strong>。你越把它当能干活的同事，它越有用。"
+- <strong>板书 / 强调</strong>：<code>交给它的是"任务"，不是"问题"</code>
+- <strong>常见误区</strong>：学员把任务写得太模糊（像问问题）。提醒："模糊的问题只能换来模糊的建议。"</p>
+<h3 id="4">四、操作演示（4 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员亲眼看到"一句话出成品"，种下任务思维的种子。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师打开浏览器，输入 <code>www.workbuddy.cn</code>，边打字边说："先不装软件，我们看官网首页的演示。"</li>
+<li>滚动到首页演示区，指着一句话生成的成品说："看，输入一句话，右边直接出来一个能下载的文件——这就是'助理'和'顾问'的分水岭。"</li>
+<li>对照 PPT 上两张截图（文字 vs 文件），口播总结。</li>
+<li><strong>要复制的完整指令</strong>：本课不发指令，仅浏览官网。</li>
+<li><strong>演示中要口播强调的点</strong>："注意结果不是一段字，是一个<strong>成品</strong>。这一点请刻在脑子里。"</li>
+</ul>
+<h3 id="2">五、学员练习（2 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：让每位学员在纸上/聊天框里，把"PPT 怎么做好看？"这个问题，改写成一条<strong>任务式</strong>指令（要有：做什么、多少页、什么风格）。</li>
+<li><strong>巡场要点</strong>：重点看学员是否还在写"怎么做"这类问句；发现就当场引导："把'怎么'去掉，改成命令句——'做一份……'。"</li>
+</ul>
+<h3 id="_3">六、课堂互动 / 提问</h3>
+<ol>
+<li>"顾问和助理，最大的区别是哪两个字？"（动手）</li>
+<li>"普通 AI 给你一段文字，WorkBuddy 给你什么？"（可下载的成品）</li>
+<li>"'PPT 怎么配色'是问题还是任务？怎么改成任务？"</li>
+</ol>
+<h3 id="2_1">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："我交给它的是<strong>任务</strong>，不是问题——它会动手，把成品交到我手上。"</li>
+<li><strong>课后作业</strong>：列出 3 件你上班最烦、最重复的活（整理表格、写日报、改文件名……）。<strong>验收标准</strong>：3 件事都是"重复性、可交给别人干"的具体活，不是"想变优秀"这类空话。后面几节课挨个用 WorkBuddy 干掉它们。</li>
+<li><strong>承上启下</strong>："想让它干活，先得把它请到你电脑上。下一课 5 分钟装好、登录，并搞懂'积分怎么花'——新手最容易在这儿浪费钱。"</li>
+</ul>
+<h3 id="_4">八、讲师备注（避坑）</h3>
+<ul>
+<li>本课<strong>不要</strong>演示登录/装软件，避免和第 2 课重复、也避免课堂卡在安装上。</li>
+<li>高频提问："和 ChatGPT 谁强？"标准答复："不是强弱，是定位不同——聊天机器人擅长回答，WorkBuddy 擅长把活干完交付。"</li>
+<li>时间不够时可砍：知识点 2 的表格逐行讲改成"念一遍表 + 一个例子"，省 3 分钟。</li>
+<li>千万别背功能参数，一切以官网为准。</li>
+</ul>
+<hr />
+<h2 id="2_2">教案 · 第 2 课 · 下载 · 安装 · 登录 · 积分体系</h2>
+<h3 id="_5">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：30 分钟（导入 3' / 讲授 10' / 演示 8' / 练习 7' / 小结 2'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能独立完成"下载 → 安装 → 微信扫码登录"，并领到新手积分。</li>
+<li>学员能说清"积分是任务的油费"，并判断哪类任务费积分、哪类便宜。</li>
+<li>学员能养成"生成图片/视频前先看余额"的习惯。</li>
+<li><strong>教学重点</strong>：完成登录 + 建立"文字便宜、多模态贵"的积分直觉。</li>
+<li><strong>教学难点</strong>：积分消耗因活动而变，学员容易记死数字或纠结花多少；讲师要传"规律"而非"数字"。</li>
+<li><strong>教具准备</strong>：一台干净电脑现场演示安装；一个可扫码登录的微信；提前确认官网下载页可用；准备"积分余额"截图；备好 www.workbuddy.cn 网址。</li>
+</ul>
+<h3 id="3">二、导入（3 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>："有没有人用某些 AI 工具，稀里糊涂就把额度用光了、或者莫名扣费？（停顿）WorkBuddy 用'积分'当油费，今天我们不但把它装好，还要让你<strong>心里有杆秤</strong>——什么活费油、什么活随便造。"</li>
+<li><strong>本课价值钩子</strong>："这节课能帮你省两样东西：装软件的时间（5 分钟搞定），和以后的积分钱（懂了规律就不乱花）。"</li>
+</ul>
+<h3 id="10">三、知识点讲解（10 分钟）</h3>
+<p><strong>知识点 1：三步装好（讲流程）</strong>
+- <strong>怎么讲</strong>："记住三步——下载、登录、领积分。下载去<strong>官网</strong>，别在别处搜安装包，认准 www.workbuddy.cn。登录用<strong>微信扫码</strong>，手机点一下就进。进去先看一眼<strong>新手赠送的积分</strong>。"
+- <strong>板书 / 强调</strong>：<code>官网下载 → 微信扫码 → 领新手积分</code>
+- <strong>常见误区</strong>：去搜索引擎乱下山寨包。强调"只从官网下"。</p>
+<p><strong>知识点 2：积分是"油费"，要有感觉（本课核心）</strong>
+- <strong>怎么讲</strong>：打比方——"积分就是开车的油费。走平路（写文字）几乎不烧油；上高速拉货（做 PPT、分析数据）烧中等；越野爬山（生成图片、视频）最费油。" 对着表讲直觉列：文字→随便用；数据/PPT→正常用；图片→悠着点；视频→先看余额。
+- <strong>板书 / 强调</strong>：<code>文字便宜 · 多模态贵</code> ／ <code>生成图/视频前，先瞄一眼余额</code>
+- <strong>常见误区</strong>：把消耗数字记死。讲师必须说："具体数字随官方活动会变，<strong>以软件内为准</strong>，但'文字便宜、多模态贵'这个规律不变。"</p>
+<p><strong>知识点 3：付费与进阶（点到为止）</strong>
+- <strong>怎么讲</strong>："新手先用免费额度就够跑完课程大部分练习。有套餐分档（标准/高级/旗舰），<strong>具体价格以官网为准</strong>，今天不用掏钱。" 进阶接自己 API 的部分一句带过："有公司给的接口可以自己接，且<strong>目前只支持 OpenAI 兼容协议</strong>，小白完全可以跳过。"
+- <strong>板书 / 强调</strong>：<code>价格/额度以官网 www.workbuddy.cn 为准</code>
+- <strong>常见误区</strong>：纠结买哪个套餐。答："先别买，免费额度够学。"</p>
+<h3 id="8">四、操作演示（8 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：学员看着讲师从零装到登录成功、看到积分余额。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>打开浏览器输 <code>www.workbuddy.cn</code>，点「下载」，边点边说："选你自己的系统，Windows 还是 Mac。"</li>
+<li>双击安装包，"一路下一步"，口播："安装没有坑，默认就行。"</li>
+<li>首次打开出现二维码，"拿手机微信扫，手机上点确认"，演示扫码进入。</li>
+<li>进入后指向积分显示位置："看这里，新手赠送的积分就在这，记住这个数——课程结束我们再看它掉了多少。"</li>
+<li><strong>要复制的完整指令</strong>：本课无需复制指令，网址如下：</li>
+</ul>
+<pre><code>www.workbuddy.cn
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调的点</strong>："扫码即登录，不用记密码" ／ "余额位置一定要认得，这是省钱的第一步。"</li>
+</ul>
+<h3 id="7">五、学员练习（7 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：学员各自完成下载 → 安装 → 微信扫码登录，成功后<strong>截图当前积分数</strong>发到群里。</li>
+<li><strong>巡场要点</strong>：① 有人从别处下了旧包/山寨包——引导回官网；② 扫码没反应——让其检查微信是否为最新、网络是否正常；③ 找不到积分余额——手把手指位置。</li>
+</ul>
+<h3 id="_6">六、课堂互动 / 提问</h3>
+<ol>
+<li>"写一篇周报和生成一段视频，哪个更费积分？"（视频）</li>
+<li>"生成图片/视频前，应该先做什么动作？"（看余额）</li>
+<li>"积分的具体消耗数字，应该以哪里为准？"（软件内 / 官网）</li>
+</ol>
+<h3 id="2_3">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："装好只需三步；积分是油费——文字便宜、多模态贵，动图/视频前先看余额。"</li>
+<li><strong>课后作业</strong>：装好、扫码登录、<strong>截图记录当前积分数</strong>。<strong>验收标准</strong>：能登录进主界面，且截图里能看到积分余额数字。做完整门课后再看一眼，体会"什么活费钱"。</li>
+<li><strong>承上启下</strong>："软件装好了，打开却一堆区域不知道点哪？下一课带你认清界面三大块，特别是 WorkBuddy 独有的'工作区'。"</li>
+</ul>
+<h3 id="_7">八、讲师备注（避坑）</h3>
+<ul>
+<li>现场装软件最容易卡时间。<strong>提前</strong>在自己电脑装好一份用于演示，学员安装放在练习环节并行进行。</li>
+<li>绝不报死价格/积分数字，一句"以官网为准"兜底。</li>
+<li>高频提问："积分用完了怎么办？"答："可以充值或等赠送额度，先把免费的用好。"</li>
+<li>时间紧时可砍：进阶接 API 部分整段跳过，只说"小白不用管"。</li>
+</ul>
+<hr />
+<h2 id="3_1">教案 · 第 3 课 · 主界面 · 任务 · 工作区三层结构</h2>
+<h3 id="_8">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：30 分钟（导入 3' / 讲授 11' / 演示 8' / 练习 6' / 小结 2'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能指出界面三大区域（侧边栏 / 对话区 / 结果区）各自干什么。</li>
+<li>学员能说清"任务"和"工作区"的区别，并知道什么时候该开哪个。</li>
+<li>学员能熟练完成"把文件拖进输入框"和"在结果区下载成品"两个动作。</li>
+<li><strong>教学重点</strong>：结果区是 WorkBuddy 区别于聊天机器人的关键；任务 vs 工作区的概念。</li>
+<li><strong>教学难点</strong>：零基础学员对"工作区（Workspace）= 共享的项目空间"没有直观概念，容易和"任务"混。</li>
+<li><strong>教具准备</strong>：装好并登录的软件；一份示例文件（如一个小 Word 或 Excel）用于拖拽演示；界面三区域标注图放 PPT。</li>
+</ul>
+<h3 id="3_2">二、导入（3 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>："打开一个新软件，最慌的就是——这么多按钮，我该点哪？（停顿）别慌，WorkBuddy 界面其实就三块，从左到右，跟三个抽屉一样，记住它们各装什么就不发懵了。"</li>
+<li><strong>本课价值钩子</strong>："这节课学完，你打开软件不再乱点；还会 get 到一个别的 AI 没有的东西——'工作区'，它是以后你把 WorkBuddy 当团队用的基础。"</li>
+</ul>
+<h3 id="11">三、知识点讲解（11 分钟）</h3>
+<p><strong>知识点 1：界面三大区域</strong>
+- <strong>怎么讲</strong>：用"从左到右三个抽屉"来讲。① <strong>侧边栏（左）= 任务清单</strong>："你做过的活都按文件夹排在这，能搜、能按状态筛。头像和'设置'在底部——连接器、技能都在设置里开。" ② <strong>对话区（中）= 干活的地方</strong>："核心区，上面是任务标题，中间是对话，底下输入框——记住，<strong>文件可以直接拖进去</strong>。" ③ <strong>结果区（右）= 拿成品的地方</strong>："这是它和聊天机器人的分水岭！"
+- <strong>板书 / 强调</strong>：<code>左=任务清单 · 中=干活 · 右=拿成品</code>
+- <strong>常见误区</strong>：以为右侧结果区是可有可无的窗口。强调："成品都在右边，别只盯着中间聊天。"</p>
+<p><strong>知识点 2：结果区的 4 个标签</strong>
+- <strong>怎么讲</strong>：一个个点名："<strong>产物</strong>——看生成的文档/PPT；<strong>全部文件</strong>——列出所有产出；<strong>变更</strong>——它改了你文件哪几处，一目了然；<strong>预览</strong>——网页/PPT 能实时预览。" 打比方："中间是厨房（在做菜），右边是出餐口（菜做好端出来）。"
+- <strong>板书 / 强调</strong>：<code>产物 / 全部文件 / 变更 / 预览</code>
+- <strong>常见误区</strong>：找不到下载在哪。提醒："下载在右边产物区，不在聊天里。"</p>
+<p><strong>知识点 3：任务 vs 工作区（关键）</strong>
+- <strong>怎么讲</strong>：先讲<strong>任务</strong>："一次对话解决一件事，产物就存在这个任务里。" 再讲<strong>工作区（Workspace）</strong>："一个装着多个文件、多轮任务的<strong>项目空间</strong>。你把素材扔进工作区，多个任务、甚至多个 Agent 共享同一批文件。" 打比方："任务=你桌上单张便签；工作区=一整个项目文件夹/共享桌面。" 落地一句："<strong>简单活开任务，复杂项目开工作区。</strong>"
+- <strong>板书 / 强调</strong>：<code>简单活→任务　复杂项目→工作区</code>
+- <strong>常见误区</strong>：所有事都开新任务、素材到处散。讲："以后搭'专家团'时，多个 Agent 要读写同一份事实，工作区就是它们的共享桌面。"</p>
+<h3 id="8_1">四、操作演示（8 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到"一句话→中间出回复→右边出成品→可下载"的完整流转，以及工作区长什么样。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师在对话区输入框粘贴指令并回车。口播："看好，我发一句话。"</li>
+<li>指着中间："回复出现在中间。" 再指右边："成品跳到右边'产物'——点开，这里能下载。"</li>
+<li>从桌面拖一份示例文件到输入框，口播："文件直接拖进来，不用复制粘贴。"</li>
+<li>新建一个工作区，把文件拖进去，口播："这就是项目空间，素材放这，多个任务共享。"</li>
+<li><strong>要复制的完整指令</strong>：</li>
+</ul>
+<pre><code>帮我写一段 100 字的公司午餐会通知
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调的点</strong>："回复在中间、成品在右边——这就是它和聊天机器人的区别" ／ "拖文件这个动作，后面天天用。"</li>
+</ul>
+<h3 id="6">五、学员练习（6 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：学员各自发上面那条"午餐会通知"指令，在右侧结果区找到并<strong>下载</strong>成品；再新建一个工作区，把任意一份文件拖进去。</li>
+<li><strong>巡场要点</strong>：① 只看中间聊天、找不到下载——指右侧产物区；② 拖文件拖不进——演示拖到输入框松手；③ 把工作区和任务搞混——用"便签 vs 文件夹"再解释一遍。</li>
+</ul>
+<h3 id="_9">六、课堂互动 / 提问</h3>
+<ol>
+<li>"成品在界面哪一块？下载点哪里？"（右侧结果区/产物）</li>
+<li>"'变更'这个标签是干嘛的？"（看文件被改了哪）</li>
+<li>"写一张通知开任务还是工作区？做一个多文件的大项目呢？"</li>
+</ol>
+<h3 id="2_4">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："左看清单、中间干活、右边拿成品；简单活开任务，复杂项目开工作区。"</li>
+<li><strong>课后作业</strong>：用自己的话讲清"任务"和"工作区"的区别；熟练"拖文件到输入框"这个动作。<strong>验收标准</strong>：能一句话说明两者差别（如"任务是一件事，工作区是装多件事和多个文件的项目空间"），并能演示成功拖入一份文件。</li>
+<li><strong>承上启下</strong>："界面认清了，但发指令前还有个关键开关没打开——三种工作模式。下一课教你 Craft / Plan / Ask 怎么选，选对了又快又省积分。"</li>
+</ul>
+<h3 id="_10">八、讲师备注（避坑）</h3>
+<ul>
+<li>演示前确认网络与登录状态，避免发指令没反应冷场。</li>
+<li>高频提问："工作区里多个任务的文件会互相覆盖吗？"答："它们共享同一批文件，改动会在'变更'里显示，能看清改了哪。"</li>
+<li>时间紧时可砍：工作区演示可只讲不做，用 PPT 图讲清概念即可，省 2-3 分钟。</li>
+</ul>
+<hr />
+<h2 id="4-craft-plan-ask">教案 · 第 4 课 · 三种工作模式：Craft / Plan / Ask</h2>
+<h3 id="_11">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：28 分钟（导入 3' / 讲授 10' / 演示 8' / 练习 5' / 小结 2'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能一句话说出 Craft / Plan / Ask 各自适合什么活。</li>
+<li>学员能在真实场景中选对模式（90% 日常用 Craft，复杂活先 Plan，只咨询用 Ask）。</li>
+<li>学员理解"复杂任务先 Plan"是省积分的核心原则。</li>
+<li><strong>教学重点</strong>：三种模式的适用场景 + "复杂先 Plan"的省钱原则。</li>
+<li><strong>教学难点</strong>：学员分不清"复杂到什么程度该 Plan"；容易一上来对复杂需求硬用 Craft。</li>
+<li><strong>教具准备</strong>：登录好的软件；能切换模式的界面；准备一个复杂需求做 Plan 演示（如"做 5 页 PPT"）。</li>
+</ul>
+<h3 id="3_3">二、导入（3 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>："有没有过这种糟心事——让 AI 干个大活，它吭哧吭哧做完，方向全错、还白费了功夫？（停顿）WorkBuddy 给了你一个'防跑偏'开关：三种模式。用对了，省时间又省积分。"</li>
+<li><strong>本课价值钩子</strong>："这节课就学一个开关怎么拨。拨对了，简单活立刻出结果，复杂活不跑偏、不烧冤枉积分。"</li>
+</ul>
+<h3 id="10_1">三、知识点讲解（10 分钟）</h3>
+<p><strong>知识点 1：三种模式各是什么</strong>
+- <strong>怎么讲</strong>：一模式一句口诀。<strong>Craft = 你说我做</strong>："立即行动，直接开干——日常首选。" <strong>Plan = 先想后做</strong>："它先给方案，你点确认它才动手——复杂项目、方向没定时用。" <strong>Ask = 只聊不动手</strong>："只回答，不碰你文件——只想咨询、对比方案时用。" 打比方："Craft 是叫外卖直接下单；Plan 是先让厨师报个菜单你点头再做；Ask 是打电话问问不点单。"
+- <strong>板书 / 强调</strong>：<code>Craft=直接做 · Plan=先出计划再做 · Ask=只聊</code>
+- <strong>常见误区</strong>：以为 Ask 也会生成文件。澄清："Ask 绝不碰你的文件，就是安全地聊。"</p>
+<p><strong>知识点 2：怎么选（新手一句话）</strong>
+- <strong>怎么讲</strong>："记死一句——<strong>90% 的日常活用 Craft 就够了。</strong>" 然后给分流：简单活（写通知、做表）→ Craft，立刻做；复杂活（搭网站、整理大项目）→ Plan，让它先出计划你确认再执行；只想问问、不想它动文件 → Ask。
+- <strong>板书 / 强调</strong>：<code>90% 日常 = Craft</code>
+- <strong>常见误区</strong>：什么都用 Plan，反而拖慢简单活。提醒："简单活别 Plan，多此一举。"</p>
+<p><strong>知识点 3：避坑——省钱第一原则</strong>
+- <strong>怎么讲</strong>："新手最常犯的错：一上来对着超复杂需求直接 Craft，结果方向全错、还白花积分。记住——<strong>复杂任务先 Plan</strong>，花几秒确认方案，省的是大把返工和积分。"
+- <strong>板书 / 强调</strong>：<code>复杂任务先 Plan = 省钱</code>
+- <strong>常见误区</strong>：怕 Plan 麻烦而跳过。反问："返工重做更麻烦还是先看一眼计划更麻烦？"</p>
+<h3 id="8_2">四、操作演示（8 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：同一需求用 Craft 和 Plan 各跑一次，让学员亲眼看到差别。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>切到 <strong>Craft</strong> 模式，发下面第一条指令，口播："看，它直接开做，不废话。"</li>
+<li>新开一个对话，切到 <strong>Plan</strong> 模式，发同样的话，口播："这次它不动手，先给我列计划——几页、每页讲啥，等我确认。"</li>
+<li>指着 Plan 出的计划说："复杂活这一步太值了，方向不对我现在就能改，不用等它全做完。"</li>
+<li><strong>要复制的完整指令</strong>：</li>
+</ul>
+<pre><code>做一份 5 页读书分享 PPT，主题《原子习惯》
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调的点</strong>："同一句话，Craft 直接做、Plan 先给计划" ／ "越复杂的活，越值得先 Plan。"</li>
+</ul>
+<h3 id="5_1">五、学员练习（5 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：学员用上面同一条指令，先用 Craft 发一次、再用 Plan 发一次，感受两者区别；然后想一个"只想问不想动文件"的场景，用 Ask 试一句。</li>
+<li><strong>巡场要点</strong>：① 找不到模式切换在哪——指位置；② 简单活也硬 Plan——提醒简单直接 Craft；③ 分不清何时 Plan——用"方向定没定"来判断，没定就 Plan。</li>
+</ul>
+<h3 id="_12">六、课堂互动 / 提问</h3>
+<ol>
+<li>"写一张会议通知，用哪个模式？"（Craft）</li>
+<li>"要搭一个网站、方向还没想好，用哪个？"（Plan）</li>
+<li>"新手最容易犯的省钱错误是什么？"（复杂需求直接 Craft，应先 Plan）</li>
+</ol>
+<h3 id="2_5">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："90% 日常用 Craft 直接做；复杂活先 Plan 防跑偏省积分；只咨询用 Ask 不碰文件。"</li>
+<li><strong>课后作业</strong>：把第 1 课记下的 3 件烦人活，各判断该用 Craft 还是 Plan，并写下理由。<strong>验收标准</strong>：3 件事都标了模式且理由合理（简单/清楚→Craft，复杂/方向未定→Plan）。</li>
+<li><strong>承上启下</strong>："会拨开关了，下一课我们真刀真枪跑通第一个完整任务——学会写'任务简报'和'验收标准'，这是所有高阶用法的地基。"</li>
+</ul>
+<h3 id="_13">八、讲师备注（避坑）</h3>
+<ul>
+<li>演示 Plan 时若网络慢，可提前跑好一份计划截图兜底。</li>
+<li>高频提问："Plan 会额外多花积分吗？"答："先出计划是为了避免大返工，整体反而更省——别为省一步计划而反复重做。"</li>
+<li>时间紧时可砍：Ask 模式仅口头讲一句"只聊不动文件"，不现场演示，省 2 分钟。</li>
+</ul>
+<hr />
+<h2 id="5_2">教案 · 第 5 课 · 完成第一个真正的任务（任务简报 + 验收）</h2>
+<h3 id="_14">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 4' / 讲授 10' / 演示 12' / 练习 10' / 小结 4'）</li>
+<li><strong>课型</strong>：实战练习课</li>
+<li><strong>教学目标</strong></li>
+<li>能独立写出包含「任务简报 + 交付格式 + 验收标准」三件套的完整任务。</li>
+<li>能跑通一个「下任务 → 拿成品 → 对照验收 → 追问修改」的完整闭环。</li>
+<li>能用「先框架后细节」的方法，把复杂产物分两步做出来。</li>
+<li><strong>教学重点</strong>：任务三件套（简报 / 格式 / 验收），尤其是「先想清楚验收标准，再让它做」。</li>
+<li><strong>教学难点</strong>：学员习惯只丢一句需求（如「写个周会通知」），不知道要补背景、要求、格式；也不习惯「验收标准要自己先想好」。</li>
+<li><strong>教具准备</strong>：登录好的 WorkBuddy 账号（Craft 模式可用）；准备好一段自己临时想的「烂需求」现场演示反面案例；投屏可放大字体。</li>
+</ul>
+<h3 id="4_1">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句先抛一个扎心场景——「上节课大家都会跟它对话了。今天问个问题：你有没有过这种经历——跟同事说『帮我写个通知』，结果他写出来的东西完全不是你想要的，来回改了五六遍？」停顿，让学员点头。接着说：「跟 AI 也一样。今天这节课，就是教你怎么『把话说明白』，让它一次就做到位。」</li>
+<li><strong>本课价值钩子</strong>：一句话钩住——「学完这节课，你交代任务的水平会超过公司里 90% 的人，因为你会用一套『三件套』把任务讲到无法误解。这套方法是后面所有高阶玩法的地基。」</li>
+</ul>
+<h3 id="10_2">三、知识点讲解（10 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：为什么「一句话需求」总是做不好</strong>
+- <strong>怎么讲</strong>：讲师现场演示反面。对着屏幕说：「我们试试只说一句『写个周会通知』。」（真发出去，等它出结果）拿到结果后指着屏幕说：「你看，它不知道我是哪个部门、几点开、要带什么，只能瞎编。不是它笨，是我没说清楚。」用一个生活比方：「这就像你打车只说『我要去公司』，司机根本不知道往哪开。」
+- <strong>板书 / 强调</strong>：<code>不是它笨，是需求没说清</code>
+- <strong>常见误区</strong>：学员以为「AI 应该能猜到我要什么」。要澄清：AI 不读心，你给的信息越具体，它做得越准。</p>
+<p><strong>知识点 2：一个好任务的三件套</strong>
+- <strong>怎么讲</strong>：白板上竖着写三个词，逐个讲。①<strong>任务简报</strong>——「告诉它背景、目标、具体要求」，用比方：「就像交代实习生干活，你得说清来龙去脉。」②<strong>交付格式</strong>——「你要 Word 还是 Markdown？几页？什么风格？」强调：「不说格式，它就按自己的习惯给，十有八九不是你想要的。」③<strong>验收标准</strong>——这是重点，讲师加重语气：「最关键的一步——你凭什么说这活干好了？<strong>先想清楚，再让它做。</strong>」比方：「就像考试前先看评分标准，你才知道往哪答题。」
+- <strong>板书 / 强调</strong>：<code>三件套：简报 + 格式 + 验收</code>、<code>验收标准要先想好</code>
+- <strong>常见误区</strong>：学员常把「验收」放到最后凭感觉判断。要澄清：验收标准必须<strong>动手前</strong>就列出来，否则你只会「感觉不太对」却说不出哪不对。</p>
+<p><strong>知识点 3：L1 毕业标准</strong>
+- <strong>怎么讲</strong>：轻松带过，给学员一个目标感——「蓝皮书里说，L1 这个级别的毕业标准是：<strong>同一类任务连续 3 次输出都能直接验收通过。</strong> 到了这一步，你就可以把它做成模板，以后一键复用——那是我们后面 L2 要学的。」
+- <strong>板书 / 强调</strong>：<code>同类任务 3 次都过 → 可升级模板</code></p>
+<h3 id="12_1">四、操作演示（12 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员完整看到「用三件套写周会通知 → 拿到成品 → 对照验收清单 → 追问修改」的全过程。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师说：「现在我们用三件套，把刚才那个烂需求重写一遍。切到 Craft 模式。」边点边说：「Craft 模式适合做正式产物，它会一步步跟你打磨。」</li>
+<li>输入框粘贴完整任务简报，边贴边念出每一部分是三件套的哪一件（「这几行是背景和目标……这行是格式要求」）：
+     <code>背景：我是市场部，本周五下午 3 点开周会，地点大会议室。
+     目标：写一份周会通知。
+     要求：语气正式、包含时间地点、需带上的材料（各自本周数据）、
+           迟到规则一句话。
+     格式：正文 300 字以内 + 一句话标题。</code></li>
+<li>发送，等它出稿。拿到结果后，讲师<strong>把预先准备好的验收清单念出来并逐条对照</strong>：
+     <code>[ ] 时间、地点、材料齐全？
+     [ ] 语气符合你公司文化？
+     [ ] 字数、标题符合要求？</code>
+     边指屏幕边说：「时间有了✓，地点有了✓，材料写了✓，字数……我数一下，符合。」</li>
+<li>演示追问修改。讲师说：「假设我觉得标题不够正式，我不用重写，直接说——」输入：
+     <code>标题再正式一点，另外加一句线上参会链接占位。</code>
+     发送。指着新结果说：「看，它在原稿基础上改，没有推倒重来。」</li>
+<li><strong>要复制的完整指令</strong>：见上方步骤 2 的任务简报框和步骤 4 的追问框。</li>
+<li><strong>演示中要口播强调的点</strong>：①「你们注意，我没有一次要求它完美，我是先拿到稿子、对照验收、再追问。」②「追问的时候说人话就行，像跟同事说『这里再改改』一样自然。」</li>
+</ul>
+<p><strong>（补充演示：先框架后细节）</strong> 若时间充裕，讲师追加一句演示价值巨大的技巧：「如果是很复杂的东西——比如一份完整方案，别一次求完美。<strong>先让它出框架 → 你确认结构对不对 → 再让它填成完整版 → 最后微调。</strong>」可现场对一个复杂任务先发「先给我一个大纲」，让学员直观看到分步的好处。</p>
+<h3 id="10_3">五、学员练习（10 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每位学员挑第 1 课列出的一件自己工作里的活，按「任务简报 + 交付格式 + 验收标准」三件套写一遍，发给 WorkBuddy，拿到成品后对照自己列的验收清单，至少追问修改一次。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>重点看学员<strong>有没有真的写验收标准</strong>——很多人会跳过这一步。看到谁没写，当场问：「你怎么判断这活做好了？」逼他列出来。</li>
+<li>看简报里<strong>背景是否具体</strong>（是不是又写成了一句话）。发现太笼统的，示范帮他补一句背景。</li>
+<li>提醒学员：不满意别删了重写，<strong>直接追问</strong>在原稿上改。</li>
+</ul>
+<h3 id="_15">六、课堂互动 / 提问</h3>
+<ol>
+<li>「三件套是哪三件？谁能不看板书说出来？」（检验记忆）</li>
+<li>「验收标准应该在什么时候想——做之前还是做之后？为什么？」（检验重点理解）</li>
+<li>「产物很复杂时，我们用什么方法，不一次求完美？」（检验「先框架后细节」）</li>
+</ol>
+<h3 id="4_2">七、小结与作业（4 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：把任务交代到「无法误解」，靠的就是简报 + 格式 + 验收三件套；验收标准一定要<strong>动手前</strong>先想好。</li>
+<li><strong>课后作业</strong>：挑第 1 课的一件活，按「简报 + 格式 + 验收标准」三件套写一遍，跑通一次完整闭环。<strong>验收标准</strong>：作业需交出①你写的完整三件套任务；②你列的验收清单；③记录你改了几轮才验收通过（1 轮也行，说明你简报写得好）。</li>
+<li><strong>承上启下</strong>：一句话预告——「你现在会下一个任务了。可 WorkBuddy 其实有四种『用法档位』，用对了事半功倍。下节课给你一张全局地图，让你知道什么活该用什么档位。」</li>
+</ul>
+<h3 id="_16">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：反面演示（一句话需求）可能偶尔运气好出得还行，弱化了痛点。应对——就算它出得不错，也指出「它是替我猜的，猜错的风险很大」，把重点落在「可控」而非「好坏」。</li>
+<li><strong>学员高频提问</strong>：</li>
+<li>Q「我不知道自己要什么格式怎么办？」→ 标准答：先想「这东西最后要发给谁、用在哪」，用途决定格式；或直接让它「先给我两个格式方案我选」。</li>
+<li>Q「验收标准是不是每次都要写这么细？」→ 简单一次性小活可以简写；越正式、越重要的活越要写清，因为返工成本高。</li>
+<li><strong>时间不够可砍</strong>：可砍掉「先框架后细节」的追加演示（口头带过即可），保住三件套主演示和学员练习。</li>
+</ul>
+<hr />
+<h2 id="6-skill">教案 · 第 6 课 · 四种能力形态：普通任务 / Skill / 专家 / 专家团</h2>
+<h3 id="_17">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：25 分钟（导入 4' / 讲授 12' / 演示 5' / 练习 0'，课堂随讲 / 小结 4'）</li>
+<li><strong>课型</strong>：理论认知课</li>
+<li><strong>教学目标</strong></li>
+<li>能说出 WorkBuddy 的四种能力形态（普通任务 / Skill / 专家 / 专家团）及各自适合的问题类型。</li>
+<li>能解释「普通 Agent」和「专家」处理同一任务的区别（关键在方法论）。</li>
+<li>能拿到一件具体工作任务时，判断它该用哪一档。</li>
+<li><strong>教学重点</strong>：四档能力各自的本质与适用场景，尤其是「专家 = 带方法论的 AI 同事」这个区别。</li>
+<li><strong>教学难点</strong>：学员容易分不清「Skill」和「专家」；也容易一上来就想用「专家团」这种重武器办小事。</li>
+<li><strong>教具准备</strong>：一张画好四档的对照表（可做成 PPT 一页）；准备一个「数据分析」的口头例子；WorkBuddy 界面截图或现场界面，用于展示专家/专家团入口（不深入操作）。</li>
+</ul>
+<h3 id="4_3">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师抛一个比方——「你家里有一套工具箱：拧个螺丝用螺丝刀就行，何必动电钻？但要在墙上打十个洞，你还用螺丝刀就是自己折磨自己。」停顿，接着说：「WorkBuddy 也一样，它有四个『档位』。今天不教操作，就给你一张地图——让你以后拿到任何一件活，都知道该掏哪个工具。」</li>
+<li><strong>本课价值钩子</strong>：一句话钩住——「这节课学完，你就不会再『杀鸡用牛刀』或者『小马拉大车』了。选对档位，同样的活能省一半力气。」</li>
+</ul>
+<h3 id="12_2">三、知识点讲解（12 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：四种能力形态（全局地图）</strong>
+- <strong>怎么讲</strong>：讲师把对照表打到屏幕上，一档一档讲，每档配一个大白话比方和例子：
+  - <strong>普通任务</strong>——「本质是通用理解和执行，就是个啥都能干一点的多面手。适合一次性、说得清楚的活。」例子：「写个通知、做张表。」
+  - <strong>Skill（技能）</strong>——「本质是一个特定工具能力，专干某个具体动作，而且干得稳。」比方：「就像手机里装的一个个 App，专事专办。」例子：「下抖音视频、发公众号、生成 PDF。」
+  - <strong>专家</strong>——「本质是人设 + 方法论 + 工具链，它不只是会干，还带着专业套路。」比方：「不是随便找个人，是找个有多年经验的老师傅。」例子：「数据分析专家、小红书运营专家。」
+  - <strong>专家团</strong>——「本质是多位专家 + 协作流程，能自己分工、并行干活、最后汇总。」比方：「一整支能自己开会分工的团队。」例子：「视频生产团队、投资私董会。」
+- <strong>板书 / 强调</strong>：竖排四档 <code>普通任务 / Skill / 专家 / 专家团</code>，右边各写一个关键词 <code>多面手 / 专用App / 老师傅 / 一支队伍</code>。</p>
+<p><strong>知识点 2：专家为什么和普通任务不一样（划重点）</strong>
+- <strong>怎么讲</strong>：这是本课灵魂，讲师放慢。用「同一份销售数据」对比：
+  - 「让<strong>普通 Agent</strong> 分析销售数据，它会：读数据 → 出图 → 总结趋势。也挺好，但就是把数据描述了一遍。」
+  - 「换成<strong>数据分析专家</strong>，它会：先理解你的业务目标 → 定核心指标 → 查数据质量 → 找异常 → 分析原因 → 给你能落地的建议。」
+  - 收口：「同样一份数据，专家因为<strong>带着方法论</strong>，产出的深度完全不一样——一个告诉你『发生了什么』，一个告诉你『为什么、该怎么办』。」
+- <strong>板书 / 强调</strong>：<code>普通 = 描述发生了什么；专家 = 带方法论，告诉你为什么+怎么办</code>
+- <strong>常见误区</strong>：学员以为专家只是「更聪明的普通任务」。要澄清：区别不在聪明，在于专家自带一套<strong>专业流程和岗位视角</strong>。</p>
+<p><strong>知识点 3：一句话记忆</strong>
+- <strong>怎么讲</strong>：让学员跟读一遍，方便记住——「普通 WorkBuddy = 通用 AI 同事；专家 = 有岗位和专业经验的 AI 同事；专家团 = 一整支能自己分工的 AI 团队。」
+- <strong>板书 / 强调</strong>：<code>同事 → 专业同事 → 一支团队</code></p>
+<p><strong>知识点 4：怎么选档位（决策口诀）</strong>
+- <strong>怎么讲</strong>：给一套可以照着套的判断规则，边讲边让学员想自己的活对号入座：
+  - 「活很清楚、一次性 → <strong>普通任务</strong>。」
+  - 「要反复做同一个动作 → 找一个 <strong>Skill</strong>。」
+  - 「要专业深度，比如研报、运营、法务 → 召唤或创建一位 <strong>专家</strong>。」
+  - 「跨多个专业、多步骤、还能并行的大项目 → 召唤一个 <strong>专家团</strong>。」
+  - 打消焦虑：「今天你不用会用它们，后面模块三专门讲 Skill，模块五专门讲专家和专家团。现在你只要有这张地图就够了。」
+- <strong>板书 / 强调</strong>：<code>清楚一次性→普通 / 反复动作→Skill / 要深度→专家 / 大项目→专家团</code></p>
+<h3 id="5_3">四、操作演示（5 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员在界面上认识专家 / 专家团的入口在哪，建立直观印象（<strong>不做深入操作</strong>，只做「指认」）。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师打开 WorkBuddy 界面，指给学员看：「普通任务就是我们前几课一直在用的对话框。」</li>
+<li>指向专家 / 专家团的入口区域说：「这里就是专家和专家团的地方，能召唤一位专家或者一整支团队。」（如界面有相关入口则现场指认；若无则用截图展示）</li>
+<li>明确收口：「今天我们只是认认门，怎么用是后面模块的事。你现在记住『有这么四个档』就达标了。」</li>
+<li><strong>要复制的完整指令</strong>：本课为认知课，无需复制指令。</li>
+<li><strong>演示中要口播强调的点</strong>：「别急着都点开试——先建立地图，用的时候你才知道去哪找。」</li>
+</ul>
+<h3 id="5_4">五、学员练习（课堂随讲，约 5 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：让每位学员当场从自己工作里想 2 件事，口头说出「这件事你会归到哪一档，为什么」。抽 2-3 位分享。</li>
+<li><strong>巡场要点</strong>：重点纠正两类典型错误——①把「反复做的固定动作」错归成普通任务（应是 Skill）；②把「一件小活」错归成专家团（杀鸡用牛刀）。当场用「工具箱」的比方帮他调整。</li>
+</ul>
+<h3 id="_18">六、课堂互动 / 提问</h3>
+<ol>
+<li>「四个档位分别是什么？谁能按『多面手→专用 App→老师傅→一支队伍』把它们串起来？」（检验记忆）</li>
+<li>「同一份销售数据，普通任务和专家做出来最大的区别在哪？」（检验重点）</li>
+<li>「我要每周固定把一批图片打包成 PDF，这该用哪一档？」（应答：Skill，因为是反复做的固定动作）</li>
+</ol>
+<h3 id="4_4">七、小结与作业（4 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：WorkBuddy 有四档——普通任务、Skill、专家、专家团；核心是「用对档位」，专家和团队之所以强，是因为它们带着方法论和分工。</li>
+<li><strong>课后作业</strong>：把你工作中的 5 件事，各归到四档中的一档，并写一句「为什么是这档」。这张归类表就是你的个人使用地图。<strong>验收标准</strong>：交出一张 5 行的表，每行含「事项 + 档位 + 一句理由」，且四档中至少覆盖到 2 档以上（说明你真的在区分，而不是全塞进普通任务）。</li>
+<li><strong>承上启下</strong>：一句话预告——「模块一到这儿，你已经会对话、会下任务、也有了全局地图。下一模块我们进办公实战——先从打工人最头疼的 Word、Excel、PPT 三件套开刀，教你一句话把它们做出来。」</li>
+</ul>
+<h3 id="_19">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：这是认知课，容易讲成「介绍功能列表」很枯燥。应对——始终用「工具箱 / 选对工具」的主线串起来，多让学员拿自己的活对号入座，把课上活。</li>
+<li><strong>学员高频提问</strong>：</li>
+<li>Q「Skill 和专家到底有啥区别？」→ 标准答：Skill 是一个<strong>具体动作工具</strong>（下视频、发文），专家是一个<strong>带方法论的岗位角色</strong>（数据分析师、运营）。前者管「做这一下」，后者管「用专业思路把整件事做透」。</li>
+<li>Q「我现在能不能直接用专家团？」→ 可以有，但今天不展开，模块五细讲；现在先建立地图，避免一上来就用重武器办小事。</li>
+<li>Q「价格 / 各档位要不要额外收费？」→ 一律回答：以官网 www.workbuddy.cn 为准，不在课上口头承诺。</li>
+<li><strong>时间不够可砍</strong>：可砍掉第四板块的界面指认演示（用一句话口头交代入口即可），保住四档讲解和「选档位」口诀。</li>
+</ul>
+<hr />
+<h1 id="_20">模块二 · 办公实战 — 讲师教案</h1>
+<blockquote>
+<p>本模块是整套课程的「动手实战」核心，共 5 节（第 7-11 课）。讲师照本教案即可完成授课。所有价格/功能一律以官网 www.workbuddy.cn 为准，不得当堂编造。</p>
+</blockquote>
+<hr />
+<h2 id="7-word-excel-ppt">教案 · 第 7 课 · 办公三件套：一句话出 Word / Excel / PPT</h2>
+<h3 id="_21">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 4' / 讲授 8' / 演示 16' / 练习 9' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong></li>
+<li>能用「背景+目标+具体要求+输出格式」的说法，让 WorkBuddy 一次生成合格的 Word/Excel/PPT。</li>
+<li>能从右侧结果区下载 .docx / .xlsx / .pptx 文件。</li>
+<li>能用「分步迭代」的方式对生成的 PPT 做结构和风格微调。</li>
+<li><strong>教学重点</strong>：把需求说清楚（万能公式）；三件套各自的一句话生成指令。</li>
+<li><strong>教学难点</strong>：学员习惯说「帮我写个周报」这种含糊话；不理解「分步迭代」比「一次说完」更好。</li>
+<li><strong>教具准备</strong>：装好并登录 WorkBuddy、账号有可用积分；准备好三条示例指令（案例 A/B/C）；准备一个投屏能看清右侧结果区的窗口；提前跑通一遍案例 C 的 PPT 生成，防止现场等待过久。</li>
+</ul>
+<h3 id="4_5">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句——「上周有几位同学的周报是加班到晚上九点写完的？」举手后接：「今天要汇报的 PPT，昨晚还是一块白板吧？领导一句『做个表』，你是不是就头大？」把办公三件套点名为「打工人最大的时间黑洞」。</li>
+<li><strong>本课价值钩子</strong>：「这节课我们干一件事——把周报、表格、PPT 从一小时压到一句话。学完你下班能早走一个钟头。」</li>
+</ul>
+<h3 id="8_3">三、知识点讲解（8 分钟）</h3>
+<p><strong>知识点 1：说清需求，结果差十倍（万能公式）</strong>
+- <strong>怎么讲</strong>：打比方——「你让实习生『帮我写个周报』，他不知道你干了啥，只能瞎编；你要是说清『我是运营、这周做了啥、要分几块、语气正式』，他一遍就能交活。AI 一模一样。」现场对比读两句：❌「帮我写个周报」；✅「我是运营，本周做了 3 场直播、5 篇推文、参加选题会。生成本周周报，Word，分『本周完成』『下周计划』『问题与风险』三部分，语气正式。」问学员：「哪句能一次出活？」
+- <strong>板书 / 强调</strong>：<code>背景 + 目标 + 具体要求 + 输出格式</code>
+- <strong>常见误区</strong>：以为字越多越好——不是，是「关键信息别漏」。背景（你是谁/干了啥）最容易漏。</p>
+<p><strong>知识点 2：分步迭代（尤其做 PPT）</strong>
+- <strong>怎么讲</strong>：「做 PPT 别一口气把所有要求砸过去。先让它出框架，你确认结构对了，再让它生成完整 PPT，最后微调风格。就像装修：先定户型图，再铺瓷砖，不会推倒重来。」
+- <strong>板书 / 强调</strong>：<code>先出框架 → 确认结构 → 生成完整 PPT → 微调风格</code>
+- <strong>常见误区</strong>：一次丢一大堆要求，结果哪儿都不对，还得全推翻。</p>
+<h3 id="16">四、操作演示（16 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员亲眼看到「一句话 → 右侧出可下载文件」，三件套各演示一次。</li>
+</ul>
+<p><strong>演示 1 · 周报 Word（5 分钟）</strong>
+1. 在对话框粘贴指令（口播：「注意我说清了『我是谁、干了啥、分几块、什么格式、什么语气』」）。
+2. 回车，指着右侧结果区：「看，它在这边直接排好版了。」
+3. 点右侧下载按钮，演示导出 .docx。</p>
+<pre><code>我是市场部专员，本周完成：新品发布会筹备、2 篇公众号推文、
+对接 3 家媒体。写一份本周工作周报，Word，
+分「本周完成」「下周计划」「需要支持」三板块，语气正式。
+</code></pre>
+<ul>
+<li><strong>口播强调</strong>：「不满意就直接追一句，比如『把语气改活泼点』，它在原文上改，不用重来。」</li>
+</ul>
+<p><strong>演示 2 · 项目排期表 Excel（4 分钟）</strong>
+1. 粘贴指令回车。
+2. 指右侧生成的表格：「列名、10 行示例数据都齐了，可下载 .xlsx。」</p>
+<pre><code>做一份项目排期表，Excel，含列：任务名称、负责人、
+开始时间、结束时间、状态。预填 10 行示例数据。
+</code></pre>
+<ul>
+<li><strong>口播强调</strong>：「要它预填示例数据，你就能直接看懂表长啥样，改起来快。」</li>
+</ul>
+<p><strong>演示 3 · 从大纲生成 PPT（7 分钟）——重点演示分步迭代</strong>
+1. 先粘贴完整大纲指令，回车。</p>
+<pre><code>按以下大纲做 15 页 PPT，简洁商务风，配色深蓝+白：
+1. 封面：产品名+Logo  2. 目录
+3-5. 行业痛点（3页）  6-9. 核心功能（4页，每页一个）
+10-12. 竞品对比（3页）  13. 商业模式  14. 团队  15. 联系方式
+</code></pre>
+<ol>
+<li>等它出 PPT（讲师趁等待时口播：这是为什么建议先出框架）。指右侧可下载的 <strong>.pptx</strong>。</li>
+<li>现场追问演示微调：<code>第 3 页配一张图</code>、<code>整体字号调大</code>、<code>把竞品对比改成表格</code>，每追一句看它在原稿上改。</li>
+<li><strong>口播强调</strong>：「自动排版、配图、统一风格，你只管提要求。」</li>
+</ol>
+<h3 id="9">五、学员练习（9 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：用案例 A 的模板，换成自己<strong>真实</strong>的本周工作，生成一份属于自己的周报并下载 .docx。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看学员是否漏了「背景（我是谁/干了啥）」——最常见，当场提醒补上。</li>
+<li>看是否写了「输出格式=Word」和分块要求。</li>
+<li>有人卡在下载：指给他右侧结果区的下载入口。</li>
+<li>快的学员，鼓励追一句迭代（改语气/加一块）。</li>
+</ul>
+<h3 id="_22">六、课堂互动 / 提问</h3>
+<ol>
+<li>「万能公式四要素是哪四个？谁能背出来？」</li>
+<li>「做 PPT 为什么建议先出框架再生成？一口气说完不行吗？」</li>
+<li>「生成的周报语气太生硬，你会怎么让它改？」（答：直接追一句「语气改亲切些」）</li>
+</ol>
+<h3 id="3_4">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：需求说清楚（背景+目标+要求+格式），一句话就能出可下载的 Word/Excel/PPT。</li>
+<li><strong>课后作业</strong>：用案例 A 模板换成你真实的工作，生成一份自己的周报并下载。<strong>验收标准</strong>：交出一个 .docx，含「本周完成/下周计划/需要支持」三块且内容为本人真实工作。</li>
+<li><strong>承上启下</strong>：「今天是自己动嘴让它写；下节课我们把一份 Excel 直接『拖』给它，让它替你做数据分析出报告。」</li>
+</ul>
+<h3 id="_23">八、讲师备注（避坑）</h3>
+<ul>
+<li>PPT 生成较慢，务必课前跑通一遍；现场若卡顿，用课前已生成好的版本演示微调，不要干等冷场。</li>
+<li>高频提问：「生成的文件能不能编辑？」——能，下载后是标准 .docx/.xlsx/.pptx。</li>
+<li>高频提问：「配色能指定吗？」——能，像案例 C 那样在指令里写「配色深蓝+白」。</li>
+<li>时间不够时：可砍掉演示 2（Excel 表），保留周报和 PPT 两个最有代表性的。</li>
+<li>涉及积分消耗/生成上限等，一律答「以官网 www.workbuddy.cn 为准」。</li>
+</ul>
+<hr />
+<h2 id="8-excel">教案 · 第 8 课 · 数据分析与可视化：拖一份 Excel 出报告</h2>
+<h3 id="_24">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：42 分钟（导入 4' / 讲授 8' / 演示 17' / 练习 10' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong></li>
+<li>能把一份 Excel 拖进对话框，用大白话让它自动清洗、汇总、出图，生成带图表的分析报告。</li>
+<li>能对报告追问微调（换配色、加执行摘要、再拆一层）。</li>
+<li>能说清「AI 缩短处理时间、关键结论仍要人工复核口径」这条边界。</li>
+<li><strong>教学重点</strong>：全自动五步链路（读取→清洗→计算→画图→生成报告）；一句话触发分析。</li>
+<li><strong>教学难点</strong>：学员不信「不用会函数也能出图」；忽视数据口径的人工复核。</li>
+<li><strong>教具准备</strong>：准备一份含「日期、产品、区域、销售额」列的示例 Excel（可故意留几条脏数据）；WorkBuddy 已登录且有积分；课前跑通一遍案例，确认能出 HTML 报告；投屏能看清右侧预览。</li>
+</ul>
+<h3 id="4_6">二、导入（4 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师——「职场最怕哪句话？『你帮我分析下这个数据』。」停顿。「你 VLOOKUP 记不全、透视表点开就晕，可领导下午就要结论。」</li>
+<li><strong>本课价值钩子</strong>：「今天教你一招：Excel 一拖，它替你找异常、给原因、出图表，你只管拿结论去汇报。不用会函数、不用会画图。」</li>
+</ul>
+<h3 id="8_4">三、知识点讲解（8 分钟）</h3>
+<p><strong>知识点 1：全自动五步</strong>
+- <strong>怎么讲</strong>：「你把文件拖进去，用大白话说想看啥，剩下它全包。」在白板画五步流水线，逐个用大白话解释：读取（把文件看懂）→ 清洗（把乱的数据擦干净）→ 计算（该加和加、该分组分组）→ 画图（自动画柱状/折线）→ 生成报告（拼成一份能看的报告）。打比方：「就像你把一筐乱菜丢给厨师，端上来是一盘成品，你不用管中间刀工。」
+- <strong>板书 / 强调</strong>：<code>读取 → 清洗 → 计算 → 画图 → 生成报告</code>
+- <strong>常见误区</strong>：以为要先把数据整理干净才能用——不用，脏数据也能丢，让它「清洗并说明清洗了什么」。</p>
+<p><strong>知识点 2：边界——判断归你</strong>
+- <strong>怎么讲</strong>：「AI 帮你省时间，不替你担责。给领导/客户的关键结论，一定人工复核口径。」举例：「『销售额』这个数，含不含退款？时间窗口对不对？这些它不一定懂你公司的规矩。」
+- <strong>板书 / 强调</strong>：<code>AI 缩短处理时间，判断仍归你</code>
+- <strong>常见误区</strong>：直接拿 AI 结论去汇报不核对口径，一旦口径错，锅是你的。</p>
+<h3 id="17">四、操作演示（17 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：从「拖文件」到「出交互式 HTML 报告」全程走一遍，再演示追问微调和 Ask 模式。</li>
+</ul>
+<p><strong>演示 1 · 销售数据分析主流程（9 分钟）</strong>
+1. 把准备好的 Excel <strong>拖进对话框</strong>（口播：「就这么拖，不用另存、不用整理」）。
+2. 输入指令回车：</p>
+<pre><code>分析这份销售数据，按月汇总各产品线销售额，
+生成柱状图和趋势折线图，找出销售额 Top 5 区域，
+输出一份含图表的分析报告（HTML 格式）。
+</code></pre>
+<ol>
+<li>不到 1 分钟，指右侧出现的可预览 <strong>HTML 报告</strong>，鼠标划过图表演示「交互式」。</li>
+<li><strong>口播强调</strong>：「注意我说清了『按什么汇总、要哪两种图、找什么、什么格式』——又是万能公式的思路。」</li>
+</ol>
+<p><strong>演示 2 · 追问微调 + 换产出（4 分钟）</strong>
+- 现场追三句，展示它在原报告上改：</p>
+<pre><code>图表换暖色系
+加一段执行摘要
+把结论做成 3 页 PPT，给领导汇报用
+</code></pre>
+<ul>
+<li><strong>口播强调</strong>：「不满意别重来，直接追。最后一句还能一键把结论变成汇报 PPT。」</li>
+</ul>
+<p><strong>演示 3 · Ask 模式看不懂的列（4 分钟）</strong>
+- 演示先问再分析：</p>
+<pre><code>这份数据有哪些字段？每列什么意思？
+</code></pre>
+<ul>
+<li>再演示让它自证清洗：</li>
+</ul>
+<pre><code>先清洗这份数据，并说明你清洗了什么。
+</code></pre>
+<ul>
+<li><strong>口播强调</strong>：「拿到陌生数据，先用 Ask 模式摸清字段，再动手分析，不容易翻车。」</li>
+</ul>
+<h3 id="10_4">五、学员练习（10 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：用自己或老师提供的一份真实数据（销售/考勤/账单都行），出一份含图表的分析报告，体验「不会 Excel 也能做数据分析」。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看学员指令是否说清了「按什么汇总、要什么图、什么格式」。</li>
+<li>提醒没数据的学员用老师提供的示例文件。</li>
+<li>出报告后引导追一句「加执行摘要」体会迭代。</li>
+<li>强调一句：拿去汇报前，口径要自己核一遍。</li>
+</ul>
+<h3 id="_25">六、课堂互动 / 提问</h3>
+<ol>
+<li>「全自动五步是哪五步？」</li>
+<li>「数据很脏，要不要先自己整理干净再丢给它？」（答：不用，让它清洗并说明）</li>
+<li>「AI 给的销售额结论，为什么还要你自己核对？」（答：口径/退款/时间窗口它不一定懂，判断归你）</li>
+</ol>
+<h3 id="3_5">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：Excel 一拖 + 一句话，自动出带图表的报告；但关键结论口径要人工复核。</li>
+<li><strong>课后作业</strong>：找一份真实数据，出一份分析报告。<strong>验收标准</strong>：交出一份含至少一张图表的报告（HTML/PPT 均可），并口头说出你核对了哪个口径。</li>
+<li><strong>承上启下</strong>：「今天处理的是一份表；下节课处理『一堆文件』——发票、图片、文档的批量识别和整理。」</li>
+</ul>
+<h3 id="_26">八、讲师备注（避坑）</h3>
+<ul>
+<li>课前务必用示例文件跑通，确认能生成 HTML 报告；网络慢时报告生成会等，别现场干等。</li>
+<li>高频提问：「报告能导出吗？」——右侧产出可下载/预览，具体格式以官网 www.workbuddy.cn 为准。</li>
+<li>高频提问：「它会不会算错？」——引到边界知识点：结论可信度依赖数据质量，关键口径人工复核。</li>
+<li>时间不够时：砍掉演示 3（Ask 模式），保留主流程 + 追问微调。</li>
+</ul>
+<hr />
+<h2 id="9_1">教案 · 第 9 课 · 文件识别与批量处理：发票 / 图片 / 文档</h2>
+<h3 id="_27">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 4' / 讲授 8' / 演示 16' / 练习 9' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong></li>
+<li>能授权本地文件夹，让 WorkBuddy 批量重命名、按类型/日期归类文件。</li>
+<li>能完成「发票批量识别 → 汇总台账 → 标异常」的进阶案例，并知道要人工抽查金额。</li>
+<li>能用 Plan 模式先看操作计划、确认后再执行，避免误删。</li>
+<li><strong>教学重点</strong>：授权本地文件夹后一句话交代机械杂活；发票识别登记进阶案例。</li>
+<li><strong>教学难点</strong>：安全意识（授权确认、备份）；不理解为什么财务场景必须人工抽查。</li>
+<li><strong>教具准备</strong>：准备一个可授权的示例文件夹（含若干图片、文档、发票图片/PDF）；<strong>先做好备份</strong>；WorkBuddy 已登录有积分；课前跑通案例，确认识别正常。演示前告知学员路径示例（如 <code>D:\Photos\2026</code>）按自己电脑替换。</li>
+</ul>
+<h3 id="4_7">二、导入（4 分钟）</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师——「有没有人整理过一整个季度的报销发票？一张张看、一张张登记，半天没了。」再问：「下载文件夹是不是乱成一锅粥，想找个文件翻半天？」</li>
+<li><strong>本课价值钩子</strong>：「那些手动做要半天的机械杂活——重命名、归类、发票登记——这节课一句话交给它，它给你干完还附一份处理日志。」</li>
+</ul>
+<h3 id="8_5">三、知识点讲解（8 分钟）</h3>
+<p><strong>知识点 1：它能读写你授权的本地文件夹</strong>
+- <strong>怎么讲</strong>：「重复 100 遍的机械操作，一句话就能派给它。」重点讲安全：「它只能碰你<strong>授权</strong>过的文件夹，第一次操作某个目录会弹提示，你看清路径、确认了它才动。」打比方：「就像给保姆一把指定房间的钥匙，别的房间进不去。」
+- <strong>板书 / 强调</strong>：<code>只操作你授权的文件夹</code> + <code>看清路径再放行</code>
+- <strong>常见误区</strong>：以为它能随便翻你整台电脑——不能，必须授权；也别嫌提示烦，那是安全阀。</p>
+<p><strong>知识点 2：不确定就先 Plan、重要文件先备份</strong>
+- <strong>怎么讲</strong>：「怕它误删？先用 Plan 模式让它把『打算怎么操作』列出来，你看没问题再执行。重要文件动手前先备份，养成习惯。」
+- <strong>板书 / 强调</strong>：<code>拿不准 → Plan 先看计划</code> <code>重要文件 → 先备份</code>
+- <strong>常见误区</strong>：直接让它批量动文件不留后手。</p>
+<h3 id="16_1">四、操作演示（16 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：从授权 → 批量改名归类 → 发票登记，完整走一遍，穿插 Plan 模式和安全确认。</li>
+</ul>
+<p><strong>演示 1 · 批量重命名 + 按月归类图片（5 分钟）</strong>
+1. 输入指令，回车时<strong>故意停在授权确认弹窗</strong>，口播：「看，第一次操作它让我确认路径，我核对没错再放行。」</p>
+<pre><code>读取 D:\Photos\2026 下所有图片，按拍摄日期重命名为
+20260601_153000.jpg，再按月份归类到子文件夹（2026-06/）。
+</code></pre>
+<ol>
+<li>执行完，指给学员看它给的<strong>处理日志</strong>：改了哪些、分到哪。</li>
+<li><strong>口播强调</strong>：「它读每张图的 EXIF 拿到拍摄时间，几百张也是一句话的事。」</li>
+</ol>
+<p><strong>演示 2 · 整理下载文件夹（4 分钟）</strong>
+1. 先演示 <strong>Plan 模式</strong>：让它列计划，确认后执行。</p>
+<pre><code>整理下载文件夹，按类型分到子文件夹：
+文档→Docs、图片→Images、安装包→Installers、压缩包→Archives。
+</code></pre>
+<ul>
+<li><strong>口播强调</strong>：「先看它打算怎么分，确认了再放行，稳。」</li>
+</ul>
+<p><strong>演示 3 · 发票整理与登记（进阶 L2，7 分钟）——本课高潮</strong>
+1. 输入指令回车：</p>
+<pre><code>读取「报销发票」文件夹里所有发票图片/PDF，识别每张的：
+发票号码、开票日期、金额、税额、销售方名称，
+汇总成 Excel 台账，统计总金额，标出金额异常（如超 5000）的行。
+</code></pre>
+<ol>
+<li>指给学员看生成的 Excel 台账、总金额、被标红的异常行。</li>
+<li><strong>重点口播</strong>：「识别完，金额务必人工抽查几张——这是财务场景的铁律。AI 帮你录入，签字担责的是你。」</li>
+<li><strong>口播强调</strong>：这一步考验「文件识别 + 表格 + 金额复核」三件事。</li>
+</ol>
+<h3 id="9_2">五、学员练习（9 分钟）</h3>
+<ul>
+<li><strong>练习任务</strong>：挑电脑里最乱的文件夹（下载夹通常是重灾区），授权后让它整理归类一次；有真实发票的同学试案例 C。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>盯授权确认——提醒学员核对路径别乱放行。</li>
+<li>提醒<strong>先备份</strong>再让它批量动文件。</li>
+<li>看学员是否愿意用 Plan 模式先看计划。</li>
+<li>做发票案例的，强调抽查几张核对金额。</li>
+</ul>
+<h3 id="_28">六、课堂互动 / 提问</h3>
+<ol>
+<li>「它是不是能读你整台电脑的文件？」（答：不是，只能操作你授权的文件夹）</li>
+<li>「怕它误删文件，动手前该做哪两件事？」（答：Plan 模式看计划 + 重要文件备份）</li>
+<li>「发票识别完就能直接报销吗？」（答：不行，金额要人工抽查，财务铁律）</li>
+</ol>
+<h3 id="3_6">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：授权文件夹后，重命名/归类/发票登记这些机械杂活一句话交给它；但要看清授权、先备份、财务金额人工抽查。</li>
+<li><strong>课后作业</strong>：让它整理归类一次你最乱的文件夹；有条件用真实发票试案例 C。<strong>验收标准</strong>：交出整理前后的对比（截图即可）或发票台账 Excel，并说出你做了备份/抽查。</li>
+<li><strong>承上启下</strong>：「文件搞定了，下节课进会议室——把一段录音变成纪要、待办、周报。」</li>
+</ul>
+<h3 id="_29">八、讲师备注（避坑）</h3>
+<ul>
+<li>演示路径 <code>D:\Photos\2026</code> 是示例，务必提醒学员换成自己电脑真实路径，否则报「找不到」。</li>
+<li>课前一定备份示例文件夹，演示误操作也不心疼。</li>
+<li>高频提问：「支持哪些文件类型/单次能处理多少？」——以官网 www.workbuddy.cn 为准。</li>
+<li>高频提问：「识别准不准？」——引到财务铁律：人工抽查金额。</li>
+<li>时间不够时：砍掉演示 2（下载夹整理），保留改名归类 + 发票登记。</li>
+</ul>
+<hr />
+<h2 id="10_5">教案 · 第 10 课 · 会议协同：录音 → 纪要 → 待办 → 周报</h2>
+<h3 id="_30">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 5' / 讲授 8' / 演示 15' / 练习 9' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>（学完学员能做到）：</li>
+<li>能把一段会议录音或文字稿，用一条指令让 WorkBuddy 生成含"结论/决议/讨论/遗留/待办表"的结构化纪要。</li>
+<li>能把纪要里的待办清单转成"谁、做什么、何时"的跟进任务，并配一句话跟进话术。</li>
+<li>能把多次会议纪要汇总成一份给领导看的正式周报。</li>
+<li><strong>教学重点</strong>：把"开会"当成一条流水线——录音→纪要→待办→汇报，学会用一条结构化指令一步到位。</li>
+<li><strong>教学难点</strong>：让学员理解并守住边界——纪要必须区分"已确认决议"和"待确认项"，不能把讨论中的推测写成结论。</li>
+<li><strong>教具准备</strong>：装好并登录的 WorkBuddy；提前准备一段真实的会议录音转写文字稿（或 3-5 分钟录音）当演示素材，内容里最好故意留一两处"还在讨论没定"的话，方便演示区分决议；准备 2-3 段不同会议的简短纪要，用于演示周报汇总；确认账号有可用积分。</li>
+</ul>
+<h3 id="5_5">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句话：<blockquote>
+<p>"各位，我先问一个扎心的问题——你们上次开完一个小时的会，事后整理纪要花了多久？"停顿，等学员反应。
+"很多人是开会一小时、整理又一小时。更惨的是会上说好的事，散会没人跟，下次开会又从头讨论一遍。"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"今天这一课，我教你把录音往上一传，纪要、待办、跟进话术自动出来，散会 5 分钟就能发到群里。会议结束不再是终点，而是行动的起点。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="8_6">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：会议的价值在会后，不在会上</strong>
+- <strong>怎么讲</strong>：打个比方——"开会就像做饭，讨论是备菜，真正吃到嘴里的是会后的行动项。大多数人备完菜就散了，菜全馊在锅里。" 强调 WorkBuddy 的本事不是帮你开会，是帮你把会"落地"：把嘴上说的变成能追踪的待办。
+- <strong>板书 / 强调</strong>：<code>会议的价值 = 会后能不能跟进</code>
+- <strong>常见误区</strong>：学员以为 AI 只能"转写文字"。要澄清：转写只是第一步，重点是它能把散乱的对话结构化成决议、待办。</p>
+<p><strong>知识点 2：会议协同的四段流水线</strong>
+- <strong>怎么讲</strong>：在白板上画一条箭头链，边画边说："这是一条自动流水线。" 逐段念：</p>
+<blockquote>
+<p>录音/转写 → 纪要（决议+讨论+遗留问题）→ 待办（谁、做什么、何时）→ 同步到文档/IM → 周报
+  强调："每一段的输出，都是下一段的输入。你只要把录音丢进去，后面像多米诺骨牌一样倒下来。"
+- <strong>板书 / 强调</strong>：<code>录音 → 纪要 → 待办 → 同步 → 周报</code>
+- <strong>常见误区</strong>：学员会把"待办"和"讨论要点"混在一起。要讲清：待办必须带"负责人+截止时间"，没这两样就不叫待办，只是聊天记录。</p>
+</blockquote>
+<p><strong>知识点 3：一定要区分"决议"和"待确认项"</strong>
+- <strong>怎么讲</strong>：这是本课最重要的一句话。举例："会上老板随口说了句'这个功能也许下季度做'，这是'待确认'，不是'决议'。如果 AI 把它写成'决议：下季度做该功能'，你拿着纪要去执行就出事了。" 所以我们要在指令里明确让它区分。重要决议一定人工核对原话。
+- <strong>板书 / 强调</strong>：<code>决议 ≠ 讨论中的推测</code>
+- <strong>常见误区</strong>：以为 AI 生成的纪要就是权威。强调：AI 出草稿，人核对拍板。</p>
+<h3 id="15">四、操作演示（15 分钟）——讲师如何现场演示</h3>
+<p><strong>演示目标</strong>：让学员亲眼看到一段杂乱的会议文字稿，如何一步变成结构清晰的纪要，再变成待办跟进，最后汇总成周报。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>
+<p>打开 WorkBuddy 新建对话，上传提前准备好的会议录音转写附件。边做边说："我把今天产品评审会的转写附件传上来，注意它是一大段流水账，谁说什么都混在一起。"</p>
+</li>
+<li>
+<p>输入案例 A 指令，让它出纪要。口播："看好这条指令，我不是只说'整理一下'，我把要什么结构一条条列清楚了——这是能不能一步到位的关键。"</p>
+</li>
+</ol>
+<p>要复制的完整指令：
+   <code>这是今天产品评审会的录音转写（附件）。整理成会议纪要：
+   1. 一句话会议结论  2. 关键决议（编号）
+   3. 讨论要点  4. 遗留问题
+   5. 待办清单：任务 | 负责人 | 截止时间（表格）</code></p>
+<ol>
+<li>
+<p>结果出来后，指着"关键决议"和"讨论要点"两块口播："大家看，它把定下来的决议和还在讨论的分开了。这就是我们要的——不会把'也许要做'写成'已经决定做'。" 顺手核对一处，示范"人工核对原话"。</p>
+</li>
+<li>
+<p>演示案例 B：把待办转成跟进。口播："纪要有了，但待办还躺在纸上。我让它把待办写进腾讯文档，并给每个负责人配一句跟进话术。" （提示：腾讯文档连接器的完整配置在第 12 课，这里先展示指令效果。）</p>
+</li>
+</ol>
+<p>要复制的完整指令：
+   <code>把上面的待办清单写入我腾讯文档「本周待办」，
+   并在每个负责人名字后加一句一句话的跟进话术草稿。</code></p>
+<ol>
+<li>演示案例 C：多次会议汇总成周报。口播："到了周五，你开了好几个会。不用重新整理，让它读取这周几份纪要，直接出一份给领导看的周报。" 展示读取多份纪要后生成的正式周报。</li>
+</ol>
+<p>要复制的完整指令：
+   <code>读取我这周三次会议的纪要，提炼成一份汇报周报：
+   本周关键决策、进展、卡点、下周重点，给领导看，正式简洁。</code></p>
+<ul>
+<li><strong>演示中要口播强调的点</strong>：反复强调"指令里写清要什么结构，输出就干净"；强调"决议和待确认分开"；强调周报是"提炼"不是"堆砌"，给领导看要正式简洁。</li>
+</ul>
+<h3 id="9_3">五、学员练习（9 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：学员用讲师提供的（或自己手上的）一段会议文字稿，跑一遍案例 A，生成一份含待办表格的纪要；行有余力的学员接着跑案例 C 的周报思路，把纪要浓缩成三行汇报要点。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看学员是不是只写了"整理一下"这种模糊指令——要提醒他们把 5 项结构列清楚。</li>
+<li>看待办表格有没有"负责人"和"截止时间"两列，缺了当场补。</li>
+<li>看有没有学员把"待确认项"当成了决议，当场用素材里那处"也许下季度做"举例纠正。</li>
+</ul>
+<h3 id="_31">六、课堂互动 / 提问</h3>
+<ol>
+<li>一条完整的会议流水线包括哪几段？（答：录音/转写→纪要→待办→同步→周报）</li>
+<li>一个合格的"待办"必须包含哪三样信息？（答：任务、负责人、截止时间）</li>
+<li>为什么一定要让 AI 区分"决议"和"待确认项"？举个反例说明后果。</li>
+</ol>
+<h3 id="3_7">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：会议的价值不在会上说了什么，而在会后 5 分钟你能不能把它变成能追踪的行动。</li>
+<li><strong>课后作业</strong>：下次开会录一段音（或用文字稿），跑一遍案例 A→B，体验"会议结束 5 分钟出纪要和跟进"。验收标准：产出一份区分了决议/待确认、且待办表带齐"负责人+截止时间"的纪要。</li>
+<li><strong>承上启下</strong>：<blockquote>
+<p>"今天我们让 AI 处理'手上已有的会议信息'。下一课换个方向——当你面对一个不熟悉的课题，怎么让它去联网调研，还得给你带证据、能溯源。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_32">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：演示素材如果太干净、没有"讨论中的推测"，就演示不出"区分决议/待确认"的价值。务必在素材里埋一两处模糊表述。</li>
+<li><strong>学员高频提问的标准答案</strong>：</li>
+<li>"录音能直接传吗？"——以官网 www.workbuddy.cn 为准，课上先用文字稿演示最稳。</li>
+<li>"写入腾讯文档要额外设置吗？"——需要先配连接器，第 12 课专门讲，今天先看效果。</li>
+<li>"会不会把机密会议内容泄露？"——提醒敏感会议注意合规，重要决议人工核对。</li>
+<li><strong>涉及价格/功能一律以官网 www.workbuddy.cn 为准。</strong></li>
+<li><strong>时间不够时可砍</strong>：案例 B（待办写入腾讯文档）可只念指令不实操，留到第 12 课；周报案例 C 可口述带过。</li>
+</ul>
+<hr />
+<h2 id="11_1">教案 · 第 11 课 · 深度调研：从一个问题到一份带证据的报告</h2>
+<h3 id="_33">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 5' / 讲授 9' / 演示 15' / 练习 8' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>（学完学员能做到）：</li>
+<li>能用 Plan 模式让 WorkBuddy 先列调研提纲和信息源计划，确认方向后再开搜，避免跑偏浪费积分。</li>
+<li>能产出一份"结论→证据→来源链接→待确认项"可溯源的调研报告，而不是没出处的"AI 口水"。</li>
+<li>能对重要数字要求多源交叉验证，并让 AI 标出冲突点。</li>
+<li><strong>教学重点</strong>：调研的核心不是报告长，而是每个关键结论都能溯源；用 Plan 模式先对齐方向。</li>
+<li><strong>教学难点</strong>：学员容易被"看起来很专业"的内容迷惑，忽略要不要来源；也容易一上来就让它写报告而不先列提纲。</li>
+<li><strong>教具准备</strong>：装好并登录的 WorkBuddy，确认支持联网/Plan 模式且有可用积分；准备一个演示课题（建议就用课程案例的"2026 年国内 AI 编程助手市场"）；准备一份"没有来源的普通 AI 回答"和"带来源证据表的报告"做对比展示。</li>
+</ul>
+<h3 id="5_6">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师抛问题：<blockquote>
+<p>"假设老板让你明天交一份行业调研报告，你现在会怎么做？打开搜索引擎，一个个网页翻，翻两小时凑三千字，对吧？"
+接着展示那份"没来源的 AI 回答"："那用 AI 呢？很多人让 AI 写一篇，结果它给你一堆看起来对、但一个出处都没有的话。你敢把这个交给老板吗？万一里面一个数字是编的呢？"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"今天教你的，是让 AI 做一份专业调研员会做的报告——每个关键结论都能点开链接溯源，编不了。你负责判断，它负责跑腿找证据。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="9_4">三、知识点讲解（9 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：好的调研报告 ≠ 长，而是"证据可追溯"</strong>
+- <strong>怎么讲</strong>：打比方——"一份报告写得再漂亮，如果关键数字问它'哪来的'答不上来，那就是空中楼阁。真正值钱的报告，是每句结论后面都能带你找到原始出处。" 引出输出结构：</p>
+<blockquote>
+<p>结论 → 支撑证据 → 原始来源链接 → 可信度/待确认项
+  强调："我们要的不是它'说了什么'，是它'凭什么这么说'。"
+- <strong>板书 / 强调</strong>：<code>结论 → 证据 → 来源链接 → 待确认</code>
+- <strong>常见误区</strong>：以为报告越长越好、字越多越专业。要澄清：没出处的长文最危险。</p>
+</blockquote>
+<p><strong>知识点 2：用 Plan 模式先对齐方向，再开搜</strong>
+- <strong>怎么讲</strong>：比方成"出门旅游先看攻略再买票"——"你不会一拍脑袋就买机票，你先列行程确认了再订。调研也一样：让它先列调研提纲和信息源计划，你看方向对不对，确认了再让它开搜。" 强调好处："这样它不会跑偏，也不会一上来乱搜浪费积分。"
+- <strong>板书 / 强调</strong>：<code>Plan 模式 = 先列提纲 → 你确认 → 再开搜</code>
+- <strong>常见误区</strong>：学员习惯直接说"帮我调研 XX"就等结果。要纠正：那样它可能搜歪，改起来更费劲。</p>
+<p><strong>知识点 3：多源交叉验证——重要数字别只信一家</strong>
+- <strong>怎么讲</strong>：举例："同一个市场规模，A 网站说 100 亿，B 网站说 150 亿，信哪个？让它用多个来源交叉验证，冲突的地方标出来，你自己判断。" 点明这就是行业蓝皮书说的"来源补证与事实核查"。
+- <strong>板书 / 强调</strong>：<code>重要数字 → 多源交叉验证 → 标注冲突</code>
+- <strong>常见误区</strong>：以为 AI 给的数字就是准的。强调：越重要的数字越要多源核对。</p>
+<p><strong>知识点 4：边界——AI 缩短处理时间，不替你拍板</strong>
+- <strong>怎么讲</strong>：严肃地讲一句："AI 适合帮你缩短翻资料的时间，不适合藏起来源直接给你结论。特别是投资、法律、医疗这类，观点和最终判断必须由人承担。" 让它做"资料+证据+待确认项"，把"拍板"留给自己。
+- <strong>板书 / 强调</strong>：<code>AI 找证据，人来拍板</code>
+- <strong>常见误区</strong>：把 AI 报告当决策依据直接执行。强调高风险领域尤其要人核。</p>
+<h3 id="15_1">四、操作演示（15 分钟）——讲师如何现场演示</h3>
+<p><strong>演示目标</strong>：让学员看到 Plan 模式如何先列提纲让人确认，再产出一份带竞品对比表和来源证据表的报告。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>
+<p>打开 WorkBuddy，切到/开启 Plan 模式。口播："先开 Plan 模式，这是让调研不跑偏的关键。"</p>
+</li>
+<li>
+<p>输入调研案例指令。口播："注意我怎么下指令——先让它列提纲和信息源计划让我确认，再告诉它我要几块内容、每个数据要带链接、无法核实的标待确认，最后规定输出格式。指令越具体，报告越靠谱。"</p>
+</li>
+</ol>
+<p>要复制的完整指令：
+   <code>用 Plan 模式：调研 2026 年国内 AI 编程助手市场。
+   先列调研提纲和信息源计划让我确认，然后：
+   1. 主要玩家对比（产品、定价、差异化）——做成表格
+   2. 技术趋势  3. 市场规模与增长
+   4. 每个关键数据附来源链接，无法核实的标「待确认」
+   输出 3000 字 Markdown 报告 + 一张竞品对比表 + 一张来源证据表。</code></p>
+<ol>
+<li>
+<p>它先返回提纲和信息源计划时，停下来口播："看，它没有直接开搜，先给我一个计划。我现在检查方向对不对——比如我想加一块'开源 vs 闭源'，就直接跟它说。确认没问题，再让它继续。" 现场演示确认/微调。</p>
+</li>
+<li>
+<p>报告出来后，重点指着"来源证据表"口播："这就是今天的精华。你看每个结论后面都有来源链接，能点开溯源；核不到的它老实标了'待确认'。这才是能交给老板的东西。"</p>
+</li>
+<li>
+<p>演示进阶技巧——多源交叉验证。追加一句指令：
+   <code>市场规模这个数字，用多个来源交叉验证，冲突的地方标注出来。</code>
+   口播："涉及重要数字，再逼它一步，让它交叉验证、标冲突。"</p>
+</li>
+<li>
+<p>演示两个小技巧的追问：
+   <code>开头加一段 200 字执行摘要，给忙的人看。</code>
+   口播："报告太长领导没空看？让它加个 200 字执行摘要，忙的人看开头就够。"</p>
+</li>
+<li>
+<p><strong>演示中要口播强调的点</strong>：反复强调"先 Plan 确认方向再开搜"；强调"看来源证据表，不是看字数"；强调"待确认项"是诚实的表现而非缺点。</p>
+</li>
+</ol>
+<h3 id="8_7">五、学员练习（8 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：学员选一个自己工作相关的小课题，用 Plan 模式让 AI 先列提纲，确认后产出一份带来源证据表的简短报告（可缩小到 800-1000 字）。做完自查：有几个结论是能点开链接溯源的？</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看学员有没有开 Plan 模式、有没有等提纲确认就直接要报告——提醒先对齐方向。</li>
+<li>看指令里有没有要求"附来源链接、无法核实标待确认"，没有当场补。</li>
+<li>看报告出来后学员会不会真的去点链接验证，鼓励随手核一两条。</li>
+</ul>
+<h3 id="_34">六、课堂互动 / 提问</h3>
+<ol>
+<li>一份好的调研报告，衡量它的标准是"长"还是"能溯源"？为什么？</li>
+<li>Plan 模式在调研里解决了什么问题？（答：先对齐方向、避免跑偏和浪费积分）</li>
+<li>遇到投资/法律/医疗类课题，AI 该做到哪一步，哪一步必须由人来？</li>
+</ol>
+<h3 id="3_8">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：调研不看报告多长，看每个关键结论能不能点开链接溯源；AI 找证据，你来拍板。</li>
+<li><strong>课后作业</strong>：选一个你工作相关的课题，用 Plan 模式做一份带来源证据表的调研报告。验收标准：检查有几个结论是能点开链接溯源的，并至少有一处对重要数字做了多源交叉验证或标注了"待确认"。</li>
+<li><strong>承上启下</strong>：<blockquote>
+<p>"到这里模块二的'办公流水线'就打通了。下一模块，我们让 WorkBuddy 连上你的邮箱、腾讯文档、微信、Notion，把这些能力接到你真实的工具里去用。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_35">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：Plan 模式返回提纲可能较慢，别急着往下点；一定要现场演示"确认/微调"这一步，否则学员感受不到 Plan 模式的价值。联网搜索有时慢或结果一般，提前跑一遍备好素材。</li>
+<li><strong>学员高频提问的标准答案</strong>：</li>
+<li>"为什么它的链接点不开/失效？"——网络内容会变动，所以我们才要"待确认"标注和多源交叉，不能盲信。</li>
+<li>"调研一次很费积分吗？"——积分消耗以官网 www.workbuddy.cn 为准，Plan 模式先确认方向正是为了省积分。</li>
+<li>"能直接拿这报告做投资决策吗？"——不能，高风险领域 AI 只做资料+证据，拍板由人承担。</li>
+<li><strong>涉及价格/功能一律以官网 www.workbuddy.cn 为准。</strong></li>
+<li><strong>时间不够时可砍</strong>：进阶的多源交叉验证和"执行摘要/不同深度"两个小技巧可只念指令不实操；练习环节可把字数要求进一步压缩，保证每个学员至少跑通"Plan→确认→出带来源报告"这条主线。</li>
+</ul>
+<hr />
+<h1 id="_36">模块三 · 连接器与技能生态 — 讲师教案</h1>
+<blockquote>
+<p>本模块共 4 节课（第 12–15 课），全部为操作实战型课程。演示环节偏重，讲师务必<strong>边讲边现场操作</strong>。凡涉及价格 / 功能，一律以官网 <strong>www.workbuddy.cn</strong> 为准，不得当场编造。</p>
+</blockquote>
+<hr />
+<h2 id="12-notion">教案 · 第 12 课 · 连接器：打通邮箱 / 文档 / 微信 / Notion</h2>
+<h3 id="_37">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：45 分钟（导入 5' / 讲授 8' / 演示 20' / 练习 8' / 小结 4'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong></li>
+<li>能独立在「设置 → 连接器」中开启并授权至少一个连接器（如 QQ 邮箱）。</li>
+<li>能用一句话让 WorkBuddy 跨平台完成「检索 → 整理 → 创建」一条龙。</li>
+<li>能说出「用前必须先开连接器」这条铁律，并知道外发类操作要先出草稿。</li>
+<li><strong>教学重点</strong>：连接器的开启与授权流程；「用前先开」这条易错点。</li>
+<li><strong>教学难点</strong>：学员容易忘记开连接器就直接下指令，导致 WorkBuddy 说没权限；以及对「授权」环节的安全顾虑。</li>
+<li><strong>教具准备</strong>：讲师电脑已装好 WorkBuddy 并登录；准备一个可演示的 QQ 邮箱（有几封未读）；准备好腾讯文档、ima 账号可供演示授权；投屏正常。</li>
+</ul>
+<h3 id="5_7">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句——"大家平时一天要在几个软件之间来回切？邮箱、文档、微信、Notion……我数过，光'切软件'这个动作，一天能点几十次。今天我们让 WorkBuddy 帮你把这些平台全'串'起来，你只动嘴，它去各个软件里跑腿。"</li>
+<li><strong>本课价值钩子</strong>："学完这一课，你不打开邮箱，就能收到今天所有未读邮件的摘要；不打开腾讯文档，就能建好一张排期表。省的不是几分钟，是你在软件之间'找入口'的心力。"</li>
+</ul>
+<h3 id="8_8">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：连接器 = 连外部软件的"插头"</strong>
+- <strong>怎么讲</strong>：打比方——"WorkBuddy 就像一个万能遥控器，但出厂时没配对任何家电。连接器就是把它和你家电视、空调、音响'配对'的过程。配对完成，它才能替你开电视。你的邮箱、文档就是那些'家电'。"举例："开了 QQ 邮箱连接器，你说'把今天未读邮件列个摘要'，它就替你钻进邮箱去看。"
+- <strong>板书 / 强调</strong>：<code>连接器 = 插头 = 授权后才有权限操作你的平台</code>
+- <strong>常见误区</strong>：学员以为"WorkBuddy 那么强，肯定自动就能看我邮箱"。要澄清：<strong>没开连接器 = 没插上电，它啥也做不了，且这是为了保护你的隐私。</strong></p>
+<p><strong>知识点 2：铁律——用之前必须先开连接器</strong>
+- <strong>怎么讲</strong>："记住一句话，我今天要重复三遍：<strong>用前先开连接器</strong>。你想让它干哪个平台的活，先去把那个平台的连接器打开。没开就下指令，它会告诉你'没权限'，很多同学第一次都卡在这。"
+- <strong>板书 / 强调</strong>：<code>⚠️ 用前先开连接器（今天最重要的一句话）</code>
+- <strong>常见误区</strong>：把"登录了 WorkBuddy"等同于"连接器开好了"。这是两回事。</p>
+<p><strong>知识点 3：连接器有写入权限，外发要先出草稿</strong>
+- <strong>怎么讲</strong>："连接器不只是'看'，它还能'写'——建文档、发邮件都行。正因为能写，涉及发给别人的操作（发邮件给客户、写进 CRM），我们定个规矩：<strong>先让它出草稿，你看过再发</strong>，别让它自动外发没确认的东西。"
+- <strong>板书 / 强调</strong>：<code>写入权限 → 外发默认先出草稿，人工确认再发</code>
+- <strong>常见误区</strong>：担心它会乱发邮件。安抚：默认它会给你看草稿，主动权在你。</p>
+<h3 id="20">四、操作演示（20 分钟）——讲师如何现场演示</h3>
+<p><strong>演示目标</strong>：让学员看清"开连接器 → 授权 → 下指令干活"这条完整链路，并亲眼看到跨平台一条龙。</p>
+<p><strong>演示 A · 开启并授权 QQ 邮箱连接器（8 分钟）</strong>
+1. 打开 WorkBuddy，点右上 / 左下的<strong>设置</strong>（口播："所有连接器都在这一个地方，记住入口"）。
+2. 进入<strong>连接器</strong>，边滚动边讲："这里一长串，都是你能接的平台——邮箱、腾讯文档、飞书、微信、Notion、GitHub、Canva、腾讯问卷、ima……"
+3. 找到 <strong>QQ 邮箱</strong>，点<strong>开启</strong>。
+4. 按提示<strong>授权</strong>——通常会跳出扫码 / 登录页面。口播："这一步就是'配对'，它在问你——你同意我看你邮箱吗？你点同意，它才拿到权限。"完成授权，回到状态显示"已连接"。
+5. 回到对话框，输入指令：</p>
+<pre><code>获取最新 10 封邮件，列发件人、主题、摘要
+</code></pre>
+<ol>
+<li>展示结果。口播强调："看，我全程没打开邮箱网页。"</li>
+<li><strong>口播强调点</strong>：故意先<strong>不开</strong>连接器直接下一次指令，让它报"没权限"，再回去开——用这个对比把"用前先开"钉进脑子。</li>
+</ol>
+<p><strong>演示 B · 腾讯文档建表（4 分钟）</strong>
+1. 回到连接器，开启并授权<strong>腾讯文档</strong>。
+2. 下指令：</p>
+<pre><code>创建项目排期表，含任务/负责人/时间/状态 5 列，预填 10 行
+</code></pre>
+<ol>
+<li>展示生成的文档。口播："它不只是给你文字，是真的在你腾讯文档里建了一份可编辑的表。"</li>
+</ol>
+<p><strong>演示 C · 跨平台一条龙（5 分钟，全课高潮）</strong>
+1. 确认 <strong>ima + 腾讯文档</strong>两个连接器都已开启（口播："跨几个平台，就要几个连接器都开着"）。
+2. 下指令：</p>
+<pre><code>1. 从我的 ima 知识库搜关于「产品方法论」的笔记
+2. 整理成结构化文档
+3. 保存到腾讯文档，命名「产品方法论整理」
+</code></pre>
+<ol>
+<li>展示：一句话跨了三个平台，完成检索 → 整理 → 创建。口播："这就是连接器的威力——它替你在三个软件之间跑了一圈。"</li>
+</ol>
+<p><strong>演示 D · 微信集成（3 分钟）</strong>
+1. 进入<strong>设置 → Claw 设置 → 微信助手集成</strong>，扫码。
+2. 口播两条注意事项："第一，电脑得<strong>一直开机</strong>它才能推消息给你；第二，你在电脑这边发的消息<strong>不会</strong>同步回微信，它是单向提醒。"
+3. 演示提醒指令：</p>
+<pre><code>提醒我下午 3 点取快递
+</code></pre>
+<h3 id="8_9">五、学员练习（8 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每位学员独立完成——① 开启 <strong>QQ 邮箱</strong>连接器并授权；② 下指令 <code>获取最新 10 封邮件，列发件人、主题、摘要</code>；③ 有余力的，再开腾讯文档建一张排期表。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>最高频错误：<strong>没开连接器就下指令</strong>。看到报"没权限"，直接问一句"连接器开了吗"，多数当场恍然。</li>
+<li>授权页扫码 / 登录卡住：提醒用对应平台的正确账号登录。</li>
+<li>有人担心隐私不敢授权：说明这是本人主动授权、可随时在设置里断开。</li>
+</ul>
+<h3 id="_38">六、课堂互动 / 提问</h3>
+<ol>
+<li>"连接器和'登录 WorkBuddy'是一回事吗？"（答：不是，登录只是进门，连接器是逐个平台单独授权。）</li>
+<li>"我想让它把总结的内容发邮件给同事，它会直接发出去吗？"（答：涉及外发默认先出草稿，你确认再发。）</li>
+<li>"跨三个平台的一条龙，我需要开几个连接器？"（答：涉及几个平台就开几个。）</li>
+</ol>
+<h3 id="4_8">七、小结与作业（4 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："连接器是插头——<strong>用前必须先开</strong>，开了它才能替你操作邮箱、文档、微信这些平台。"</li>
+<li><strong>课后作业</strong>：开启 QQ 邮箱连接器，用一句话汇总今天的未读邮件，体验"不打开邮箱也能收邮件"。<strong>验收标准</strong>：截图展示 WorkBuddy 列出的邮件发件人 / 主题 / 摘要。</li>
+<li><strong>承上启下</strong>："连接器让它连上了你的平台。下节课我们给它'装外挂'——技能 Skill，让它学会下视频、发公众号、生成 PDF 这些专门本事。"</li>
+</ul>
+<h3 id="_39">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己最容易踩的坑</strong>：演示前一定要<strong>提前把要用的连接器授权好并测试一遍</strong>，现场扫码经常因网络或账号状态卡住，会打断节奏。演示 A 里"故意不开连接器看报错"要在自己账号上，别拿学员当场演砸。</li>
+<li><strong>高频提问标准答案</strong>："连接器安全吗？"——本人主动授权，可随时断开，WorkBuddy 只在你下指令时才访问。</li>
+<li><strong>价格 / 功能疑问</strong>：一律回"以官网 www.workbuddy.cn 为准"。</li>
+<li><strong>时间不够可砍</strong>：演示 D 微信集成可缩为口头介绍；跨平台一条龙（演示 C）是重点，不能砍。</li>
+</ul>
+<hr />
+<h2 id="13-skill">教案 · 第 13 课 · 技能 Skill：给它装外挂（安装 + 实战）</h2>
+<h3 id="_40">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：45 分钟（导入 5' / 讲授 8' / 演示 20' / 练习 8' / 小结 4'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong></li>
+<li>能说清"技能 Skill"和"连接器"的区别，各自解决什么。</li>
+<li>能在技能市场 / 设置里找到并安装一个官方技能，并试用一次。</li>
+<li>能用装好的技能完成一次"内容创作一条龙"。</li>
+<li><strong>教学重点</strong>：Skill 与连接器的区别；安装技能的操作路径。</li>
+<li><strong>教学难点</strong>：学员常把 Skill 和连接器混为一谈；对下载类技能的合规边界没概念。</li>
+<li><strong>教具准备</strong>：讲师账号已能访问技能市场；提前装好「公众号文案创作」「Canva」「Wechat Publisher」用于一条龙演示；准备一篇可发布的 md 文章素材；公众号草稿箱可展示。</li>
+</ul>
+<h3 id="5_8">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句——"上节课我们让 WorkBuddy 连上了你的平台。但你有没有想过让它'下载某个抖音号的全部视频''一键把文章发到公众号草稿箱''把一段文字变成精美 PDF'？这些不是天生就会的本事——得给它'装外挂'。"</li>
+<li><strong>本课价值钩子</strong>："学完这一课，你会给 WorkBuddy 装技能，从此'需要什么本事，就去技能市场装什么'。今天现场演示一条龙——从写稿、配图到发草稿箱，全自动。"</li>
+</ul>
+<h3 id="8_10">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：Skill vs 连接器——最关键的区分</strong>
+- <strong>怎么讲</strong>：打比方——"连接器是把它接到<strong>你已有的账号平台</strong>（你的邮箱、你的文档），就像给它你家钥匙。技能 Skill 是给它装一项<strong>专门本领</strong>（比如'会下抖音视频'这个能力），像给游戏角色学一个技能。一个是'接你的地盘'，一个是'长本事'。"举例："'读我邮箱'是连接器的活；'把文字生成 PDF'是技能的活。"
+- <strong>板书 / 强调</strong>：<code>连接器 = 接你的账号平台 ｜ Skill = 装一项专门本领</code>
+- <strong>常见误区</strong>：把两者混淆。用一句口诀区分：<strong>"接账号找连接器，长本事找技能。"</strong></p>
+<p><strong>知识点 2：官方技能有哪些、去哪装</strong>
+- <strong>怎么讲</strong>："打开设置里的技能市场，就像一个'能力应用商店'。"逐个点名几个高频技能并说场景："抖音批量下载（存参考素材）、Wechat Publisher（一键发草稿箱）、PDF 文档生成（做商务文档）、公众号爆款查询（找选题灵感）、浏览器自动化（网页抓数据）、公众号文案创作（写长文）、stock-advisor（股票分析）。"提醒："更全的清单在附录 B，含资讯类、事实核查类。"
+- <strong>板书 / 强调</strong>：<code>设置 / 技能市场 = 能力应用商店 → 需要什么装什么</code>
+- <strong>常见误区</strong>：以为技能装越多越乱。澄清："技能加得越多它越全能，用不到的放着不碍事。"</p>
+<p><strong>知识点 3：下载类技能的合规边界</strong>
+- <strong>怎么讲</strong>："下载类技能（抖音、视频）很强，但一定<strong>遵守平台条款、版权和合理使用</strong>。目的是学习结构、做参考，不是搬运别人的东西去发布。这条底线要守住。"
+- <strong>板书 / 强调</strong>：<code>下载类 → 学习/参考，非搬运；守版权与平台条款</code>
+- <strong>常见误区</strong>：以为能下就能随便用。明确不行。</p>
+<h2 id="14-skill">教案 · 第 14 课 · 打造自己的 Skill：把书和视频蒸馏成能力</h2>
+<h3 id="_41">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 5' / 讲授 10' / 演示 12' / 练习 10' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课（含实战练习）</li>
+<li><strong>教学目标</strong>（学完学员能做到）：</li>
+<li>能说清一个 Skill 的三要素——触发场景、方法论/步骤、输出模板，并用自己的活儿举例。</li>
+<li>能把一份自己的方法论（书/视频稿/SOP）喂给 WorkBuddy，蒸馏出"触发+步骤+模板"的工作流。</li>
+<li>能把蒸馏结果固化成专属 Skill，并用"连续 3 次达标"的标准验证它可用。</li>
+<li><strong>教学重点</strong>：Skill 三要素 + "喂原料 → 蒸馏 → 固化 → 测试"的完整闭环。</li>
+<li><strong>教学难点</strong>：学员容易把"用现成技能"和"造自己的技能"混为一谈；也容易把输出模板写得太笼统，导致每次产出不一致。</li>
+<li><strong>教具准备</strong>：装好并登录的 WorkBuddy；一份真实的方法论素材（推荐讲师自备一份"竞品分析 SOP"或"周报框架"文档做示范）；一个真实竞品的公开资料（用于测试）；白板/PPT。</li>
+</ul>
+<h3 id="5_9">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句话——"前面十几课，我们一直在'用'别人做好的技能。今天我要问大家一个问题：你每周都在重复做的那件活儿，比如写周报、审合同、做竞品分析，你脑子里其实有一套自己的固定套路对不对？那……为什么每次还是要从头想一遍、从头排一遍格式？"停顿，让学员点头。</li>
+<li><strong>本课价值钩子</strong>："今天这节课，是 L3 的分水岭。学完之后，你能把'你自己怎么做这件事'固化下来——以后一句话触发，AI 每次都按你的标准、你的框架、你的模板来产出。等于给你自己请了个永远不会忘规矩的助理。"</li>
+</ul>
+<h3 id="10_6">三、知识点讲解（10 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：为什么要自造 Skill（用现成 vs 造自己）</strong>
+- <strong>怎么讲</strong>：打个比方——"技能市场里现成的技能，像便利店的速食便当，解决通用的、大家都要的动作。但你有没有一道'家里的拿手菜'？比如你审合同有一张只有你会用的检查清单，你做竞品分析有一套自己的评分表——这道菜便利店没有，只有你会做。自造 Skill，就是把你这道拿手菜的做法写成菜谱，交给 AI，以后它照着菜谱每次都能做出一模一样的味道。"
+- <strong>板书 / 强调</strong>：<code>现成技能 = 通用动作</code> ／ <code>自造 Skill = 你的独门方法论固化</code>
+- <strong>常见误区</strong>：学员会说"我没什么独门方法论啊"。讲师澄清——"不需要多高级。你每周固定做、有固定套路的任何一件小事，都是方法论。哪怕是'我写周报永远分四段：本周完成、下周计划、风险、需要支持'——这就是可以蒸馏的方法论。"</p>
+<p><strong>知识点 2：一个 Skill 的三要素</strong>
+- <strong>怎么讲</strong>：这是本课的骨架，一定要讲透。用手指头数："一个 Skill 就三样东西。第一，<strong>触发场景</strong>——什么时候用它，比如'当我要写竞品分析报告时'。第二，<strong>方法论/步骤</strong>——按什么框架、什么顺序做，也就是你的 SOP。第三，<strong>输出模板</strong>——最后产物长什么样，固定的章节、固定的表格字段。"边讲边在白板画三个框。
+- <strong>板书 / 强调</strong>：白板画竖排三格框：<code>① 触发场景（什么时候用）</code> → <code>② 方法论/步骤（怎么做）</code> → <code>③ 输出模板（产物长啥样）</code>
+- <strong>常见误区</strong>：学员最容易忽略第三条"输出模板"，或者写得太虚（如"写一份专业的报告"）。讲师强调——"模板越具体越稳。你把章节名、表格字段全写死，产出一致性会大幅提升；写得越虚，AI 每次自由发挥，你就得每次返工。"</p>
+<p><strong>知识点 3：从窄开始</strong>
+- <strong>怎么讲</strong>："很多人一上来想造一个'万能助理'，结果什么都做不好。正确姿势是——先造一个只做一件事的小技能，比如'生成标准周报'，跑顺了、稳定了，再往上加功能。就像学做菜先学会一道，别一开始就想开满汉全席。"
+- <strong>板书 / 强调</strong>：<code>从窄开始：一个 Skill 先只干一件事</code></p>
+<h3 id="12_3">四、操作演示（12 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员完整看到"喂原料 → 蒸馏 → 固化 → 测试"四步，尤其看清"蒸馏结果"长什么样。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师把提前备好的方法论文档（如"竞品分析 SOP"）拖进 WorkBuddy 工作区。边做边说："第一步叫<strong>喂原料</strong>——把你的书、视频文字稿、或者你自己的 SOP 拖进来。"</li>
+<li>输入下面这条指令，回车。边等边口播："注意我没让它直接干活，我先让它'蒸馏'，也就是把这份文档提炼成三要素框架。"</li>
+<li>蒸馏结果出来后，逐项对照白板三个框讲："看，它给出了①什么情况触发、②分几步每步做什么、③最终输出的固定模板——这就是我们要的骨架。"</li>
+<li>讲师现场对蒸馏结果做一处微调（比如补一个表格字段），演示"确认前先改到满意"。</li>
+<li><strong>固化成技能</strong>：打开 WorkBuddy 技能市场/设置里的"创建技能"流程，把这套框架保存成专属 Skill。口播："这一步就是把菜谱存进冰箱。（提一句：也可以创建成'专家'，我们第 19 课专门讲。）"</li>
+<li><strong>测试</strong>：新开一个任务触发这个 Skill，喂一个真实竞品资料，看它是否严格按刚才那个模板产出。</li>
+<li><strong>要复制的完整指令</strong>（喂原料 + 蒸馏）：</li>
+</ul>
+<pre><code>这是我做竞品分析的方法论文档（附件）。请你把它蒸馏成一个
+可复用的工作流：1. 什么情况触发  2. 分几步、每步做什么
+3. 最终输出的固定模板（章节+表格字段）。先给我看这个蒸馏结果。
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调的点</strong>：反复点两句——"第一，先看蒸馏结果再固化，别一步到位。第二，测试要连续 3 次达标才算这个 Skill 可用，一次准不算数。"</li>
+</ul>
+<h3 id="10_7">五、学员练习（10 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人挑一件自己每周都做、且有固定套路的活（周报/会议纪要/邮件回复/数据周报等），把套路写成"触发+步骤+模板"，用演示里的指令蒸馏一遍，看蒸馏结果。时间够的同学继续固化成 Skill 并测 1 次。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>重点看有没有人把"输出模板"写虚了——发现就当场追问："你的报告一共几个章节？每个表格有哪几列？把它写死。"</li>
+<li>看有没有人贪大，一上来造万能技能——提醒"先窄，先只做一件事"。</li>
+<li>看有没有人拿现成技能当自己方法论——纠正区别。</li>
+</ul>
+<h3 id="_42">六、课堂互动 / 提问</h3>
+<ol>
+<li>一个 Skill 的三要素是哪三个？谁能用自己的活儿举个例子？</li>
+<li>为什么"输出模板"要写得越具体越好？写虚了会怎样？</li>
+<li>我们说"连续 3 次达标"才算 Skill 可用，为什么不是 1 次？</li>
+</ol>
+<h3 id="3_9">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："把'你怎么做这件事'固化成 Skill，以后一句话触发，每次都按你的标准来——这就是从用工具到造工具的分水岭。"</li>
+<li><strong>课后作业</strong>：挑一件你每周都做、且有固定套路的活，把套路写成"触发+步骤+模板"，蒸馏成一个 Skill，并测试 3 次。<strong>验收标准</strong>：能提交这个 Skill 的三要素文字 + 连续 3 次测试产出都严格符合你的模板。</li>
+<li><strong>承上启下</strong>："你现在有了自己的技能。可它们还是散的、要你手动触发。下节课我们讲知识系统——怎么把你散落各处的笔记和收藏，变成能反复用起来的知识资产。"</li>
+</ul>
+<h3 id="_43">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：现场演示时素材别太长太杂，选一份结构清晰的 SOP，否则蒸馏结果乱、讲不清。测试环节备好一个现成的真实竞品资料，避免临场找资料浪费时间。</li>
+<li><strong>学员高频提问标准答案</strong>：</li>
+<li>"创建技能的具体入口在哪？"——答：在技能市场/设置里的"创建技能"流程，界面可能随版本更新，以官网 www.workbuddy.cn 为准。</li>
+<li>"Skill 和'专家'有什么区别？"——答：都能固化方法论，专家更像一个带人设和多技能的角色，第 19 课专门讲，今天先掌握 Skill。</li>
+<li>"造 Skill 要不要花钱/扣积分？"——答：具体计费以官网 www.workbuddy.cn 为准。</li>
+<li><strong>时间不够时可砍</strong>：可砍掉演示步骤 4（现场微调）和练习中的"固化+测试"，只保证学员完成"喂原料+蒸馏"这一核心闭环，固化和 3 次测试留作业。</li>
+</ul>
+<hr />
+<h2 id="15-ima-obsidian">教案 · 第 15 课 · 知识系统：ima / Obsidian / 收藏再利用</h2>
+<h3 id="_44">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：30 分钟（导入 5' / 讲授 8' / 演示 10' / 练习 5' / 小结 2'）</li>
+<li><strong>课型</strong>：理论认知课（含操作演示）</li>
+<li><strong>教学目标</strong>（学完学员能做到）：</li>
+<li>能说清"收藏≠知识管理，能再次用起来才是"，并复述个人知识工作流的六个环节。</li>
+<li>能让 WorkBuddy 连接 ima/Obsidian/文档，把散落笔记检索出来、结构化、关联并再产出一篇新东西。</li>
+<li>能对自己的笔记库做一次"知识库体检"，找出过期该更新的信息。</li>
+<li><strong>教学重点</strong>：知识工作流六环节（捕捉→归集→分类→检索→组装→体检）+ "始终保留来源"的原则。</li>
+<li><strong>教学难点</strong>：学员容易把这节当成"教我用 Obsidian 软件"，重点其实是让 AI 把碎片"用起来"；也容易忽略溯源，产出一堆看着对但不可信的内容。</li>
+<li><strong>教具准备</strong>：装好并登录的 WorkBuddy，并提前连接好至少一个笔记库（ima 或 Obsidian，内含若干示范笔记，最好包含几条明显过期的——带旧版本号/旧价格/旧榜单）；白板/PPT。</li>
+</ul>
+<h3 id="5_10">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师问——"举个手，谁的微信收藏夹、浏览器书签、笔记 App 里，存了几百上千条'以后一定要看'的东西？"（学员都会举手笑）"再问——过去一个月，你真的回去用过其中几条？"停顿。"对，这就是最普遍的痛点：<strong>收藏 = 存了就忘</strong>。存的那一刻你很满足，之后它就躺在坟墓里再没醒来。"</li>
+<li><strong>本课价值钩子</strong>："今天我们让 WorkBuddy 把你散落各处的笔记、收藏、文档，变成一个'能再次用起来'的知识系统——需要的时候一句话就能把相关的全捞出来，组装成一篇文章、一份方案。你存过的东西，终于能变成你的资产。"</li>
+</ul>
+<h3 id="8_11">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：收藏不是知识管理</strong>
+- <strong>怎么讲</strong>：核心金句先抛出来——"收藏不是知识管理，<strong>能再次用起来才是</strong>。"打比方："收藏就像把菜买回来塞进冰箱最深处，冻到发霜也没做成菜。真正的知识管理，是你随时能把需要的食材拿出来、配好、下锅炒成一盘菜。"再说 WorkBuddy 能干嘛："它能连接你的 ima 知识库、Obsidian、WPS、腾讯/飞书文档，把碎片信息——<strong>检索出来 → 结构化 → 关联 → 再产出</strong>。"
+- <strong>板书 / 强调</strong>：<code>收藏 ≠ 知识管理，能再次用起来才是</code> ／ <code>检索 → 结构化 → 关联 → 再产出</code>
+- <strong>常见误区</strong>：学员以为这节是"教我用某个笔记软件"。讲师澄清——"我们不是学软件操作，是学怎么让 AI 把你已经存的东西盘活。软件是哪个都行。"</p>
+<p><strong>知识点 2：个人知识工作流六环节</strong>
+- <strong>怎么讲</strong>：在白板画一条流水线，边画边讲这条链子："① 移动端随手捕捉（用 ima 或微信）→ ② 定期归集 → ③ 打标签分类 → ④ 需要时检索 → ⑤ 组装成新产物（报告/文章/方案）→ ⑥ 来源'体检'（哪些信息过期了）。"强调："前面是把东西攒进来，后面④⑤⑥才是'用起来'——大多数人只做了前半段，所以收藏才变坟墓。"
+- <strong>板书 / 强调</strong>：白板横向流水线：<code>捕捉 → 归集 → 分类 → 检索 → 组装 → 体检</code>
+- <strong>常见误区</strong>：学员容易只关注"捕捉"和"分类"（前半段），忽略"组装"和"体检"（后半段才是价值所在）。讲师点破。</p>
+<p><strong>知识点 3：始终保留来源（溯源）</strong>
+- <strong>怎么讲</strong>："这是让你的知识系统可信的关键——让 AI 整理时<strong>始终标出'哪条结论来自哪个文件'</strong>。为什么？因为如果不溯源，它给你的就又是'一堆 AI 生成的、看起来对但你不敢用'的话。带上来源，你才能核对、才敢拿去用。"
+- <strong>板书 / 强调</strong>：<code>可溯源 = 可信任</code></p>
+<h3 id="10_8">四、操作演示（10 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到两个真实动作——把散落笔记组装成一篇文章（含溯源），以及对知识库做体检。</li>
+<li><strong>操作步骤</strong>：</li>
+<li><strong>案例 A · 散落笔记 → 一篇文章</strong>：讲师在已连接的 Obsidian 上执行下面指令。边等边口播："注意最后一句'标出每个观点来自哪条笔记'——这就是溯源，一定要加。"</li>
+<li>结果出来，讲师指着提纲里的来源标注说："看，每个观点后面都挂着出处，我随时能点回去核对。"</li>
+<li><strong>案例 B · 知识库体检</strong>：换到 ima 知识库，执行体检指令。口播："它会专门盯涉及版本号、价格、榜单这类'有保质期'的信息，告诉我哪些可能过期了。"</li>
+<li>结果出来，讲师念一两条过期清单："比如这条写着某工具还是去年的价格，明显该更新了——这就是把收藏从坟墓里唤醒的价值。"</li>
+<li><strong>案例 C · 口头带过</strong>（不现场做，因涉及自动任务）："还可以配合微信助手随手把想法发给它，再设一个每周日的自动任务——'把本周碎片笔记归集分类存进 Obsidian'，这个自动任务我们第 16 课专门讲。"</li>
+<li><strong>要复制的完整指令</strong>：</li>
+</ul>
+<p>案例 A（组装文章）：</p>
+<pre><code>从我的 Obsidian 里搜所有含「Agent 设计」的笔记，
+去重后按主题聚类，帮我组织成一篇 2000 字文章的提纲，
+标出每个观点来自哪条笔记（可溯源）。
+</code></pre>
+<p>案例 B（知识库体检）：</p>
+<pre><code>检查我 ima 知识库里「AI 工具」标签下的笔记，
+标出哪些信息可能已过期（涉及具体版本号、价格、榜单的），
+列出需要更新的清单。
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调的点</strong>："两条指令都有一个共同点——去重、聚类、溯源，让 AI 不只是'搜出来'，而是帮你'整理好、标好来源'。这才叫用起来。"</li>
+</ul>
+<h3 id="5_11">五、学员练习（5 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人选一个自己的笔记库（ima/Obsidian/文档都行），仿照案例 B 让 WorkBuddy 做一次"知识库体检"，看看有多少收藏其实早就该更新了。没连接笔记库的同学，可先在自己的文档里放几条笔记再试。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看有没有人忘了限定标签/主题，导致检索范围太大结果乱——提醒缩小范围。</li>
+<li>看有没有人在组装类任务里漏了"标出来源"这句——提醒补上，强调溯源。</li>
+<li>帮没连上笔记库的同学确认连接入口（以官网为准）。</li>
+</ul>
+<h3 id="_45">六、课堂互动 / 提问</h3>
+<ol>
+<li>为什么说"收藏不是知识管理"？那什么才是？</li>
+<li>个人知识工作流的六个环节是什么？大多数人卡在哪一段？</li>
+<li>为什么每次让它整理都要加"标出来源"这一句？</li>
+</ol>
+<h3 id="2_6">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："收藏了不等于拥有，能被再次捞出来、组装成新产物、还知道来源，才是真正属于你的知识资产。"</li>
+<li><strong>课后作业</strong>：选一个你的笔记库（ima/Obsidian/文档都行），让 WorkBuddy 做一次"知识库体检"，看看有多少收藏其实早就该更新了。<strong>验收标准</strong>：能提交一份体检清单，列出至少若干条被标为"可能过期/需更新"的信息及其来源。</li>
+<li><strong>承上启下</strong>："案例 C 里我提到一个'每周日自动整理'的任务——让它自己定时干活，不用你手动催。下一课我们就正式进入模块四，讲定时自动化任务。"</li>
+</ul>
+<h3 id="_46">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己容易踩的坑</strong>：一定要提前连好笔记库并塞几条"明显过期"的示范笔记（旧版本号/旧价格），否则体检演示出不来效果，学员感受不到价值。别把这节讲成软件教学，重点始终是"让 AI 把碎片用起来"。</li>
+<li><strong>学员高频提问标准答案</strong>：</li>
+<li>"支持连接哪些笔记/文档？"——答：可连接 ima 知识库、Obsidian、WPS、腾讯/飞书文档等，具体支持范围以官网 www.workbuddy.cn 为准。</li>
+<li>"连接笔记库/知识系统收不收费？"——答：具体功能与计费以官网 www.workbuddy.cn 为准。</li>
+<li>"自动整理任务怎么设？"——答：这属于定时自动化任务，第 16 课专门讲，今天先知道能配合微信助手随手捕捉即可。</li>
+<li><strong>时间不够时可砍</strong>：可只演示案例 B（体检）这一个，案例 A 改为口头描述；练习环节可压缩为课堂集体做一次示范。</li>
+</ul>
+<hr />
+<h1 id="_47">模块四 · 自动化与可靠性 — 讲师教案</h1>
+<h2 id="16_2">教案 · 第 16 课 · 定时自动化任务：让它自己干活</h2>
+<h3 id="_48">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：35 分钟（导入 4' / 讲授 8' / 演示 12' / 练习 9' / 小结 2'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能独立创建一个"定时/周期"自动任务，设好时间规则并让它到点自动跑。</li>
+<li>学员能说出"电脑必须开机"这一关键前提，并遵循"先手动跑一次、再设自动"的流程。</li>
+<li>学员能完成一个属于自己的每日自动任务（晨报/提醒/日报三选一）。</li>
+<li><strong>教学重点</strong>：定时任务的三要素——"什么时候跑 + 干什么 + 结果发到哪"。</li>
+<li><strong>教学难点</strong>：学员容易忽视"电脑要开机"和"先手动验证"，导致定时跑出一堆错的还不知道。</li>
+<li><strong>教具准备</strong>：装好并登录的 WorkBuddy；已授权的邮箱连接器；已集成的微信助手；已连好的腾讯文档「工作日志」和「周报」文件夹；准备一个"上节课手动跑成功过"的晨报示例截图。</li>
+</ul>
+<h3 id="4_9">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句——"我先问大家一件事：你们每天早上到公司，头半小时都在干嘛？"（等学员答：看邮件、翻消息、列今天要做的事。）"对，全是重复的体力活，还没开始正经工作，一小时没了。"</li>
+<li><strong>本课价值钩子</strong>：一句话钩住——"今天这节课，我要让你明天早上打开电脑，昨天的邮件汇总、今天的待办、行业热点，已经躺在你微信里了——你一个字都没敲。我们让机器替你上早班。"</li>
+</ul>
+<h3 id="8_12">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：什么是定时/周期任务</strong>
+- <strong>怎么讲</strong>：打比方——"普通任务就像你叫它一次它干一次，像点外卖；定时任务像你订了牛奶，每天早上自动送到门口，不用天天下单。"再落到实处："凡是'每天/每周都要做一遍'的活——日报、周报、定时提醒、定期巡检——都能交给它。"
+- <strong>板书 / 强调</strong>：<code>定时任务 = 时间规则 + 到点自动跑</code>；<code>适合：日报 / 周报 / 提醒 / 巡检</code>
+- <strong>常见误区</strong>：学员以为设一次就能"永远自动、什么都不用管"。要澄清："它是帮你干重复的活，不是从此不管——一会儿讲为什么。"</p>
+<p><strong>知识点 2：任务三要素</strong>
+- <strong>怎么讲</strong>："设一个定时任务，你只要想清楚三句话：<strong>什么时候跑、跑起来干什么、结果发到哪</strong>。就像交代同事——'每天九点、把昨天邮件汇个总、发我微信'，一句话说清就行。"
+- <strong>板书 / 强调</strong>：<code>① 什么时候跑  ② 干什么  ③ 结果发哪</code></p>
+<p><strong>知识点 3：关键限制——电脑必须开机</strong>
+- <strong>怎么讲</strong>：语气加重——"记住一句话，这是今天最重要的一句：<strong>自动任务是在你自己这台电脑上跑的，它跑的时候电脑必须是开着的。</strong>"打比方——"就像闹钟得插着电才会响，你把电脑关了，它就成了个哑巴闹钟。"提醒："所以早九点的晨报，你如果习惯关机走人，那它九点根本没机会跑。"
+- <strong>板书 / 强调</strong>：<code>⚠️ 执行时电脑必须开机（在本机跑）</code>
+- <strong>常见误区</strong>：以为像手机 App 通知一样在云端跑。要明确"不是，它在你本机跑，靠：电脑开机 + 连接器保持授权 + 网络正常，三样都得在。"</p>
+<p><strong>知识点 4：先手动，再自动</strong>
+- <strong>怎么讲</strong>："我强烈建议一个习惯——<strong>先手动跑一次，看结果满意了，再设成自动。</strong>为什么？如果指令写得不对，你直接设自动，它就每天准时给你送一堆垃圾，你还未必发现。先手动验一遍，等于先试驾再买车。"
+- <strong>板书 / 强调</strong>：<code>先手动跑一次 ✅ → 满意 → 再设自动</code></p>
+<h3 id="12_4">四、操作演示（12 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员完整看到"手动验证 → 设成定时 → 到点自动跑并发到微信"的全过程。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师边说边做："先手动跑一遍。"输入下面这条，让它当场汇总邮件并发微信，展示结果。口播："看，这就是我们想要的效果，说明指令没问题。"</li>
+<li>确认满意后，说"现在把它变成每天自动"，输入案例 A 的定时指令。</li>
+<li>指出任务创建成功的提示位置，打开任务列表让学员看到这条定时任务已存在、下次执行时间是明早 9:00。</li>
+<li>讲工时提醒——顺手演示案例 C 这条更简单的，让学员看到"提醒类"任务多好设。</li>
+<li><strong>要复制的完整指令</strong>（案例 A · 每日邮件晨报）：</li>
+</ul>
+<pre><code>创建一个自动化任务：
+- 每天早上 9:00 执行
+- 获取邮箱过去 24 小时的邮件
+- 按重要程度分类汇总（发件人、主题、摘要）
+- 通过微信助手把汇总发给我
+</code></pre>
+<p>（需先开邮箱连接器 + 微信助手集成）</p>
+<p>案例 C · 定时提醒：</p>
+<pre><code>每个工作日下午 6 点提醒我：填今天的工时表。
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调</strong>：做第 1 步时反复讲"我们是先手动验证"；创建定时后强调"明早我电脑得开着它才会跑"；展示任务列表时说"以后所有自动任务都在这里看得到、管得着"。</li>
+</ul>
+<h3 id="9_5">五、学员练习（9 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人设一个属于自己的每日自动任务，三选一：① 每日邮件晨报（案例 A）；② 每周周报草稿（案例 B）；③ 每日工时提醒（案例 C）。要求先手动跑一次确认结果，再设成定时。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>重点看有没有人跳过"先手动"直接设自动——当场拦下，让他先验证。</li>
+<li>检查时间规则写清没有（"每天""每周五""每个工作日"要说明白）。</li>
+<li>提醒选案例 A/B 的同学确认连接器/文档权限是否已连好，没连的当场引导授权。</li>
+<li>结束前每人念一遍"我这台电脑到点得开着"，把关键前提刻进脑子。</li>
+</ul>
+<p>案例 B（供选做，可复制）：</p>
+<pre><code>每周五 17:00 自动执行：
+读取我这周在腾讯文档「工作日志」的记录，
+生成周报草稿，保存到腾讯文档「周报」文件夹。
+</code></pre>
+<h3 id="_49">六、课堂互动 / 提问</h3>
+<ol>
+<li>"定时任务的三要素是哪三个？"（答：什么时候跑、干什么、发到哪。）</li>
+<li>"我设了早九点的晨报，但我八点半关机回家了，明早会有汇总吗？为什么？"（答：不会，本机跑、电脑得开着。）</li>
+<li>"为什么我建议大家先手动跑一次再设自动？"（答：避免指令有错，自动化每天准时送错东西。）</li>
+</ol>
+<h3 id="2_7">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："定时任务就是把'每天要做一遍的重复活'交给机器上早班，但机器上班的前提是——你的电脑开着。"</li>
+<li><strong>课后作业</strong>：设置一个属于你的每日自动任务（晨报、提醒、日报都行），观察它第二天有没有准时执行。验收标准：第二天能收到自动产出的结果，并能说出如果没收到该先查哪三样（电脑开机/连接器授权/网络）。</li>
+<li><strong>承上启下</strong>："今天让它自己干活，明天我们让它干更聪明的活——把满世界的资讯自动整合成一份'不吵'的每日通知。"</li>
+</ul>
+<h3 id="_50">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己易踩的坑</strong>：现场演示定时任务当场不会真的等到明早，所以务必用"先手动跑"那一步展示真实效果，别让学员误以为"没看到结果=不好使"。</li>
+<li><strong>高频提问标准答案</strong>：</li>
+<li>"能同时设很多个定时任务吗？"——可以，都在任务列表里管理。</li>
+<li>"关于任务数量/价格有没有限制？"——以官网 www.workbuddy.cn 为准，不要口头承诺具体数字。</li>
+<li><strong>时间不够可砍</strong>：案例 C 的额外演示可省略，只留案例 A 的完整流程即可保证教学目标达成。</li>
+</ul>
+<hr />
+<h2 id="17_1">教案 · 第 17 课 · 资讯整合流水线：信息流变每日通知</h2>
+<h3 id="_51">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 4' / 讲授 12' / 演示 13' / 练习 9' / 小结 2'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>学员能说出资讯整合"先筛选再推送"的核心思路和那条统一工作流的关键环节。</li>
+<li>学员能搭建一个每日资讯通知任务（GitHub 热点 / AI 日报 / 竞品公众号监控三选一）。</li>
+<li>学员能理解"热度只帮排序、不替代事实核验"这条边界。</li>
+<li><strong>教学重点</strong>：资讯系统必须"先筛选再推送"——通知要少而准，不能吵。</li>
+<li><strong>教学难点</strong>：学员容易只想着"多抓一点"，忽略去重、评分、核查，结果做出一个吵人的噪音机器。</li>
+<li><strong>教具准备</strong>：装好登录的 WorkBuddy；已装好或可现场安装 AIHOT skill；准备好资讯类 Skill 清单投屏；一份"筛选前 vs 筛选后"的对比示例（20 条 vs 5 条）。</li>
+</ul>
+<h3 id="4_10">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师问——"有多少人关注了一堆行业公众号、订了 GitHub Trending、还加了几个信息群？"（举手多。）"再问：这些群和推送，你现在还看吗？还是早都设成免打扰了？"（笑，多半点头。）"这就是问题——信息不是不够，是太多，重要的全被淹了。"</li>
+<li><strong>本课价值钩子</strong>："今天我们不做'又一个吵你的推送'，我们做一个<strong>'不吵'的 AI 日报</strong>：从一堆信息源里，每天只挑出真正值得你看的五到十条，还告诉你为什么值得看。"</li>
+</ul>
+<h3 id="12_5">三、知识点讲解（12 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：资讯整合最怕两件事</strong>
+- <strong>怎么讲</strong>："做资讯系统会死在两件事上——一是<strong>信息太多</strong>，重要的被淹没；二是<strong>通知太吵</strong>，最后大家把它当背景噪音，跟没有一样。"结论前置："所以好系统的核心就一句话：<strong>先筛选，再推送。</strong>"
+- <strong>板书 / 强调</strong>：<code>怕：太多 + 太吵</code> → <code>解法：先筛选 再推送</code>
+- <strong>常见误区</strong>：以为"抓得越多越牛"。要纠正："抓得多是本事的一半，'敢扔'才是另一半。"</p>
+<p><strong>知识点 2：统一工作流（所有资讯通知都是这条链）</strong>
+- <strong>怎么讲</strong>：在白板上从左到右画一条流水线，边画边用大白话解释每一环："先<strong>订阅和抓</strong>（去哪找）→ <strong>去重</strong>（同一件事十家都报，合成一条）→ <strong>分类打分</strong>（这条重不重要、跟我相不相关）→ <strong>摘要翻译</strong>（长文变三句话、给个影响判断）→ <strong>补证核查</strong>（别把营销稿当真事）→ <strong>生成卡片</strong>（做成固定好看的格式）→ <strong>推送</strong>（发飞书/微信/邮件/文档）→ <strong>归档复盘</strong>（存下来、以后回看）。"
+- <strong>板书 / 强调</strong>：<code>订阅抓取 → 去重 → 分类评分 → 摘要 → 核查 → 生成卡片 → 推送 → 归档</code>
+- <strong>常见误区</strong>：学员觉得中间环节可省。讲师点破："去重和核查最容易被跳过，也最容易出洋相——同一新闻推你五遍，或者把谣言当大新闻推给老板。"</p>
+<p><strong>知识点 3：可用的资讯类 Skill 有哪些</strong>
+- <strong>怎么讲</strong>：投屏 Skill 清单，快速对号入座——"想看热点新闻用<strong>腾讯新闻</strong>；盯 AI 行业用 <strong>AIHOT</strong>；研发同学看 <strong>GitHub 热门项目</strong>；追论文用 <strong>ArXiv</strong>；盯竞品公众号用 <strong>wechat-article-search</strong>；要给重要信息二次验证用<strong>多引擎搜索 / Tavily / Exa</strong>；有争议信息用 <strong>辟谣助手 / factcheck</strong>。"强调："你不用全用，挑你最需要的那一两个源就够。"
+- <strong>板书 / 强调</strong>：<code>按需求选源：热点=腾讯新闻 / AI=AIHOT / 代码=GitHub / 论文=ArXiv / 竞品=公众号搜索</code></p>
+<p><strong>知识点 4：边界——热度不等于事实</strong>
+- <strong>怎么讲</strong>：郑重地讲——"记住这条红线：<strong>热度只能帮你排序，不能替代事实核验。</strong>很多爆款只是营销稿。重要信息推送前，一定过一遍事实核查 Skill，标个可信度再发。"
+- <strong>板书 / 强调</strong>：<code>🚧 热度帮排序 ≠ 事实。重要信息先核查，标可信度</code></p>
+<h3 id="13">四、操作演示（13 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到从"装 skill → 搭每日资讯任务 → 筛选后的通知长什么样"的完整过程，直观感受"筛过 vs 没筛"的差别。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>先展示"没筛选"的反例：让它直接抓一大堆 GitHub 热门原始列表，二十多条糊一屏。口播："这就是典型的'太多太吵'，没人想看。"</li>
+<li>换上案例 A 的指令，只推 Top 5-10 且每条带"是否值得试用"判断。对比给学员看："同样的源，这份就能读了。"</li>
+<li>演示装 AIHOT skill：输入安装指令，展示安装成功。</li>
+<li>用案例 B 搭一个 AI 行业日报，指出分组（今日三件大事/模型与产品/开源/论文/机会与风险）和"高影响追加二次核验"这一句。</li>
+<li><strong>要复制的完整指令</strong>（案例 A · GitHub 每日热点通知）：</li>
+</ul>
+<pre><code>创建自动任务：每天早上 7 点抓 GitHub Trending 和 AI 热门项目，
+按语言/主题/star 增长过滤，只推 Top 5-10 个，
+每个给一句「是否值得试用」判断，发到我微信。
+</code></pre>
+<p>安装 AIHOT skill：</p>
+<pre><code>帮我安装这个 skill：https://aihot.virxact.com/aihot-skill/
+</code></pre>
+<p>案例 B · AI 行业日报：</p>
+<pre><code>每天固定时间从 AIHOT 拉 AI 动态，按模型/产品/行业/论文/开源/商业化分组，
+每条做「影响范围、可信度、与我团队相关性」评分，
+只推 5-8 条重点，其余归档，高影响的追加二次检索补官方来源。
+</code></pre>
+<ul>
+<li><strong>演示中要口播强调</strong>：反复点"只推 Top 5-10""每条给判断""高影响才追加核查"——让学员记住"筛选"三个字贯穿始终。</li>
+</ul>
+<h3 id="9_6">五、学员练习（9 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人搭一个自己最需要的每日资讯通知，三选一：① GitHub 每日热点（案例 A）；② AI 行业日报（案例 B，需先装 AIHOT）；③ 竞品/KOL 公众号监控（用 wechat-article-search）。要求指令里必须包含"只推 N 条"这类筛选限制。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>抓那些"什么都想要、不设上限"的同学——让他加上"只推 Top 5-10"。</li>
+<li>检查有没有指定推送去向（微信/飞书/文档）。</li>
+<li>选 AI 日报的确认 AIHOT 已装好；装不上的当场帮忙。</li>
+<li>提醒重要信息要带"核查/可信度"这一环，别做成纯搬运。</li>
+</ul>
+<h3 id="_52">六、课堂互动 / 提问</h3>
+<ol>
+<li>"资讯整合最怕哪两件事？破解它们的一句话口诀是什么？"（答：太多、太吵；先筛选再推送。）</li>
+<li>"我想盯三个竞品公众号有没有出爆款，用哪个 Skill？"（答：wechat-article-search。）</li>
+<li>"一条爆款新闻很热，是不是就一定该推给老板？"（答：不一定，热度只帮排序，得先核查可信度。）</li>
+</ol>
+<h3 id="2_8">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："好的资讯系统不是抓得多，而是筛得准——每天只给你真正值得看的那几条，还告诉你为什么。"</li>
+<li><strong>课后作业</strong>：搭一个你最需要的每日资讯通知，跑三天，然后砍掉噪音、留下真正有用的源。验收标准：三天后能说出哪些源留、哪些砍，以及每天推送控制在了多少条。</li>
+<li><strong>承上启下</strong>："现在任务会自己跑、还能筛资讯了。但它跑对没跑对、出错了你知不知道？下节课我们给自动化上'保险'——日志、告警、人工关口。"</li>
+</ul>
+<h3 id="_53">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师自己易踩的坑</strong>：现场装 AIHOT skill 有网络依赖，装不上时别僵在那，改用案例 A（GitHub）继续讲，课后再帮学员装。</li>
+<li><strong>高频提问标准答案</strong>：</li>
+<li>"这些资讯 Skill 都免费吗？有没有额度限制？"——功能与价格以官网 www.workbuddy.cn 为准，不要现场承诺。</li>
+<li>"推送能发到飞书吗？"——可以，飞书/微信/邮件/文档都支持推送。</li>
+<li><strong>时间不够可砍</strong>：案例 B 的分组细节可略讲，保住"先筛选、只推 Top N、重要信息要核查"三个核心点即可。</li>
+</ul>
+<h2 id="18">教案 · 第 18 课 · 自动化工作流的可靠性：日志 / 异常 / 人工关口</h2>
+<h3 id="_54">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：30 分钟（导入 4' / 讲授 10' / 演示 8' / 练习 6' / 小结 2'）</li>
+<li><strong>课型</strong>：理论认知课（带一段现场演示）</li>
+<li><strong>教学目标</strong>（学完学员能做到）：</li>
+<li>能说出可靠自动化的三根支柱——日志、异常告警、人工关口，并解释各自解决什么问题。</li>
+<li>能用"出错了只是白跑一趟 / 出错了会造成后果"这把尺子，判断一个动作该不该全自动。</li>
+<li>能给自己已有的自动任务加上"写日志 + 失败告警 + 高风险留人工确认"三道保险。</li>
+<li><strong>教学重点</strong>：三根支柱的作用；"高风险动作必须留人工关口"这条铁律。</li>
+<li><strong>教学难点</strong>：学员容易把"能自动"当成"该自动"，尤其是外发、删改、发布类动作，要反复扭正观念。</li>
+<li><strong>教具准备</strong>：</li>
+<li>已在第 16 课设好的"每日晨报自动任务"（讲师账号里真实存在、能演示）。</li>
+<li>一份空白的「晨报日志」文档，方便现场演示日志会写进哪里。</li>
+<li>备好可断网的环境或模拟失败的方式，用于演示告警。</li>
+<li>蓝皮书里"发布类动作默认不全自动"那段话截图，放 PPT 上。</li>
+</ul>
+<h3 id="4_11">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句话——<blockquote>
+<p>"各位，前面几节课我们让机器人自己跑起来了，很爽对不对？现在我问一个扎心的问题：你确定它昨天真的跑了吗？跑对了吗？如果它昨天悄悄失败了，你今天早上是不是啥都不知道，还傻等着看晨报？"
+  停一拍，让大家想象那个空等的场面。再补一句：
+"更可怕的是——万一它不是白跑，而是自动把一封没写完的邮件发出去了呢？"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"这节课，我们要把自动化从'会跑的玩具'升级成'能托付的员工'。学完你会给任务装三样东西：黑匣子、报警器、和一道拦在关键动作前的闸门。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="10_9">三、知识点讲解（10 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：自动化不是设完就不管——三个必答问题</strong>
+- <strong>怎么讲</strong>：讲师打比方——"你雇了个新员工帮你干活，你会关心三件事：他到底干没干？干砸了会不会告诉我？哪些事他不能自作主张、得先请示我？自动任务一模一样。"然后把三个问题一条条抛出来：
+  1. 怎么知道它跑了、跑对没？→ 要有<strong>执行日志</strong>。
+  2. 跑错了怎么办？→ 要有<strong>异常处理</strong>（失败要通知你，别默默出错）。
+  3. 哪一步必须人来拍板？→ 要有<strong>人工关口</strong>（高风险动作默认停下等确认）。
+- <strong>板书 / 强调</strong>：白板写三个大字标题——<code>日志 / 告警 / 关口</code>。
+- <strong>常见误区</strong>：学员以为"设完自动任务就一劳永逸"。讲师澄清："没有这三样，你的自动化只是在'赌它每次都不出错'，而机器一定会有出错的一天。"</p>
+<p><strong>知识点 2：三条可靠性原则</strong>
+- <strong>怎么讲</strong>：逐条讲，每条配一个大白话解释：
+  - <strong>有日志可追溯</strong>——"每次跑完写一行账，记下时间、干了啥、结果咋样、有没有报错。就像黑匣子，出事了能翻查。"
+  - <strong>有异常会告警</strong>——"失败的时候主动给你发消息，而不是默默失败。宁可被它吵醒，也别被它蒙在鼓里。"
+  - <strong>有人工关口</strong>——"外发、删改、写外部系统这种高风险动作，默认停下来等你点头，不许它先斩后奏。"
+- <strong>板书 / 强调</strong>：写下三句口诀——<code>有日志可追溯 / 有异常会告警 / 有人工关口</code>。
+- <strong>常见误区</strong>：以为"告警会很烦"。讲师澄清："告警只在出问题时才响，正常跑一声不吭。它不烦，蒙你才可怕。"</p>
+<p><strong>知识点 3：什么该自动、什么不该——判断口诀</strong>
+- <strong>怎么讲</strong>：先给两栏对比，讲师用手比划成两个筐：
+  - ✅ <strong>适合全自动</strong>（低风险、可验收、重复的）：抓热点、整理归档、生成草稿。
+  - ⚠️ <strong>必须留人工关口</strong>：外发邮件/消息、删改文件、写入 CRM/财务系统、对外发布内容。
+  - 引蓝皮书原话：<strong>发布类动作（如自动发抖音/公众号）默认不要全自动</strong>，除非账号、素材、标题、合规边界都经过人工确认。
+  - 再抛出那把万能尺子（这是本课要背下来的）：
+    &gt; "出错了只是'白跑一趟'→ 可以自动；出错了会'造成后果'（发错、删错、承诺错）→ 必须人工关口。"
+- <strong>板书 / 强调</strong>：白板正中间大字写口诀：<code>白跑一趟→可自动；造成后果→留关口</code>。
+- <strong>常见误区</strong>：学员会问"那我全设成要确认不就最安全？"讲师澄清："全要确认就等于没自动化。要按风险分级——低风险的放手让它跑，只在高风险处设闸门。"</p>
+<h3 id="8_13">四、操作演示（8 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到，只用一段自然语言指令，就能给一个已有的自动任务加上"日志 + 告警 + 人工标注"三道保险。</li>
+<li><strong>操作步骤（精确到点哪、说什么）</strong>：</li>
+<li>打开第 16 课设好的"每日晨报自动任务"，边指边说："这是我们之前设的，现在它能跑，但它是'裸奔'的——没日志、没告警。"</li>
+<li>在对话框输入下面这段完整指令，边打边念一遍，让学员看清每一条对应三根支柱：
+     ```
+     优化我的每日晨报自动任务，增加可靠性：<ol>
+<li>每次执行后写一条日志到「晨报日志」文档：时间、抓到几封邮件、是否成功</li>
+<li>如果某天邮箱连接失败或抓不到邮件，立刻发微信告诉我「今天晨报失败，原因 X」</li>
+<li>汇总里如果出现「疑似重要但拿不准」的邮件，单独标出来让我人工看
+ ```</li>
+</ol>
+</li>
+<li>发送后，指着 WorkBuddy 的确认回复，逐条对应："第 1 条是日志，第 2 条是告警，第 3 条就是人工关口——它拿不准的不自己下结论，留给你判断。"</li>
+<li>打开「晨报日志」文档，展示（或说明）执行后会写进来的那一行账。</li>
+<li>演示告警：故意断网或触发失败，让学员看到手机上收到"今天晨报失败"的微信提醒。讲师口播："看，它没有默默失败，它喊我了。"</li>
+<li><strong>演示中要口播强调的点</strong>：</li>
+<li>"注意第 3 条——我没让它自己决定哪封重要就直接处理，而是让它把拿不准的挑出来给我看。这就是人工关口。"</li>
+<li>"同样的三句话，你可以套到任何一个自动任务上，它是通用的可靠性配方。"</li>
+<li>涉及功能是否可用/是否需要更高版本时，讲师统一说：<strong>"以官网 www.workbuddy.cn 为准。"</strong></li>
+</ul>
+<h3 id="6_1">五、学员练习（6 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：给自己在第 16 课设的自动任务，加上"日志 + 失败告警"两道保险。参照演示的三句式指令，改成自己任务的说法发给 WorkBuddy。行有余力的，再加一条"拿不准的挑出来让我人工看"。</li>
+<li><strong>巡场要点</strong>：</li>
+<li>看学员是不是只写了"记日志"却漏了"写到哪个文档"——提醒他们要指定日志落在哪。</li>
+<li>看告警指令是否写清了"什么情况下告警"（失败/抓不到），别只写"出错通知我"太笼统。</li>
+<li>遇到把外发、删改类动作也设成全自动的学员，当场用"白跑一趟还是造成后果"这把尺子帮他判断，改成留人工关口。</li>
+</ul>
+<h3 id="_55">六、课堂互动 / 提问</h3>
+<ol>
+<li>"三根支柱分别解决什么问题？谁来用一句话说说'日志'是干嘛的？"</li>
+<li>"我给你三个动作：自动整理归档旧文件、自动把季度报表发给全公司、自动抓行业热点。哪个必须留人工关口？为什么？"</li>
+<li>"为什么发布类动作（自动发公众号、抖音）默认不能全自动？至少说出两个要人工确认的点。"</li>
+</ol>
+<h3 id="2_9">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：<blockquote>
+<p>"能自动 ≠ 该自动。给自动化装上日志、告警、人工关口三道保险，它才从玩具变成你敢托付的员工。"</p>
+</blockquote>
+</li>
+<li><strong>课后作业</strong>：给你第 16 课设的自动任务加上"日志 + 失败告警"两道保险，然后<strong>故意断一次网</strong>，看它会不会主动通知你失败。把收到的失败告警截图，下节课交流。</li>
+<li><strong>验收标准</strong>：① 任务能写出日志；② 制造失败后，确实收到了告警消息（不是默默失败）。</li>
+<li><strong>承上启下</strong>：<blockquote>
+<p>"现在你会让一个机器人稳稳地干活了。下节课我们更进一步——从一个人，到一支团队：怎么让多个专家 Agent 组成'专家团'一起帮你干活。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_56">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>讲师最容易踩的坑</strong>：光讲日志和告警，忘了把"人工关口"讲透。这才是本课灵魂——一定要让学员记住"造成后果→留关口"这句口诀，宁可这一点多花时间。</li>
+<li><strong>学员高频提问标准答案</strong>：</li>
+<li>"告警会不会太吵？"→ 只在失败/异常时才发，正常运行完全静默，不会打扰你。</li>
+<li>"我能不能全自动发邮件/发内容？"→ 强烈不建议。外发、发布类默认留人工确认，蓝皮书也是这个建议；除非账号、素材、标题、合规边界都人工确认过。</li>
+<li>"这个可靠性功能我的版本有没有？"→ 统一回答：<strong>以官网 www.workbuddy.cn 为准。</strong></li>
+<li><strong>时间不够时可砍</strong>：可省略断网告警的现场实测（第 5 步），改为口头描述效果，把动手验证挪到课后作业里完成；但"三根支柱"和"判断口诀"两块绝不能砍。</li>
+</ul>
+<hr />
+<h1 id="agent">模块五 · 多 Agent 专家团 — 讲师教案</h1>
+<h2 id="19">教案 · 第 19 课 · 专家与专家团：从一个人到一支团队</h2>
+<h3 id="_57">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：25 分钟（导入 3' / 讲授 10' / 演示 8' / 练习 3' / 小结 1'）</li>
+<li><strong>课型</strong>：理论认知课</li>
+<li><strong>教学目标</strong>：</li>
+<li>能说清"普通任务 / Skill / 专家 / 专家团"四个档位分别解决什么问题。</li>
+<li>能独立召唤一位专家、并把自己的一套方法论创建成一个"我的专家"。</li>
+<li>能判断一个任务该用一位专家还是上专家团，不乱用、不浪费积分。</li>
+<li><strong>教学重点</strong>：专家 = "人设 + 方法论 + 工具链"的角色切换；专家团 = 团长自动拆解分配的协作机制。</li>
+<li><strong>教学难点</strong>：学员容易把专家团当成"更强的专家"，凡事都上团——要讲清"杀鸡不用牛刀"。</li>
+<li><strong>教具准备</strong>：登录好的 WorkBuddy 账号、备足积分；"高考我帮你"专家入口可用；提前想好一个要现场创建的"公众号创作专家"人设草稿；四档位对比表 PPT。</li>
+</ul>
+<h3 id="3_10">二、导入（3 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句话——"前面四个模块，我们一直是'一个人对着 AI'。今天我问大家：如果老板扔给你一个'做一支产品宣传片'，你一个人从头扛到尾，累不累？" 停顿。"AI 也一样。一个 AI 什么都干，它就什么都干不精。今天我们要做的，是从'请一位 AI 同事'，升级到'开一个 AI 部门'。"</li>
+<li><strong>本课价值钩子</strong>："学完这节，你就知道：小事找一位专家，大事召唤一整支团队，一句话下去，它自己拆活、分工、干完交给你。"</li>
+</ul>
+<h3 id="10_10">三、知识点讲解（10 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：四种用法档位</strong>
+- <strong>怎么讲</strong>：在白板上画一条"从简单到复杂"的横轴，从左到右摆四个格子。用点外卖打比方——"普通任务：我随口说'来碗面'，它给我下碗面，一次性；Skill：我常点的那家、那个固定做法，稳定复用；专家：我请了个专门的厨子，他懂菜系、有手艺、有自己一套刀工；专家团：我开了整个后厨，有配菜的、掌勺的、摆盘的，一个大单进来大家分工。" 每讲一档在格子里写关键词。
+- <strong>板书 / 强调</strong>：<code>普通任务=通用执行 | Skill=稳定动作 | 专家=人设+方法论+工具链 | 专家团=多专家+协作流程</code>
+- <strong>常见误区</strong>：学员以为"专家就是提示词写长一点"。澄清：专家是<strong>角色切换机制</strong>，它换的是身份和方法论，不只是多几句话。</p>
+<p><strong>知识点 2：专家 = 角色切换机制</strong>
+- <strong>怎么讲</strong>：用"同样分析销售数据"对比。"普通 Agent 就是：读数据、出个图、总结两句——像个刚来的实习生。数据分析<strong>专家</strong>不一样：它先问'你这次到底想搞清楚什么业务目标'，然后定核心指标、查数据干不干净、找异常、挖原因、最后给你能落地的建议——这是个干了十年的老法师。" 强调差别不在算力，在"有没有一套方法论"。
+- <strong>板书 / 强调</strong>：<code>专家 = 换了身份 + 带着方法论 + 配好工具</code>
+- <strong>常见误区</strong>：以为专家一定更贵更慢。澄清：单点专业问题，一位专家反而最省——不用你反复补充上下文。</p>
+<p><strong>知识点 3：专家团 = 协作执行机制</strong>
+- <strong>怎么讲</strong>："专家团里有个<strong>团长</strong>，这是关键人物。你只跟团长说三件事：背景、需求、想要的成果。剩下的——挑团员、拆任务、谁先谁后、谁并行、最后谁汇总——<strong>全是团长的活，不用你操心</strong>。" 打比方："你是甲方，团长是项目经理，你不用去管美工和文案怎么排班。"
+- <strong>板书 / 强调</strong>：<code>你 → 只说(背景/需求/成果) → 团长自动(拆解/分配/并行/整合)</code>
+- <strong>常见误区</strong>：学员想自己去指定每个团员。澄清：那是下节课"设计专家团"的事；召唤现成团队时，信任团长。</p>
+<h3 id="8_14">四、操作演示（8 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到"召唤一位专家""创建一位专家""召唤一个专家团"三个真实动作。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>打开「专家·技能·连接器」→ 选「专家」→ 点「召唤专家」。边点边说："这就是 WorkBuddy 的'专家市场'。"</li>
+<li>选"高考我帮你"专家，输入任务，回车，等结果：
+     <code>帮我查一下 2026 年高考数学真题</code>
+     口播："看，它不是随便搜，它是带着'高考'这个身份在帮你查。"</li>
+<li>点「我的专家」→「创建专家」，现场填一个"公众号创作专家"：写人设（资深公众号主编）、方法论（选题→标题公式→结构→配图建议）、常用工具。生成后测一条，说明"以后在'我的专家'里随时召唤"。</li>
+<li>打开「专家团」→ 点「召唤」。<strong>先不急着下任务</strong>，口播召唤前要确认的四件事。</li>
+<li><strong>演示中要口播强调的点</strong>：召唤专家团前，先问自己四个问题——
+  ```</li>
+<li>成员分工覆盖完整了吗？</li>
+<li>哪些步骤依赖前一步？</li>
+<li>什么时候需要人来拍板？</li>
+<li>最终由谁整合？
+  ```
+  "这四问，就是下节课'设计专家团'的引子。"</li>
+</ul>
+<h3 id="3_11">五、学员练习（3 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人打开「专家」，召唤任意一位现成专家，下一个真实小任务，观察它和"普通任务"的差别。</li>
+<li><strong>巡场要点</strong>：重点看两处——① 有没有人找不到「专家·技能·连接器」入口（当场指）；② 有没有人给"总结一句话"这种小事去召唤专家团（当场纠正：小事一位专家甚至普通任务就够）。</li>
+</ul>
+<h3 id="_58">六、课堂互动 / 提问</h3>
+<ol>
+<li>"分析销售数据，普通 Agent 和数据分析专家，差在哪一步？"</li>
+<li>"召唤专家团时，拆任务、分工是谁的活——你的，还是团长的？"</li>
+<li>"改一封邮件这种小事，该上专家团吗？为什么？"</li>
+</ol>
+<h3 id="1">七、小结与作业（1 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："小事请一位专家，大事召唤一支团队——关键是别拿牛刀杀鸡。"</li>
+<li><strong>课后作业</strong>：创建一位和你工作最相关的专家（把你的一套方法论写进人设），召唤它做一个真实任务，对比它和"普通任务"的产出差别。<strong>验收标准</strong>：交出专家的人设截图 + 两种产出的对比说明。</li>
+<li><strong>承上启下</strong>："今天我们会'召唤'现成团队。下节课，我们自己动手'设计'一支不断档的团队——核心两招：角色契约和共享产物层。"</li>
+</ul>
+<h3 id="_59">八、讲师备注（避坑）</h3>
+<ul>
+<li>高频提问："专家和 Skill 到底啥区别？"标准答："Skill 是一个稳定的动作（一把螺丝刀），专家是一个带方法论的角色（会用整套工具的师傅）。"</li>
+<li>学员爱纠结"创建专家要不要写得特别长"——告诉他们：把你平时做这件事的步骤口述出来就是方法论，别怕短。</li>
+<li>价格/积分消耗一律以官网 www.workbuddy.cn 为准，别在课上报具体数字。</li>
+<li>时间不够时：创建专家演示可简化为"讲思路+展示已建好的示例专家"，把召唤专家团的四问保留（那是承上启下）。</li>
+</ul>
+<hr />
+<h2 id="20-agent">教案 · 第 20 课 · 多 Agent 系统设计：角色契约 + 共享产物层</h2>
+<h3 id="_60">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：30 分钟（导入 3' / 讲授 15' / 演示 5' / 练习 6' / 小结 1'）</li>
+<li><strong>课型</strong>：理论认知课（含设计练习）</li>
+<li><strong>教学目标</strong>：</li>
+<li>能用 6 条标准判断一个任务"值不值得拆成多 Agent"。</li>
+<li>能为每个角色写清"输入 / 输出 / 禁止动作"三件套（角色契约）。</li>
+<li>能设计一个共享产物层（统一文件目录），并标出人工检查点。</li>
+<li><strong>教学重点</strong>：角色契约（尤其"禁止动作"）+ 共享产物层（单一事实来源）。</li>
+<li><strong>教学难点</strong>：学员容易忽略"禁止动作"，也容易让每个角色各存一份"事实"导致错乱。</li>
+<li><strong>教具准备</strong>："产品宣传片专家团"角色契约表 PPT；共享产物层目录结构图；空白"专家团设计表"发给学员。</li>
+</ul>
+<h3 id="3_12">二、导入（3 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>："上节课我们召唤了现成团队，一句话它就干完了。但你有没有想过——它凭什么不乱？五六个 AI 同时开工，为什么不会'你说 A、我记成 B'？" 停顿。"今天揭秘：不是角色越多越好，而是每个角色都被'管住了'——这就是 L4 的真本事：<strong>设计</strong>一条不断档的生产流水线。"</li>
+<li><strong>本课价值钩子</strong>："学完这节，你不光会用团队，还会自己'搭'团队——哪个环节容易出错，你提前就把它焊死。"</li>
+</ul>
+<h3 id="15_2">三、知识点讲解（15 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：这个任务值得拆成多 Agent 吗？</strong>
+- <strong>怎么讲</strong>：先泼盆冷水——"不是所有事都配上团队。" 把 6 条标准念一遍，让学员用一个真实任务对照打勾。打比方："这就像判断一件事要不要开会——两个人各干各的能省时间才开，一个人五分钟搞定的事开会就是浪费。"
+- <strong>板书 / 强调</strong>：<code>值得拆 = 可独立的子任务 + 不同方法/工具 + 清晰交接格式 + 并行省时 + 有总负责+验收 + 预算够</code>
+- <strong>常见误区</strong>：以为"复杂就要拆"。澄清反例——改一封邮件、总结一份 PDF、格式化一个表格：<strong>一个普通任务或一位专家就够，别上团</strong>。</p>
+<p><strong>知识点 2：角色契约（多 Agent 不乱的关键）</strong>
+- <strong>怎么讲</strong>：拿"产品宣传片专家团"当活教材，投出那张表。逐行讲："每个角色都必须写清三件事——它吃什么（输入）、它吐什么（输出）、它<strong>不许干什么</strong>（禁止动作）。" 重点停在"禁止动作"上打比方："这就像给新员工划红线——分镜师不许自己编 Brief 里没有的卖点，剪辑师不许改分镜结构。红线清楚了，大家才不会各说各话。"
+- <strong>板书 / 强调</strong>：<code>角色契约 = 输入 + 输出 + 禁止动作（三缺一都会越界）</code>
+- <strong>常见误区</strong>：只写输入输出，漏掉禁止动作。当场追问："如果不写'禁止动作'，分镜师突然给产品加个假功能，谁拦得住？"</p>
+<p><strong>知识点 3：共享产物层（单一事实来源）</strong>
+- <strong>怎么讲</strong>："想象一个团队每个人手里都揣着一份'产品资料'，改来改去版本就乱了——Brief 说 A，分镜师记成 B。解决办法：<strong>大家读写同一批文件</strong>，只有一个真相来源。" 投出目录结构，指着说："brief.md 由 Brief 角色写、主理人确认；分镜师就读这一份，不许自己另存一份。" 点题："还记得第 3 课的'工作区'吗？它到这儿才真正派上用场——<strong>工作区就是专家团的共享桌面</strong>。"
+- <strong>板书 / 强调</strong>：
+  <code>project/
+  ├── brief.md          # Brief 角色产出，主理人确认
+  ├── storyboard.md     # 分镜师产出，主理人确认
+  ├── assets/screenshots/   # 素材师产出
+  ├── clips/            # 剪辑师产出
+  └── final.mp4         # 主理人整合</code>
+- <strong>常见误区</strong>：让每个角色各自维护一份事实。澄清：单一路径、单一真相，才不会错乱。</p>
+<p><strong>知识点 4：检查点（人在关键节点拍板）</strong>
+- <strong>怎么讲</strong>："全自动不等于全程不管。" 举三个卡点：Brief 出来后你确认"卖点抓对没"；分镜出来后你确认"节奏顺序 OK 没"；成片出来前你确认"字幕、BGM、版权没问题"。强调主理人铁律。
+- <strong>板书 / 强调</strong>：<code>铁律：不跳过子任务验收直接交付</code>
+- <strong>常见误区</strong>：以为设了检查点就慢。澄清：检查点是"关键三步"，不是每步都拦，是把返工挡在前面。</p>
+<h3 id="5_12">四、操作演示（5 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到一张完整的"角色契约表"是怎么从任务倒推出来的。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>讲师在屏幕上现场填一张空表，以"月度经营分析专家团"为例。</li>
+<li>先写主理人一行，边写边说输入/输出/禁止动作。</li>
+<li>再拆两三个子角色（如"数据核查员""图表师""结论撰写员"），每行都补齐三件套。</li>
+<li>最后画出它们的共享产物层目录，并在两处标 🚩 检查点。</li>
+<li><strong>要复制的完整指令</strong>（把设计好的团队交给主理人时的召唤话术示例）：
+  <code>召唤专家团做月度经营分析：
+  背景=我们是SaaS公司，需求=分析上月经营数据找异常并给建议，
+  成果=一份带图表和可落地建议的经营分析报告。
+  请按角色契约执行，Brief和结论两处交我拍板。</code></li>
+<li><strong>演示中要口播强调的点</strong>："注意，我不是自己去分工，我是把'契约'和'检查点'交代给团长——设计权在我，执行权在它。"</li>
+</ul>
+<h3 id="6_2">五、学员练习（6 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人挑一个自己的复杂项目，照设计表填四栏：① 用 6 条标准判断值不值得拆；② 拆几个角色，每个写清 输入/输出/禁止动作；③ 定共享产物层目录；④ 标出检查点。<strong>先在纸上/文档里设计，不用真跑。</strong></li>
+<li><strong>巡场要点</strong>：① 抓"没写禁止动作"的表，当场补；② 抓"每个角色各存一份资料"的，纠成单一产物层；③ 抓"给简单任务硬拆五个角色"的，提醒对照知识点一。</li>
+</ul>
+<h3 id="_61">六、课堂互动 / 提问</h3>
+<ol>
+<li>"角色契约三件套是哪三件？漏掉哪件最危险？"</li>
+<li>"为什么多个 Agent 要读写同一批文件，而不是各存各的？"</li>
+<li>"'不跳过子任务验收直接交付'——这条铁律是谁要守的？"</li>
+</ol>
+<h3 id="1_1">七、小结与作业（1 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："设计专家团只有两招——给每个角色签'契约'，给整个团队建'一个共享桌面'。"</li>
+<li><strong>课后作业</strong>：用设计表为你工作中的一个复杂项目设计一个专家团（纸上设计即可），重点练"角色契约"和"共享产物层"。<strong>验收标准</strong>：至少 3 个角色，每个都有完整三件套；一张清晰的共享产物层目录；至少 2 个检查点。</li>
+<li><strong>承上启下</strong>："设计图画好了，下节课我们真刀真枪跑起来——一句话召唤 AI 视频团队，一支生成、一支拆解。"</li>
+</ul>
+<h3 id="_62">八、讲师备注（避坑）</h3>
+<ul>
+<li>最容易被学员跳过的是"禁止动作"，一定要反复举越界的例子逼他们写。</li>
+<li>有人会问"检查点会不会让全自动失去意义"——标准答："检查点只卡关键三步，返工成本远大于确认成本。"</li>
+<li>别把"共享产物层"讲成技术活——它就是"一个大家都能读写的文件夹"，对应第 3 课工作区。</li>
+<li>时间紧时：把演示的月度分析表简化为已填好的示例直接讲解，把练习时间保住（这是本课的核心动手环节）。</li>
+</ul>
+<hr />
+<h2 id="21-ai">教案 · 第 21 课 · 实战：一句话召唤 AI 视频团队（生成 + 拆解）</h2>
+<h3 id="_63">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 3' / 讲授 8' / 演示 20' / 练习 7' / 小结 2'）</li>
+<li><strong>课型</strong>：实战练习课</li>
+<li><strong>教学目标</strong>：</li>
+<li>能一句话召唤视频生成团队，做出一条 30-46 秒短视频，并在每个检查点亲自拍板。</li>
+<li>能召唤爆款拆解团队，拆一条视频得到"拆解报告 + 仿拍建议"。</li>
+<li>能说清生成团队与拆解团队的分工，并组合成"学习→生产"的增长闭环。</li>
+<li><strong>教学重点</strong>：先"看拆解方案再执行"、在每个 🚩 检查点人工把关（尤其发布不全自动）。</li>
+<li><strong>教学难点</strong>：学员急着"一键出片"跳过检查点；混淆生成团队和拆解团队的用途。</li>
+<li><strong>教具准备</strong>：可用的视频生成团队与拆解团队入口；一个真实可拆的爆款视频链接（提前测通下载）；足量积分；网络稳定；投屏。</li>
+</ul>
+<h3 id="3_13">二、导入（3 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>："前两节都在'纸上谈兵'——今天真枪实弹。" 抛场景："老板说'下周开始每周要有一条 AI 周报短视频'，你是自己剪到凌晨，还是一句话让一支 AI 团队从热点采集一路做到成片？" 停顿。"更狠的：别人那条视频为什么火？我们还能召唤另一支团队，把它拆到骨头里，学过来。"</li>
+<li><strong>本课价值钩子</strong>："这节课你会亲手跑两支团队——一支帮你'今天做一条出来'，一支帮你搞懂'别人为什么能火'。"</li>
+</ul>
+<h3 id="8_15">三、知识点讲解（8 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点 1：两支互补的团队</strong>
+- <strong>怎么讲</strong>：投出对比表，一句话点透——"<strong>生成团队解决'今天怎么做一条出来'，拆解团队解决'为什么别人那条能火'。</strong>" 打比方："一个是厨房（生产），一个是拆菜谱的（学习）。它俩不是二选一，是搭配着用。"
+- <strong>板书 / 强调</strong>：<code>生成团队=主题→成片(生产) | 拆解团队=链接→报告(学习)</code>
+- <strong>常见误区</strong>：以为拆解团队是用来"搬运/下载别人视频"的。<strong>当场划红线</strong>：拆解是学结构和方法，不是搬运原视频。</p>
+<p><strong>知识点 2：生成团队的四个角色与四步流程</strong>
+- <strong>怎么讲</strong>：介绍四个角色——凌导（团长，拆活汇总）、灵阅（采集热点）、灵枢（策划脚本分镜）、灵映（渲染成片）。强调这是"有上下游交接的生产线"。然后讲四步：采集→策划→制作→发布，每步都埋着 🚩 检查点。反复强调本课的核心思想：<strong>先出拆解方案（拆任务、分镜策划），你看过、拍过板，再往下执行</strong>——不是一键闷头出片。
+- <strong>板书 / 强调</strong>：<code>采集→🚩策划→🚩制作→🚩发布 | 凌导·灵阅·灵枢·灵映</code>
+- <strong>常见误区</strong>：以为召唤后就能撒手。澄清：策划出来要看钩子和信息量，成片出来要验字幕/版权，<strong>发布默认绝不全自动</strong>。</p>
+<p><strong>知识点 3：拆解团队的角色与下载降级策略</strong>
+- <strong>怎么讲</strong>：三个角色——阿爆（团长总控）、小凯（音频转文案）、小淼（视频理解，分析景别/运镜/转场/节奏/色调）。提一句下载用"三层降级策略（官方 API → Playwright → yt-dlp），有一层成功就继续"，不用深讲技术，让学员知道"它会自己想办法拿到视频"。
+- <strong>板书 / 强调</strong>：<code>拆解=阿爆+小凯(转文案)+小淼(镜头语言) → 拆解报告+仿拍建议</code>
+- <strong>常见误区</strong>：以为拆解报告能直接照抄成片。澄清：报告是"仿拍建议"，要过事实/版权/品牌三道审核。</p>
+<h3 id="20_1">四、操作演示（20 分钟）——讲师如何现场演示</h3>
+<p><strong>演示 A：召唤视频生成团队（约 12 分钟）</strong>
+- <strong>演示目标</strong>：完整跑一遍"采集→策划→制作"，让学员看到检查点怎么拍板。
+- <strong>操作步骤</strong>：
+  1. 一句话召唤：
+     <code>召唤视频生成团队，制作一条 46 秒 AI 周报短视频。</code>
+  2. 灵阅采集：等它输出结构化摘要（标题、来源、时间、原始链接、为什么值得关注）。口播："热度只帮排序，不替代事实核验。"
+  3. 灵枢策划：拿到脚本/分镜/旁白后，<strong>停下</strong>，带学员做 🚩 <strong>第一次人工检查</strong>——
+     <code>开头 3 秒有钩子吗？46 秒信息塞太多没？旁白准不准？画面撑得住观点吗？</code>
+     口播："不过关就别进配音渲染——这就是'先看方案再执行'。"
+  4. 灵映制作：过关后让它转 HTML、调渲染引擎（HyperFrames）出 MP4，自动完成配音、字幕对齐、转场。成片出来做 🚩 <strong>成片验收</strong>：
+     <code>旁白与字幕一致？镜头时长匹配？文字没遮主体？BGM 可用？素材有版权风险没？</code>
+  5. 发布环节：<strong>只讲不自动发</strong>。口播铁律——"<strong>发布默认不要全自动</strong>，账号、素材、标题、合规都人工确认后再发。"
+- <strong>演示中要口播强调的点</strong>：每到检查点，明确说"现在是我这个人在拍板，不是 AI 自己往下冲"。</p>
+<p><strong>演示 B：召唤爆款拆解团队（约 8 分钟）</strong>
+- <strong>演示目标</strong>：让学员看到从一条链接得到"拆解报告 + 仿拍建议"。
+- <strong>操作步骤</strong>：
+  1. 用备好的链接下指令：
+     <code>拆解这条视频：[视频链接]。下载视频、转写文案、分析镜头语言，
+     给我一份拆解报告 + 仿拍建议。</code>
+  2. 边等边讲三角色分工：小凯把口播转文案，小淼分析镜头语言，阿爆汇总。
+  3. 报告出来后，指着"镜头语言分析"部分讲："看，它告诉你别人开头怎么抓人、节奏怎么切——这才是我们要学的东西。"
+- <strong>演示中要口播强调的点</strong>：拆解目的是学结构，<strong>不是搬运</strong>；下载分析要遵守平台条款、版权授权、合理使用。</p>
+<h3 id="7_1">五、学员练习（7 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：先用拆解团队拆一条自己赛道的爆款，拿到拆解报告；有时间再用生成团队做一条 30-46 秒短视频。<strong>全程在每个 🚩 检查点亲自拍板</strong>，尤其发布不许全自动。</li>
+<li><strong>巡场要点</strong>：① 抓"跳过策划检查直接渲染"的，拉回来先看脚本；② 抓想"一键自动发布"的，重申铁律；③ 提醒别把拆解当成"下载别人视频用"。</li>
+</ul>
+<h3 id="_64">六、课堂互动 / 提问</h3>
+<ol>
+<li>"生成团队和拆解团队，各解决哪句话代表的问题？"</li>
+<li>"策划出来后为什么要停下来人工检查，而不是直接渲染？"</li>
+<li>"发布环节能不能全自动？为什么？"</li>
+</ol>
+<h3 id="2_10">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："一支团队帮你生产，一支团队帮你学习；两支一组合，就是'拆爆款→定模板→出新片→复盘→再优化'的增长闭环。"</li>
+<li><strong>课后作业</strong>：先用拆解团队拆一条你赛道的爆款，产出一份拆解报告；再用生成团队按学到的规律做一条 30-46 秒短视频。<strong>验收标准</strong>：一份含镜头语言分析的拆解报告 + 一条成片，并说明你在哪几个 🚩 检查点做了什么调整。</li>
+<li><strong>承上启下</strong>："模块五到此结束——你已经会设计和驱动一整支 AI 团队。下个模块，我们回过头把'提需求'这件事练到极致：提示词工程，让你下的每句指令 AI 一次做对。"</li>
+</ul>
+<h3 id="_65">八、讲师备注（避坑）</h3>
+<ul>
+<li><strong>课前务必测通下载链接</strong>：三层降级策略偶有全失的情况，备一个已知可拆的链接兜底，别在课堂上卡壳。</li>
+<li>渲染出片耗时较长，演示 A 可提前跑好一版成片，现场只演到"策划检查点+触发渲染"，成片直接展示预跑结果，节省时间。</li>
+<li>版权红线一定要当堂反复强调：拆解=学结构、不搬运；发布前过事实/版权/品牌三审。</li>
+<li>涉及积分消耗与任何价格，一律以官网 www.workbuddy.cn 为准，不在课上报数字。</li>
+<li>时间不够时：优先保住"演示 A 的两个检查点"和"拆解报告展示"，练习可改为课后作业延伸。</li>
+</ul>
+<hr />
+<hr />
+<h1 id="_66">模块六 · 提示词·岗位落地·毕业项目 — 讲师教案</h1>
+<h2 id="22-ai">教案 · 第 22 课 · 提示词工程深挖：把话说到 AI 心里去</h2>
+<h3 id="_67">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：40 分钟（导入 5' / 讲授 14' / 演示 10' / 练习 8' / 小结 3'）</li>
+<li><strong>课型</strong>：操作演示课</li>
+<li><strong>教学目标</strong>：</li>
+<li>能用"万能任务公式"（背景+目标+输入+输出要求+边界+验收）把一个模糊需求改写成一次做对的精准指令。</li>
+<li>能说出至少 3 个高阶技巧（给例子、让它先规划、分步、负向约束、让它自检）并现场用上一个。</li>
+<li>能识别自己过去提需求踩过的三个反模式并当场纠正。</li>
+<li><strong>教学重点</strong>：万能任务公式六要素；模糊→精准的改写。</li>
+<li><strong>教学难点</strong>：学员习惯"一句话丢过去"，不理解"多写几句反而更省时间"。</li>
+<li><strong>教具准备</strong>：登录好的 WorkBuddy 账号（积分充足）；准备一段"结果不满意"的真实反面案例（如一封中译英邮件）；一份可用于演示的销售数据表；投屏。</li>
+</ul>
+<h3 id="5_13">二、导入（5 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师第一句：<blockquote>
+<p>"同样一个 WorkBuddy，为什么隔壁工位的人发一句话就出成品，你发完得来回改五遍？我先说个扎心的结论——差别不在工具，在你<strong>会不会说需求</strong>。"
+  随即现场演示：只打"帮我写个方案"，让全班看它憋出一堆正确的废话。停顿，问："这是它笨，还是我们没说清？"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"这节课我把'提需求'拆成一个公式。学会以后，你下的每句指令它基本一次做对——你省下的是每天来回改稿那一两个小时。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="14">三、知识点讲解（14 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点一：万能任务公式（背景+目标+输入+输出要求+边界+验收）</strong>
+- <strong>怎么讲</strong>：打比方——"给 AI 提需求，跟给刚入职的实习生派活一模一样。你对实习生也不会只说'写个方案'，你得告诉他：这是给谁的、要什么、材料在哪、写多长、什么不能碰、什么算交差。这六件事就是万能公式。" 逐个要素配一句口诀：背景=你是谁给谁看，目标=一句话要什么，输入=原料给它，输出要求=格式长度风格，边界=划红线不许干什么，验收=什么算做对。
+- <strong>板书 / 强调</strong>：<code>背景 + 目标 + 输入 + 输出要求 + 边界 + 验收</code> 六个词横排，框住。
+- <strong>常见误区</strong>：学员觉得"写这么多太麻烦"。澄清："写这六行花你 30 秒，省你 5 轮返工——是省时间不是费时间。"</p>
+<p><strong>知识点二：从"模糊"到"精准"的进化</strong>
+- <strong>怎么讲</strong>：白板画两列，左"模糊"右"精准"。拿"帮我写个方案"当场升级成"写一份新品上市方案，面向 25-35 岁女性，含定价/渠道/首月节奏，输出到腾讯文档，1500 字内"。边写边问全班："我加了哪几个要素？"引导他们指出目标、输出要求、边界。让学员感到"精准=把公式填满"。
+- <strong>板书 / 强调</strong>：一句话——"形容词换成标准，AI 才不用猜。"
+- <strong>常见误区</strong>：以为精准就是写很长。强调"精准是把该给的信息给全，不是堆字数"。</p>
+<p><strong>知识点三：五个高阶技巧</strong>
+- <strong>怎么讲</strong>：每个技巧一句大白话+一个场景。
+  1. 给例子（few-shot）："照这段风格写"——贴一段范例，"比你形容一百句'活泼一点'都管用"。
+  2. 让它先规划（Plan 模式）："复杂活先让它出方案，你点头再干，避免它一路跑偏跑到底才发现错。"
+  3. 分步下达："大任务切成'先做 A，我看完再做 B'，像切菜，别整块塞。"
+  4. 明确不要什么："负向约束经常比正向更狠——'不要编发货日期'比'请准确'有用。"
+  5. 让它自检："完事让它自己对照验收标准查一遍，把质检也外包给它。"
+- <strong>板书 / 强调</strong>：<code>例子 / 先规划 / 分步 / 说不要 / 自检</code>。
+- <strong>常见误区</strong>：以为 Plan 模式是高级功能不敢用。说明它就是"先出提纲让你确认"，零基础也能用。</p>
+<p><strong>知识点四：提需求的三个反模式</strong>
+- <strong>怎么讲</strong>：三条一一对应"病→药"：一次塞太多→拆开；只给形容词→给例子或量化；不给背景→补一句你是谁给谁看。让学员对号入座："你踩过哪条？"</p>
+<h3 id="10_11">四、操作演示（10 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员亲眼看到"同一个任务，模糊指令 vs 公式指令"产出差多少。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>先发模糊版，口播："看，我只说一句。" 复制这条：
+     <code>帮我把这封邮件改成英文</code></li>
+<li>展示结果——语气随意、可能编了信息。口播："能用吗？不敢发。"</li>
+<li>再发公式版，边打边指对应要素：
+     <code>背景：我做跨境电商，这是发给欧洲客户的报价确认邮件。
+     目标：把下面这封中文邮件改写成正式商务英文。
+     输入：&lt;在此粘贴中文原文&gt;
+     输出要求：300 词内，商务正式，带主题行，段落清晰。
+     边界：不要编造未确认的发货日期和价格，缺信息就留占位符。
+     验收：对方读完能直接回复下单即合格。</code></li>
+<li>展示结果，逐条对照验收。口播："主题行有了、没编发货日期、300 词内——一次到位。"</li>
+<li><strong>演示中要口播强调的点</strong>："我没多花时间，我只是把脑子里本来就知道的信息写出来给它。"</li>
+</ul>
+<h3 id="8_16">五、学员练习（8 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：每人挑一个自己上周"结果不满意"的需求，用万能公式六要素重写，各发一次模糊版和公式版，对比两次产出。</li>
+<li><strong>巡场要点</strong>：重点看三处易错——① 只写了目标漏了输出要求（问"多长？什么格式？"）；② 边界为空（问"有没有不许它干的事？"）；③ 验收写成"写好点"（逼他量化）。当场帮 1-2 人改一句"高级点"→给例子。</li>
+</ul>
+<h3 id="_68">六、课堂互动 / 提问</h3>
+<ul>
+<li>万能公式六个要素，谁能不看板书背出来？</li>
+<li>"写得专业一点"属于哪个反模式？怎么救？</li>
+<li>Plan 模式什么时候最该用？</li>
+</ul>
+<h3 id="3_14">七、小结与作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："把形容词换成标准，AI 就不用猜——这就是会提需求。"</li>
+<li><strong>课后作业</strong>：挑你上周提过的一个"结果不满意"的需求，用万能公式重写一遍，对比两次产出的差别，把两次截图带来。验收标准：能指出公式版新增了哪几个要素、产出改善在哪。</li>
+<li><strong>承上启下</strong>："公式你会了，但下节课我们要把它插进<strong>你自己的岗位</strong>——找到你手里第一个该交给 AI 的活。"</li>
+</ul>
+<h3 id="_69">八、讲师备注（避坑）</h3>
+<ul>
+<li>学员最爱问"每次都要写六行吗？"——标准答案："简单活可省，越复杂越要全；先养成想六要素的习惯。"</li>
+<li>演示的模糊版一定要真的翻车（提前试跑），翻车才有对比冲击力。</li>
+<li>时间不够时可砍：知识点四（反模式）可压缩成一句话带过，公式和演示不能砍。</li>
+<li>别陷进讲某个具体行业太深，公式是通用的，点到为止。</li>
+</ul>
+<hr />
+<h2 id="23-ai">教案 · 第 23 课 · 岗位落地：把 AI 装进你的具体工作</h2>
+<h3 id="_70">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：35 分钟（导入 4' / 讲授 15' / 演示 8' / 练习 6' / 小结 2'）</li>
+<li><strong>课型</strong>：理论认知课（带轻演示）</li>
+<li><strong>教学目标</strong>：</li>
+<li>能用"成熟度四级"给自己当前能力定位，并说出下一步该积累什么才能进阶。</li>
+<li>能从本岗位场景表里挑出一个"风险低、频率高"的第一下手点。</li>
+<li>能填出一张"部门推广模板卡"，让别人接手也能复用。</li>
+<li><strong>教学重点</strong>：成熟度四级的判断信号；如何选"风险低频率高"的第一个场景。</li>
+<li><strong>教学难点</strong>：学员总想一步到位做 L4，或者选了个高风险场景（如财务金额）当第一枪。</li>
+<li><strong>教具准备</strong>：投屏；把成熟度四级表、六大岗位场景表、推广模板卡做成 PPT；准备一个已跑通的 L2 模板示例（如周报模板）用于轻演示。</li>
+</ul>
+<h3 id="4_12">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师开口：<blockquote>
+<p>"前面几课学了一堆功能，是不是有点'知道很多，不知道从哪下手'？今天不谈通用了，就谈<strong>你的岗位</strong>——散会前，每个人手里都要有一个明确的'第一个该交给 AI 的活'。"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"我给你两把尺子：一把量'你现在在哪一级'，一把帮你'挑对第一个场景'。挑对了，你一周内就能出成果；挑错了，忙半天还惹麻烦。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="15_3">三、知识点讲解（15 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点一：岗位能力成熟度四级</strong>
+- <strong>怎么讲</strong>：打比方——"学开车不会第一天就上高速。用 AI 也一样，分四个台阶。" 逐级讲，每级给"典型产物+进阶信号"：
+  - L1 单次辅助：一次性帮忙，会议纪要、翻译。信号——"同类任务连着成功 3 次"。
+  - L2 固定模板：沉淀成可复用模板，周报、标准邮件。信号——"输入字段和验收规则稳定下来了"。
+  - L3 工作流：Skill+资料库+连接器串起来，端到端跑。信号——"有负责人、有日志、能处理异常"。
+  - L4 团队能力：专家团+自动化，跨职能项目。信号——"要管权限、成本、资产"。
+  强调："每一级的'进阶信号'就是你能不能升级的体检报告。"
+- <strong>板书 / 强调</strong>：<code>L1 单次 → L2 模板 → L3 工作流 → L4 团队</code>，画成上升台阶。
+- <strong>常见误区</strong>：学员一上来就想搭 L4 视频生产线。澄清："跳级搭出来也维护不住。先把一个 L1 做扎实。"</p>
+<p><strong>知识点二：六大岗位场景速查表</strong>
+- <strong>怎么讲</strong>：让学员先报自己岗位，讲师现场点对应行讲。核心心法反复念：<strong>"从风险低、频率高的场景先下手。"</strong> 解释——频率高=练手机会多回本快；风险低=错了也不出大事。每个岗位都点出那列"人工关口"，例如财务的金额、HR 的录用决策，"这些红线永远不交给 AI 全权定"。
+- <strong>板书 / 强调</strong>：<code>风险低 + 频率高 = 第一下手点</code>；<code>人工关口 = 永远留一道人来拍板</code>。
+- <strong>常见误区</strong>：把最难最重要的活当第一枪（如让 AI 直接定录用）。纠正——"重要的活放后面，等你信得过它了再上。"</p>
+<p><strong>知识点三：部门推广模板卡</strong>
+- <strong>怎么讲</strong>：过渡——"你自己会用还不够，想在团队推广，得让别人照着也能跑。" 逐字段讲这张卡：原流程、输入、输出、验收标准、人工关口、关键指标、负责人。特别强调最后两个："关键指标是为了证明有用（省了几小时、错误率降多少）；负责人是为了这事不'没人管就烂尾'。"
+- <strong>板书 / 强调</strong>：七字段列出，圈出<code>验收标准 / 人工关口 / 关键指标</code>三项最容易被忽略。
+- <strong>常见误区</strong>：模板卡只写"怎么做"，漏了"谁负责"和"怎么衡量效果"。提醒补上。</p>
+<h3 id="8_17">四、操作演示（8 分钟）——讲师如何现场演示</h3>
+<ul>
+<li><strong>演示目标</strong>：让学员看到一个 L2 场景怎么从"临时活"变成"可复用模板"。</li>
+<li><strong>操作步骤</strong>：</li>
+<li>以"运营周报"为例，口播："这是运营岗典型的高频低风险场景。"</li>
+<li>打开 WorkBuddy，用第 22 课的万能公式写一条模板化指令：
+     <code>背景：我是运营，每周要写一份团队周报给主管。
+     目标：根据我提供的本周数据和进展，生成一份周报。
+     输入：&lt;粘贴本周关键数据 + 进展要点&gt;
+     输出要求：分"数据概览/本周进展/问题与风险/下周计划"四段，表格呈现数据，全文 500 字内。
+     边界：不要编造没给到的数据，缺的标"待补"。
+     验收：主管能直接转发不需再改结构即合格。</code></li>
+<li>跑一次，展示结果。口播："这就是 L2——固定字段、固定格式，下周换数据再跑一遍就行。"</li>
+<li>现场把它对应到推广模板卡：原流程"每周手写 40 分钟"、验收"主管直接转发"、人工关口"发出前我审一眼"、指标"省 30 分钟/周"。</li>
+<li><strong>演示中要口播强调的点</strong>："看，从 L1 到 L2，关键就是把要求'固定下来'——字段稳定、验收稳定，就能复用。"</li>
+</ul>
+<h3 id="6_3">五、学员练习（6 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：① 用成熟度四级给自己定位（写下"我在 L几，下一步积累什么"）；② 从本岗位场景表挑一个风险低频率高的场景；③ 填一张部门推广模板卡（七字段）。</li>
+<li><strong>巡场要点</strong>：重点纠两处——选错场景（选了高风险的，当场帮换低风险高频的）；模板卡漏填"人工关口"和"关键指标"（这两项最常空着）。</li>
+</ul>
+<h3 id="_71">六、课堂互动 / 提问</h3>
+<ul>
+<li>你现在在成熟度第几级？判断依据是哪个"进阶信号"？</li>
+<li>你岗位里，哪个场景是"风险低、频率高"？哪个必须留人工关口？</li>
+<li>推广模板卡里，你觉得哪一栏最容易被忽略但最重要？</li>
+</ul>
+<h3 id="2_11">七、小结与作业（2 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>："先定位自己在几级，再从风险低频率高处下手，别跳级、别碰红线。"</li>
+<li><strong>课后作业</strong>：用成熟度四级给自己定位，再从岗位场景表挑一个"风险低、频率高"的场景，写一张完整的部门推广模板卡（七字段全填）。验收标准：场景确实低风险高频、模板卡七字段无空缺、明确标出人工关口。</li>
+<li><strong>承上启下</strong>："定位有了、场景选好了、模板卡也写了——下节课就是毕业项目，我们把这些真的搭成一条能跑的生产线。"</li>
+</ul>
+<h3 id="_72">八、讲师备注（避坑）</h3>
+<ul>
+<li>高频提问"我这岗位表里没有怎么办？"——答："找最接近的一行，心法一样：风险低、频率高、留人工关口。"</li>
+<li>别让学员在"定级"上纠结太久，定级是为了行动不是考试，模糊就往低了定。</li>
+<li>时间不够时可砍：推广模板卡可只在演示里带过，留到作业完成，保住四级定位和场景选择。</li>
+<li>强调这节课是下节毕业项目的"选题课"，选的场景最好就能当毕业项目。</li>
+</ul>
+<hr />
+<h2 id="24-ai">教案 · 第 24 课 · 毕业项目：从零搭一条属于你的 AI 生产线</h2>
+<h3 id="_73">一、课程信息</h3>
+<ul>
+<li><strong>课时</strong>：45 分钟（导入 4' / 讲授+选题 10' / 演示带搭 20' / 学员开工 8' / 小结 3'）</li>
+<li><strong>课型</strong>：综合项目课</li>
+<li><strong>教学目标</strong>：</li>
+<li>能独立选定一个真实、重复、有价值的流程作为毕业项目选题。</li>
+<li>能从零搭出一条覆盖"连接器+Skill+提示词模板+可复现+人工关口"的生产线。</li>
+<li>能按 6 项交付清单自查，产出可展示的结业作品。</li>
+<li><strong>教学重点</strong>：带学员从选题到跑通一条完整生产线；六必备要素齐不齐。</li>
+<li><strong>教学难点</strong>：学员选题太大跑不完、或搭到一半卡在连接器/Skill 配置。</li>
+<li><strong>教具准备</strong>：投屏；登录好且积分充足的账号；提前跑通一条完整示例生产线（建议用入门级"竞品简报"或 L2"周报"）；准备好一个可连的连接器（如腾讯文档）和一个可用 Skill；打印或投出"6 项交付清单"和"验收标准"表。</li>
+</ul>
+<h3 id="4_13">二、导入（4 分钟）——怎么开场抓住注意力</h3>
+<ul>
+<li><strong>开场提问 / 痛点场景</strong>：讲师郑重开场：<blockquote>
+<p>"这是最后一课，也是你的结业作品课。今天散会，你手里要有一条<strong>真的能跑</strong>的 AI 生产线——不是听懂了，是搭出来了。以后向团队展示、跟老板要资源，靠的就是它。"</p>
+</blockquote>
+</li>
+<li><strong>本课价值钩子</strong>：<blockquote>
+<p>"我会带着你，从选题到跑通，一步步搭一条。你照着我的节奏，把上节课选的那个场景，今天就变成能复现的生产线。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="10_12">三、知识点讲解 + 选题（10 分钟）——逐个知识点怎么讲</h3>
+<p><strong>知识点一：毕业项目的六个必备要素</strong>
+- <strong>怎么讲</strong>：把它当"毕业验收的六道关"，逐条念、逐条问"你的项目里这条是什么"：
+  1. 至少 1 个连接器（邮箱/文档/飞书/Notion 等）——"数据从哪来"。
+  2. 至少 1 个 Skill（官方或自搭）——"谁干活"。
+  3. 一套稳定的提示词/模板（用第 22 课万能公式写）——"怎么下命令"。
+  4. 可复现——"换个输入也能跑，不是碰运气的一次性"。
+  5. 明确的人工关口——"哪一步你必须拍板"（呼应第 23 课）。
+  6. 进阶项（可选）——定时自动化 / 多 Agent 专家团 / 执行日志。
+- <strong>板书 / 强调</strong>：<code>连接器 + Skill + 模板 + 可复现 + 人工关口 (+进阶)</code>，六格打勾清单形式。
+- <strong>常见误区</strong>：以为"跑通一次"就算完成。强调第 4 条——"要换个输入再跑一次，两次都对才算可复现。"</p>
+<p><strong>知识点二：三个参考选题（按难度选，别贪大）</strong>
+- <strong>怎么讲</strong>：三选题各一句话讲清"搭什么、对应几级"，让学员对号选：
+  - 🥉 入门级·每周竞品动态简报：连接器（公众号/GitHub 热点）+ 资讯 Skill + 周报模板 → 周五自动生成发飞书。对应 L2→L3。
+  - 🥈 进阶级·客户资料到方案流水线：连接器（腾讯文档）+ 客户画像 Skill + Plan 模式方案模板 → 输入客户信息产出画像+方案初稿，报价处留人工关口。对应 L3。
+  - 🥇 挑战级·内容生产+拆解双团队：视频生成团队 + 爆款拆解团队 + 共享产物层 + 发布人工关口。对应 L4。
+  反复叮嘱：<strong>"课上时间有限，绝大多数人选入门级或直接用上节课的周报场景。挑战级作为课后延伸。"</strong>
+- <strong>板书 / 强调</strong>：<code>选题原则：真实 · 重复 · 有价值 · 今天跑得完</code>。
+- <strong>常见误区</strong>：一上来选挑战级双团队。当场劝退到入门级："先跑通一条，再加团队。"</p>
+<h3 id="20_2">四、操作演示——带学员从零搭一条生产线（20 分钟）</h3>
+<ul>
+<li><strong>演示目标</strong>：完整演示"选题→搭连接器→挂 Skill→写模板→跑通→换输入复现→标人工关口"的全流程，学员同步跟做。</li>
+<li><strong>操作步骤（带着全班一步步搭，以"每周竞品简报"为例）</strong>：</li>
+<li><strong>确认选题</strong>（1'）口播："我选竞品周报——真实、每周都要、有价值。"</li>
+<li><strong>接连接器</strong>（4'）在 WorkBuddy 里配置资讯来源/文档连接器，指定监控对象。口播："这是'数据从哪来'——第一道关搞定。" 提醒学员连自己场景对应的连接器（如腾讯文档）。</li>
+<li><strong>挂 Skill</strong>（3'）选一个资讯/整理类 Skill 负责抓取归纳。口播："这是'谁干活'。"</li>
+<li><strong>写稳定模板</strong>（5'）用万能公式写死这条生产线的指令：
+     <code>背景：我要每周给团队出一份竞品动态简报。
+     目标：把本周抓取到的竞品动态整理成一份简报。
+     输入：&lt;连接器抓取的本周竞品资讯&gt;
+     输出要求：分"重点动态/我们的机会/建议关注"三段，每条注明来源链接，全文 600 字内，做成可发飞书的格式。
+     边界：只用抓到的真实信息，不要编造；信息不足的条目标注"信息待核实"。
+     验收：团队成员读完 3 分钟内知道本周竞品有什么新动作即合格。</code></li>
+<li><strong>跑通一次</strong>（2'）执行，展示产出，逐条对照验收标准打勾。</li>
+<li><strong>换输入复现</strong>（2'）换一周/另一个监控对象再跑一次。口播："两次都对——这才叫可复现，不是碰运气。"</li>
+<li><strong>标人工关口</strong>（1'）明确："发布到飞书前，我人工审一遍来源真假。这一步不自动。"</li>
+<li><strong>（可选进阶）</strong>（1'）演示怎么设成每周五定时自动跑。</li>
+<li><strong>演示中要口播强调的点</strong>："每搭完一步，回头看六格清单打个勾——连接器√、Skill√、模板√、复现√、人工关口√。清单齐了，项目就成立。"</li>
+</ul>
+<h3 id="8_18">五、学员开工（8 分钟）——学员动手做什么</h3>
+<ul>
+<li><strong>练习任务</strong>：学员照演示节奏，用上节课选好的场景，现场搭出自己的生产线雏形——至少完成"接连接器 + 挂 Skill + 写模板 + 跑通一次"。</li>
+<li><strong>巡场要点</strong>：① 卡在连接器授权的，帮其确认账号权限；② 模板写成模糊指令的，逼其补齐六要素；③ 选题过大跑不完的，当场帮其砍到能今天跑通的最小闭环；④ 忘了标人工关口的，提醒补上。</li>
+</ul>
+<h3 id="_74">六、课堂互动 / 提问</h3>
+<ul>
+<li>你这条生产线的"数据从哪来、谁干活、怎么下命令"分别是什么？</li>
+<li>你换了输入再跑，结果还对吗？哪一步最容易翻车？</li>
+<li>你的人工关口留在哪一步？为什么这步不能全交给 AI？</li>
+</ul>
+<h3 id="3_15">七、验收标准与结业作业（3 分钟）</h3>
+<ul>
+<li><strong>一句话总结</strong>：<blockquote>
+<p>"你带走的不是'会用一个 AI 工具'，而是<strong>一套把重复工作变成可复用生产线的方法论</strong>——拆解任务→定义角色→划清边界→留好人工关口→持续复盘。工具会变，这套思路不过时。"</p>
+</blockquote>
+</li>
+<li><strong>验收标准（毕业项目按此判定合格）</strong>：</li>
+<li>六必备要素齐：连接器√ + Skill√ + 用万能公式写的稳定模板√ + 可复现（换输入跑通两次）√ + 明确人工关口√。</li>
+<li>6 项交付清单全部提交：① 一段话说明（解决什么问题、原来怎么做、现在怎么做）；② 流程图/步骤说明（每步谁做、输入输出）；③ 可复制的提示词/模板；④ 人工关口清单（哪几步拍板、为什么）；⑤ 一次真实运行的结果截图/产物；⑥ 复盘（省了多少时间、还有什么坑、下一步怎么优化）。</li>
+<li>选题真实、重复、有价值，不是为交作业硬编的假流程。</li>
+<li><strong>结业作业</strong>：提交你的毕业项目——按上面 6 项交付清单整理成一份完整文档，这就是你的 WorkBuddy 结业作品。</li>
+<li><strong>承上启下 / 寄语</strong>：<blockquote>
+<p>"去把你工作里最烦、最重复的那件事，做成第一条生产线。这门课到这里，但你的生产线才刚开始跑。"</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_75">八、讲师备注（避坑）</h3>
+<ul>
+<li>时间紧是本课最大风险。<strong>必须提前把示例生产线跑通</strong>，课上别现场调试连接器授权卡壳。</li>
+<li>学员最爱贪大选挑战级。硬规矩：课上只搭最小可跑闭环，挑战级和"多团队""定时自动化"一律列为课后进阶。</li>
+<li>连接器授权是高频卡点，标准答案："先确认你有没有那个账号的登录/授权权限，权限相关以官网 www.workbuddy.cn 为准。"</li>
+<li>涉及积分消耗/套餐/功能可用性的提问，一律回答"以官网 www.workbuddy.cn 为准"，不要现场报价或承诺。</li>
+<li>时间不够时可砍：进阶项（定时自动化）演示、挑战级选题讲解可略过；"跑通+换输入复现+人工关口"三步绝不能砍，这是毕业验收的核心。</li>
+<li>结课要留情绪价值：读一遍结业寄语，肯定学员成果，鼓励把作品拿去团队展示。</li>
+</ul>
+<hr />
+<hr />
+<h1 id="_76">模块七 · 高频痛点实战全解（上） — 讲师教案</h1>
+<blockquote>
+<p>本教案覆盖模块七的前 6 个实战。每个实战都是一节 <strong>5-8 分钟的现场演示教学</strong>——讲师不是"讲道理"，而是当着学员的面把这件事<strong>真做一遍</strong>，边做边说，最后带学员改成自己的信息跑一遍。教案结构固定为五段：①开场痛点代入 ②现场演示脚本 ③带学员看成品与验收点 ④现场带练 ⑤讲师口播重点/避坑。</p>
+<p><strong>通用教具准备（讲师课前务必备齐）</strong>：登录好的 WorkBuddy 账号、投屏就绪、示例素材（一份"工作日志"文档、一份《Q3 项目总结》文档、一份销售 Excel、一段会议录音或转录文字、一批发票图片/PDF、一个已想好的竞品名）。指令模板提前存进备忘录，现场直接复制粘贴，别当场手打浪费时间。</p>
+<p><strong>价格与功能说明一律以官网 www.workbuddy.cn 为准，讲师不要口头承诺具体价格或积分。</strong></p>
+</blockquote>
+<hr />
+<h2 id="1_2">实战教学 1 · 周报/日报：从"憋一小时"到"点一下"</h2>
+<p><strong>时长</strong>：约 6 分钟（痛点代入 1' / 演示 2.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_3">① 开场痛点代入（讲师怎么招呼学员的痛）</h3>
+<p>讲师站到屏幕前，先别急着操作，问一句："各位，每周五下午几点开始头疼写周报的，举个手？"（停两秒，等反应）"这周到底干了啥全忘了，翻聊天记录、翻文档、翻邮件，憋半天还写成流水账，领导看完一句'重点呢？'——是不是这个感觉？"</p>
+<p><strong>价值钩子</strong>："这一节我当着你们的面，把 40 分钟的周报压到 3 分钟。看完你今天下午就能用。"</p>
+<h3 id="2_12">② 现场演示脚本（一步步做什么、边做边说什么）</h3>
+<p><strong>第 1 步</strong>（讲师边点边说）："周报能这么快，有个前提——你平时得把零散工作记在一个地方。我这里就一份腾讯文档叫『工作日志』，每天随手记一行。"（打开示例日志文档给学员扫一眼）"没有也没关系，你每天随手发它一句'今天做了X'也行。"</p>
+<p><strong>第 2 步</strong>："现在我回到 WorkBuddy 对话框，把这段指令粘进去。"（现场粘贴，念出关键几句）</p>
+<p><strong>完整可复制指令：</strong></p>
+<pre><code>我是【运营专员】。读取我腾讯文档「工作日志」里本周（周一到周五）的记录，
+生成一份本周工作周报，要求：
+1. 分三部分：本周完成 / 下周计划 / 需要支持
+2. 「本周完成」按项目归类，每项写清&quot;做了什么+结果/数据&quot;
+3. 语气正式、条理清晰，控制在 500 字内
+4. 输出到腾讯文档「周报」文件夹，文件名&quot;周报-本周日期&quot;
+完成后检查：有没有把日志里的事漏掉？有没有编造我没做过的事？
+</code></pre>
+<p><strong>第 3 步</strong>（回车后，指着屏幕）："注意我不是让它'写个周报'四个字，而是把<strong>身份、素材来源、结构、字数、输出位置</strong>全说清了——这就是前面模块讲的'把话说全'。最后这句'检查有没有编造'尤其重要，我一会儿讲为什么。"（等它生成）</p>
+<h3 id="3_16">③ 带学员看成品与验收点</h3>
+<p>生成后逐条对照念："你看——分成了本周完成/下周计划/需要支持三块 ✅；每项都带了结果数据，不是'做了运营活动'而是'活动带来 XX 转化'✅；控制在了 500 字内 ✅。"
+<strong>验收点（讲给学员）</strong>：①三段结构齐不齐 ②每件事有没有"结果/数据" ③有没有把日志里的事漏掉 ④有没有它自己编的、你根本没做的事。</p>
+<h3 id="4_14">④ 现场带练（让学员改成自己的信息跑一遍）</h3>
+<p>"现在轮到你们。把指令里的【运营专员】改成你自己的岗位，如果你没有工作日志，就在指令里直接列三五条你这周做的事让它整理。给你们 2 分钟，跑一份自己的周报出来。"</p>
+<h3 id="5_14">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："它只能基于你给的素材——日志越具体，周报越实，别指望它凭空知道你干了啥。"</li>
+<li><strong>避坑</strong>：'让它检查有没有编造'这句一定要加，防止它为了凑字数编成果。</li>
+<li><strong>加分</strong>："配合定时任务，可以设成每周五 17:00 自动生成草稿，等于 0 分钟。"（此处不承诺具体功能细节，以官网 www.workbuddy.cn 为准。）</li>
+</ul>
+<hr />
+<h2 id="2-ppt">实战教学 2 · 汇报 PPT：明天要讲，今晚还是白板</h2>
+<p><strong>时长</strong>：约 7 分钟（痛点代入 1' / 演示 3.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_4">① 开场痛点代入</h3>
+<p>"临时被通知明天要汇报，手上就一份文档，PPT 从零搭、找模板、一页页填、调字体配色对齐……做到半夜还丑。这个坑谁踩过？"（停顿）"今天教你们的，不只是'让它做 PPT'——关键是<strong>怎么做才不返工</strong>。"</p>
+<p><strong>价值钩子</strong>："2.5 小时的活，20 分钟拿下，而且不用推翻重来。"</p>
+<h3 id="2_13">② 现场演示脚本</h3>
+<p><strong>第 1 步</strong>："我手上有一份《Q3 项目总结》文档，先上传进去。"（现场拖入文档）</p>
+<p><strong>第 2 步</strong>（这是本节灵魂，讲师要放慢）："很多人上来就说'帮我做套 PPT'，结果它一口气做完，方向全偏，返工比自己做还累。我不这么干——我让它<strong>先给大纲，我确认了再生成</strong>。看这条指令最后一句。"</p>
+<p><strong>完整可复制指令（有现成文档时）：</strong></p>
+<pre><code>根据我上传的这份《Q3 项目总结》文档，做一套汇报用 PPT：
+- 12 页以内，逻辑：背景→做了什么→成果数据→问题→下季度计划
+- 每页一个核心观点，文字精简、多用要点和数据，不要整段话
+- 风格：简洁商务、深色专业，重点数字放大
+- 结尾一页&quot;总结与致谢&quot;
+先给我大纲，我确认后再生成完整 PPT。
+</code></pre>
+<p><strong>第 3 步</strong>（大纲出来后）："看，它先给我一页页大纲。我现在扫一遍——第 3 页逻辑不对？我直接说'第 3 页换成成果数据'，它改。确认没问题了，我才说'可以，生成完整 PPT'。"（现场演示确认动作）"这就是<strong>先出大纲、拦住跑偏</strong>——PPT 返工成本最高，卡在大纲阶段最省事。"</p>
+<p><strong>补充演示（只有零散要点时）</strong>："如果你手上没文档，只有一堆要点，就先说'把我下面这些要点整理成汇报逻辑大纲'，确认后再套上面这条生成指令。"</p>
+<h3 id="3_17">③ 带学员看成品与验收点</h3>
+<p>"生成后你会拿到一套可下载的 PPT，导入 PowerPoint 或 WPS 还能自己微调。"
+<strong>验收点</strong>：①逻辑顺不顺（背景→做了什么→成果→问题→计划）②每页是不是"一个核心观点"、有没有整段话堆着 ③风格是不是你要的深色商务 ④<strong>数据页的数字，自己核对一遍</strong>。</p>
+<h3 id="4_15">④ 现场带练</h3>
+<p>"你们把指令里的《Q3 项目总结》换成自己手头任意一份文档，把视觉要求改成你喜欢的风格。先让它出大纲——<strong>记住，别急着让它一步到位生成 PPT</strong>。给你们 3 分钟，走到'确认大纲'这一步就行。"</p>
+<h3 id="5_15">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："一定先出大纲再生成，这是这节最值钱的一句话。"</li>
+<li><strong>避坑</strong>：数据类页面自己核一遍数字，别让它替你"记忆"数据。</li>
+<li><strong>避坑</strong>：视觉要求写具体——"深色商务""重点数字放大"，比"做好看点"有效十倍。</li>
+</ul>
+<hr />
+<h2 id="3_18">实战教学 3 · "帮我分析下这个数据"：不会函数也能出结论</h2>
+<p><strong>时长</strong>：约 7 分钟（痛点代入 1' / 演示 3.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_5">① 开场痛点代入</h3>
+<p>"领导甩来一个 Excel，就一句'看看这个月怎么回事'。透视表你都点不利索，更别说找原因、给建议。"（环视）"注意领导要的不是表格，是<strong>结论</strong>。今天教你们不会函数也能出结论。"</p>
+<p><strong>价值钩子</strong>："1.5 小时干瞪眼的活，10 分钟出一份带图带结论带建议的报告。"</p>
+<h3 id="2_14">② 现场演示脚本</h3>
+<p><strong>第 1 步</strong>："把这份销售 Excel 直接拖进对话区。"（现场拖入）</p>
+<p><strong>第 2 步</strong>："然后我不说'帮我分析',那太空。我要<strong>告诉它我拿来干嘛、要它算什么、找什么、给什么建议</strong>。"（粘贴指令，念关键几条）</p>
+<p><strong>完整可复制指令：</strong></p>
+<pre><code>分析这份销售数据，我要拿去跟领导汇报：
+1. 先算整体：总额、环比、同比
+2. 找出环比下滑最大的 3 个品类/区域，各分析可能原因
+3. 找出增长最快的 3 个，看能不能复制
+4. 给我 3 条可执行的下一步建议
+5. 关键结论配图表（趋势用折线、对比用柱状）
+6. 汇总成一份分析报告
+数据里如果有异常值或缺失，先告诉我，别直接算。
+</code></pre>
+<p><strong>第 3 步</strong>（指着最后一句）："看最后这句'有异常先告诉我别直接算'——这是全场最关键的一句。脏数据算出来的漂亮结论最坑人。它要是先跟你说'第 5 行金额是空的'，你就躲过一个大坑。"（等生成）</p>
+<h3 id="3_19">③ 带学员看成品与验收点</h3>
+<p>"出来的是一份带折线、柱状图，有结论、有 3 条可执行建议的报告——你拿去汇报的是'洞察'，不是'表格'。"
+<strong>验收点</strong>：①整体数据（总额/环比/同比）算对没 ②它列的"可能原因"你<strong>结合业务判断</strong>成不成立——它不懂你公司内情 ③重要决策相关的数字，抽查几个对不对得上原表 ④建议是不是"可执行"，不是空话。</p>
+<h3 id="4_16">④ 现场带练</h3>
+<p>"你们把自己手头任意一份带数字的表拖进去（销售、考勤、费用都行），套这条指令，把'跟领导汇报'改成你的用途。跑一份出来，重点看它有没有先跟你报告异常值。2 分钟。"</p>
+<h3 id="5_16">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："'有异常先告诉我别直接算'这句一定要加。"</li>
+<li><strong>避坑</strong>：它给"可能原因"，但<strong>原因是否成立要你结合业务判断</strong>。</li>
+<li><strong>避坑</strong>：涉及重要决策的数字，自己抽查几个和原表对得上不。</li>
+</ul>
+<hr />
+<h2 id="4_17">实战教学 4 · 会议纪要：散会即出，还自动分好待办</h2>
+<p><strong>时长</strong>：约 6 分钟（痛点代入 1' / 演示 2.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_6">① 开场痛点代入</h3>
+<p>"一小时的会，你边听边记还怕漏，散会再花一小时整理，谁负责什么、什么时候交，还得自己一条条扒出来。"（停顿）"今天让散会 5 分钟，纪要和待办表全出来，责任还自动分到人。"</p>
+<p><strong>价值钩子</strong>："55 分钟 → 5 分钟，而且待办自动到人到期。"</p>
+<h3 id="2_15">② 现场演示脚本</h3>
+<p><strong>第 1 步</strong>："我把今天产品评审会的录音传上去。"（现场上传录音或转录文字）"没有录音的，把转录文字贴进去一样。"</p>
+<p><strong>第 2 步</strong>（粘贴指令，念给学员）："我不光要纪要，还要它<strong>分出待办、责任到人、生成一段能直接发群的总结</strong>——一次到位。"</p>
+<p><strong>完整可复制指令：</strong></p>
+<pre><code>这是今天产品评审会的录音。帮我整理：
+1. 会议纪要：分「议题」「讨论要点」「结论/决议」三块
+2. 待办清单：列出每一项 待办事项 + 负责人 + 截止时间（表格）
+3. 如果有争议未决的点，单独标出来
+4. 生成一段可直接发群里的会议总结（3-5 句话）
+纪要发到腾讯文档「会议纪要」文件夹。
+</code></pre>
+<p><strong>第 3 步</strong>（生成后指着待办表）："看这张待办表——事项、负责人、截止时间三列。但<strong>这三列里的名字和日期，我等会一定自己核</strong>，为什么，避坑环节讲。"</p>
+<h3 id="3_20">③ 带学员看成品与验收点</h3>
+<p>"你会拿到三样：结构化纪要 + 责任到人的待办表 + 一段能直接转发的群消息。"
+<strong>验收点</strong>：①纪要三块（议题/讨论要点/结论）齐不齐 ②待办表<strong>负责人+截止时间必须逐条核对</strong> ③争议未决点有没有单独标出 ④群总结能不能直接发（3-5 句，别太长）。</p>
+<h3 id="4_18">④ 现场带练</h3>
+<p>"你们把手头任意一段会议记录或语音转文字贴进去（没有就用我这份示例），套这条指令跑一遍。重点看它生成的待办表，然后<strong>假装你是主持人，核一遍名字和日期对不对</strong>。2 分钟。"</p>
+<h3 id="5_17">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："录音要清楚，人声嘈杂会影响转录准确度。"</li>
+<li><strong>避坑</strong>：待办里的"负责人+截止时间"务必自己核对——听错名字、听错日期会误事，这是人工关口。</li>
+<li><strong>避坑</strong>：涉及敏感讨论的会议，注意录音和上传的合规。</li>
+</ul>
+<hr />
+<h2 id="5-100">实战教学 5 · 一堆文件要整理：100 个几秒归类</h2>
+<p><strong>时长</strong>：约 7 分钟（痛点代入 1' / 演示 3.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_7">① 开场痛点代入</h3>
+<p>"月底一堆发票要登记，几百张图片要按类分，下载文件夹乱成一锅粥——手动一个个开、一个个改名，眼睛都花了。"（停顿）"这是纯体力活，最适合交给它。今天演示两个场景：发票登记 + 批量文件归类。"</p>
+<p><strong>价值钩子</strong>："2 小时的体力活，5 分钟搞定，100 个文件量级。"</p>
+<h3 id="2_16">② 现场演示脚本</h3>
+<p><strong>场景一 · 发票登记</strong>
+<strong>第 1 步</strong>："我上传这一批发票图片/PDF。"（现场上传示例发票）
+<strong>第 2 步</strong>（粘贴指令）："让它识别每张的关键字段，汇总成表，算总额总税额。"</p>
+<p><strong>完整可复制指令（发票登记）：</strong></p>
+<pre><code>我上传了这一批发票图片/PDF。帮我：
+1. 识别每张的：发票号码、开票日期、金额、开票方、税率
+2. 汇总成一张 Excel 表，每张一行
+3. 算出总金额和总税额
+4. 如果有识别不清的，单独标出来让我核对
+</code></pre>
+<p><strong>场景二 · 批量文件归类</strong>
+<strong>第 3 步</strong>（粘贴第二条指令）："文件夹乱，就让它按类型归类，还要它给一份归类清单，方便你验收。"</p>
+<p><strong>完整可复制指令（批量归类）：</strong></p>
+<pre><code>把这个文件夹里的文件按类型归类（合同/发票/报告/图片…），
+整理成清晰的子文件夹结构，给我一份归类清单说明。
+</code></pre>
+<p><strong>第 4 步</strong>（指着发票表）："看，每张一行，总额总税额都算好了。但注意第 4 条'识别不清的单独标出'——它把拿不准的挑出来给我，比它默默填错强一百倍。"</p>
+<h3 id="3_21">③ 带学员看成品与验收点</h3>
+<p>"你会拿到：一张可直接用的发票汇总表 / 一套整理好的子文件夹 + 一份归类清单。"
+<strong>验收点</strong>：①<strong>金额、发票号这类关键字段一定抽查</strong>（OCR 会有误差）②"识别不清"的它有没有标出来，标出来的你逐条核 ③归类清单对照实际文件夹看归对没归对。</p>
+<h3 id="4_19">④ 现场带练</h3>
+<p>"你们上传两三张自己的票据或图片（没有敏感信息的），套发票指令跑一遍，重点看它有没有把'识别不清的'标出来，再抽查一个金额对不对。2 分钟。"</p>
+<h3 id="5_18">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："金额、发票号这类关键字段，报销/入账前一定人工复核——这是红线。"</li>
+<li><strong>避坑</strong>："识别不清的单独标出"这句让它自己暴露不确定项，比默默填错强。</li>
+<li><strong>提醒</strong>：上传的票据注意别含无关的敏感个人信息。</li>
+</ul>
+<hr />
+<h2 id="6_4">实战教学 6 · 竞品/市场调研：从"不知从哪下手"到一份带证据的报告</h2>
+<p><strong>时长</strong>：约 7 分钟（痛点代入 1' / 演示 3.5' / 看成品 1' / 带练 1' / 口播 0.5'）</p>
+<h3 id="1_8">① 开场痛点代入</h3>
+<p>"领导说'调研一下竞品/这个市场'。你打开浏览器搜了两页就晕了，信息真假难辨，最后拼出一份自己都没底气的报告。"（停顿）"调研报告最怕什么？——言之凿凿的假信息。今天教你们做一份<strong>每条都能溯源</strong>的报告。"</p>
+<p><strong>价值钩子</strong>："半天到一天的活，15-20 分钟，而且可信度更高。"</p>
+<h3 id="2_17">② 现场演示脚本</h3>
+<p><strong>第 1 步</strong>："这次不用上传文件，直接给指令。关键是我要它<strong>每条结论标来源、区分事实和推测、拿不准就说未找到</strong>。"</p>
+<p><strong>第 2 步</strong>（粘贴指令，重点念第 2、3 条和最后一句）：</p>
+<p><strong>完整可复制指令：</strong></p>
+<pre><code>帮我做一份【竞品X】的调研报告，我要用于内部产品决策：
+1. 覆盖：产品定位、核心功能、定价、目标用户、优劣势
+2. 每个关键结论都要标注来源链接，方便我核实
+3. 区分&quot;官方信息&quot;和&quot;第三方评价/推测&quot;，别混为一谈
+4. 最后给一段&quot;对我们的启示&quot;（3 条）
+5. 输出成结构化报告，附一张信息来源表
+拿不准或搜不到的地方，明确说&quot;未找到&quot;，不要编。
+</code></pre>
+<p><strong>第 3 步</strong>（生成中/生成后，指着来源表）："看这张信息来源表——每条结论后面挂着链接。这就是这份报告最值钱的地方：<strong>每条都能点开自己核实</strong>。它还把'官方说的'和'网友评价/推测'分开了，不混为一谈。"</p>
+<h3 id="3_22">③ 带学员看成品与验收点</h3>
+<p>"你拿到的是一份带来源证据表、区分事实与推测的专业调研报告。"
+<strong>验收点</strong>：①五个维度（定位/功能/定价/用户/优劣势）齐不齐 ②<strong>关键结论点开来源自己扫一眼</strong>，尤其是要拿去做决策的 ③"官方"和"第三方推测"有没有分清 ④时效性强的信息（价格、政策）核对是不是最新的 ⑤搜不到的它有没有老实说"未找到"，而不是硬编。</p>
+<h3 id="4_20">④ 现场带练</h3>
+<p>"你们把【竞品X】换成你行业里一个真实的竞品名，套这条指令跑一遍。跑完<strong>随便点开一两条来源链接看看真不真</strong>——这个动作要养成习惯。3 分钟。"</p>
+<h3 id="5_19">⑤ 讲师口播重点 / 避坑提醒</h3>
+<ul>
+<li><strong>口播</strong>："'每条标来源 + 拿不准说未找到'是这节的灵魂——调研报告最怕假信息说得斩钉截铁。"</li>
+<li><strong>避坑</strong>：关键结论点开来源自己扫一眼，尤其是要做决策的。</li>
+<li><strong>避坑</strong>：时效性强的信息（价格、政策）注意核对是不是最新的。涉及 WorkBuddy 自身价格功能，一律以官网 www.workbuddy.cn 为准。</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>本半模块小结（讲师收口用一句话）</strong>："这 6 个实战有一条共同的暗线——<strong>你说得越清楚、越舍得让它'先报告不确定项'，它给你的东西越靠谱</strong>。周报让它别编、数据让它先报异常、纪要让它标争议、发票让它标识别不清、调研让它说未找到——学会这一招，你就从'会用它'变成'能信它、还能兜底'。下半模块我们继续实战 7-12。"</p>
+</blockquote>
+<hr />
+<h1 id="_77">模块七 · 高频痛点实战全解（下） — 讲师教案</h1>
+<blockquote>
+<p>本模块教案面向零基础职场学员。实战教案与常规课略有不同：每个实战写成一节【5-8 分钟的现场演示教学】，讲师照着脚本就能边演示边带学员做。结构固定为：①开场痛点代入 ②现场演示脚本 ③带学员看成品与验收点 ④现场带练 ⑤讲师口播重点/避坑提醒。价格与功能一律「以官网 www.workbuddy.cn 为准」。</p>
+</blockquote>
+<hr />
+<h2 id="7_2">实战教学 7 · 重复邮件/消息：写一次，以后一句话套用</h2>
+<p><strong>时长</strong>：约 6 分钟 | <strong>教具</strong>：装好的 WorkBuddy、一个真实的催收/跟进邮件场景、可投屏</p>
+<h3 id="1-40">① 开场痛点代入（40 秒）</h3>
+<p>讲师第一句话：「问大家一个问题——催款邮件、客户跟进、面试邀约、请假报备，这几类话你一周要写几遍？」停两秒让学员回想。接着代入：「每次都从头组织语言，光调语气、检查有没有说错，一封 5 到 10 分钟。今天我教你一招——<strong>写一次，以后一句话套用</strong>，从 8 分钟压到 30 秒。」</p>
+<h3 id="2-3">② 现场演示脚本（3 分钟）</h3>
+<p><strong>演示目标</strong>：让学员看到「先做一次模板 → 以后一句话填空出成品」这个两步套路。</p>
+<p>第一步，讲师边说边做：「我们先花一次功夫，把它变成模板。注意我留了『可替换空位』，这是关键。」在输入框粘贴：</p>
+<pre><code>帮我做一个&quot;客户逾期付款催收邮件&quot;模板，要求：
+- 语气：礼貌但明确，不失专业
+- 留出可替换的空位：【客户名】【发票号】【金额】【逾期天数】【付款方式】
+- 再给一个&quot;二次催收&quot;的加强版
+</code></pre>
+<p>等它出结果时口播：「看到没，它给了带方括号占位符的模板，还多送一个加强版——以后客户不理你，直接用二次催收。」</p>
+<p>第二步，演示「以后每次用」：「模板做好后，我以后不用再解释一大堆，一句话就够。」粘贴：</p>
+<pre><code>用催收模板，客户&quot;ABC公司&quot;，发票号 INV-2026-088，金额 1.2 万，逾期 15 天。
+</code></pre>
+<p>口播：「30 秒，一封专业催收邮件就出来了。可以把模板存进腾讯文档，或者直接让它记住，下次连模板都不用贴。」</p>
+<h3 id="3-40">③ 带学员看成品与验收点（40 秒）</h3>
+<p>指着屏幕：「验收三点——① 占位符是不是都被你的信息正确替换了；② 语气是不是『礼貌但明确』，没有过软或过硬；③ 金额、发票号这些<strong>关键信息有没有填错</strong>。」</p>
+<h3 id="4-1">④ 现场带练（1 分钟）</h3>
+<p>「现在轮到你们。把催收换成你自己高频写的那类——客户跟进也行、面试邀约也行。先让它做一版模板，再用一句话套用。」巡场重点看：学员有没有留占位符（很多人第一次会忘），以及第二步是不是真用了「一句话」而不是又写了长篇。</p>
+<h3 id="5-40">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「模板化的本质是——把重复的措辞固定下来，把变化的信息留成空位。」</li>
+<li>避坑一：「涉及<strong>金额、承诺、法律措辞</strong>的，发出前你必须自己看一遍——模板帮你省事，但责任在你。」</li>
+<li>避坑二：「对外邮件建议留人工关口，<strong>别接自动发送</strong>，这块第 18 课会细讲。」</li>
+</ul>
+<hr />
+<h2 id="8_19">实战教学 8 · 每天自动帮我盯资讯：不错过又不被淹没</h2>
+<p><strong>时长</strong>：约 6 分钟 | <strong>前置</strong>：学员需已了解第 13 课装 Skill、第 16-17 课自动化 | <strong>教具</strong>：可演示自动任务创建界面、微信助手已授权</p>
+<h3 id="1-40_1">① 开场痛点代入（40 秒）</h3>
+<p>讲师开场：「谁每天要刷公众号、刷群、刷行业网站，生怕错过大事？」举手后接：「结果呢——每天花一两小时，看的全是噪音，真正重要的还容易漏。今天我们让 AI 替你盯：<strong>重要的自动送到你面前，其余的别烦你</strong>，每天 3 分钟看完晨报。」</p>
+<h3 id="2-3_1">② 现场演示脚本（3 分钟）</h3>
+<p><strong>演示目标</strong>：让学员看到一条「定时抓取 → 筛选 → 摘要 → 只推 Top 几条 → 微信送达」的自动任务是怎么配出来的。</p>
+<p>讲师先提醒：「这个用到前面学的自动化，没学过第 16、17 课的同学先记指令，回去补课再跑。」然后边说边贴指令：「注意我给它定了<strong>时间、抓什么、怎么筛、每条给什么、只推几条、发到哪</strong>——六件事说清楚，它才不会给你堆一堆。」</p>
+<pre><code>创建一个自动任务：
+- 每个工作日早上 8:00 执行
+- 抓取：GitHub 今日热门 + AI 行业动态 + 我关注的这几个公众号新文
+- 筛选：只保留和&quot;AI Agent / 办公自动化&quot;相关的，按重要性排序
+- 每条给：一句话摘要 + 为什么值得看 + 原文链接
+- 只推 Top 5-8 条，其余归档
+- 通过微信助手发给我
+高影响的信息，追加一次搜索补充官方来源。
+</code></pre>
+<p>口播强调：「重点两句——『只推 Top 5-8 条』是防淹没的关键；最后一句『高影响信息追加搜索补充官方来源』是防假消息。」</p>
+<h3 id="3-40_1">③ 带学员看成品与验收点（40 秒）</h3>
+<p>「明天早上 8 点，你微信里会收到一条『精选几条』的行业晨报，3 分钟看完就掌握重点。验收点：① 是不是只推了 5-8 条不是几十条；② 每条有没有『为什么值得看』这句判断；③ 原文链接能不能点开。」</p>
+<h3 id="4-1_1">④ 现场带练（1 分钟）</h3>
+<p>「把抓取源换成你行业的——做电商的换成电商资讯源，做 HR 的换成招聘政策源。先按我的模板改，别急着改结构。」巡场重点看：学员是不是漏掉了「时间」或「发到哪」，导致任务建不起来；以及有没有把源写得太泛（如「所有新闻」）。</p>
+<h3 id="5-40_1">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「让 AI 盯资讯，会筛选、会限量比抓得多更重要。」</li>
+<li>避坑一：「<strong>热度只帮排序，不代表真实</strong>——要拿去做决策的，点开原文或让它补官方来源核实（第 17 课）。」</li>
+<li>避坑二：「自动任务要<strong>电脑开机 + 连接器授权有效</strong>，不然到点跑不了。」</li>
+<li>避坑三：「<strong>先跑三天</strong>，把没用的源砍掉，留下真正有价值的，别一次配一大堆。」</li>
+</ul>
+<hr />
+<h2 id="9_7">实战教学 9 · 复杂项目一条龙：召唤"专家团"替你统筹</h2>
+<p><strong>时长</strong>：约 8 分钟 | <strong>前置</strong>：学员需先学过<strong>模块五（第 19-20 课，专家团/Plan 检查点）</strong> | <strong>教具</strong>：准备好一份可上传的销售表/流量表示例文件</p>
+<h3 id="1-50">① 开场痛点代入（50 秒）</h3>
+<p>讲师开场：「做过月度经营分析汇报的举手——找数据、分析、做图、写结论、排版，一个人从头忙到尾，中间还容易断档，对吧？」代入：「今天不用你自己拆步骤了。我们<strong>召唤一个专家团</strong>，团长帮你拆活、分给不同角色并行做，你只在关键节点拍板。大半天的活压到 40 分钟。」<strong>特别提醒</strong>：「这一节用到模块五的专家团，没学过的同学先回去补第 19、20 课，不然会看不懂团长在干嘛。」</p>
+<h3 id="2-4">② 现场演示脚本（4 分钟）</h3>
+<p><strong>演示目标</strong>：让学员看到「给背景+成果+要求 → 团长先出拆解方案 → 我确认 → 团队并行执行」的一条龙流程。</p>
+<p>第一步，讲师边说边贴，并强调背景要说清：「注意我把<strong>我是谁、要干嘛、手上有什么数据、期望什么成果</strong>全交代了，这样团长才能拆得准。还有最后一句最关键——<strong>先出方案再执行</strong>。」</p>
+<pre><code>召唤一个专家团，帮我做「10 月经营分析汇报」。背景：我是运营负责人，
+要在月度会上汇报。手上有这些数据：[上传销售表/流量表]。
+我期望的最终成果：一份 15 页汇报 PPT + 一段 3 分钟口头汇报稿。
+请团长先给我拆解方案（谁负责什么、产出什么、哪几步要我确认），
+我确认后再执行。
+</code></pre>
+<p>第二步，团长出方案时口播：「看，团长自动拆成——数据分析角色 → 图表角色 → 结论建议角色 → PPT 排版角色 → 汇报稿角色，还标了哪几步要我确认。这就是第 20 课讲的<strong>检查点思路</strong>。」</p>
+<p>第三步：「我确认方案后，团队并行推进，最后整合成一整套成品。我全程只在关键节点拍板，比如确认结论方向、微调图表。」</p>
+<h3 id="3-50">③ 带学员看成品与验收点（50 秒）</h3>
+<p>「最后你拿到的是一整套：分析 + 图表 + PPT + 口头稿。验收点：① 数据数字对不对（这个必须你亲自核）；② 结论有没有依据、不是空话；③ PPT 页数和汇报稿时长符不符合你要求。」</p>
+<h3 id="4-1_2">④ 现场带练（1 分钟）</h3>
+<p>「把场景换成你自己的复杂项目——季度复盘、活动方案、竞品调研都行。先写清背景和成果，让团长出方案，<strong>先别让它直接跑</strong>。」巡场重点看：学员是不是漏了「先出拆解方案再执行」这句，导致团长闷头就跑；以及背景交代太少让方案跑偏。</p>
+<h3 id="5-40_2">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「专家团负责统筹，不负责替你担责——<strong>关键结论和数字仍要你把关</strong>。」</li>
+<li>避坑一：「<strong>先让团长出拆解方案再执行</strong>（第 20 课检查点），别一上来就让它闷头跑。」</li>
+<li>避坑二：「<strong>简单任务别上专家团</strong>，浪费积分，先判断『值不值得拆』（第 20 课清单）。」</li>
+</ul>
+<hr />
+<h2 id="10_13">实战教学 10 · 做短视频：不会剪不会拍，一句话到成片</h2>
+<p><strong>时长</strong>：约 8 分钟 | <strong>前置</strong>：学员需先学过<strong>模块五（第 21 课，视频生成团队）</strong> | <strong>教具</strong>：准备一个产品一句话介绍或官网链接、可播放成片 MP4</p>
+<h3 id="1-50_1">① 开场痛点代入（50 秒）</h3>
+<p>讲师开场：「想给产品做条短视频，或者做个知识科普发抖音——但你不会写脚本、不会剪辑、不会配音，外包又贵又慢，是不是就搁置了？」代入：「今天教你<strong>一句话到成片</strong>：召唤视频生成团队，它走选题、脚本、渲染、配音、字幕全套，你只确认和验收。几天的活压到半小时。」<strong>特别提醒</strong>：「这节用到模块五第 21 课的视频团队，没学过的同学先补课再动手。」</p>
+<h3 id="2-4_1">② 现场演示脚本（4 分钟）</h3>
+<p><strong>演示目标</strong>：让学员看到「给产品+风格+要求 → 先出脚本分镜 → 我确认 → 渲染成片 → 配音字幕 → 验收」的完整链路，并理解「分镜阶段一定要确认」。</p>
+<p>第一步，讲师边说边贴，强调要素：「注意我说清了<strong>时长、产品、风格（含竖屏/横屏）、开头钩子、核心卖点、要旁白字幕</strong>，最后一句最重要——<strong>先给脚本分镜再渲染</strong>。」</p>
+<pre><code>召唤视频生成团队，做一条 45 秒的产品介绍短视频。
+产品：[一句话介绍或官网链接]。
+风格：简洁科技感，竖屏，适合发抖音/视频号。
+要求：开头 3 秒要有钩子，突出&quot;[核心卖点]&quot;，配旁白和字幕。
+先给我脚本和分镜，我确认后再渲染。
+</code></pre>
+<p>第二步，出脚本分镜时口播：「团队先给我脚本和分镜——这一步<strong>必须停下来确认节奏对不对</strong>，因为等它渲染完再发现不对，返工成本很高，还烧积分。」</p>
+<p>第三步：「确认后它才走 HTML 渲染成片 → 配音字幕 → 交给我验收。最后拿到一条可直接发布的竖屏 MP4。」</p>
+<h3 id="3-50_1">③ 带学员看成品与验收点（50 秒）</h3>
+<p>播放示例成片，指着说：「验收点：① 开头 3 秒有没有钩子抓人；② 核心卖点突出了没；③ 旁白、字幕、转场对不对得上；④ 时长符不符合。」</p>
+<h3 id="4-1_3">④ 现场带练（1 分钟）</h3>
+<p>「把产品换成你自己的——你店里的商品、你的课程、你部门要宣传的东西都行。先让它出脚本分镜，<strong>在分镜阶段就停下来确认</strong>，别一路点到渲染。」巡场重点看：学员是不是漏了「先给脚本分镜再渲染」，导致直接渲染；以及卖点写得太泛。</p>
+<h3 id="5-40_3">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「AI 做视频，钱和时间都花在渲染上——所以<strong>分镜阶段一定要确认好再渲染</strong>。」</li>
+<li>避坑一：「<strong>发布默认别全自动</strong>——标题、封面、素材版权、合规自己过一遍再发（第 21 课铁律）。」</li>
+<li>避坑二：「想学爆款套路，先用『爆款拆解团队』拆几条同赛道的，再喂给生成团队。」</li>
+</ul>
+<hr />
+<h2 id="11-ai">实战教学 11 · 想在团队推 AI：怎么落地、怎么说服人</h2>
+<p><strong>时长</strong>：约 7 分钟 | <strong>教具</strong>：一个全组都烦的高频场景例子（周报/纪要/数据周报）、可投屏</p>
+<h3 id="1-50_2">① 开场痛点代入（50 秒）</h3>
+<p>讲师开场：「自己用 AI 用爽了，想在部门推广，结果——同事嫌麻烦不用，老板问『投入这么多有啥回报』，是不是就推不动了？」代入：「今天不讲工具，讲<strong>方法</strong>：怎么选切入场景、怎么让不懂 AI 的同事也照着用、怎么用数据说服老板。三步落地。」</p>
+<h3 id="2-35">② 现场演示脚本（3.5 分钟）</h3>
+<p><strong>演示目标</strong>：让学员掌握「选低风险高频场景 → 做一页纸推广模板卡 → 用真实数据对比说服老板」这套方法。</p>
+<p>第一步，讲师口播原则（第 23 课）：「<strong>别一上来搞最复杂、最高风险的</strong>。挑一个全组都烦、又不涉及财务法务这类高风险的——比如周报、会议纪要、数据周报。风险低、频率高，最容易建立信任。」</p>
+<p>第二步，边说边贴指令：「然后让它帮你把这个场景做成一张<strong>一页纸的推广模板卡</strong>，不懂 AI 的同事也能照着用。」</p>
+<pre><code>帮我做一张【会议纪要自动化】的部门推广模板卡，说明：
+- 原流程（原来几个人、多久）
+- 需要的输入（录音/文字）
+- 产出（纪要+待办表）
+- 验收标准（什么算合格）
+- 人工关口（哪步要人核对）
+- 关键指标（省多少时间）
+- 负责人
+做成一页纸，让不懂 AI 的同事也能照着用。
+</code></pre>
+<p>口播强调：「注意这张卡里有两栏最关键——<strong>『人工关口』和『负责人』</strong>，同事最怕『出了事没人担』，写清这两栏他们才敢用。」</p>
+<p>第三步：「最后用数据说服老板——先自己或小范围<strong>跑一周</strong>，记录『原来 X 小时 → 现在 Y 分钟』，拿真实对比去汇报，比你讲一堆概念管用一百倍。」</p>
+<h3 id="3-40_2">③ 带学员看成品与验收点（40 秒）</h3>
+<p>「你拿到的是一套可复制的推广打法：切入场景 + 一页纸模板卡 + ROI 数据。验收点：① 模板卡是不是真做成一页、一目了然；② 有没有写清人工关口和负责人；③ ROI 数据是不是你<strong>真跑出来的</strong>，不是估的。」</p>
+<h3 id="4-1_4">④ 现场带练（1 分钟）</h3>
+<p>「选一个你们组真实的高频场景，让它做一张推广模板卡。」巡场重点看：学员是不是挑了高风险场景（财务、对外发布），要当场纠正；以及有没有漏掉人工关口。</p>
+<h3 id="5-40_4">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「推广 AI，靠的不是讲概念，是<strong>低风险场景先建信任 + 真实数据说话</strong>。」</li>
+<li>避坑一：「<strong>别一上来推高风险场景</strong>（财务/法务/对外发布），先从低风险高频的建立信任。」</li>
+<li>避坑二：「成熟度按 L1→L4 循序（第 23 课），别指望一步到位。」</li>
+</ul>
+<hr />
+<h2 id="12_6">实战教学 12 · 怕花冤枉钱：把积分花在刀刃上</h2>
+<p><strong>时长</strong>：约 6 分钟 | <strong>前置</strong>：可回顾第 2 课、附录 C 的消耗规律 | <strong>教具</strong>：白板/PPT 写三条消耗规律和四招；价格一律「以官网 www.workbuddy.cn 为准」</p>
+<h3 id="1-40_2">① 开场痛点代入（40 秒）</h3>
+<p>讲师开场：「用之前很多人心里犯嘀咕——积分到底怎么扣的？跑个任务会不会一下烧掉一大把？充了会员怎么才能回本？」代入：「这一节不教你干活，教你<strong>花钱心智</strong>：记住三条规律、四招省法，你就知道哪些放开用、哪些先试试。」</p>
+<h3 id="2-3_2">② 现场演示脚本（3 分钟）</h3>
+<p><strong>演示目标</strong>：让学员建立「文字随便用、图片视频先试、重复存模板、大任务先看余额」的清晰心智。这一节偏讲授，讲师边在白板写边讲。</p>
+<p>第一步，白板写三条消耗规律（口播第 2 课、附录 C）：
+- 「<strong>文字任务</strong>——写、改、总结、分析，耗得很少，<strong>放开用</strong>，别舍不得。」
+- 「<strong>图片生成</strong>——约 5-10 积分一张，<strong>先出 1 张看效果，满意了再批量</strong>。」
+- 「<strong>视频生成</strong>——约 50-100 积分一段，<strong>最贵</strong>，一定先拿小片段试。」</p>
+<p>口播关键提醒：「具体数字<strong>以官网 www.workbuddy.cn 为准</strong>，我这里给的是量级，让你心里有个数。」</p>
+<p>第二步，白板写省积分四招：
+1. 「复杂任务用 <strong>Plan 模式</strong>先确认方案，避免反复重跑烧积分。」
+2. 「图片、视频<strong>先小批量试</strong>，满意了再放量。」
+3. 「重复的活<strong>存成模板 / Skill</strong>，别每次从头生成。」
+4. 「跑大任务前<strong>瞄一眼积分余额</strong>，心里有数。」</p>
+<p>第三步，讲「怎么回本」：「把积分用在<strong>高频重复</strong>的活上——周报、纪要、数据、资讯。单次省的时间 × 频次，很快就超过会员费了。偶尔用一次的场景，免费额度就够。」</p>
+<h3 id="3-40_3">③ 带学员看成品与验收点（40 秒）</h3>
+<p>「这一节的『成品』是你脑子里的一张花钱地图。自测一下：① 文字任务你敢不敢放开用？（该敢）② 要生成 20 张图，你第一步做什么？（先出 1 张试）③ 每周都要做的报表，你怎么省？（存模板）。答得上来就掌握了。」</p>
+<h3 id="4-1_5">④ 现场带练（1 分钟）</h3>
+<p>「打开你的 WorkBuddy，找到积分余额看一眼在哪；再想一个你最高频的活，说说该用哪一招省。」巡场重点看：学员是不是还把文字任务也当成『很费』而舍不得用；以及能不能找到余额入口。</p>
+<h3 id="5-40_5">⑤ 讲师口播重点 / 避坑提醒（40 秒）</h3>
+<ul>
+<li><strong>重点带走一句</strong>：「文字随便用、图片视频先试、重复的存模板、大任务先看余额——这就是全部心法。」</li>
+<li>避坑一：「新用户注册送的积分（约 2500，30 天）<strong>先拿来跑高频场景验证价值</strong>，别急着烧在视频上。」</li>
+<li>避坑二：「<strong>价格和规则一律以官网 www.workbuddy.cn 为准</strong>，课上给的数字只是量级参考，别当死数背。」</li>
+</ul>
+<hr />
+<blockquote>
+<p>🎯 <strong>这一模块怎么教</strong>：不必按 7-12 顺序讲。开课前先问学员「你最痛哪一条」，直接从对应实战切入，复制指令、改成他自己的信息、现场跑一遍。<strong>让每个学员在课上跑通一个，他就回本了。</strong></p>
+</blockquote>
+</main></div>
+<script>
+const items=[...document.querySelectorAll('.nav-item')];
+const secs=items.map(a=>document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+function onScroll(){let cur=secs[0];for(const s of secs){if(s.getBoundingClientRect().top<120)cur=s}
+items.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+(cur&&cur.id)));}
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+items.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.getElementById(a.getAttribute('href').slice(1)).scrollIntoView({behavior:'smooth'})}));
+</script></body></html>
