@@ -3,273 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Skill 板书动画</title>
+<title>Skill 板书 · 可视化样板</title>
 <style>
-  :root{ --chalk:#f3f0e7; --chalk-y:#ffe9a8; --chalk-b:#a8d8ff; }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:#1a1410;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;overflow:hidden}
-  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-
-  /* 木框 */
-  .frame{
-    position:relative;width:min(94vw,1180px);height:min(88vh,700px);
-    border-radius:14px;padding:26px;
-    background:
-      repeating-linear-gradient(92deg,#6b4a2b 0 6px,#7c5631 6px 13px,#5c3f24 13px 20px);
-    box-shadow:0 30px 80px rgba(0,0,0,.7), inset 0 0 0 3px rgba(0,0,0,.3);
-  }
-  /* 黑板面 */
-  .board{
-    position:relative;width:100%;height:100%;border-radius:6px;overflow:hidden;
-    background:
-      radial-gradient(120% 140% at 50% 0%, #2f4a3f 0%, #26413a 45%, #1f3630 100%);
-    box-shadow:inset 0 0 120px rgba(0,0,0,.55), inset 0 0 0 2px rgba(0,0,0,.4);
-  }
-  /* 粉笔灰残留（底噪 + 之前擦过的痕迹） */
-  .board::before{
-    content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;
-    background:
-      radial-gradient(60% 30% at 25% 30%, rgba(255,255,255,.5), transparent 70%),
-      radial-gradient(50% 25% at 72% 62%, rgba(255,255,255,.4), transparent 70%),
-      radial-gradient(70% 20% at 50% 88%, rgba(255,255,255,.35), transparent 70%);
-    mix-blend-mode:screen;filter:blur(6px);
-  }
-  .board::after{ /* 颗粒噪声 */
-    content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
-  }
-
-  .content{position:absolute;inset:0;padding:44px 54px;display:flex;flex-direction:column;justify-content:center}
-
-  h2.title{
-    font-size:clamp(24px,3.4vw,42px);font-weight:800;color:var(--chalk-y);
-    margin-bottom:26px;letter-spacing:.5px;
-    text-shadow:0 0 1px rgba(255,255,255,.35);
-  }
-  .line{
-    font-size:clamp(17px,2.3vw,30px);line-height:1.9;color:var(--chalk);
-    margin:5px 0;letter-spacing:.4px;
-    text-shadow:0 0 1px rgba(255,255,255,.3);
-  }
-  .line.sub{color:var(--chalk-b);font-size:clamp(15px,2vw,26px)}
-  .line.big{font-weight:800;font-size:clamp(19px,2.7vw,34px);color:#fff}
-  .arrow{color:#ffb36b}
-  .div{height:2px;background:linear-gradient(90deg,transparent,rgba(243,240,231,.5),transparent);margin:16px 0;opacity:0;transition:opacity .5s}
-
-  /* 粉笔手写：颗粒质感 + 浮现 */
-  .chalk{
-    display:inline-block;opacity:0;transform:translateY(4px);
-    -webkit-text-stroke:.4px rgba(255,255,255,.06);
-    filter:url(#chalkTexture);
-  }
-  .chalk.show{
-    animation:chalkIn .55s steps(6,end) forwards;
-  }
-  @keyframes chalkIn{
-    0%{opacity:0;filter:url(#chalkTexture) blur(2px)}
-    40%{opacity:.5}
-    100%{opacity:1;transform:translateY(0);filter:url(#chalkTexture) blur(0)}
-  }
-
-  /* 黑板擦擦除 */
-  .eraser{
-    position:absolute;top:0;left:-160px;width:130px;height:100%;
-    background:linear-gradient(180deg,#caa15f,#8a6a34);
-    border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,.5);opacity:0;z-index:20;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .eraser::after{content:"";position:absolute;bottom:8px;left:8px;right:8px;height:22px;background:#3a2c15;border-radius:4px}
-  .dust{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:19;
-    background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.5), transparent 60%);filter:blur(8px)}
-
-  .hud{position:fixed;bottom:20px;left:0;right:0;display:flex;gap:12px;justify-content:center;z-index:50}
-  .btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#f3f0e7;
-    padding:9px 20px;border-radius:24px;font-size:14px;cursor:pointer;backdrop-filter:blur(6px)}
-  .btn:hover{background:rgba(255,255,255,.18)}
-  .dots{position:fixed;top:20px;left:0;right:0;display:flex;gap:8px;justify-content:center;z-index:50}
-  .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25);transition:.3s}
-  .dot.on{background:var(--chalk-y);transform:scale(1.35)}
+:root{
+  --bg:#000; --ink:#f5f7fa; --dim:#8b93a1;
+  --acc:#5eead4; --acc2:#fbbf24; --acc3:#818cf8;
+  --card:#0e1116; --line:#232a33;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;overflow:hidden;color:var(--ink)}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:4vh 4vw}
+.board{position:relative;width:min(96vw,1200px);height:min(90vh,720px);
+  background:radial-gradient(120% 120% at 50% -10%, #0a0d12 0%, #000 70%);
+  border-radius:18px;border:1px solid #14181f;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;padding:5% 6%}
+.board::before{content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;
+  background-image:linear-gradient(#0c1218 1px,transparent 1px),linear-gradient(90deg,#0c1218 1px,transparent 1px);
+  background-size:46px 46px;-webkit-mask:radial-gradient(70% 70% at 50% 45%,#000 40%,transparent 100%);mask:radial-gradient(70% 70% at 50% 45%,#000 40%,transparent 100%)}
+.kicker{font-size:clamp(12px,1.3vw,15px);letter-spacing:3px;color:var(--acc);text-transform:uppercase;margin-bottom:10px;opacity:0}
+.title{font-size:clamp(26px,3.6vw,46px);font-weight:800;letter-spacing:.5px;margin-bottom:clamp(24px,4vh,48px);opacity:0}
+.title .hl{color:var(--acc2)}
+.rise{opacity:0;transform:translateY(18px);filter:blur(6px)}
+.rise.in{animation:rise .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none;filter:blur(0)}}
+.fadeboard{animation:fadeOut .5s ease forwards}
+@keyframes fadeOut{to{opacity:0;transform:scale(.985)}}
+.fadeIn{animation:fadeIn .5s ease forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.timeline{display:flex;align-items:flex-start;position:relative;margin:10px 0 6px}
+.tl-node{flex:1;text-align:center;position:relative}
+.tl-dot{width:20px;height:20px;border-radius:50%;background:var(--acc);margin:0 auto 18px;
+  box-shadow:0 0 0 6px rgba(94,234,212,.12),0 0 24px rgba(94,234,212,.6)}
+.tl-node.gold .tl-dot{background:var(--acc2);box-shadow:0 0 0 6px rgba(251,191,36,.12),0 0 24px rgba(251,191,36,.6)}
+.tl-date{font-size:clamp(15px,1.8vw,22px);font-weight:700}
+.tl-label{font-size:clamp(13px,1.5vw,18px);color:var(--dim);margin-top:6px;line-height:1.5}
+.tl-bar{position:absolute;top:9px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));opacity:0;transform-origin:left;transform:scaleX(0)}
+.tl-bar.in{animation:grow 1s .3s ease forwards}
+@keyframes grow{to{opacity:.7;transform:scaleX(1)}}
+.metaphor{margin-top:clamp(28px,5vh,56px);text-align:center;font-size:clamp(17px,2.2vw,28px)}
+.metaphor .chip{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 26px;color:var(--acc);font-weight:700}
+.subnote{margin-top:22px;text-align:center;color:var(--dim);font-size:clamp(14px,1.7vw,20px)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.6vw,22px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,2.4vh,28px) 14px;text-align:center;position:relative;overflow:hidden}
+.card .ico{font-size:clamp(28px,3.6vw,44px);margin-bottom:12px}
+.card .h{font-size:clamp(16px,1.9vw,24px);font-weight:800}
+.card .s{font-size:clamp(12px,1.4vw,16px);color:var(--dim);margin-top:6px}
+.card.hero{border-color:var(--acc2);background:linear-gradient(180deg,rgba(251,191,36,.10),var(--card))}
+.card.hero .h{color:var(--acc2)}
+.card.hero::after{content:"";position:absolute;inset:-1px;border-radius:16px;box-shadow:0 0 30px rgba(251,191,36,.35);pointer-events:none}
+.axis{margin-top:clamp(24px,4vh,44px);display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.axis>div{flex:1;padding:16px;text-align:center;font-size:clamp(14px,1.7vw,20px)}
+.axis .l{color:var(--dim);border-right:1px solid var(--line)}
+.axis .r{color:var(--acc2);font-weight:700;background:rgba(251,191,36,.06)}
+.hud{position:fixed;bottom:22px;left:0;right:0;display:flex;gap:12px;justify-content:center;z-index:50}
+.btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--ink);padding:9px 22px;border-radius:22px;font-size:14px;cursor:pointer;transition:.2s}
+.btn:hover{background:rgba(255,255,255,.14)}
+.dots{position:fixed;top:22px;left:0;right:0;display:flex;gap:9px;justify-content:center;z-index:50}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);transition:.3s}
+.dot.on{background:var(--acc);width:22px;border-radius:6px}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute">
-  <filter id="chalkTexture">
-    <feTurbulence type="fractalNoise" baseFrequency="0.045 0.06" numOctaves="3" seed="7" result="noise"/>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
-
-<div class="stage">
-  <div class="frame">
-    <div class="board">
-      <div class="content" id="content"></div>
-      <div class="dust" id="dust"></div>
-      <div class="eraser" id="eraser"></div>
-    </div>
-  </div>
-</div>
-
+<div class="stage"><div class="board" id="board"></div></div>
 <div class="dots" id="dots"></div>
 <div class="hud">
   <button class="btn" id="prev">◀ 上一块</button>
-  <button class="btn" id="replay">↺ 重播本块</button>
+  <button class="btn" id="replay">↺ 重播</button>
   <button class="btn" id="next">下一块 ▶</button>
   <button class="btn" id="auto">▶ 自动播放</button>
 </div>
-
 <script>
-const boards = [
-  { title:"① Skill 从哪来",
-    lines:[
-      {t:"Anthropic · 2025.10 发布 Agent Skills", c:"big"},
-      {t:"2025.12 开源成通用标准"},
-      {t:"比喻：给 AI 的「入职指南」", c:"sub"},
-      {div:true},
-      {t:"解决：模型很通用，不懂你这行的规矩"}
-    ]},
-  { title:"② 它在 Agent 里的位置",
-    lines:[
-      {t:"大模型 —— 脑子"},
-      {t:"记忆 —— 记住你"},
-      {t:"工具 —— 手和脚"},
-      {t:"Skill —— 打法（怎么干）", c:"big"},
-      {div:true},
-      {t:"能不能干：脑子 · 记忆 · 工具", c:"sub"},
-      {t:"干得好不好：Skill", c:"sub"}
-    ]},
-  { title:"③ 两个最容易混的",
-    lines:[
-      {t:"记忆 = 记住「是什么」 → 名词"},
-      {t:"Skill = 会干「怎么做」 → 动词"},
-      {div:true},
-      {t:"system prompt = 总规矩 · 一直在（底色）", c:"sub"},
-      {t:"Skill = 专项打法 · 用到才调（招式）", c:"sub"},
-      {t:"一个是底色，一个是招式", c:"big"}
-    ]},
-  { title:"④ 顶尖 Skill & 亮点",
-    lines:[
-      {t:"官方第一批：PPT · Excel · Word · PDF"},
-      {t:"亮点 = 分层加载（渐进式披露）", c:"big"},
-      {div:true},
-      {t:"① 平时只记一句话简介（省）", c:"sub"},
-      {t:"② 用到才读正文", c:"sub"},
-      {t:"③ 遇特殊情况才翻附属文件", c:"sub"},
-      {t:"= 想多详细都行，还不拖慢 AI"}
-    ]},
-  { title:"⑤ 普通人怎么用",
-    lines:[
-      {t:"① 想更专业 / 好看 → 搜现成 Skill"},
-      {t:"   UI美化 · PPT · 文案 · 数据图 …", c:"sub"},
-      {t:"② 给自己 AI 预装底层 → 记忆管理"},
-      {t:"③ 反复干的活 → 让 AI 沉淀成新 Skill"},
-      {div:true},
-      {t:"口诀：搜现成 · 装底层 · 沉淀自己的", c:"big"}
-    ]}
-];
-
-const content=document.getElementById('content');
-const eraser=document.getElementById('eraser');
-const dust=document.getElementById('dust');
-const dotsWrap=document.getElementById('dots');
-let idx=0, playing=false, autoMode=false, timers=[];
-
+const boards=[{render:board1},{render:board2}];
+function board1(){
+  return `
+  <div class="kicker rise" data-i="0">ORIGIN · 来历</div>
+  <div class="title rise" data-i="1">Skill 从哪来</div>
+  <div class="timeline">
+    <div class="tl-bar" id="tlbar"></div>
+    <div class="tl-node rise" data-i="2"><div class="tl-dot"></div><div class="tl-date">2025.10</div><div class="tl-label">Anthropic 发布<br>Agent Skills</div></div>
+    <div class="tl-node gold rise" data-i="3"><div class="tl-dot"></div><div class="tl-date">2025.12</div><div class="tl-label">开源成<br>跨平台通用标准</div></div>
+  </div>
+  <div class="metaphor rise" data-i="4">一句话：<span class="chip">给 AI 的「入职指南」</span></div>
+  <div class="subnote rise" data-i="5">模型很通用 —— 不懂你这行的规矩</div>`;
+}
+function board2(){
+  return `
+  <div class="kicker rise" data-i="0">POSITION · 位置</div>
+  <div class="title rise" data-i="1">它在 Agent 里是<span class="hl">哪一环</span></div>
+  <div class="cards">
+    <div class="card rise" data-i="2"><div class="ico">🧠</div><div class="h">大模型</div><div class="s">脑子</div></div>
+    <div class="card rise" data-i="3"><div class="ico">💾</div><div class="h">记忆</div><div class="s">记住你</div></div>
+    <div class="card rise" data-i="4"><div class="ico">🛠️</div><div class="h">工具</div><div class="s">手和脚</div></div>
+    <div class="card hero rise" data-i="5"><div class="ico">🎯</div><div class="h">Skill</div><div class="s">打法 · 怎么干</div></div>
+  </div>
+  <div class="axis">
+    <div class="l rise" data-i="6">能不能干　脑子·记忆·工具</div>
+    <div class="r rise" data-i="7">干得好不好　Skill</div>
+  </div>`;
+}
+const board=document.getElementById('board'),dotsWrap=document.getElementById('dots');
+let idx=0,playing=false,autoMode=false,timers=[];
 boards.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');dotsWrap.appendChild(d);});
 const dots=[...dotsWrap.children];
-
 function clearTimers(){timers.forEach(clearTimeout);timers=[];}
-
-function buildBoard(b){
-  content.innerHTML='';
-  const h=document.createElement('h2');h.className='title';
-  h.innerHTML=`<span class="chalk">${b.title}</span>`;
-  content.appendChild(h);
-  b.lines.forEach(l=>{
-    if(l.div){const d=document.createElement('div');d.className='div';content.appendChild(d);return;}
-    const p=document.createElement('div');
-    p.className='line'+(l.c?' '+l.c:'');
-    let txt=l.t.replace(/→/g,'<span class="arrow">→</span>');
-    p.innerHTML=`<span class="chalk">${txt}</span>`;
-    content.appendChild(p);
-  });
-}
-
-function writeBoard(){
-  clearTimers();playing=true;
-  buildBoard(boards[idx]);
-  const items=[...content.querySelectorAll('.chalk')];
-  const divs=[...content.querySelectorAll('.div')];
-  let delay=250, di=0;
-  // 混排：按 DOM 顺序，遇到 div 就点亮分割线
-  const nodes=[...content.children];
-  let t=250;
-  nodes.forEach(node=>{
-    if(node.classList.contains('div')){
-      const d=node; timers.push(setTimeout(()=>d.style.opacity=1,t)); t+=200; return;
-    }
-    const ch=node.querySelector('.chalk');
-    if(ch){ timers.push(setTimeout(()=>ch.classList.add('show'),t)); t+= (node.classList.contains('title')?700:560); }
-  });
-  timers.push(setTimeout(()=>{playing=false; if(autoMode) scheduleAuto();}, t+400));
-}
-
-function erase(cb){
-  clearTimers();
-  eraser.style.transition='none';eraser.style.left='-160px';eraser.style.opacity='1';
-  const boardW=eraser.parentElement.clientWidth;
-  // 多次横扫
-  let sweeps=[boardW*0.15,boardW*0.55,boardW*0.85,boardW+160];
-  let dur=[.5,.35,.35,.45];
-  let acc=30;
-  // 扫的同时逐步把粉笔字擦掉
-  const items=[...content.querySelectorAll('.chalk')];
-  requestAnimationFrame(()=>{
-    eraser.style.transition=`left ${dur[0]}s ease-in-out`;eraser.style.left=sweeps[0]+'px';
-    dust.style.opacity='.6';
-  });
-  let step=1;
-  function nextSweep(){
-    if(step<sweeps.length){
-      eraser.style.transition=`left ${dur[step]}s ease-in-out`;
-      eraser.style.left=sweeps[step]+'px';
-      // 擦掉与擦子位置对应的字
-      const cutoff=sweeps[step]/boardW;
-      items.forEach(it=>{
-        const r=it.getBoundingClientRect();const br=eraser.parentElement.getBoundingClientRect();
-        const rel=(r.left-br.left)/br.width;
-        if(rel<cutoff) it.style.transition='opacity .3s', it.style.opacity='0';
-      });
-      step++;
-      timers.push(setTimeout(nextSweep,dur[step-1]*1000));
-    }else{
-      eraser.style.opacity='0';
-      timers.push(setTimeout(()=>{dust.style.opacity='0';cb&&cb();},300));
-    }
-  }
-  timers.push(setTimeout(nextSweep,dur[0]*1000));
-}
-
 function updateDots(){dots.forEach((d,i)=>d.classList.toggle('on',i===idx));}
-
-function go(n){
-  if(playing)return;
-  if(n===idx)return;
+function play(){
+  clearTimers();playing=true;
+  board.classList.remove('fadeboard');board.classList.add('fadeIn');
+  board.innerHTML=boards[idx].render();
+  const items=[...board.querySelectorAll('.rise')].sort((a,b)=>(+a.dataset.i)-(+b.dataset.i));
+  let t=200;items.forEach(el=>{timers.push(setTimeout(()=>el.classList.add('in'),t));t+=260;});
+  const bar=board.querySelector('#tlbar');if(bar)timers.push(setTimeout(()=>bar.classList.add('in'),900));
+  timers.push(setTimeout(()=>{playing=false;if(autoMode)timers.push(setTimeout(()=>autoMode&&next(),2600));},t+300));
   updateDots();
-  erase(()=>{idx=n;updateDots();writeBoard();});
 }
-
-function next(){ if(playing)return; if(idx<boards.length-1){ erase(()=>{idx++;updateDots();writeBoard();}); } else { erase(()=>{idx=0;updateDots();writeBoard();}); } }
-function prev(){ if(playing)return; if(idx>0){ erase(()=>{idx--;updateDots();writeBoard();}); } }
-
-document.getElementById('next').onclick=()=>{autoMode=false;next();};
-document.getElementById('prev').onclick=()=>{autoMode=false;prev();};
-document.getElementById('replay').onclick=()=>{if(!playing){autoMode=false;writeBoard();}};
-document.getElementById('auto').onclick=(e)=>{
-  autoMode=!autoMode;e.target.textContent=autoMode?'⏸ 停止自动':'▶ 自动播放';
-  if(autoMode && !playing) scheduleAuto();
-};
-function scheduleAuto(){ clearTimers(); timers.push(setTimeout(()=>{ if(autoMode) next(); },2600)); }
-
-writeBoard();
+function transitionTo(n){if(playing)return;clearTimers();playing=true;board.classList.remove('fadeIn');board.classList.add('fadeboard');timers.push(setTimeout(()=>{idx=n;playing=false;play();},520));}
+function next(){transitionTo(idx<boards.length-1?idx+1:0);}
+function prev(){if(idx>0)transitionTo(idx-1);}
+document.getElementById('next').onclick=()=>{autoMode=false;setAuto();next();};
+document.getElementById('prev').onclick=()=>{autoMode=false;setAuto();prev();};
+document.getElementById('replay').onclick=()=>{if(!playing){autoMode=false;setAuto();play();}};
+document.getElementById('auto').onclick=()=>{autoMode=!autoMode;setAuto();if(autoMode&&!playing)timers.push(setTimeout(()=>autoMode&&next(),1500));};
+function setAuto(){document.getElementById('auto').textContent=autoMode?'⏸ 停止自动':'▶ 自动播放';}
+play();
 </script>
 </body>
 </html>
