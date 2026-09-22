@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Skill 口播分镜</title><style>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Skill 口播分镜 v4</title><style>
 :root{--bg:#0f1115;--ink:#e8eaed;--muted:#9aa0aa;--acc:#6ea8fe;--code:#0b0d11;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
@@ -23,10 +23,11 @@ strong{color:#fff}
 .btn{background:var(--acc);color:#0b0d11;border:0;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer}
 .hint{color:var(--muted);font-size:13px}
 textarea{width:100%;height:70vh;background:#0b0d11;color:#e8eaed;border:1px solid #2a303b;border-radius:10px;padding:16px;font:15px/1.9 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;resize:vertical}
-</style></head><body><div class="wrap"><div class="nav"><a href="index.html" class="on">分镜脚本</a><a href="copy.html">纯口播词·复制</a></div><h1>口播分镜脚本：Skill 是什么，它在 AI Agent 里是什么</h1>
+</style></head><body><div class="wrap"><div class="nav"><a href="index.html" class="on">分镜脚本</a><a href="copy.html">纯口播词·复制</a></div><h1>口播分镜脚本 v4：Skill 是什么，它从哪来，普通人怎么用</h1>
 
-<blockquote>录口播，剪辑时上方叠黑板，关键词逐个蹦。黑板共 4 块，翻页少。约 5 分钟。</blockquote>
+<blockquote>录口播，剪辑时上方叠黑板，关键词逐个蹦。黑板共 5 块，翻页少。约 5-6 分钟。</blockquote>
 <blockquote><span class="tag talk">【口播】</span>= 你念的；<span class="tag board">【板书↑】</span>= 此刻蹦出的黑板词。</blockquote>
+<blockquote>事实已核：Anthropic 2025-10-16 发布 Agent Skills，12-18 开源为跨平台标准；官方预制 pptx/xlsx/docx/pdf；核心设计=渐进式披露(progressive disclosure)。</blockquote>
 
 <hr>
 
@@ -35,189 +36,199 @@ textarea{width:100%;height:70vh;background:#0b0d11;color:#e8eaed;border:1px soli
 <p><span class="tag talk">【口播】</span></p>
 <p>同样一个 AI，为什么有人用得又快又准，你却得反复改？</p>
 <p>差的不是 AI，是有人给它加了一样东西——Skill。</p>
-<p>今天三分钟，把它讲透。</p>
+<p>今天六分钟，从它是什么，到你自己怎么用，一次讲透。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
 <p><code class="inline">Skill = ?</code></p>
 
 <hr>
 
-<h2>黑板 ①：Skill 在 AI Agent 里是哪一环（0:12 – 1:35）</h2>
+<h2>黑板 ①：它从哪来，是谁提出的（0:12 – 1:05）</h2>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>现在能帮你干活的 AI，叫 Agent。它干活不靠一样东西，靠四样配合。</p>
+<p>先说来历，你就知道这东西不是小打小闹。</p>
 
-<p>第一样，大模型。就是那个聪明的脑子——会说话、有常识、会推理。但它很通用，不认识你，也不懂你这行。</p>
+<p>Skill 是 Anthropic 提出来的——就是做 Claude 的那家公司。2025 年 10 月，他们正式发布了 Agent Skills；到 12 月，干脆把它开源成了一个跨平台的通用标准，谁都能用。</p>
+
+<p>他们当时打了个特别准的比方：<strong>给 AI 写一个 Skill，就像给一个新员工写入职指南。</strong> 这人很聪明，但刚进公司什么规矩都不懂，你把&quot;这类活该怎么干&quot;写成一份指南递给他，他照着就能上手。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">大模型 —— 聪明的脑子</code></p>
+<p><code class="inline">来历：Anthropic · 2025.10 发布</code></p>
+<p><code class="inline">2025.12 开源成通用标准</code></p>
+<p><code class="inline">一句话：给 AI 的「入职指南」</code></p>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>第二样，记忆。让它记得住你——你是谁、你的偏好、上次聊到哪。</p>
+<p>为什么大公司要专门造这么个东西？因为模型再聪明，也不懂你这一行的具体规矩、具体流程。Skill 就是把这些&quot;专业知识和干活流程&quot;打包，喂给 AI。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">记忆 —— 记住你</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>第三样，工具。让它有手有脚——能上网、能跑代码、能改文件。有了工具，它才从&quot;会聊天&quot;变成&quot;能动手&quot;。</p>
-
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">工具 —— 手和脚</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>第四样，就是 Skill。前三样是硬件，Skill 是打法。同样的脑子、记忆、工具，配上一套好打法，干出来的活就不一样。</p>
-
-<p>它不比谁高级，它是这四样里专门管&quot;某类活该怎么干&quot;的那一环。</p>
-
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">Skill —— 打法（怎么干）</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>一句话记住：脑子、记忆、工具解决&quot;能不能干&quot;，Skill 解决&quot;干得好不好&quot;。</p>
-
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">四件套：脑子 · 记忆 · 工具 · Skill</code></p>
+<p><code class="inline">解决：模型很通用，不懂你这行的规矩</code></p>
 
 <hr>
 
-<h2>黑板 ②：最容易混的两组（1:35 – 2:55）</h2>
+<h2>黑板 ②：它在 AI Agent 里是哪一环（1:05 – 2:10）</h2>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>Skill 有两个特别容易被搞混的东西，我一次讲清。</p>
+<p>那它在整个 AI 里处于什么位置？现在能帮你干活的 AI 叫 Agent，它干活靠四样东西配合。</p>
 
-<p><strong>第一组，Skill 和记忆。</strong></p>
-<p>记忆存的是&quot;名词&quot;——关于你的事实。Skill 存的是&quot;动词&quot;——做事的流程。</p>
-<p>&quot;这个用户是清华的&quot;，是事实，进记忆。&quot;写简历要先核实再拔高&quot;，是流程，进 Skill。一个让 AI 认识你，一个让 AI 会干活。</p>
+<p>第一，大模型，聪明的脑子，会说话、会推理，但很通用。</p>
+<p>第二，记忆，让它记得住你——你是谁、你的偏好。</p>
+<p>第三，工具，让它有手有脚——能上网、能跑代码、能改文件。</p>
+<p>第四，才是 Skill——前三样是硬件，Skill 是打法。</p>
+
+<p><span class="tag board">【板书↑】</span></p>
+<p><code class="inline">大模型 —— 脑子</code></p>
+<p><code class="inline">记忆 —— 记住你</code></p>
+<p><code class="inline">工具 —— 手和脚</code></p>
+<p><code class="inline">Skill —— 打法（怎么干）</code></p>
+
+<p><span class="tag talk">【口播】</span></p>
+<p>它不比谁高级，就是这四样里专门管&quot;某类活该怎么干&quot;的那一环。一句话：脑子、记忆、工具解决&quot;能不能干&quot;，Skill 解决&quot;干得好不好&quot;。</p>
+
+<p><span class="tag board">【板书↑】</span></p>
+<p><code class="inline">能不能干：脑子·记忆·工具</code></p>
+<p><code class="inline">干得好不好：Skill</code></p>
+
+<hr>
+
+<h2>黑板 ③：两个最容易混的东西（2:10 – 3:15）</h2>
+
+<p><span class="tag talk">【口播】</span></p>
+<p>Skill 有两个特别容易搞混的邻居，一次讲清。</p>
+
+<p><strong>第一个，记忆。</strong> 记忆存的是&quot;名词&quot;——关于你的事实；Skill 存的是&quot;动词&quot;——做事的流程。&quot;这个用户是清华的&quot;，是事实，进记忆；&quot;写简历要先核实再拔高&quot;，是流程，进 Skill。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
 <p><code class="inline">记忆 = 记住「是什么」→ 名词</code></p>
 <p><code class="inline">Skill = 会干「怎么做」→ 动词</code></p>
 
 <p><span class="tag talk">【口播】</span></p>
-<p><strong>第二组更容易混——Skill 和 system prompt，也就是&quot;系统提示词&quot;。</strong></p>
+<p><strong>第二个更容易混——system prompt，系统提示词。</strong> 很多人觉得这俩不一样吗，都是给 AI 定规矩。差在两点。</p>
 
-<p>很多人觉得这俩不是一回事吗，都是&quot;给 AI 定规矩&quot;。不一样，差在两点。</p>
+<p>一，system prompt 是<strong>总规矩、永远生效</strong>，比如&quot;你是个严谨的助手、说话简洁&quot;，问什么它都在后台管着；Skill 是<strong>专项打法、用到才调出来</strong>，你不写小红书，那条 Skill 就不出现。</p>
 
-<p>一，system prompt 是<strong>总规矩，永远生效</strong>。比如&quot;你是一个严谨的助手，说话简洁&quot;——不管你问什么，它一直在后台管着。</p>
-<p>Skill 是<strong>专项打法，用到才调出来</strong>。你不写小红书，那条写小红书的 Skill 就不出现，省地方也不干扰。</p>
+<p>二，system prompt 只有一份，什么都往里塞会越来越乱；Skill 可以有几十上百个，一个管一类活。</p>
 
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">system prompt = 总规矩 · 一直在</code></p>
-<p><code class="inline">Skill = 专项打法 · 用到才调</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>二，system prompt 只有一份，什么都往里塞会越塞越乱。</p>
-<p>Skill 可以有几十上百个，一个技能管一类活，各归各的。</p>
-
-<p>所以简单说：<strong>system prompt 是&quot;你是谁、总的怎么说话&quot;；Skill 是&quot;遇到这类具体活，一步步怎么做&quot;。</strong> 一个是底色，一个是招式。</p>
+<p>所以：system prompt 是底色，Skill 是招式。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">底色 = system prompt</code></p>
-<p><code class="inline">招式 = Skill（可以很多个）</code></p>
+<p><code class="inline">system prompt = 总规矩·一直在（底色）</code></p>
+<p><code class="inline">Skill = 专项打法·用到才调（招式·可很多个）</code></p>
 
 <hr>
 
-<h2>黑板 ③：一个 Skill 拆开长什么样（2:55 – 4:05）</h2>
+<h2>黑板 ④：顶尖 Skill 长什么样，亮点在哪（3:15 – 4:20）</h2>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>那 Skill 本身长什么样？不是什么程序，就是一个文件夹。拆开给你看。</p>
+<p>讲个真的。Anthropic 官方自己做的第一批 Skill，就是四个最常用的办公文档——PPT、Excel、Word、PDF。你让 Claude 做张 PPT、填个 PDF 表格，背后调的就是这些 Skill。</p>
 
-<p>里面唯一必须有的，是一个文件，叫 SKILL.md，它是这个技能的大脑。这个文件分两半。</p>
+<p>拿 PDF 那个举例，它的聪明之处不在&quot;写了多少字&quot;，在于<strong>分层加载</strong>。这是整套设计最漂亮的地方，官方叫&quot;渐进式披露&quot;，我用大白话讲：</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">一个 Skill = 一个文件夹</code></p>
-<p><code class="inline">核心：SKILL.md</code></p>
+<p><code class="inline">官方顶尖 Skill：PPT · Excel · Word · PDF</code></p>
+<p><code class="inline">亮点：分层加载（渐进式披露）</code></p>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>上半是&quot;帽子&quot;。最关键就一行，写&quot;什么时候该用这个技能&quot;。先记住这行，等会儿还要说它。</p>
+<p>第一层，AI 平时只记住每个 Skill 的一句话简介——&quot;这是干嘛的、啥时候用&quot;，特别省内存。</p>
+<p>第二层，等你真要用了，它才把这个 Skill 的正文完整读进来。</p>
+<p>第三层，如果这活儿还有更细的分支——比如&quot;填表单&quot;这种特殊情况——它才去翻对应的那个附属文件。</p>
+
+<p>好处是什么？<strong>一个 Skill 想写多详细都行，也不会拖慢 AI</strong>，因为它永远只在需要的那一刻，读需要的那一部分。这就是好 Skill 的设计精髓：该用才调、按需才读。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">SKILL.md · 帽子：啥时候用它 ★</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>下半是&quot;正文&quot;，大白话写的操作手册：这活儿一步步怎么做、有哪些坑、做完怎么检查。</p>
-
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">SKILL.md · 正文：怎么做 + 坑 + 检查</code></p>
-
-<p><span class="tag talk">【口播】</span></p>
-<p>一个 SKILL.md 就能跑。活儿复杂了，文件夹里还能带三样配套：references 放参考资料，scripts 放能直接跑的脚本，templates 放套着填的模板。</p>
-
-<p>记住主次：核心永远是 SKILL.md，那三样是按需才带的弹药。</p>
-
-<p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">可选弹药：references · scripts · templates</code></p>
+<p><code class="inline">① 平时只记一句话简介（省）</code></p>
+<p><code class="inline">② 用到才读正文</code></p>
+<p><code class="inline">③ 遇特殊情况才翻附属文件</code></p>
+<p><code class="inline">= 想多详细都行，还不拖慢 AI</code></p>
 
 <hr>
 
-<h2>黑板 ④：怎么算好 Skill（4:05 – 4:50）</h2>
+<h2>黑板 ⑤：普通人到底在什么场景用 Skill（4:20 – 5:40）</h2>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>最后，怎么算一个好 Skill？三条。</p>
+<p>说了半天，最实在的问题：<strong>我普通人，什么时候该去找一个 Skill 来用？</strong> 给你三个场景，对号入座。</p>
 
-<p>一，帽子写准。还记得刚才那行吗——AI 就是靠它决定&quot;要不要用这个技能&quot;。写含糊了，它根本想不起来用，手册再好也白搭。</p>
+<p><strong>场景一：你想把一件事做得更专业、更好看。</strong></p>
+<p>最典型的就是——你让 AI 做个网页、做个 UI，出来总是很朴素、很像半成品。这时候你就该去装一个&quot;前端设计&quot;或者&quot;UI 美化&quot;类的 Skill，它里面存着专业的配色、排版、组件规范，AI 一照着做，出来的东西立马上一个档次。同理，做 PPT、写小红书文案、做数据图表——每一类都有对应的高分 Skill 可以搜来用。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">① 帽子写准 → AI 才想得起来用</code></p>
+<p><code class="inline">场景1：想做得更专业/好看</code></p>
+<p><code class="inline">→ UI美化 · PPT · 文案 · 数据图 …各有对应Skill</code></p>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>二，步骤能照做。&quot;先做好准备&quot;是废话；&quot;跑这条命令、看到这个就对了&quot;才能照做。</p>
+<p><strong>场景二：给你自己长期用的 AI，预装一批&quot;底层 Skill&quot;。</strong></p>
+<p>这类不是干某件活的，是让 AI 本身变得更好用。最该装的就是<strong>记忆管理</strong>类的 Skill——让它学会主动记住你的偏好、你的项目、你纠正过它的地方，越用越懂你，不用你每次从头交代。这种是&quot;一次装好、天天受益&quot;的。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">② 能照做 &gt; 正确的废话</code></p>
+<p><code class="inline">场景2：给自己的AI预装「底层Skill」</code></p>
+<p><code class="inline">最该装：记忆管理（越用越懂你）</code></p>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>三，写坑。只写正确步骤是新手；告诉你&quot;这儿最容易错&quot;的，才是老手。你踩过的坑，最值钱。</p>
+<p><strong>场景三：把你自己反复在干的活，让 AI 帮你沉淀成 Skill。</strong></p>
+<p>这是最高阶、也最省事的一招。你注意观察——<strong>哪件事你每周都在重复做，而且每次都得跟 AI 交代一遍同样的要求</strong>？比如每周整理用户反馈、做周报、清理数据。这种活，你就可以直接跟 AI 说：&quot;把咱们刚才这套做法，帮我存成一个 Skill。&quot;下次一句话，它就照着这套标准来，不用你再讲第二遍。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">③ 写了坑 = 老手</code></p>
+<p><code class="inline">场景3：反复干的活 → 让AI帮你沉淀成Skill</code></p>
+<p><code class="inline">判断：每周重复 + 每次都要重新交代</code></p>
+
+<p><span class="tag talk">【口播】</span></p>
+<p>一句话总结这三种：<strong>想做得更好，去搜现成的；想让 AI 更懂你，预装底层的；想一劳永逸，把自己的经验沉淀成新的。</strong></p>
+
+<p><span class="tag board">【板书↑】</span></p>
+<p><code class="inline">搜现成 · 装底层 · 沉淀自己的</code></p>
 
 <hr>
 
-<h2>收尾（4:50 – 5:05）</h2>
+<h2>收尾（5:40 – 6:00）</h2>
 
 <p><span class="tag talk">【口播】</span></p>
-<p>说到底，Skill 不玄乎：把你自己会干的一类活，用人话写成一份能交给 AI 的说明书。</p>
-<p>你会写便签，就会写 Skill。下期咱们动手写一个。</p>
+<p>所以回到开头：为什么有人用 AI 就是比你顺？因为他给 AI 配上了合适的 Skill。</p>
+
+<p>说到底 Skill 一点都不玄——<strong>把一类活该怎么干，用人话写成一份能交给 AI 的说明书。</strong> 你会写便签，就会写 Skill。</p>
+<p>下期咱们就动手，从零写一个你自己的出来。</p>
 
 <p><span class="tag board">【板书↑】</span></p>
-<p><code class="inline">Skill = 把你会干的一类活，写给 AI</code></p>
+<p><code class="inline">Skill = 把一类活怎么干，写给 AI</code></p>
 
 <hr>
 
-<h2>附：四块黑板最终各自长这样（给剪辑对照）</h2>
+<h2>附：五块黑板最终各自长这样（给剪辑对照）</h2>
 
-<p><strong>黑板①</strong></p>
+<p><strong>黑板①（来历）</strong></p>
 <pre><code>
-大模型 —— 聪明的脑子
-记忆   —— 记住你
-工具   —— 手和脚
-Skill  —— 打法（怎么干）
-四件套：脑子·记忆·工具·Skill
+Anthropic · 2025.10 发布 Agent Skills
+2025.12 开源成通用标准
+比喻：给 AI 的「入职指南」
+解决：模型通用，不懂你这行的规矩
 </code></pre>
 
-<p><strong>黑板②</strong></p>
+<p><strong>黑板②（在 Agent 里的位置）</strong></p>
 <pre><code>
-记忆 = 记住「是什么」→ 名词
-Skill = 会干「怎么做」→ 动词
-——
+大模型 — 脑子 ｜ 记忆 — 记住你
+工具 — 手和脚 ｜ Skill — 打法
+能不能干：脑子·记忆·工具
+干得好不好：Skill
+</code></pre>
+
+<p><strong>黑板③（两个易混）</strong></p>
+<pre><code>
+记忆 = 名词（是什么）  Skill = 动词（怎么做）
 system prompt = 总规矩·一直在（底色）
-Skill        = 专项打法·用到才调（招式，可很多个）
+Skill        = 专项·用到才调（招式·可很多个）
 </code></pre>
 
-<p><strong>黑板③</strong></p>
+<p><strong>黑板④（顶尖 Skill + 亮点）</strong></p>
 <pre><code>
-一个 Skill = 一个文件夹
-核心 SKILL.md
- ├ 帽子：啥时候用它 ★
- └ 正文：怎么做 + 坑 + 检查
-可选弹药：references · scripts · templates
+官方：PPT · Excel · Word · PDF
+亮点=分层加载：
+ ①平时只记一句简介 ②用到读正文 ③特殊才翻附属
+= 想多详细都行，还不拖慢 AI
 </code></pre>
 
-<p><strong>黑板④</strong></p>
+<p><strong>黑板⑤（普通人三场景）</strong></p>
 <pre><code>
-① 帽子写准 → AI 才想得起来用
-② 能照做 &gt; 正确的废话
-③ 写了坑 = 老手
+① 想更专业/好看 → 搜现成 Skill（UI·PPT·文案·数据图）
+② 给自己AI预装底层 → 记忆管理
+③ 反复干的活 → 让AI沉淀成新Skill
+口诀：搜现成 · 装底层 · 沉淀自己的
 </code></pre>
 </div></body></html>
