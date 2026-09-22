@@ -330,7 +330,6 @@ function clearTimers(){timers.forEach(clearTimeout);timers=[];}
 function updateDots(){dots.forEach((d,i)=>d.classList.toggle('on',i===idx));}
 function play(){
   clearTimers();playing=true;
-  frame.classList.remove('drawn');void frame.offsetWidth;frame.classList.add('drawn');
   board.classList.remove('fadeboard');board.classList.add('fadeIn');
   board.innerHTML=boards[idx].render();
   const items=[...board.querySelectorAll('.rise')].sort((a,b)=>(+a.dataset.i)-(+b.dataset.i));
@@ -353,6 +352,7 @@ document.getElementById('prev').onclick=()=>{autoMode=false;setAuto();prev();};
 document.getElementById('replay').onclick=()=>{if(!playing){autoMode=false;setAuto();play();}};
 document.getElementById('auto').onclick=()=>{autoMode=!autoMode;setAuto();if(autoMode&&!playing)timers.push(setTimeout(()=>autoMode&&next(),1500));};
 function setAuto(){document.getElementById('auto').textContent=autoMode?'⏸ 停止自动':'▶ 自动播放';}
+frame.classList.add('drawn'); // 木框只画一次，之后固定不动
 play();
 </script>
 </body>
