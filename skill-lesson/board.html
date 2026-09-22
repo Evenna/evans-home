@@ -145,6 +145,8 @@ html,body{height:100%;background:var(--bg);font-family:"Kaiti SC","STKaiti","Pin
   font-size:clamp(30px,5vw,58px);letter-spacing:1px;margin:auto 0}
 .hl2{color:var(--acc);position:relative;white-space:nowrap}
 .subnote+.docrow,.bigline+.docrow{margin-top:clamp(24px,4vh,40px)}
+.follow-ic{text-align:center;margin-bottom:clamp(14px,2.4vh,26px)}
+.follow-ic .cic{width:clamp(48px,7vw,82px);height:clamp(48px,7vw,82px);color:var(--acc)}
 
 .axis .sep{width:2px;background:rgba(244,241,232,.35);margin:10px 0}
 
@@ -196,7 +198,7 @@ const ICON={
 
 const boards=[
   {render:board1},{render:board2},{render:board3},{render:board4},{render:board5},
-  {render:board6},{render:board7},{render:board8},{render:board9},{render:board10}
+  {render:board6},{render:board7},{render:board8},{render:board9},{render:board10},{render:board11}
 ];
 // ① 来历·时间线
 function board1(){
@@ -318,6 +320,14 @@ function board10(){
   return `
   <div class="kicker rise" data-i="0">takeaway / 记住这句</div>
   <div class="bigline rise" data-i="1"><span class="hl2">搜现成</span> · <span class="hl2">装底层</span><br>· 沉淀自己的</div>`;
+}
+// ⑪ 关注
+function board11(){
+  return `
+  <div class="kicker rise" data-i="0">follow / 关注我</div>
+  <div class="follow-ic rise" data-i="1">${ICON.sparkle}</div>
+  <div class="bigline rise" data-i="2">关注 <span class="hl2">Manta_Ai</span></div>
+  <div class="subnote rise" data-i="3">分享更多 AI 知识</div>`;
 }
 
 const frame=document.getElementById('frame');
