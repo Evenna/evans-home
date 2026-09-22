@@ -132,13 +132,19 @@ html,body{height:100%;background:var(--bg);font-family:"Kaiti SC","STKaiti","Pin
 .scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.8vw,22px)}
 .scene{position:relative;padding:clamp(18px,2.8vh,28px) clamp(12px,1.4vw,18px);text-align:center;
   border:2.4px solid rgba(244,241,232,.5);border-radius:16px;filter:url(#roughLine);background:rgba(255,255,255,.015)}
-.scene .snum{position:relative;z-index:2;font-family:"Bradley Hand","Segoe Print",cursive;
-  font-size:clamp(22px,2.6vw,34px);color:var(--acc);line-height:1}
+.scene .snum{position:relative;z-index:2;font-weight:900;
+  font-size:clamp(18px,2.2vw,28px);color:var(--acc);line-height:1.1;letter-spacing:.5px}
 .scene .cic{margin:10px auto 12px;color:var(--acc)}
 .scene .st{font-size:clamp(15px,1.85vw,22px);font-weight:800;position:relative;z-index:2;line-height:1.4}
 .scene .sd{font-size:clamp(12px,1.4vw,16px);color:var(--dim);margin-top:8px;position:relative;z-index:2;line-height:1.55}
 .mantra{margin-top:clamp(20px,3.6vh,34px);text-align:center}
 .mantra .chip{font-size:clamp(16px,2vw,25px);letter-spacing:1px}
+
+/* 大字标语板 —— 比喻 / 好处 / 口诀 */
+.bigline{text-align:center;font-weight:900;line-height:1.28;
+  font-size:clamp(30px,5vw,58px);letter-spacing:1px;margin:auto 0}
+.hl2{color:var(--acc);position:relative;white-space:nowrap}
+.subnote+.docrow,.bigline+.docrow{margin-top:clamp(24px,4vh,40px)}
 
 .axis .sep{width:2px;background:rgba(244,241,232,.35);margin:10px 0}
 
@@ -188,100 +194,130 @@ const ICON={
   compass:`<svg class="cic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>`
 };
 
-const boards=[{render:board1},{render:board2},{render:board3},{render:board4},{render:board5}];
+const boards=[
+  {render:board1},{render:board2},{render:board3},{render:board4},{render:board5},
+  {render:board6},{render:board7},{render:board8},{render:board9},{render:board10}
+];
+// ① 来历·时间线
 function board1(){
   return `
   <div class="kicker rise" data-i="0">origin / 来历</div>
   <div class="title rise" data-i="1">Skill 从哪来</div>
   <div class="timeline">
     <div class="tl-line" id="tlline"><svg viewBox="0 0 400 14" preserveAspectRatio="none"><path d="M2 7 Q100 3 200 8 T398 7"/></svg></div>
-    <div class="tl-node rise" data-i="2"><div class="tl-icwrap">${ICON.flag}</div><div class="tl-dot"></div><div class="tl-date">2025.10</div><div class="tl-label">Anthropic 发布<br>Agent Skills</div></div>
-    <div class="tl-node gold rise" data-i="3"><div class="tl-icwrap">${ICON.globe}</div><div class="tl-dot"></div><div class="tl-date">2025.12</div><div class="tl-label">开源成<br>跨平台通用标准</div></div>
-  </div>
-  <div class="metaphor rise" data-i="4">一句话：<span class="chip">给 AI 的「入职指南」</span></div>
-  <div class="subnote rise" data-i="5">模型很通用 —— 不懂你这行的规矩</div>`;
+    <div class="tl-node rise" data-i="2"><div class="tl-icwrap">${ICON.flag}</div><div class="tl-dot"></div><div class="tl-date">2025.10</div><div class="tl-label">Anthropic 发布</div></div>
+    <div class="tl-node gold rise" data-i="3"><div class="tl-icwrap">${ICON.globe}</div><div class="tl-dot"></div><div class="tl-date">2025.12</div><div class="tl-label">开源成通用标准</div></div>
+  </div>`;
 }
+// ② 比喻
 function board2(){
+  return `
+  <div class="kicker rise" data-i="0">metaphor / 一句话</div>
+  <div class="bigline rise" data-i="1">给 AI 的<br><span class="hl2">「入职指南」</span></div>
+  <div class="subnote rise" data-i="2">模型很通用 —— 不懂你这行的规矩</div>`;
+}
+// ③ 四件套
+function board3(){
   const card=(cls,ic,h,s,i)=>`<div class="card ${cls} rise" data-i="${i}">${ICON[ic]}<div class="h">${h}</div><div class="s">${s}</div></div>`;
   return `
   <div class="kicker rise" data-i="0">position / 位置</div>
-  <div class="title rise" data-i="1">它在 Agent 里是<u class="hl">哪一环</u></div>
+  <div class="title rise" data-i="1">Agent 靠<u class="hl">四样</u>配合</div>
   <div class="cards">
     ${card('','brain','大模型','脑子',2)}
     ${card('','disk','记忆','记住你',3)}
     ${card('','wrench','工具','手和脚',4)}
-    ${card('hero','target','Skill','打法·怎么干',5)}
-  </div>
-  <div class="axis rise" data-i="6">
+    ${card('hero','target','Skill','打法',5)}
+  </div>`;
+}
+// ④ 定位
+function board4(){
+  return `
+  <div class="kicker rise" data-i="0">position / 定位</div>
+  <div class="title rise" data-i="1">Skill 管<u class="hl">哪一头</u></div>
+  <div class="axis rise" data-i="2">
     <div class="cell l">能不能干<br><span style="font-size:.82em">脑子 · 记忆 · 工具</span></div>
     <div class="sep"></div>
-    <div class="cell r rise" data-i="7">干得好不好<br><span style="font-size:.82em">Skill</span></div>
+    <div class="cell r rise" data-i="3">干得好不好<br><span style="font-size:.82em">Skill</span></div>
   </div>`;
 }
-function board3(){
+// ⑤ 记忆 vs Skill
+function board5(){
   return `
-  <div class="kicker rise" data-i="0">vs / 别搞混</div>
-  <div class="title rise" data-i="1">两个最容易<u class="hl">搞混</u>的邻居</div>
-  <div class="vs-group">
-    <div class="vs-head rise" data-i="2">记忆 vs Skill</div>
-    <div class="vs">
-      <div class="pane rise" data-i="3">
-        <div class="top">${ICON.disk}<span class="nm">记忆</span></div>
-        <div class="desc">记住「是什么」——关于你的事实<br><span style="opacity:.8">例：这个用户是清华的</span></div>
-        <span class="tagword">名词</span>
-      </div>
-      <div class="vs-mid rise" data-i="4">vs</div>
-      <div class="pane gold rise" data-i="5">
-        <div class="top">${ICON.target}<span class="nm">Skill</span></div>
-        <div class="desc">会干「怎么做」——做事的流程<br><span style="opacity:.8">例：写简历要先核实再拔高</span></div>
-        <span class="tagword">动词</span>
-      </div>
+  <div class="kicker rise" data-i="0">vs / 别搞混 ①</div>
+  <div class="title rise" data-i="1">记忆 vs Skill</div>
+  <div class="vs">
+    <div class="pane rise" data-i="2">
+      <div class="top">${ICON.disk}<span class="nm">记忆</span></div>
+      <div class="desc">记住「是什么」</div>
+      <span class="tagword">名词</span>
     </div>
-  </div>
-  <div class="vs-group">
-    <div class="vs-head rise" data-i="6">system prompt vs Skill</div>
-    <div class="vs">
-      <div class="pane rise" data-i="7">
-        <div class="top">${ICON.gear}<span class="nm">系统提示词</span></div>
-        <div class="desc">总规矩 · 永远生效 · 只有一份</div>
-        <span class="tagword">底色</span>
-      </div>
-      <div class="vs-mid rise" data-i="8">vs</div>
-      <div class="pane gold rise" data-i="9">
-        <div class="top">${ICON.target}<span class="nm">Skill</span></div>
-        <div class="desc">专项打法 · 用到才调 · 可有几十上百个</div>
-        <span class="tagword">招式</span>
-      </div>
+    <div class="vs-mid rise" data-i="3">vs</div>
+    <div class="pane gold rise" data-i="4">
+      <div class="top">${ICON.target}<span class="nm">Skill</span></div>
+      <div class="desc">会干「怎么做」</div>
+      <span class="tagword">动词</span>
     </div>
   </div>`;
 }
-function board4(){
-  const pill=(ic,t,i)=>`<div class="docpill rise" data-i="${i}">${ICON[ic]}${t}</div>`;
-  const layer=(cls,n,t,s,i)=>`<div class="layer ${cls} rise" data-i="${i}"><div class="lnum">${n}</div><div class="ltx"><div class="lt">${t}</div><div class="ls">${s}</div></div></div>`;
+// ⑥ system prompt vs Skill
+function board6(){
+  return `
+  <div class="kicker rise" data-i="0">vs / 别搞混 ②</div>
+  <div class="title rise" data-i="1">系统提示词 vs Skill</div>
+  <div class="vs">
+    <div class="pane rise" data-i="2">
+      <div class="top">${ICON.gear}<span class="nm">系统提示词</span></div>
+      <div class="desc">总规矩 · 一直在 · 只一份</div>
+      <span class="tagword">底色</span>
+    </div>
+    <div class="vs-mid rise" data-i="3">vs</div>
+    <div class="pane gold rise" data-i="4">
+      <div class="top">${ICON.target}<span class="nm">Skill</span></div>
+      <div class="desc">用到才调 · 可很多个</div>
+      <span class="tagword">招式</span>
+    </div>
+  </div>`;
+}
+// ⑦ 分层加载·三层
+function board7(){
+  const layer=(cls,n,t,i)=>`<div class="layer ${cls} rise" data-i="${i}"><div class="lnum">${n}</div><div class="ltx"><div class="lt">${t}</div></div></div>`;
   return `
   <div class="kicker rise" data-i="0">design / 精髓</div>
-  <div class="title rise" data-i="1">顶尖 Skill 的亮点：<u class="hl">分层加载</u></div>
-  <div class="docrow">
+  <div class="title rise" data-i="1">亮点：<u class="hl">分层加载</u></div>
+  <div class="stack">
+    ${layer('l1','1','平时只记一句话简介',2)}
+    ${layer('l2','2','用到才读正文',3)}
+    ${layer('l3','3','特殊才翻附属文件',4)}
+  </div>`;
+}
+// ⑧ 分层加载好处 + 官方四文档
+function board8(){
+  const pill=(ic,t,i)=>`<div class="docpill rise" data-i="${i}">${ICON[ic]}${t}</div>`;
+  return `
+  <div class="kicker rise" data-i="0">design / 好处</div>
+  <div class="bigline rise" data-i="1">想多详细都行<br><span class="hl2">还不拖慢 AI</span></div>
+  <div class="docrow" style="margin-top:clamp(24px,4vh,40px)">
     ${pill('doc','PPT',2)}${pill('doc','Excel',3)}${pill('doc','Word',4)}${pill('doc','PDF',5)}
   </div>
-  <div class="stack">
-    ${layer('l1','1','平时只记一句话简介','这是干嘛的、啥时候用 —— 省内存',6)}
-    ${layer('l2','2','用到才读正文','真要用了，才完整读进来',7)}
-    ${layer('l3','3','特殊情况才翻附属文件','比如「填表单」这种分支',8)}
-  </div>
-  <div class="stack-note rise" data-i="9">想写多详细都行，还不拖慢 AI</div>`;
+  <div class="subnote rise" data-i="6">官方第一批 Skill，就是这四个</div>`;
 }
-function board5(){
-  const scene=(n,ic,t,s,i)=>`<div class="scene rise" data-i="${i}"><div class="snum">场景 ${n}</div>${ICON[ic]}<div class="st">${t}</div><div class="sd">${s}</div></div>`;
+// ⑨ 三场景
+function board9(){
+  const scene=(n,ic,t,i)=>`<div class="scene rise" data-i="${i}"><div class="snum">${n}</div>${ICON[ic]}<div class="st">${t}</div></div>`;
   return `
   <div class="kicker rise" data-i="0">how / 怎么用</div>
-  <div class="title rise" data-i="1">普通人<u class="hl">什么时候</u>用 Skill</div>
+  <div class="title rise" data-i="1">普通人<u class="hl">三个场景</u></div>
   <div class="scenes">
-    ${scene('1','sparkle','想做得更专业 / 好看','去搜现成的<br>UI美化 · PPT · 文案 · 数据图',2)}
-    ${scene('2','chip2','给自己的 AI 预装底层','最该装：记忆管理<br>越用越懂你',3)}
-    ${scene('3','loop','反复干的活沉淀成 Skill','判断：每周重复<br>+ 每次都要重新交代',4)}
-  </div>
-  <div class="mantra rise" data-i="5"><span class="chip">搜现成 · 装底层 · 沉淀自己的</span></div>`;
+    ${scene('搜现成','sparkle','想做得更好看',2)}
+    ${scene('装底层','chip2','让 AI 更懂你',3)}
+    ${scene('沉淀','loop','反复的活存下来',4)}
+  </div>`;
+}
+// ⑩ 口诀
+function board10(){
+  return `
+  <div class="kicker rise" data-i="0">takeaway / 记住这句</div>
+  <div class="bigline rise" data-i="1"><span class="hl2">搜现成</span> · <span class="hl2">装底层</span><br>· 沉淀自己的</div>`;
 }
 
 const frame=document.getElementById('frame');
