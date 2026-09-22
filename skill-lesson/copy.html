@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Skill 口播词·纯文字</title><style>
+:root{--bg:#0f1115;--ink:#e8eaed;--muted:#9aa0aa;--acc:#6ea8fe;--code:#0b0d11;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 80px}
+.nav{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.nav a{background:#1b1f27;border:1px solid #2a303b;color:var(--acc);text-decoration:none;padding:8px 16px;border-radius:8px;font-size:14px}
+.nav a.on{background:var(--acc);color:#0b0d11;font-weight:700}
+h1{font-size:22px;line-height:1.45;margin:8px 0 22px;border-bottom:2px solid var(--acc);padding-bottom:12px}
+h2{font-size:19px;color:var(--acc);margin:36px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
+h3{font-size:16px;color:#ffd479;margin:22px 0 8px}
+p{margin:9px 0}
+blockquote{border-left:3px solid #3a3f4b;color:var(--muted);margin:6px 0;padding:2px 14px;font-size:13.5px;font-style:italic}
+hr{border:0;border-top:1px dashed #333844;margin:24px 0}
+pre{background:var(--code);border:1px solid #262b36;border-radius:10px;padding:14px 16px;overflow-x:auto;margin:12px 0}
+pre code{font:13px/1.7 "SF Mono",Menlo,Consolas,monospace;color:#c7d0dc;white-space:pre}
+code.inline{background:#242a35;color:#ffd479;padding:1px 6px;border-radius:5px;font:13px/1.5 monospace}
+strong{color:#fff}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:5px;margin-right:6px;vertical-align:1px}
+.tag.talk{background:#1d3a5f;color:#8fc0ff}
+.tag.board{background:#4a3a12;color:#ffd479}
+.copybar{position:sticky;top:0;background:#0f1115;padding:10px 0;z-index:5;display:flex;gap:10px;align-items:center}
+.btn{background:var(--acc);color:#0b0d11;border:0;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer}
+.hint{color:var(--muted);font-size:13px}
+textarea{width:100%;height:70vh;background:#0b0d11;color:#e8eaed;border:1px solid #2a303b;border-radius:10px;padding:16px;font:15px/1.9 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;resize:vertical}
+</style></head><body><div class="wrap"><div class="nav"><a href="index.html">分镜脚本</a><a href="copy.html" class="on">纯口播词·复制</a></div>
+<div class="copybar"><button class="btn" onclick="cp()">📋 一键复制全文</button><span class="hint" id="h">只有口播词，方便直接念/粘贴</span></div>
+<textarea id="t" readonly>【钩子】
+同样一个 AI，为什么有人用得又快又准，你却得反复改？
+差的不是 AI，是有人给它加了一样东西——Skill。
+今天三分钟，把它讲透。
+
+【黑板 ①：Skill 在 AI Agent 里是哪一环】
+现在能帮你干活的 AI，叫 Agent。它干活不靠一样东西，靠四样配合。
+第一样，大模型。就是那个聪明的脑子——会说话、有常识、会推理。但它很通用，不认识你，也不懂你这行。
+第二样，记忆。让它记得住你——你是谁、你的偏好、上次聊到哪。
+第三样，工具。让它有手有脚——能上网、能跑代码、能改文件。有了工具，它才从&quot;会聊天&quot;变成&quot;能动手&quot;。
+第四样，就是 Skill。前三样是硬件，Skill 是打法。同样的脑子、记忆、工具，配上一套好打法，干出来的活就不一样。
+它不比谁高级，它是这四样里专门管&quot;某类活该怎么干&quot;的那一环。
+一句话记住：脑子、记忆、工具解决&quot;能不能干&quot;，Skill 解决&quot;干得好不好&quot;。
+
+【黑板 ②：最容易混的两组】
+Skill 有两个特别容易被搞混的东西，我一次讲清。
+**第一组，Skill 和记忆。**
+记忆存的是&quot;名词&quot;——关于你的事实。Skill 存的是&quot;动词&quot;——做事的流程。
+&quot;这个用户是清华的&quot;，是事实，进记忆。&quot;写简历要先核实再拔高&quot;，是流程，进 Skill。一个让 AI 认识你，一个让 AI 会干活。
+**第二组更容易混——Skill 和 system prompt，也就是&quot;系统提示词&quot;。**
+很多人觉得这俩不是一回事吗，都是&quot;给 AI 定规矩&quot;。不一样，差在两点。
+一，system prompt 是**总规矩，永远生效**。比如&quot;你是一个严谨的助手，说话简洁&quot;——不管你问什么，它一直在后台管着。
+Skill 是**专项打法，用到才调出来**。你不写小红书，那条写小红书的 Skill 就不出现，省地方也不干扰。
+二，system prompt 只有一份，什么都往里塞会越塞越乱。
+Skill 可以有几十上百个，一个技能管一类活，各归各的。
+所以简单说：**system prompt 是&quot;你是谁、总的怎么说话&quot;；Skill 是&quot;遇到这类具体活，一步步怎么做&quot;。** 一个是底色，一个是招式。
+
+【黑板 ③：一个 Skill 拆开长什么样】
+那 Skill 本身长什么样？不是什么程序，就是一个文件夹。拆开给你看。
+里面唯一必须有的，是一个文件，叫 SKILL.md，它是这个技能的大脑。这个文件分两半。
+上半是&quot;帽子&quot;。最关键就一行，写&quot;什么时候该用这个技能&quot;。先记住这行，等会儿还要说它。
+下半是&quot;正文&quot;，大白话写的操作手册：这活儿一步步怎么做、有哪些坑、做完怎么检查。
+一个 SKILL.md 就能跑。活儿复杂了，文件夹里还能带三样配套：references 放参考资料，scripts 放能直接跑的脚本，templates 放套着填的模板。
+记住主次：核心永远是 SKILL.md，那三样是按需才带的弹药。
+
+【黑板 ④：怎么算好 Skill】
+最后，怎么算一个好 Skill？三条。
+一，帽子写准。还记得刚才那行吗——AI 就是靠它决定&quot;要不要用这个技能&quot;。写含糊了，它根本想不起来用，手册再好也白搭。
+二，步骤能照做。&quot;先做好准备&quot;是废话；&quot;跑这条命令、看到这个就对了&quot;才能照做。
+三，写坑。只写正确步骤是新手；告诉你&quot;这儿最容易错&quot;的，才是老手。你踩过的坑，最值钱。
+
+【收尾】
+说到底，Skill 不玄乎：把你自己会干的一类活，用人话写成一份能交给 AI 的说明书。
+你会写便签，就会写 Skill。下期咱们动手写一个。</textarea>
+<script>
+function cp(){var t=document.getElementById('t');t.select();t.setSelectionRange(0,999999);
+try{navigator.clipboard.writeText(t.value);}catch(e){document.execCommand('copy');}
+document.getElementById('h').textContent='✅ 已复制到剪贴板';}
+</script>
+</div></body></html>
