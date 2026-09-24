@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meta Muse 板书 · 手绘</title>
+<style>
+:root{
+  --bg:#0a0a0a; --ink:#f4f1e8; --dim:#a49e8c;
+  --acc:#7fdbc4; --acc2:#ffcf6b; --acc3:#c3b0e8;
+  --chalk:#f4f1e8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);font-family:"Kaiti SC","STKaiti","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;overflow:hidden;color:var(--ink)}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:3.5vh 3.5vw}
+
+/* 黑板 + 手绘框：粗描边用 CSS border（完整长方形，filter 做手绘抖动） */
+.frame{position:relative;width:min(96vw,1200px);height:min(90vh,720px)}
+.board{position:absolute;inset:0;border-radius:16px;overflow:hidden;
+  background:radial-gradient(130% 120% at 50% 0%, #14171a 0%, #0c0e10 55%, #08090a 100%);
+  display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5.5%,64px) clamp(30px,7%,84px)}
+.board::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+/* 完整长方形手绘木框 —— 棕色粗边，filter 抖动出手绘感 */
+.frame::before{content:"";position:absolute;inset:0;border-radius:16px;
+  border:14px solid #7a4a24;opacity:0;filter:url(#roughLine);
+  box-shadow:inset 0 0 0 2px rgba(158,102,54,.55), inset 0 0 0 4px rgba(60,34,16,.6), 0 6px 22px rgba(0,0,0,.5);
+  pointer-events:none;z-index:3}
+.frame.drawn::before{animation:frameIn .8s ease forwards}
+@keyframes frameIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+
+.kicker{font-family:"Bradley Hand","Segoe Print",cursive;font-size:clamp(13px,1.5vw,18px);letter-spacing:2px;color:var(--acc);margin-bottom:8px;opacity:0}
+.title{font-size:clamp(24px,3.3vw,44px);font-weight:800;letter-spacing:1px;margin-bottom:clamp(16px,3vh,38px);opacity:0}
+.title u{text-decoration:none;background:linear-gradient(transparent 70%, rgba(255,207,107,.35) 0);padding:0 2px}
+.title .hl{color:var(--acc2)}
+
+.rise{opacity:0;transform:translateY(16px)}
+.rise.in{animation:rise .65s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.fadeboard{animation:fadeOut .45s ease forwards}
+@keyframes fadeOut{to{opacity:0}}
+.fadeIn{animation:fadeIn .45s ease forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* 图标：viewBox 保持等比，绝不拉伸 */
+.tl-ic{width:clamp(40px,5vw,62px);height:clamp(40px,5vw,62px);color:var(--acc);filter:url(#roughLine);stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cic{width:clamp(34px,4.2vw,50px);height:clamp(34px,4.2vw,50px);color:var(--acc);filter:url(#roughLine);stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:2;margin-bottom:12px}
+
+/* ① 时间线 —— 节点带明确圆点 */
+.timeline{display:flex;align-items:flex-start;position:relative;margin:10px 0}
+.tl-node{flex:1;text-align:center;position:relative;z-index:2}
+.tl-node.gold .tl-ic{color:var(--acc2)}
+.tl-icwrap{margin:0 auto 16px;width:fit-content}
+.tl-dot{width:clamp(11px,1.3vw,15px);height:clamp(11px,1.3vw,15px);border-radius:50%;
+  background:var(--acc);margin:12px auto 12px;box-shadow:0 0 0 5px rgba(127,219,196,.16);opacity:0;transform:scale(0)}
+.tl-node.gold .tl-dot{background:var(--acc2);box-shadow:0 0 0 5px rgba(255,207,107,.16)}
+.tl-dot.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes pop{to{opacity:1;transform:scale(1)}}
+.tl-date{font-size:clamp(16px,1.9vw,24px);font-weight:800}
+.tl-label{font-size:clamp(13px,1.5vw,18px);color:var(--dim);margin-top:6px;line-height:1.5}
+/* 连线在圆点那一行，两点之间 */
+.tl-line{position:absolute;left:25%;right:25%;top:calc(clamp(40px,5vw,62px) + 30px);height:3px;overflow:visible;z-index:1;opacity:0}
+.tl-line svg{width:100%;height:14px;display:block;overflow:visible}
+.tl-line path{fill:none;stroke:var(--acc);stroke-width:3;stroke-dasharray:600;stroke-dashoffset:600;filter:url(#roughLine)}
+.tl-line.in{opacity:1}
+.tl-line.in path{animation:draw 1s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+.metaphor{margin-top:clamp(26px,5vh,54px);text-align:center;font-size:clamp(17px,2.2vw,28px)}
+.chip{display:inline-block;position:relative;padding:12px 30px;color:var(--acc2);font-weight:800;
+  border:2.4px solid var(--acc2);border-radius:26px;background:rgba(255,207,107,.06);filter:url(#roughLine)}
+.subnote{margin-top:20px;text-align:center;color:var(--dim);font-size:clamp(14px,1.7vw,20px)}
+
+/* ② 四卡 —— 卡框用 CSS border（等宽不变形），filter 手绘抖动 */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.8vw,24px)}
+.card{position:relative;padding:clamp(20px,3vh,32px) 12px;text-align:center;
+  border:2.4px solid rgba(244,241,232,.5);border-radius:14px;filter:url(#roughLine);
+  background:rgba(255,255,255,.015)}
+.card.hero{border-color:var(--acc2);background:rgba(255,207,107,.06)}
+.card.hero .cic{color:var(--acc2)}
+.card .h{font-size:clamp(16px,2vw,25px);font-weight:800;position:relative;z-index:2}
+.card.hero .h{color:var(--acc2)}
+.card .s{font-size:clamp(12px,1.4vw,16px);color:var(--dim);margin-top:6px;position:relative;z-index:2}
+
+.axis{margin-top:clamp(22px,4vh,42px);position:relative;display:flex;
+  border:2px solid rgba(244,241,232,.42);border-radius:14px;filter:url(#roughLine);overflow:hidden}
+.axis .cell{flex:1;padding:18px 14px;text-align:center;font-size:clamp(14px,1.7vw,20px);position:relative;z-index:2}
+.axis .l{color:var(--dim)}
+.axis .r{color:var(--acc2);font-weight:800}
+.axis .sep{width:2px;background:rgba(244,241,232,.35);margin:10px 0}
+
+/* 中号图标（对比卡用） */
+.mic{width:clamp(30px,3.6vw,44px);height:clamp(30px,3.6vw,44px);color:var(--acc);filter:url(#roughLine);stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:2}
+
+/* ③ 两组对比 —— 左右分栏 */
+.vs-group{margin:clamp(6px,1.2vh,14px) 0}
+.vs-head{font-size:clamp(14px,1.6vw,20px);font-weight:800;margin-bottom:9px;color:var(--acc3)}
+.vs{position:relative;display:flex;align-items:stretch;gap:clamp(10px,1.4vw,18px)}
+.vs .pane{flex:1;padding:clamp(14px,2vh,22px) clamp(12px,1.6vw,20px);border:2.4px solid rgba(244,241,232,.5);
+  border-radius:14px;filter:url(#roughLine);background:rgba(255,255,255,.015);position:relative}
+.vs .pane.gold{border-color:var(--acc2);background:rgba(255,207,107,.06)}
+.vs .pane .top{display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.vs .pane .nm{font-size:clamp(15px,1.8vw,22px);font-weight:800}
+.vs .pane.gold .nm,.vs .pane.gold .mic{color:var(--acc2)}
+.vs .pane .desc{font-size:clamp(12px,1.45vw,17px);color:var(--dim);margin-top:8px;line-height:1.6;position:relative;z-index:2}
+.vs .pane .tagword{display:inline-block;margin-top:10px;font-size:clamp(12px,1.4vw,16px);font-weight:800;
+  padding:3px 12px;border-radius:20px;border:2px solid currentColor;filter:url(#roughLine)}
+.vs .pane .tagword{color:var(--acc)}
+.vs .pane.gold .tagword{color:var(--acc2)}
+.vs-mid{align-self:center;font-family:"Bradley Hand","Segoe Print",cursive;font-size:clamp(16px,2vw,26px);color:var(--dim);padding:0 2px;position:relative;z-index:2}
+
+/* ④ 分层加载 —— 三层堆叠 */
+.docrow{display:flex;justify-content:center;gap:clamp(8px,1.2vw,16px);margin:6px 0 clamp(18px,3vh,30px)}
+.docpill{display:flex;align-items:center;gap:8px;padding:9px 16px;border:2.2px solid rgba(244,241,232,.5);
+  border-radius:24px;filter:url(#roughLine);font-size:clamp(13px,1.5vw,18px);font-weight:800}
+.docpill .mic{width:clamp(20px,2.2vw,26px);height:clamp(20px,2.2vw,26px)}
+.stack{display:flex;flex-direction:column;gap:clamp(9px,1.4vh,14px)}
+.layer{position:relative;display:flex;align-items:center;gap:clamp(12px,1.6vw,20px);
+  padding:clamp(12px,1.9vh,18px) clamp(16px,2vw,24px);border:2.4px solid rgba(244,241,232,.5);
+  border-radius:14px;filter:url(#roughLine);background:rgba(255,255,255,.015)}
+.layer .lnum{flex:none;width:clamp(30px,3.4vw,42px);height:clamp(30px,3.4vw,42px);border-radius:50%;
+  border:2.4px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:clamp(15px,1.8vw,22px);filter:url(#roughLine);position:relative;z-index:2}
+.layer .ltx{position:relative;z-index:2}
+.layer .lt{font-size:clamp(15px,1.75vw,21px);font-weight:800}
+.layer .ls{font-size:clamp(12px,1.4vw,16px);color:var(--dim);margin-top:3px}
+.layer.l2 .lnum{border-color:var(--acc3);color:var(--acc3)}
+.layer.l3 .lnum{border-color:var(--acc2);color:var(--acc2)}
+.stack-note{margin-top:clamp(14px,2.4vh,22px);text-align:center;font-size:clamp(15px,1.9vw,23px);font-weight:800;color:var(--acc2)}
+
+/* ⑤ 三场景 —— 编号卡 */
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.8vw,22px)}
+.scene{position:relative;padding:clamp(18px,2.8vh,28px) clamp(12px,1.4vw,18px);text-align:center;
+  border:2.4px solid rgba(244,241,232,.5);border-radius:16px;filter:url(#roughLine);background:rgba(255,255,255,.015)}
+.scene .snum{position:relative;z-index:2;font-weight:900;
+  font-size:clamp(18px,2.2vw,28px);color:var(--acc);line-height:1.1;letter-spacing:.5px}
+.scene .cic{margin:10px auto 12px;color:var(--acc)}
+.scene .st{font-size:clamp(15px,1.85vw,22px);font-weight:800;position:relative;z-index:2;line-height:1.4}
+.scene .sd{font-size:clamp(12px,1.4vw,16px);color:var(--dim);margin-top:8px;position:relative;z-index:2;line-height:1.55}
+.mantra{margin-top:clamp(20px,3.6vh,34px);text-align:center}
+.mantra .chip{font-size:clamp(16px,2vw,25px);letter-spacing:1px}
+
+/* 大字标语板 —— 比喻 / 好处 / 口诀 */
+.bigline{text-align:center;font-weight:900;line-height:1.28;
+  font-size:clamp(30px,5vw,58px);letter-spacing:1px;margin:auto 0}
+.hl2{color:var(--acc);position:relative;white-space:nowrap}
+.subnote+.docrow,.bigline+.docrow{margin-top:clamp(24px,4vh,40px)}
+.follow-ic{text-align:center;margin-bottom:clamp(14px,2.4vh,26px)}
+.follow-ic .cic{width:clamp(48px,7vw,82px);height:clamp(48px,7vw,82px);color:var(--acc)}
+
+.axis .sep{width:2px;background:rgba(244,241,232,.35);margin:10px 0}
+
+.hud{position:fixed;bottom:20px;left:0;right:0;display:flex;gap:12px;justify-content:center;z-index:50}
+.btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--ink);
+  padding:9px 22px;border-radius:22px;font-size:14px;cursor:pointer;transition:.2s;font-family:inherit}
+.btn:hover{background:rgba(255,255,255,.13)}
+.dots{position:fixed;top:20px;left:0;right:0;display:flex;gap:9px;justify-content:center;z-index:50}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);transition:.3s}
+.dot.on{background:var(--acc);width:22px;border-radius:6px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="roughLine"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>
+</svg>
+
+<div class="stage">
+  <div class="frame" id="frame">
+    <div class="board" id="board"></div>
+  </div>
+</div>
+<div class="dots" id="dots"></div>
+<div class="hud">
+  <button class="btn" id="prev">◀ 上一块</button>
+  <button class="btn" id="replay">↺ 重播</button>
+  <button class="btn" id="next">下一块 ▶</button>
+  <button class="btn" id="auto">▶ 自动播放</button>
+</div>
+
+<script>
+// 等比 viewBox 图标，绝不拉伸
+const ICON={
+  flag:`<svg class="tl-ic" viewBox="0 0 24 24"><path d="M5 21V4M5 5c3-2 6 1 9-1s5 0 5 0v8s-2 1-5-1-6 1-9 1"/></svg>`,
+  globe:`<svg class="tl-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.5 3 6 3 8.5s-.5 6-3 8.5c-2.5-2.5-3-6-3-8.5s.5-6 3-8.5"/></svg>`,
+  brain:`<svg class="cic" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-1 5 3 3 0 0 0 2 5 2.5 2.5 0 0 0 5 .3V4.5A2.5 2.5 0 0 0 9 4zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 1 5 3 3 0 0 1-2 5 2.5 2.5 0 0 1-5 .3"/></svg>`,
+  disk:`<svg class="cic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v6h6V4M9 15h6"/></svg>`,
+  wrench:`<svg class="cic" viewBox="0 0 24 24"><path d="M15 5a4 4 0 0 0-5 5l-6 6 3 3 6-6a4 4 0 0 0 5-5l-3 3-2.5-.5L12 8l.5-2.5z"/></svg>`,
+  target:`<svg class="cic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3"/></svg>`,
+  tag:`<svg class="mic" viewBox="0 0 24 24"><path d="M4 4h8l8 8-8 8-8-8V4z"/><circle cx="8" cy="8" r="1.4"/></svg>`,
+  gear:`<svg class="mic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2"/></svg>`,
+  doc:`<svg class="cic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4"/><path d="M9 12h6M9 16h6"/></svg>`,
+  layers:`<svg class="cic" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5M3 16.5l9 5 9-5"/></svg>`,
+  sparkle:`<svg class="cic" viewBox="0 0 24 24"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6.5 6.5l3 3M14.5 14.5l3 3M17.5 6.5l-3 3M9.5 14.5l-3 3"/></svg>`,
+  chip2:`<svg class="cic" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg>`,
+  loop:`<svg class="cic" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>`,
+  compass:`<svg class="cic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>`,
+  cloud:`<svg class="cic" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8 5 5 0 0 1 9.7-1A3.5 3.5 0 0 1 18 18H7z"/></svg>`,
+  bell:`<svg class="cic" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4l2-2z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>`,
+  shield:`<svg class="cic" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>`,
+  cart:`<svg class="cic" viewBox="0 0 24 24"><path d="M4 5h2l2 11h9l2-7H7"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>`,
+  mail:`<svg class="cic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6l8.5 7 8.5-7"/></svg>`,
+  clock:`<svg class="cic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>`,
+  refund:`<svg class="cic" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M7 3v3H4"/><path d="M12 8v4l3 2"/></svg>`,
+  book:`<svg class="cic" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></svg>`,
+  chat:`<svg class="mic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 4V5z"/></svg>`,
+  handoff:`<svg class="mic" viewBox="0 0 24 24"><path d="M3 12h14M13 8l4 4-4 4"/><path d="M17 4h4v16h-4"/></svg>`
+};
+
+const boards=[
+  {render:board1},{render:board2},{render:board3},{render:board4},{render:board5},
+  {render:board6},{render:board7},{render:board8},{render:board9},{render:board10},
+  {render:board11},{render:board12},{render:board13},{render:board14}
+];
+// ① 开场·大字
+function board1(){
+  return `
+  <div class="kicker rise" data-i="0">Meta Muse</div>
+  <div class="bigline rise" data-i="1">上线 <span class="hl2">10 天</span><br>冲上全美 <span class="hl2">第一</span></div>
+  <div class="subnote rise" data-i="2">和 ChatGPT，到底差在哪？</div>`;
+}
+// ② 痛点·标签
+function board2(){
+  const pill=(ic,t,i)=>`<div class="docpill rise" data-i="${i}">${ICON[ic]}${t}</div>`;
+  return `
+  <div class="kicker rise" data-i="0">痛点 / pain</div>
+  <div class="title rise" data-i="1">难的不是操作<br><u class="hl">是一直惦记</u></div>
+  <div class="docrow" style="margin-top:clamp(22px,4vh,38px)">
+    ${pill('refund','盯退款',2)}${pill('cart','蹲降价',3)}${pill('bell','盯报名',4)}
+  </div>
+  <div class="subnote rise" data-i="5">单独都简单 · 堆一起就漏</div>`;
+}
+// ③ 大字·核心定位
+function board3(){
+  return `
+  <div class="kicker rise" data-i="0">core / 核心</div>
+  <div class="bigline rise" data-i="1">不是执行一句指令<br>是<span class="hl2">持续跟进</span>没做完的事</div>
+  <div class="subnote rise" data-i="2">有变化就推进 · 要决策才找你</div>`;
+}
+// ④ 案例① 开学准备
+function board4(){
+  const step=(ic,t,i)=>`<div class="scene rise" data-i="${i}">${ICON[ic]}<div class="st">${t}</div></div>`;
+  return `
+  <div class="kicker rise" data-i="0">案例 ① / case</div>
+  <div class="title rise" data-i="1">开学准备<span style="color:var(--dim);font-size:.6em"> 一句话交给它</span></div>
+  <div class="scenes">
+    ${step('mail','读邮件官网',2)}
+    ${step('book','同步日历<br>整理清单',3)}
+    ${step('clock','自己揪出<br>12h 截止',4)}
+  </div>
+  <div class="subnote rise" data-i="5"><span class="hl2">主动挖信息</span> · 识别藏起来的截止</div>`;
+}
+// ⑤ 案例② 跟进退款
+function board5(){
+  const step=(ic,t,i)=>`<div class="scene rise" data-i="${i}">${ICON[ic]}<div class="st">${t}</div></div>`;
+  return `
+  <div class="kicker rise" data-i="0">案例 ② / case</div>
+  <div class="title rise" data-i="1">跟进退款</div>
+  <div class="scenes">
+    ${step('clock','记时间<br>持续等回复',2)}
+    ${step('handoff','分清受理<br>还是补料',3)}
+    ${step('mail','3 天没动静<br>自动催办',4)}
+  </div>
+  <div class="subnote rise" data-i="5">盯的是<span class="hl2">整件事走到哪</span> · 不是单条消息</div>`;
+}
+// ⑥ 案例③ 商品比价
+function board6(){
+  const step=(ic,t,i)=>`<div class="scene rise" data-i="${i}">${ICON[ic]}<div class="st">${t}</div></div>`;
+  return `
+  <div class="kicker rise" data-i="0">案例 ③ / case</div>
+  <div class="title rise" data-i="1">商品比价<span style="color:var(--dim);font-size:.6em"> 预算·型号·最晚时间</span></div>
+  <div class="scenes">
+    ${step('cart','持续盯价',2)}
+    ${step('target','判断优惠<br>值不值',3)}
+    ${step('clock','临期才<br>提醒你',4)}
+  </div>
+  <div class="subnote rise" data-i="5">不机械报价 · 自己<span class="hl2">做判断</span></div>`;
+}
+// ⑦ 大字·你只给宽泛目标
+function board7(){
+  return `
+  <div class="kicker rise" data-i="0">key / 关键</div>
+  <div class="bigline rise" data-i="1">你只给一个<br><span class="hl2">宽泛目标</span></div>
+  <div class="subnote rise" data-i="2">挖信息 · 做判断 · 发现截止 —— 全交给 AI</div>`;
+}
+// ⑧ ChatGPT vs Muse
+function board8(){
+  return `
+  <div class="kicker rise" data-i="0">vs / 差在哪</div>
+  <div class="title rise" data-i="1">不是技术，是<u class="hl">产品重心</u></div>
+  <div class="vs">
+    <div class="pane rise" data-i="2">
+      <div class="top">${ICON.chat}<span class="nm">ChatGPT</span></div>
+      <div class="desc">后台任务 · 技术上也能做</div>
+      <span class="tagword">单次指令</span>
+    </div>
+    <div class="vs-mid rise" data-i="3">vs</div>
+    <div class="pane gold rise" data-i="4">
+      <div class="top">${ICON.target}<span class="nm">Muse</span></div>
+      <div class="desc">并行盯多件 · 分得清改动</div>
+      <span class="tagword">长期跟进</span>
+    </div>
+  </div>`;
+}
+// ⑨ 底层三层架构
+function board9(){
+  const layer=(cls,n,t,s,i)=>`<div class="layer ${cls} rise" data-i="${i}"><div class="lnum">${n}</div><div class="ltx"><div class="lt">${t}</div><div class="ls">${s}</div></div></div>`;
+  return `
+  <div class="kicker rise" data-i="0">under the hood / 底层</div>
+  <div class="title rise" data-i="1">靠<u class="hl">三块</u>撑起来</div>
+  <div class="stack">
+    ${layer('l1','1','Spark 模型','长周期·多任务 · 卡住会问你',2)}
+    ${layer('l2','2','云端虚拟机','关掉 App 也在跑 · 进度全留存',3)}
+    ${layer('l3','3','调度 + 通知','没变化不打扰 · 关键才提醒',4)}
+  </div>`;
+}
+// ⑩ 持续跟进的闭环
+function board10(){
+  const step=(t,i)=>`<div class="docpill rise" data-i="${i}">${t}</div>`;
+  return `
+  <div class="kicker rise" data-i="0">loop / 闭环</div>
+  <div class="title rise" data-i="1">所谓持续跟进</div>
+  <div class="docrow" style="flex-wrap:wrap;margin-top:clamp(20px,3.5vh,34px)">
+    ${step('锁目标',2)}${step('存进度',3)}${step('到点查',4)}${step('按新信息推进',5)}${step('要不要通知你',6)}
+  </div>
+  <div class="subnote rise" data-i="7">不用全天运算 · 状态能<span class="hl2">存下来</span>，触发就接着干</div>`;
+}
+// ⑪ 记忆 & 权限
+function board11(){
+  return `
+  <div class="kicker rise" data-i="0">memory & safety</div>
+  <div class="title rise" data-i="1">它记的 · 它的<u class="hl">边界</u></div>
+  <div class="vs">
+    <div class="pane rise" data-i="2">
+      <div class="top">${ICON.disk}<span class="nm">记忆</span></div>
+      <div class="desc">哪件事 · 卡在哪个环节 · 随时可改</div>
+      <span class="tagword">记任务进度</span>
+    </div>
+    <div class="vs-mid rise" data-i="3">+</div>
+    <div class="pane gold rise" data-i="4">
+      <div class="top">${ICON.shield}<span class="nm">权限</span></div>
+      <div class="desc">执行与校验分离 · 凭证单独保管</div>
+      <span class="tagword">付款必须你确认</span>
+    </div>
+  </div>`;
+}
+// ⑫ 大字·交互转变
+function board12(){
+  return `
+  <div class="kicker rise" data-i="0">shift / 转变</div>
+  <div class="bigline rise" data-i="1">从「帮我做完这步」<br>到「这件事 <span class="hl2">全程帮我盯</span>」</div>
+  <div class="subnote rise" data-i="2">把个人 Agent 的方向，真正落地</div>`;
+}
+// ⑬ 评价标准·四卡
+function board13(){
+  const card=(cls,ic,h,i)=>`<div class="card ${cls} rise" data-i="${i}">${ICON[ic]}<div class="h">${h}</div></div>`;
+  return `
+  <div class="kicker rise" data-i="0">standard / 怎么评</div>
+  <div class="title rise" data-i="1">好助理，看这<u class="hl">四点</u></div>
+  <div class="cards">
+    ${card('','chat','要反复<br>交代吗',2)}
+    ${card('','book','会漏掉<br>没做完的吗',3)}
+    ${card('','loop','发现变化<br>能推进吗',4)}
+    ${card('hero','bell','提醒是减负<br>还是打扰',5)}
+  </div>`;
+}
+// ⑭ 关注
+function board14(){
+  return `
+  <div class="kicker rise" data-i="0">follow / 关注我</div>
+  <div class="follow-ic rise" data-i="1">${ICON.sparkle}</div>
+  <div class="bigline rise" data-i="2">关注 <span class="hl2">Manta_Ai</span></div>
+  <div class="subnote rise" data-i="3">分享更多 AI 知识</div>`;
+}
+
+const frame=document.getElementById('frame');
+const board=document.getElementById('board');
+const dotsWrap=document.getElementById('dots');
+let idx=0,playing=false,autoMode=false,timers=[];
+boards.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');dotsWrap.appendChild(d);});
+const dots=[...dotsWrap.children];
+function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+function updateDots(){dots.forEach((d,i)=>d.classList.toggle('on',i===idx));}
+function play(){
+  clearTimers();playing=true;
+  board.classList.remove('fadeboard');board.classList.add('fadeIn');
+  board.innerHTML=boards[idx].render();
+  const items=[...board.querySelectorAll('.rise')].sort((a,b)=>(+a.dataset.i)-(+b.dataset.i));
+  let t=350;items.forEach(el=>{timers.push(setTimeout(()=>el.classList.add('in'),t));t+=270;});
+  // 时间线：两个节点浮入后，连线生长 + 圆点弹出
+  const line=board.querySelector('#tlline');
+  if(line){
+    timers.push(setTimeout(()=>line.classList.add('in'),1150));
+    const dotsN=board.querySelectorAll('.tl-dot');
+    dotsN.forEach((d,i)=>timers.push(setTimeout(()=>d.classList.add('pop'),1300+i*250)));
+  }
+  timers.push(setTimeout(()=>{playing=false;if(autoMode)timers.push(setTimeout(()=>autoMode&&next(),2600));},t+300));
+  updateDots();
+}
+function transitionTo(n){if(playing)return;clearTimers();playing=true;board.classList.remove('fadeIn');board.classList.add('fadeboard');timers.push(setTimeout(()=>{idx=n;playing=false;play();},460));}
+function next(){transitionTo(idx<boards.length-1?idx+1:0);}
+function prev(){if(idx>0)transitionTo(idx-1);}
+document.getElementById('next').onclick=()=>{autoMode=false;setAuto();next();};
+document.getElementById('prev').onclick=()=>{autoMode=false;setAuto();prev();};
+document.getElementById('replay').onclick=()=>{if(!playing){autoMode=false;setAuto();play();}};
+document.getElementById('auto').onclick=()=>{autoMode=!autoMode;setAuto();if(autoMode&&!playing)timers.push(setTimeout(()=>autoMode&&next(),1500));};
+function setAuto(){document.getElementById('auto').textContent=autoMode?'⏸ 停止自动':'▶ 自动播放';}
+frame.classList.add('drawn'); // 木框只画一次，之后固定不动
+play();
+</script>
+</body>
+</html>
