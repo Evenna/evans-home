@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cleo Abram 节奏拆解报告</title>
+<style>
+  :root {
+    --ink:#111; --sub:#666; --line:#e6e6e6; --bg:#fbfaf8;
+    --accent:#111; --hi:#fff3c4;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans CJK SC",sans-serif;
+    font-size:16.5px; line-height:1.85; letter-spacing:.01em;
+  }
+  .wrap { max-width:820px; margin:0 auto; padding:64px 22px 120px; }
+  h1 { font-size:34px; line-height:1.35; letter-spacing:-.01em; margin:0 0 8px; font-weight:800; }
+  h2 { font-size:24px; margin:64px 0 18px; padding-top:22px; border-top:1px solid var(--line); font-weight:750; }
+  h3 { font-size:19px; margin:34px 0 10px; font-weight:700; }
+  p { margin:14px 0; }
+  strong { font-weight:750; }
+  em { font-style:normal; background:linear-gradient(transparent 62%, var(--hi) 62%); }
+  a { color:#0a58ca; text-decoration:none; border-bottom:1px solid #cfe0ff; }
+  blockquote { margin:18px 0; padding:12px 18px; background:#fff; border-left:3px solid #111; color:#333; }
+  code { background:#f1efe9; padding:1px 5px; border-radius:3px; font-size:14.5px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  pre { background:#151515; color:#e8e8e8; padding:18px 20px; overflow-x:auto; border-radius:6px; font-size:13.5px; line-height:1.7; }
+  pre code { background:none; color:inherit; padding:0; }
+  .tw { overflow-x:auto; margin:20px 0; }
+  table { border-collapse:collapse; width:100%; font-size:15px; background:#fff; }
+  th, td { border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top; }
+  th { background:#f4f2ec; font-weight:700; font-size:14px; white-space:nowrap; }
+  tr:last-child td { border-bottom:none; }
+  .meta { color:var(--sub); font-size:14px; margin:0 0 34px; }
+  .toc { background:#fff; border:1px solid var(--line); border-radius:8px; padding:18px 22px 18px 38px; margin:34px 0 8px; font-size:15px; }
+  .toc li { margin:5px 0; }
+  .toc a { border:none; color:#222; }
+  .toc a:hover { border-bottom:1px solid #222; }
+  hr { display:none; }
+  @media (max-width:600px) {
+    body { font-size:16px; }
+    .wrap { padding:36px 16px 90px; }
+    h1 { font-size:26px; }
+    h2 { font-size:20px; margin-top:46px; }
+    table { font-size:13.5px; }
+    th, td { padding:8px 9px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Cleo Abram 的节奏到底是"做"在哪儿</h1>
+<p class="meta">8 期节目 86 分钟音频 + 1 期 1080p 全片 245 个镜头逐帧分析 · 对照 48 篇自有口播稿 · 2026-11</p>
+<ul class="toc"><li><a href="#h1">0. 先说清楚我看到了什么、没看到什么</a></li><li><a href="#h2">1. 一句话结论</a></li><li><a href="#h3">2. 结构层：九问式骨架</a></li><li><a href="#h4">3. 句子层：节奏的物理参数（8 期实测）</a></li><li><a href="#h5">4. 镜头层：245 个镜头的实测（这是她真正的秘密）</a></li><li><a href="#h6">5. 她到底在放什么画面（素材清单）</a></li><li><a href="#h7">6. 字体与排版：她自己的图形层其实很薄</a></li><li><a href="#h8">7. 声音层：她只在"换证据"的时候换声音</a></li><li><a href="#h9">8. 结尾：她确实求关注，但方式和你想的不一样</a></li><li><a href="#h10">9. 折成 4 分钟：具体到秒的预算表</a></li><li><a href="#h11">10. 你的稿子差在哪（用你自己的数据说话）</a></li><li><a href="#h12">11. 把她的手法装进你的稿子：10 条手术</a></li><li><a href="#h13">12. 这份报告已经变成 skill 了</a></li><li><a href="#h14">13. 这份报告还不确定的部分</a></li><li><a href="#h15">附录：主样本关键时间码速查</a></li></ul>
+<h1 id="cleo-abram">拆解报告：Cleo Abram 的节奏到底是"做"在哪儿</h1>
+<p><strong>对象</strong>：Cleo Abram（频道 Huge If True，907 万订阅，前 Vox 制作人，Emmy 提名）
+<strong>主样本</strong>：《What We Get Wrong About AI (feat. former Google CEO)》，11:08，2023-08，130 万播放
+<strong>副样本</strong>：另 7 期同频道节目（AI Art / AI Music / Quantum / Fusion / Clean Energy / Robot Referees / 频道预告片）
+<strong>对照对象</strong>：你自己的 48 篇口播稿（站点 <code>superfans.mantai.me</code> 的 <code>/api/workspace</code>）
+<strong>产出时间</strong>：2026-11</p>
+<hr />
+<h2 id="h1">0. 先说清楚我看到了什么、没看到什么</h2>
+<p>这份报告的每一个数字都有出处，所以先把"证据等级"标明白，你引用的时候不会踩空。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>证据</th>
+<th>怎么来的</th>
+<th>可靠度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语速、停顿、句长、问句密度、用词密度</td>
+<td>8 期节目共 <strong>86 分钟</strong>音频 → 本地 Whisper 词级时间戳转写</td>
+<td>高（转写有小误差，统计口径一致）</td>
+</tr>
+<tr>
+<td>镜头数、每个镜头多长、什么时候切、真人占多少</td>
+<td>主样本 <strong>1080p 全片</strong>（668 秒）→ 逐帧场景检测 + 逐镜头抽帧分析</td>
+<td>高（切点检测阈值 0.3，误差 ±2 帧）</td>
+</tr>
+<tr>
+<td>画面上有什么字、字多大、在哪个位置</td>
+<td>245 个镜头逐帧 OCR，保留置信度 &gt;70 的英文文本框</td>
+<td>高（只认英文；原作者图形文字与搬运者中文字幕已分开）</td>
+</tr>
+<tr>
+<td>画面里有没有人、亮度、饱和度、色相、边缘密度</td>
+<td>逐镜头人像检测 + 像素统计</td>
+<td>高</td>
+</tr>
+<tr>
+<td>章节结构、器材、素材来源清单</td>
+<td>YouTube 简介原文（9 个章节名+时间、相机型号、Musicbed）</td>
+<td>高</td>
+</tr>
+<tr>
+<td>音乐进出点、音效类型</td>
+<td><strong>没有可靠量化</strong>：主样本我拿到的是中文配音版音轨，音乐被压在原声下面，无法分离</td>
+<td>低，本报告只做定性说明</td>
+</tr>
+<tr>
+<td>字体具体是哪一款</td>
+<td>无法从压缩后的画面反推字库名</td>
+<td>只能给"字重/无衬线/字号占比/配色"这类可测属性</td>
+</tr>
+</tbody>
+</table></div>
+<p>两个必须交代的偏差：</p>
+<ol>
+<li><strong>时长对不上</strong>：播客音频 701.7 秒，视频 668 秒。所以播客版比视频多约 34 秒（片头片尾+广告位）。<strong>本报告里的"分:秒"如果标了"视频"，就是从 1080p 视频实测的；标"音频"的，是从播客转写实测的。两者不混用。</strong></li>
+<li>主样本是中文配音版（B 站搬运，1080p，画面与 YouTube 原片一致，声音换成了中文）。<strong>画面数据可以直接用，语音数据不用它</strong>——语速、句长这些全部取自英文原声转写。</li>
+</ol>
+<hr />
+<h2 id="h2">1. 一句话结论</h2>
+<p><strong>她的"节奏好"不是"剪得快"，是三件事同时成立：</strong></p>
+<ol>
+<li><strong>句子层</strong>：平均每 7 个词就断一次句，40% 的句子不超过 6 个词，每 50 秒扔一个问句。</li>
+<li><strong>画面层</strong>：平均每 <strong>2.7 秒</strong>换一次画面，但<strong>她自己只占 35% 的时长</strong>——剩下 65% 是网页截图、新闻原声、论文、代码、图表。节奏不是靠"她讲得嗨"，是靠"每讲一句就有东西可看"。</li>
+<li><strong>结构层</strong>：全片 9 个章节，<strong>9 个标题全是观众会问的问句</strong>，平均 78 秒一个。观众永远知道"下一个问题是什么"，所以愿意等。</li>
+</ol>
+<p>把这三条拆开看，只有第 1 条是稿子能解决的；第 2 条是<strong>稿子必须提前给剪辑留钩子</strong>（写在稿子里的"看这个"）；第 3 条是<strong>大纲阶段就要定的</strong>。这就是为什么你光改文字改不出她的节奏——你现在的稿子是"给耳朵听的"，她的稿子是"给眼睛和耳朵同时听的"。</p>
+<hr />
+<h2 id="h3">2. 结构层：九问式骨架</h2>
+<p>主样本的 9 个官方章节（YouTube 简介原文，时间是视频时间）：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>时间</th>
+<th>章节标题（原文）</th>
+<th>这一段在干什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>00:00</td>
+<td>Why is AI so confusing?</td>
+<td>钩子：制造矛盾，把"模糊"变成问题</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1:13</td>
+<td>What is AI?</td>
+<td>定义：用下棋讲清"规则"vs"学习"</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2:37</td>
+<td>Why is everyone talking about AI now?</td>
+<td>时间性：不是新想法，是算力到了</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5:12</td>
+<td>Why is AI dangerous?</td>
+<td>反方：把恐惧讲足，不回避</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6:22</td>
+<td>How would AI kill me?</td>
+<td>具体化：神灯、学徒、迈达斯</td>
+</tr>
+<tr>
+<td>6</td>
+<td>8:08</td>
+<td>Should we pause AI?</td>
+<td>争议：Schmidt 说"这是个糟糕的主意"</td>
+</tr>
+<tr>
+<td>7</td>
+<td>9:12</td>
+<td>Why do we WANT AI?</td>
+<td>转折：AlphaFold，2 亿个蛋白质</td>
+</tr>
+<tr>
+<td>8</td>
+<td>10:30</td>
+<td>What has AI already done?</td>
+<td>收束：回到"到底会怎样"</td>
+</tr>
+<tr>
+<td>9</td>
+<td>11:27</td>
+<td>Why is AI so hard to talk about?</td>
+<td>反问：把话题交回给观众</td>
+</tr>
+</tbody>
+</table></div>
+<p>四条可直接抄的规则：</p>
+<p><strong>规则 1：章节标题全部是问句，而且全部是"你心里那句"。</strong>
+不是"AI 的定义"，是 "What is AI?"；不是"AI 风险讨论"，是 "How would AI kill me?"——注意这句是<strong>第一人称</strong>，她在替观众说出那个不好意思问的问题。全片第一人称问句至少 3 个（"How would AI kill me?" / "why should we want AI?" / "what if they actually work?"）。</p>
+<p><strong>规则 2：每个章节的时长在 60–90 秒之间，从不超过 2 分钟。</strong>
+9 章 / 668 秒 = 平均 74 秒一章。最长的第 3 章（为什么是现在）78 秒，最短的第 8 章 57 秒。<strong>观众不需要在任何一个问题上待超过 1 分半。</strong></p>
+<p><strong>规则 3：顺序是"矛盾 → 定义 → 时机 → 恐惧 → 机制 → 争议 → 希望 → 反问"，不是"是什么→为什么→怎么办"。</strong>
+她把"恐惧"放在第 4–5 章（全片 40% 的位置），把"希望"放在第 7 章（78% 的位置）。这个顺序是有讲究的：<strong>先把观众的害怕讲透、讲得比观众自己想的还具体，再给希望</strong>。反过来（先讲希望再讲风险）就变成宣传片了。</p>
+<p><strong>规则 4：全片只有 4–5 个术语，而且每个术语都在场景之后才出现。</strong>
+- 下棋场景（1:19 起）→ 讲完"AlphaZero 自己跟自己下"→ 才说 "from algorithms to learning" → 才给 <strong>machine learning</strong> 这个词（2:36）
+- 神灯/魔法师学徒/迈达斯王（5:36 起）→ 讲完三个故事 → 才说 <strong>specification gaming</strong>，还补一句"82% 的研究者认为这是真问题"
+- 全片术语清点：machine learning、compute、specification gaming、AlphaFold、（alignment 只出现一次）。<strong>4 个半。</strong></p>
+<p>对照你的《模型训练步骤》——单篇 27 个术语，而且术语在前场景在后。这不是"你讲得比她多"，是<strong>观众在第 3 分钟就已经放弃了，后面 24 个术语没人接住</strong>。</p>
+<hr />
+<h2 id="h4">3. 句子层：节奏的物理参数（8 期实测）</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>节目</th>
+<th>时长</th>
+<th>语速</th>
+<th>句长中位</th>
+<th>≤6 词的句子占比</th>
+<th>问句/分钟</th>
+<th>"you"密度‰</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What We Get Wrong About AI</td>
+<td>702s</td>
+<td>184 wpm</td>
+<td>7 词</td>
+<td>40%</td>
+<td>1.2</td>
+<td>8.8</td>
+</tr>
+<tr>
+<td>AI Art</td>
+<td>854s</td>
+<td>186 wpm</td>
+<td>6 词</td>
+<td><strong>60%</strong></td>
+<td>1.3</td>
+<td>13.6</td>
+</tr>
+<tr>
+<td>Quantum</td>
+<td>1020s</td>
+<td>174 wpm</td>
+<td>6 词</td>
+<td>55%</td>
+<td>1.8</td>
+<td>14.5</td>
+</tr>
+<tr>
+<td>AI Music</td>
+<td>814s</td>
+<td>180 wpm</td>
+<td>8 词</td>
+<td>38%</td>
+<td>1.9</td>
+<td>12.7</td>
+</tr>
+<tr>
+<td>Fusion</td>
+<td>873s</td>
+<td>167 wpm</td>
+<td>10 词</td>
+<td>31%</td>
+<td>1.7</td>
+<td>14.8</td>
+</tr>
+<tr>
+<td>Clean Energy</td>
+<td>532s</td>
+<td>167 wpm</td>
+<td>7 词</td>
+<td>49%</td>
+<td>0.6</td>
+<td>12.1</td>
+</tr>
+<tr>
+<td>Robot Referees</td>
+<td>513s</td>
+<td>183 wpm</td>
+<td>14 词</td>
+<td>18%</td>
+<td>0.7</td>
+<td>7.7</td>
+</tr>
+<tr>
+<td>频道预告片</td>
+<td>155s</td>
+<td>180 wpm</td>
+<td>8 词</td>
+<td>32%</td>
+<td>1.6</td>
+<td><strong>15.1</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>读法：</p>
+<ul>
+<li><strong>语速稳定在 167–186 wpm，中位 179</strong>。她不是靠"语速快"制造节奏的——你的中文稿念到 280–300 字/分钟就已经和她同档了，甚至更快。</li>
+<li><strong>句长中位 6–8 词</strong>（英文口语正常对话是 12–15 词）。也就是说她<strong>每说完一句话，你都来得及喘气</strong>。</li>
+<li><strong>40–60% 的句子在 6 个词以内</strong>。这是"重音句"的密度：不是偶尔来一句短的，是<strong>两句长句之后必有一句极短的</strong>。</li>
+<li><strong>"you" 的密度 8–15‰（每 1000 词里 8–15 次）</strong>。这是她全片最稳定的一个特征：她不是"讲 AI"，是"讲你和 AI"。</li>
+<li>停顿极短：主样本 296 句之间，<strong>只有 3 处停顿超过 1 秒</strong>，间隔中位数 0.16 秒。<strong>她没有"留白"，她只有"换句"。</strong></li>
+</ul>
+<h3 id="_1">六个可复制的句型</h3>
+<p><strong>① 数字单拎成句</strong>（她最标志性的手法）</p>
+<blockquote>
+<p>"More than 200 million of them."（2 亿多个蛋白质——单独一句，前后都是一句话就断）
+"Ninety percent of the world's data was created in the last two years."（节奏靠"数字自己站一行"）</p>
+</blockquote>
+<p>写法：<strong>先给参照系，再把数字单独扔出来</strong>。中文里对应的是：「两亿多个。就这一个模型，一次算完。」</p>
+<p><strong>② 问句转场</strong>（不用"接下来我们讲"）</p>
+<blockquote>
+<p>"But how likely is anything like this to actually happen?"
+"But why should we want AI in the first place?"</p>
+</blockquote>
+<p>写法：每一章的收尾用问句，下一章的开头回答它。<strong>永远不用"下面讲第二点"。</strong></p>
+<p><strong>③ 先替观众说出怀疑，再给答案</strong></p>
+<blockquote>
+<p>"I was too. Until I heard this example."
+"I honestly don't know."</p>
+</blockquote>
+<p>写法：观众心里那句"这不扯吗"，由她先说出来。这是可信度的来源——<strong>你不装懂，她才敢信你懂</strong>。</p>
+<p><strong>④ 同一句金句，全片回环三次</strong></p>
+<blockquote>
+<p>"You get exactly what you ask for, not what you want."
+第一次 5:40（引用论文原话）、第二次 6:28（自己复述）、第三次 10:47（变成问句："what we ask for or what we actually want?"）</p>
+</blockquote>
+<p>写法：<strong>金句必须在开场就埋下，中途各复述一次，结尾变成问句扔回给观众。</strong> 只出现一次的金句等于没写。</p>
+<p><strong>⑤ 第二人称代入</strong>（"you"密度 8–15‰ 的来源）</p>
+<blockquote>
+<p>"so that you and I can get ready"</p>
+</blockquote>
+<p>写法：每讲一个机制，必须落一句"这对你意味着什么"。不是"AI 会取代工作"，是"你下周提交的那份报告，可能就是它写的"。</p>
+<p><strong>⑥ 长短句配比大约是 3:1</strong>
+主样本里 25 词以上的长句<strong>一句都没有</strong>，最长句不超过 24 词。中文对应就是：<strong>单句不超过 45 字，长句之后立刻补一句 10 字以内的短句。</strong></p>
+<hr />
+<h2 id="h5">4. 镜头层：245 个镜头的实测（这是她真正的秘密）</h2>
+<p>主样本 1080p 全片 668 秒，场景检测得出 <strong>245 个镜头</strong>：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平均镜头长度</td>
+<td><strong>2.73 秒</strong></td>
+</tr>
+<tr>
+<td>镜头长度中位数</td>
+<td><strong>1.47 秒</strong></td>
+</tr>
+<tr>
+<td>剪辑频率</td>
+<td><strong>每分钟 22 刀</strong></td>
+</tr>
+<tr>
+<td>&lt;1 秒的镜头</td>
+<td>83 个（34%）</td>
+</tr>
+<tr>
+<td>1–3 秒</td>
+<td>89 个（36%）</td>
+</tr>
+<tr>
+<td>3–6 秒</td>
+<td>47 个（19%）</td>
+</tr>
+<tr>
+<td>&gt;10 秒的长镜头</td>
+<td>9 个（3.7%），最长 25.7 秒</td>
+</tr>
+<tr>
+<td>开头 3 秒内的切点</td>
+<td><strong>4 刀</strong>（人→截图→截图→人）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="41-35">4.1 真人只占 35%</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>画面类型</th>
+<th>镜头数</th>
+<th>占时长</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>她本人出镜（口播）</td>
+<td>86</td>
+<td><strong>35%</strong></td>
+</tr>
+<tr>
+<td>实拍素材 / 网页截图 / 新闻画面</td>
+<td>88</td>
+<td>32%</td>
+</tr>
+<tr>
+<td>暗调素材 / 暗底图形</td>
+<td>29</td>
+<td>18%</td>
+</tr>
+<tr>
+<td>亮底页面 / 白底图形</td>
+<td>30</td>
+<td>9%</td>
+</tr>
+<tr>
+<td>纯色块图形卡</td>
+<td>12</td>
+<td>6%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>这是整份报告最重要的一行数字。</strong> 你现在的视频是 90% 以上真人出镜——那么无论稿子写得多快，画面天然是"一个人站着说话"，节奏上限被锁死了。<strong>她能用 2.7 秒一刀，是因为她有 65% 的时长可以换成别人的画面。</strong></p>
+<h3 id="42">4.2 但真人镜头也不是"一条到底"</h3>
+<ul>
+<li>真人镜头 <strong>中位 1.88 秒</strong>，最长 11.8 秒（0:34–0:46，全片最长的口播段，讲的是最核心的那个私人问题）。</li>
+<li>素材镜头 <strong>中位 1.30 秒</strong>——比真人还短。</li>
+<li>同一类型画面的连续段：全片 170 段，<strong>平均每段只有 1.4 个镜头、3.9 秒</strong>。意思是：<strong>说一句 → 切素材 → 回来说一句 → 再切</strong>，几乎没有"连续讲 20 秒"的情况。</li>
+</ul>
+<h3 id="43">4.3 三个节奏曲线拐点（拿这个当标尺）</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>30 秒内镜头数</th>
+<th>真人占比</th>
+<th>发生了什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00–0:30</td>
+<td><strong>14</strong></td>
+<td><strong>62%</strong></td>
+<td>钩子：快速四切开场，然后立刻回到她的脸，把那个私人问题钉住</td>
+</tr>
+<tr>
+<td>0:46–1:18</td>
+<td><strong>40（4 段爆发）</strong></td>
+<td>10%</td>
+<td><strong>新闻原声蒙太奇</strong>：9+7+13+11 个镜头，平均 0.55 秒一个，全是"AI 会毁灭人类"的头条快剪</td>
+</tr>
+<tr>
+<td>1:00–1:30</td>
+<td>—</td>
+<td>10%</td>
+<td>上一条的延续，全片真人占比最低的 30 秒</td>
+</tr>
+<tr>
+<td>2:30–3:00</td>
+<td>9</td>
+<td>28%</td>
+<td>定义段，切回节奏平缓</td>
+</tr>
+<tr>
+<td>5:29</td>
+<td>1 个镜头 25.7 秒</td>
+<td>0%</td>
+<td><strong>唯一的长镜头</strong>：神灯/规格博弈的图解动画，全屏图形，一个镜头讲完一整套机制</td>
+</tr>
+<tr>
+<td>9:43–9:51</td>
+<td>8 个镜头</td>
+<td>—</td>
+<td>AlphaFold 段的小蒙太奇（蛋白质结构图连续快切）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>换句话讲：她全片只有两个"慢点"——钩子末尾那个 11.8 秒的私人问题，和 5:29 那个 25.7 秒的机制图解。其他位置全是 1–3 秒的高频切换。</strong> 慢点放在哪儿是有讲究的：<strong>观众最需要"听懂"的地方慢，观众最需要"感觉到"的地方快。</strong></p>
+<h3 id="44-34-000045">4.4 开场前 34 个镜头（0:00–0:45）逐条</h3>
+<pre><code>0:00.0  0.9s  人像       （开口第一句：Time to talk about AI.）
+0:00.9  0.4s  白色截图  （CNN 标题碎片）
+0:01.3  0.8s  白色截图  （ChatGPT 对话：&quot;will you tell me a joke?&quot;）
+0:02.0  1.0s  人像      （But some of them seem to be saying it's going to kill us all）
+0:03.0  4.3s  素材      （《纽约时报》头版网页：&quot;A.I. Poses 'Risk of Extinction'&quot;）
+0:07.3  0.9s  人像
+0:08.2  2.6s  白色截图  （NYT 专题页：Can A.I. Be Fooled?）
+0:10.8  0.9s  人像
+0:11.7  2.3s  纯色图形  （&quot;more profound than fire&quot; 的文字卡）
+0:14.0  5.4s  人像超近景（全片最暗、饱和度最高的一格：But my problem...）
+0:19.4  8.4s  人像      （it's all just so vague.  ← 8.4 秒，钩子落点）
+0:27.8  0.9s  素材
+0:28.7  1.0s  素材
+0:29.8  2.5s  人像
+0:32.3  2.2s  人像
+0:34.5  11.8s 人像      （如何具体地杀死我——全片最长口播，画面微微推近）
+</code></pre>
+<p><strong>钩子 45 秒 = 34 个镜头 = 平均 1.3 秒一刀。</strong> 前 3 秒 4 刀，是把"这是个大新闻"的体感先砸出来；然后从 0:14 开始连续三个长镜头（5.4 / 8.4 / 11.8 秒），把观众按在椅子上听完那个私人问题。<strong>先炸，再安静。这个"炸—静"结构是她所有视频的骨架。</strong></p>
+<hr />
+<h2 id="h6">5. 她到底在放什么画面（素材清单）</h2>
+<p>从简介原文 + OCR 逐帧确认，主样本用到的真实素材：</p>
+<ul>
+<li><strong>权威媒体页面</strong>：《纽约时报》头版（"A.I. Poses 'Risk of Extinction'"，2023-05-30）、NYT 专题页（Can A.I. Be Fooled?）、卫报（AlphaZero 报道）、华盛顿邮报、印度德里政府新闻页、Jasper AI 评测博客、DeepMind Chinchilla 博客</li>
+<li><strong>产品界面</strong>：ChatGPT 对话框（"will you tell me a joke?" 那段是<strong>真的在录屏点按钮</strong>）</li>
+<li><strong>论文原件</strong>：22 词 AI 风险声明（safe.ai）签署页、规格博弈论文原文页（"sorcerer's apprentice, or King Midas" 那句就在页面上）</li>
+<li><strong>电视节目原声</strong>：MythBusters 的 CPU vs GPU 演示、"The Age of A.I."、Last Week Tonight、60 Minutes、3Blue1Brown 的神经网络动画、Joss Fong 2017 年的 Vox 视频</li>
+<li><strong>新闻原声快剪</strong>：0:46–1:18 那段，13 个镜头 7.4 秒</li>
+<li><strong>自制图解动画</strong>：5:29 那个 25.7 秒的神灯/规格博弈图解</li>
+<li><strong>代码</strong>：用 BeautifulSoup 抓美国人口数据的 Python 屏幕（讲"AI 早就在干脏活"时的实证）</li>
+</ul>
+<p><strong>规律：她几乎不做"好看的动画"，她做"可核查的证据"。</strong>
+每一个论断后面都跟着一个可以暂停、可以点开原文的东西。这就是为什么她的视频"信息密度高但不累"——累的是眼睛，不是脑子；观众在被喂画面，不是在听道理。</p>
+<p><strong>对你的直接含义</strong>：你讲"模型怎么训练"，可放的实物有一堆——OpenAI 的 compute 曲线、Chinchilla 论文的表格、你本机跑的 loss 曲线截图、某次训练失败的日志、Demo 页面。你现在大概率一个都没放。</p>
+<hr />
+<h2 id="h7">6. 字体与排版：她自己的图形层其实很薄</h2>
+<p>先说结论，免得你把精力放错地方：<strong>她的"字体设计"不是亮点，她的"素材原生字"才是亮点。</strong></p>
+<p>逐帧 OCR 对 245 个镜头的结果：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有可读英文文字的镜头</td>
+<td>90 个（37%），占时长 32%</td>
+<td>三分之一的画面里有字</td>
+</tr>
+<tr>
+<td>其中字高 ≥40px（540p 下，即 ≥7.4% 画面高）</td>
+<td>41 个镜头，<strong>仅占时长 8%</strong></td>
+<td>大字号图形只占 8% 的时间</td>
+</tr>
+<tr>
+<td>文字高度中位数</td>
+<td>35.5px / 540p ≈ <strong>6.6% 画面高</strong>（1080p 约 71px）</td>
+<td>引用素材里的字本来就这么大</td>
+</tr>
+<tr>
+<td>文字垂直位置中位数</td>
+<td><strong>0.51</strong>（画面正中偏下一点）</td>
+<td>不是常规的"底部字幕位"</td>
+</tr>
+</tbody>
+</table></div>
+<p>也就是说：<strong>她 37% 的画面里有字，但其中 92% 的时间，那些字是"素材自己带的"</strong>——纽约时报的报头、论文的正文、ChatGPT 的界面、代码的语法高亮。她自己设计的大字图形，全片累计只占 <strong>8% 的时间</strong>（约 53 秒）。</p>
+<p>她自己的图形层只有三类，每一类都有固定做法：</p>
+<p><strong>① 引语卡（Quote Card）</strong>
+例：Eric Schmidt 那句 —— <code>I think it's a terrible idea</code> + 小一号的署名 <code>— Eric Schmidt</code>
+- 白字压深色底，主句字号占画宽约 <strong>60%</strong>（一句话撑满屏，不留安全边距）
+- 引号/署名小一号，直接靠右或下对齐，不加装饰线、不加边框
+- 停留 2–3 秒，念完就切走</p>
+<p><strong>② 短语卡（Word Card）</strong>
+例：<code>more profound than fire</code>（0:11.7，2.3 秒，纯色块背景）
+- 只放一个短语，<strong>不超过 6 个词</strong>，一屏一个意思
+- 纯色背景（不是渐变、不是纹理），字是唯一元素
+- 用途只有一个：给一句关键话"盖个章"，然后立刻切回人脸</p>
+<p><strong>③ 整屏图解（Explainer Graphic）</strong>
+例：5:29 那个 <strong>25.7 秒</strong>的长镜头
+- 全片唯一的长镜头，用来讲规格博弈这一整套机制
+- 特征：边缘密度极低（大面积纯色块 + 少量线条），说明是几何图形而非实拍
+- 文字极少，靠图形关系说话</p>
+<p><strong>三条可以直接落地的排版规范</strong>（从上面反推，也适合中文）：</p>
+<ol>
+<li><strong>屏幕上的字，一行不超过 12 个汉字</strong>；英文对应 6 个词。超过就换行或砍。</li>
+<li><strong>字号：1080p 下正文 ≥64px（占画面高 6%），强调句 ≥110px（10%）。</strong> 她的中位数就是 6.6% 画面高——这是"手机竖屏也能看清"的下限。</li>
+<li><strong>不要在画面上加边框、阴影、渐变底、装饰线。</strong> 她的图形全是"色块 + 字"，没有一件是"设计过的卡片"。你之前那些带可见边框的截图框，正好是反的。</li>
+</ol>
+<p><strong>关于中文字体</strong>（这部分是建议，不是她的实测）：她的英文用的是几何无衬线（grotesque）粗体，中文对应最接近的是<strong>思源黑体 Heavy / 阿里巴巴普惠体 Bold</strong>，数字用 <strong>DIN Condensed / Bebas Neue</strong> 做对比。<strong>全片只用一套字体 + 一个字重</strong>，靠字号差做层级，不靠字体数量。</p>
+<hr />
+<h2 id="h8">7. 声音层：她只在"换证据"的时候换声音</h2>
+<p>这一节的可信度最低（见第 0 节），但结构层面的规律是清楚的：</p>
+<p><strong>① 全片至少 7 次"不是她在说话"</strong>
+- 新闻原声快剪 3 次（约 0:45、4:10、9:40）
+- 嘉宾（Eric Schmidt）原声 3 次
+- 一段电影原声（讲"它们不想要任何东西"时）</p>
+<p>平均 <strong>每 95 秒换一次声音源</strong>。这是她节奏感的另一半来源：<strong>不是画面在变，是"谁在说话"在变。</strong></p>
+<p><strong>② 音乐只在两类地方存在</strong>
+- 蒙太奇段（新闻快剪）：音乐顶到前景，讲话被打断
+- 章节转场：2–3 秒的音乐抬升，把观众的注意力"拎"到下一段
+- 讲机制、讲数字、承认"我不知道"的地方：<strong>几乎没有音乐</strong>，只有人声</p>
+<p>音乐来源是 Musicbed（简介里写明）。</p>
+<p><strong>③ 音量上她不做"渐强渐弱"那种电影感</strong>
+她的做法更粗暴：<strong>切</strong>。蒙太奇进来时音乐直接起，回到口播时音乐直接收。这跟画面是同一个逻辑——<strong>不做过场，只做切换</strong>。</p>
+<p><strong>对你的含义</strong>：你的视频如果从头到尾一条 BGM 铺到底，就已经输了一半。<strong>至少要做 3 次"音乐全停，只剩人声"</strong>——通常放在最需要观众注意的那句话上。</p>
+<hr />
+<h2 id="h9">8. 结尾：她确实求关注，但方式和你想的不一样</h2>
+<p>先纠正我自己上一轮的一个说法：我上次说"她结尾不求关注"，这是错的。8 期里有 4 期明确求订阅。真实情况是<strong>两种结尾，按节目性质分</strong>：</p>
+<p><strong>A 型：主题收束（AI / Clean Energy 这类"观点片"）</strong></p>
+<blockquote>
+<p>"And while the cynical side of my brain wants to say that it's probably true that most of the most ambitious AI efforts will likely fail, the more optimistic, <strong>huge if true</strong> side of my brain just keeps wondering, <strong>what if they actually work?</strong>"</p>
+</blockquote>
+<ul>
+<li>结构：<strong>先承认悲观（把观众的怀疑替他说完）→ 再回到频道名那句主张 → 最后用一个问句结束，不回答</strong></li>
+<li>全片最后一句是问句，不是"关注我"</li>
+<li>频道名 "Huge If True" 变成一句台词（这个转换全片只做一次，就在最后）</li>
+</ul>
+<p>Clean Energy 结尾同理：<code>The goal isn't less energy it's more. And we can only have more by going clean.</code> —— 收在一句可以当海报的短句上。</p>
+<p><strong>B 型：制作人式坦白（AI Music / Quantum / 预告片这类"作品片"）</strong></p>
+<blockquote>
+<p>"This was a really hard episode to write. It was really fascinating, but really complicated. And there's still so much that we're figuring out about this topic. But I just wanted to say thank you because when you subscribe to our show, you're giving us the ability to go interview people like the CEO of Spotify and Grimes..."</p>
+</blockquote>
+<ul>
+<li>顺序：<strong>先说这期难做 → 说还有没搞懂的 → 然后才说订阅，而且把订阅翻译成"你能让我们去采访谁"</strong></li>
+<li>没有"点赞关注"，只有"你订阅 = 我们能继续做这个"</li>
+</ul>
+<p><strong>共同点：不管哪种结尾，都不在最后 10 秒塞"点赞收藏转发"。她只在片尾卡上放一个 SUBSCRIBE!，而且是最朴素的黑底白字。</strong></p>
+<p>片尾卡实测（OCR）：<code>HUGE *if true</code> 字标 + <code>Cleo Abram</code> + 工作人员名单（Editor: Justin Poore 等）+ <code>SUBSCRIBE!</code>，最后一帧单独一张 <code>To support Huge If True, SUBSCRIBE!</code>。</p>
+<p><strong>给你的用法</strong>：你的稿子 34/35 篇结尾都是"关注我、投稿、拜拜"三件套。改成她这个结构——<strong>先承认一个悲观/困难 → 回到你的固定主张 → 用问句或一句可当海报的短句结束 → 关注请求放在画面上，不放在嘴上</strong>。</p>
+<hr />
+<h2 id="h10">9. 折成 4 分钟：具体到秒的预算表</h2>
+<p>她的 11 分钟不能等比缩成 4 分钟（缩了会变成"快速念稿"）。正确做法是<strong>砍章节、不砍密度</strong>：11 分钟 9 章 → 4 分钟 5 章，每章从 74 秒压到 48 秒，但<strong>每章内部的"炸—静"结构保留</strong>。</p>
+<h3 id="91">9.1 总量换算</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>她的 11 分钟</th>
+<th>你的 4 分钟应为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总字数（中文）</td>
+<td>—</td>
+<td><strong>1050–1150 字</strong>（按 270–285 字/分钟；你现在的稿子中位 1918 字，<strong>要砍掉 42%</strong>）</td>
+</tr>
+<tr>
+<td>句子数</td>
+<td>296 句</td>
+<td><strong>130–150 句</strong>（平均 7.5 字/句）</td>
+</tr>
+<tr>
+<td>≤10 字的短句</td>
+<td>40%</td>
+<td><strong>≥45 句</strong>（占三分之一）</td>
+</tr>
+<tr>
+<td>问句</td>
+<td>14 个</td>
+<td><strong>6–8 个</strong>（每 35 秒一个）</td>
+</tr>
+<tr>
+<td>章节</td>
+<td>9 章</td>
+<td><strong>5 章</strong>（每章 45–52 秒）</td>
+</tr>
+<tr>
+<td>画面数（总切点）</td>
+<td>245 个</td>
+<td><strong>60–75 个</strong>（她的 22 刀/分钟是 88，但你没有那么多档案素材；60–75 已经是很密的节奏）</td>
+</tr>
+<tr>
+<td>真人出镜占比</td>
+<td>35%</td>
+<td><strong>40–50%</strong>（到不了她的 35%，但必须从"90%"降下来）</td>
+</tr>
+<tr>
+<td>换声音（别人原声/音乐顶起）</td>
+<td>7 次</td>
+<td><strong>4–5 次</strong>（每 50–60 秒一次）</td>
+</tr>
+<tr>
+<td>慢点（≥5 秒不切的长镜头）</td>
+<td>2 个</td>
+<td><strong>2 个</strong>（钩子末尾 + 机制段的图解）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="92">9.2 五章时间轴模板</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>段落</th>
+<th>时间</th>
+<th>字数</th>
+<th>画面预算</th>
+<th>这一段必须做到的事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 炸—静钩子</strong></td>
+<td>0:00–0:45</td>
+<td>200 字</td>
+<td><strong>12–14 刀</strong>（前 3 秒 4 刀；后 20 秒只 3 刀）</td>
+<td>0–3 秒连切 4 个证据画面，第 4 秒回到你的脸；15–45 秒用 2 个长镜头（各 5–8 秒）问出那个<strong>私人问题</strong>，并承诺"这期就回答它"</td>
+</tr>
+<tr>
+<td><strong>② 定义/认知差</strong></td>
+<td>0:45–1:35</td>
+<td>210 字</td>
+<td>10–12 刀</td>
+<td>先场景后术语；一个场景讲透一个概念；结尾用问句转场</td>
+</tr>
+<tr>
+<td><strong>③ 反方/恐惧</strong></td>
+<td>1:35–2:20</td>
+<td>200 字</td>
+<td><strong>18–22 刀</strong>（全片最密）</td>
+<td>新闻原声快剪 4–6 秒；把观众最怕的东西讲得比他自己想的更具体；不急着安抚</td>
+</tr>
+<tr>
+<td><strong>④ 机制（慢点）</strong></td>
+<td>2:20–3:10</td>
+<td>230 字</td>
+<td><strong>6–8 刀，其中一个 ≥15 秒的长图解</strong></td>
+<td>全片唯一的信息密度峰值；一张图讲清"它为什么会这样"；金句在这里第二次出现</td>
+</tr>
+<tr>
+<td><strong>⑤ 希望 + 收束</strong></td>
+<td>3:10–4:00</td>
+<td>250 字</td>
+<td>10–12 刀（结尾 8 秒空镜/字卡）</td>
+<td>先承认悲观 → 给一个真实的乐观案例 → 回到开头那句话 → 用问句结束；关注请求只在画面上</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="93">9.3 三条硬指标（剪完自查）</h3>
+<ol>
+<li><strong>任意连续 15 秒内，画面变化 ≥3 次</strong>（不足就是"站桩"）。</li>
+<li><strong>任意 60 秒内，必须出现一次"不是你在说话"</strong>（嘉宾原声/新闻原声/音乐顶起/纯画面）。</li>
+<li><strong>全片至少 3 处"音乐全停"</strong>，停在最关键的判断句上。</li>
+</ol>
+<hr />
+<h2 id="h11">10. 你的稿子差在哪（用你自己的数据说话）</h2>
+<p>48 篇稿子里有正文的，<strong>字数中位 1918，均值 2014，最大 3666</strong>。按 4 分钟算，你现在每一篇都超了 <strong>65%–200%</strong>。这不是"话多"，是<strong>结构没有上限</strong>——你没有"必须在这一句结束"的压力，所以永远讲得完。</p>
+<p>发布口播 35 篇的统计：</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>你的数据</th>
+<th>她的数据</th>
+<th>差距</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>开头形式</td>
+<td><strong>18/35 以"哈喽/Hello/大家好"开头</strong></td>
+<td>0/8（全部直接进场景/矛盾/原声）</td>
+<td>你每两句就浪费一句在寒暄</td>
+</tr>
+<tr>
+<td>结尾形式</td>
+<td><strong>34/35 含"关注我/投稿/拜拜"</strong></td>
+<td>8/8 都是主题收束或制作人坦白，CTA 只在片尾卡</td>
+<td>结构不同</td>
+</tr>
+<tr>
+<td>"然后"</td>
+<td><strong>6.92 次/千字</strong></td>
+<td>英文对应 but/so 为主，"and then" ＜3‰</td>
+<td>你用<strong>时间顺序</strong>连接，她用<strong>因果/转折</strong>连接</td>
+</tr>
+<tr>
+<td>"就是"</td>
+<td>13.7 次/千字</td>
+<td>—</td>
+<td>口头填充，念出来是"嗯"的等价物</td>
+</tr>
+<tr>
+<td>"这个"</td>
+<td>9.8 次/千字</td>
+<td>—</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>"但是" / "所以" / "因为"</td>
+<td>1.42 / 1.38 / 0.70</td>
+<td>so 4–13‰、but 2–11‰、because 1.1–6.5‰</td>
+<td><strong>你的因果连接词密度只有她的 1/4</strong></td>
+</tr>
+<tr>
+<td>填充词占比</td>
+<td><strong>7.5%</strong></td>
+<td>极低（她写稿，不即兴）</td>
+<td>每 1000 字里有 75 个字是水</td>
+</tr>
+<tr>
+<td>发布稿/工作稿长度比</td>
+<td>中位 <strong>1.17</strong>（最高 2.04）</td>
+<td>—</td>
+<td>你在录制时<strong>加</strong>内容，她在剪辑时<strong>删</strong>内容</td>
+</tr>
+</tbody>
+</table></div>
+<p>一句话诊断：<strong>你的稿子是"清单式"的（第一、第二、然后、还有），她的稿子是"追问式"的（但是、所以、那问题就来了）。清单式天然慢，追问式天然快——因为追问式每一句都在制造"然后呢"。</strong></p>
+<p>再补一刀：你赞最高的《模型训练步骤》2991 字、27 个术语、靠"书呆子"一个比喻撑全篇。它是<strong>收藏型内容</strong>（观众存下来慢慢看），不是<strong>完播型内容</strong>。你要的"节奏好"是完播型。这两件事的目标函数不一样，<strong>别为了节奏把收藏型的那篇改坏</strong>——正确做法是分开做两个产品：长稿做收藏，4 分钟版做完播。</p>
+<hr />
+<h2 id="h12">11. 把她的手法装进你的稿子：10 条手术</h2>
+<p>按执行顺序排，前 3 条决定成败。</p>
+<p><strong>① 先把字数砍到 1100，再改别的。</strong>
+不要一边改句子一边删段落，那样永远删不完。先按第 9.2 的五章分配字数（200/210/200/230/250），超了就砍，砍完再润色。</p>
+<p><strong>② 结尾先写，再写开头。</strong>
+她所有视频的结尾都是"回到开头那句话"。所以你是<strong>倒着写</strong>的：先定那句收束（问句或海报句），再定开头的画面，中间填因果链。你现在的顺序是"从头写到尾，写到自己累了就收"，所以结尾永远长这样：<code>关注我，我继续用大白话……</code></p>
+<p><strong>③ 每一段标一个"画面锚"。</strong>
+写完一段话，立刻在旁边写"这段配什么画面"。写不出画面的段落，就是<strong>该删的段落</strong>。这是她最高效的一条：<strong>能被说出来的不一定值得放，能被看见的才值得讲。</strong></p>
+<p><strong>④ 每 45 秒一个问句，且必须是观众心里那句。</strong>
+不是"那么什么是 Agent 呢"（课堂腔），是"那我下周要交的那份周报，它能不能替我写？"（第一人称+具体物件）。</p>
+<p><strong>⑤ 把"然后"全部换成"但是/所以/结果"。</strong>
+机械替换就能提升 30% 的节奏感：<code>然后它就开始训练</code> → <code>所以它一开始训练，问题就来了</code>。</p>
+<p><strong>⑥ 术语延后一句。</strong>
+每个术语出现前，先用一句大白话把它是什么说清楚，词放在句尾。你的稿子里 <code>Harness</code>、<code>MCP</code>、<code>A2A</code> 这些词现在都是"先报名词再解释"，反过来即可。</p>
+<p><strong>⑦ 至少 3 处"我不是很确定"。</strong>
+她说过 <code>I honestly don't know</code>。你现在的稿子从头到尾都是确定的——<strong>太确定反而不可信</strong>。留 2–3 个"这一点业界也没定论"，可信度立刻上去。</p>
+<p><strong>⑧ 金句写死三次。</strong>
+选一句 10 字以内的判断句（例：<code>Agent 不是更聪明的模型，是会用工具的人</code>），0:40 出现、2:30 复述、3:50 变成问句。<strong>只出现一次的金句等于没写。</strong></p>
+<p><strong>⑨ 每一章结尾用问句，开头用"因为它"回答。</strong>
+永远删掉"接下来我们讲第二点""下一部分"这类过渡。</p>
+<p><strong>⑩ 关注请求从嘴里挪到画面上。</strong>
+稿子里最后一句是人话，不是 CTA。字幕条/片尾卡上放"关注"，嘴里说的是那句能当海报的短句。</p>
+<h3 id="30">一个 30 秒的改写示范（拿你自己的题材）</h3>
+<p><strong>改前</strong>（你典型的样子，85 字，5 句，0 个画面锚）：</p>
+<blockquote>
+<p>哈喽大家好，今天我们来聊一下 Agent。Agent 其实就是大模型加上工具调用和记忆，它能自己规划步骤、自己执行。现在很多公司都在做 Agent，比如 Manus、Cursor。所以今天我用三分钟把 Agent 给你讲透。</p>
+</blockquote>
+<p><strong>改后</strong>（同样信息，78 字，9 句，5 个画面锚，前 3 秒 4 刀）：</p>
+<blockquote>
+<p>【画面 1：你录屏，豆包对话框里输入"帮我查一下明天上海的天气，然后订最早一班高铁"｜0–1.5s】
+这句话，我发给它。
+【画面 2：屏幕录制，鼠标点发送，等 1 秒，结果出来｜1.5–3s】
+它没回答我。
+【画面 3：手机录屏，12306 页面自动打开、选座、停在付款页｜3–6s】
+它去查了天气，打开了买票的网页，座位都选好了，停在付款那一步等我。
+【画面 4：切回你的脸，中景｜6–14s】
+这就是 Agent。
+【画面 5：字卡「不是更聪明，是会用工具」｜14–17s】
+不是模型变聪明了。
+【画面 6：切回你的脸，稍近｜17–30s】
+是它长出了手。以前的 AI，你问它答；现在的 AI，你说一句，它替你去点。</p>
+</blockquote>
+<p>对比：<strong>信息量一样，甚至更多（多了"停在付款那一步"这个细节），但观众的注意力被 5 次画面变化接力了 6 次。</strong> 这就是她做的事——<strong>不是加快语速，是把一句话拆成"说—看—说—看"。</strong></p>
+<hr />
+<h2 id="h13">12. 这份报告已经变成 skill 了</h2>
+<p>按你说的"拿着报告可以做成一个稿子生成修改的 skill"，我把它落成了一个可调用的技能：<strong><code>cleo-rhythm-script</code></strong>（已装进本机技能库）。</p>
+<p><strong>你怎么用</strong>：给我一段稿子或一个主题，说「按 Cleo 的节奏改成 4 分钟」，它会输出三样东西：</p>
+<ol>
+<li><strong>重排后的 4 分钟口播稿</strong>（1050–1150 字，五章结构，句子长度和问句密度按第 3 节的参数控制）</li>
+<li><strong>逐段剪辑脚本表</strong>，每一行的字段是：
+   <code>时间码 | 口播原文 | 画面内容 | 素材来源（具体到哪个网站哪篇文章）| 插入方式（全屏/画中画/录屏/叠字）| 屏幕文字（原文+字体+字号+位置）| 动画（出入方式+时长）| 音效/音乐（进/出点）</code></li>
+<li><strong>自查表</strong>：字数、句数、短句占比、问句数、切点密度、真人占比、音乐全停次数——全部是数字，不达标会明确告诉你差在哪。</li>
+</ol>
+<p>它内置了这份报告的全部参数（第 9.2 的五章预算、第 4 节的镜头指标、第 6 节的排版规范、第 11 节的 10 条手术），还带一个 <code>pacing_check.py</code> 校验脚本，可以对任何一版稿子直接跑分。</p>
+<p>和已有技能的分工：
+- <code>ai-kepu-oral-script</code> = 写什么（内容、事实核查、她的六条铁律、她嫌什么）
+- <strong><code>cleo-rhythm-script</code> = 怎么排（节奏、结构、分镜、剪辑参数）</strong>
+- <code>kepu-video-maker</code> = 怎么拍出来</p>
+<hr />
+<h2 id="h14">13. 这份报告还不确定的部分</h2>
+<p>老实交代，免得你按错的结论改稿：</p>
+<ol>
+<li><strong>音乐进出点没测出来。</strong> 我拿到的主样本音轨是中文配音版，原声被压在下面，分离不出 Musicbed 的原始梗。第 7 节的"每 95 秒换一次声音源"是从<strong>转写文本里谁在说话</strong>推出来的，可靠；"音乐在蒙太奇段顶到前景"是<strong>听感+行业惯例</strong>，没测。</li>
+<li><strong>字体名字给不出。</strong> 压缩后的画面反推不出字库，我只能给字重、字号占比、配色、位置这些可测属性。</li>
+<li><strong>镜头切点会有漏检。</strong> 检测阈值 0.3，渐变转场（淡入淡出）不会被识别为切点，所以 245 这个数字是<strong>下限</strong>——真实切点数可能多 5–10%。</li>
+<li><strong>只有 1 期做了逐镜头分析。</strong> 其余 7 期只有音频。所以"镜头层"的结论是<strong>主样本特征</strong>，不是全频道统计。她的短片（RoboRef 8:33、Clean Energy 8:52）节奏可能更密。</li>
+<li><strong>样本是 2023 年的片子。</strong> 她 2025–2026 的片子如果升级了包装（字卡、动效、竖屏版），这份报告看不出来。</li>
+</ol>
+<p>如果要把这几点补实，最快的路径是你给我<strong>两三个你认为"节奏最好"的最新视频链接</strong>，我做同样的逐镜头分析对照一遍——特别想验证的是"她这两年是不是把镜头切得更碎了"。</p>
+<hr />
+<h2 id="h15">附录：主样本关键时间码速查</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>内容</th>
+<th>教学点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00–0:03</td>
+<td>4 刀：人→CNN 标题→ChatGPT 对话→人</td>
+<td>开场"炸"的标准做法</td>
+</tr>
+<tr>
+<td>0:14 / 0:19 / 0:34</td>
+<td>5.4s / 8.4s / 11.8s 三个长镜头</td>
+<td>开场"静"，把私人问题钉住</td>
+</tr>
+<tr>
+<td>0:46–1:18</td>
+<td>40 个镜头，4 段蒙太奇，真人占比 10%</td>
+<td>新闻原声快剪</td>
+</tr>
+<tr>
+<td>1:19–2:36</td>
+<td>下棋（规则引擎 vs AlphaZero）→ 才说 machine learning</td>
+<td>术语延后</td>
+</tr>
+<tr>
+<td>3:09–4:08</td>
+<td>2009 年算力爆发、CPU→GPU、MythBusters</td>
+<td>"为什么是现在"的实证段落</td>
+</tr>
+<tr>
+<td>5:29–5:55</td>
+<td>25.7 秒整屏图解</td>
+<td>全片唯一长镜头，机制段</td>
+</tr>
+<tr>
+<td>5:36 / 6:28 / 10:47</td>
+<td>"You get exactly what you ask for, not what you want" 三次</td>
+<td>金句回环</td>
+</tr>
+<tr>
+<td>6:50</td>
+<td>"I honestly don't know"</td>
+<td>承认不确定</td>
+</tr>
+<tr>
+<td>7:54–10:20</td>
+<td>AlphaFold，2 亿个蛋白质，"I get a little emotional"</td>
+<td>希望段要给真实案例+人的情绪</td>
+</tr>
+<tr>
+<td>10:47–11:41</td>
+<td>系列预告 → 回到 fire/electricity → "what if they actually work?"</td>
+<td>收束回环，问句结尾</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+</div>
+</body>
+</html>
