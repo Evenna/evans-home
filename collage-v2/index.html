@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>循环架构 · 纸拼贴 v2 样片</title>
+<style>
+body{margin:0;background:#EDE6D6;color:#14100C;font-family:"PingFang SC","Noto Sans CJK SC",sans-serif}
+.w{max-width:1200px;margin:0 auto;padding:48px 24px 80px}
+.k{font:13px/1 monospace;letter-spacing:.24em;color:#1E3C8C;text-transform:uppercase}
+h1{font-size:44px;font-weight:900;letter-spacing:-.02em;margin:12px 0 8px}
+p{line-height:1.7;color:#3a332a}
+video{width:100%;display:block;background:#000;margin:24px 0 8px;box-shadow:0 18px 40px rgba(20,16,12,.25)}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.g figure{margin:0}.g img{width:100%;display:block}.g figcaption{font:12px monospace;color:#6b6152;margin-top:4px}
+ul{line-height:1.9;padding-left:20px}
+.note{background:#F6F1E4;padding:18px 22px;border-left:4px solid #1E3C8C;margin-top:28px}
+</style></head><body><div class="w">
+<div class="k">样片 · v2 · 纸拼贴引擎</div>
+<h1>循环架构：同一组权重，走三遍</h1>
+<p>1920×1080 · 25fps · 49 秒 · 18 镜 · 无配音、无配乐（只看画面节奏）</p>
+<video src="collage_v2.mp4" controls playsinline preload="metadata"></video>
+<div class="note">
+<b>这一版改了什么</b>
+<ul>
+<li><b>真实素材</b>：从 PPT 版的 9 段增加到 42 张真实视频静帧（Mixkit 实拍：城市、硬币、印钞机、棋盘、电路板、服务器、墨水、地图、实验室…），全部做成撕纸边 + 纸边 + 双色调 + 网点的拼贴卡片</li>
+<li><b>颜色分工</b>：红只给一种角色（要么强调字，要么标注线），代码里写死了校验，同一镜两种红撞在一起就直接报错不让渲染；线条默认用钴蓝，第三色芥末黄只给「核心段 / 徽章」</li>
+<li><b>动效</b>：纸片带模糊入场、快切蒙太奇、盖章撞击、手绘线逐笔描出、胶片条滚动、24 层逐层生长 + 循环箭头、数据条拉伸、大字逐行升起、全程胶片颗粒</li>
+</ul>
+<b>已知问题（下一版修）</b>：01 镜标题压到了照片卡片上；03 镜数字票据行距太挤；08 镜胶片条间距太密；10 镜文字压在照片上。修法已经定好，等你确认这个方向对再改。
+</div>
+<h2 style="margin-top:40px">逐镜静帧</h2>
+<div class="g" id="g"></div>
+</div>
+<script>
+const names=["01 拼贴开场","02 快切蒙太奇","03 票根数据","04 撕缝对切","05 动态大字","06 盖章","07 遮罩揭示","08 胶片条","09 循环示意","10 照片标注","11 票据双坑","12 贴纸条形图","13 四格蒙太奇","14 金句","15 大字撞印","16 地图","17 回扣问题","18 收束"];
+document.getElementById('g').innerHTML=names.map((n,i)=>{const id=String(i+1).padStart(2,'0');
+return `<figure><img src="stills/s${id}.jpg" loading="lazy"><figcaption>${n}</figcaption></figure>`}).join('');
+</script>
+</body></html>
