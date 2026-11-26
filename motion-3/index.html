@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>动效样片 · 三篇稿子的分镜实现</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="row">
+      <div>
+        <h1>动效样片 <em>/</em> 三篇稿子的分镜实现</h1>
+        <p>Real footage × Motion graphics · 1920×1080 · 25fps · 9 种镜头类型</p>
+      </div>
+      <div class="tc" id="tc">0:00 / 0:00</div>
+    </div>
+  </header>
+
+  <div class="bar" id="tabs"></div>
+
+  <div class="stagewrap">
+    <div class="stage" id="stage"></div>
+    <div class="pbar" id="pbar"></div>
+  </div>
+
+  <div class="bar" style="margin-top:14px">
+    <button class="btn" id="play">▶ 播放</button>
+    <button class="btn" id="prev">← 上一镜</button>
+    <button class="btn" id="next">下一镜 →</button>
+    <button class="btn" id="grid">安全框</button>
+    <div class="spacer"></div>
+    <div class="tc">空格 播放 / ← → 切镜 / 点下方场景条直接跳</div>
+  </div>
+
+  <div class="strip" id="strip"></div>
+
+  <section>
+    <h3 class="t">A · 素材表</h3>
+    <h2 class="h">每一镜配的实拍素材，链接都可直接打开</h2>
+    <p class="sub">全部来自 Mixkit 免费库（Free License，可商用、免署名），已下载、统一调色为“低饱和冷灰”并切成 7 秒 25fps 的片段，和矢量动效叠在同一层里。点“来源”里的链接能看到原片页面和直链 mp4；要换素材，改 <code>clips/</code> 里同名文件即可，代码不用动。</p>
+    <div id="tables"></div>
+  </section>
+
+  <section>
+    <h3 class="t">B · 动效规范</h3>
+    <h2 class="h">为什么它看起来「贵」：四件事</h2>
+    <p class="sub">不是加特效，是把动画当成版式在做——固定的栅格、固定的层级、固定的一条缓动曲线，每个元素都在同一个节奏里进入。</p>
+    <div class="two">
+      <div class="card">
+        <h4>01 栅格与安全框</h4>
+        <p>所有画面统一 112px 内边距、96px 文案边距，顶部一条 1px 发丝线 + 镜号/时间码。打开「安全框」能看到裁切边界——竖版重构图时直接按这个框重排，不用重新设计。</p>
+        <div class="kv">padding 96–112px ／ 顶栏 46px ／ 发丝 1px</div>
+      </div>
+      <div class="card">
+        <h4>02 只有一条缓动曲线</h4>
+        <p>入场一律 <code>cubic-bezier(.16,1,.3,1)</code>（强收尾的 ease-out），文字用 mask 上推 118%→0，行间错开 85ms。全片只有“上推”“淡入”“横向展开”三种动作，重复出现才形成质感。</p>
+        <div class="kv">rise .82s ／ fade .7s ／ stagger 85ms</div>
+      </div>
+      <div class="card">
+        <h4>03 实拍先降饱和再压黑</h4>
+        <p>素材统一 <code>saturate(.62) contrast(1.1) brightness(.72)</code>，再叠一层自上而下的黑veil与左上角的红色径向光。这样无论素材冷暖，拼在一起都像同一支片子的素材。</p>
+        <div class="kv">grayscale .18 ／ veil 62–96% ／ 红径向 .20</div>
+      </div>
+      <div class="card">
+        <h4>04 一屏一个主张</h4>
+        <p>每镜只允许一个视觉主角：要么一句话，要么一组数字，要么一张图。图形镜（架构图/条形/清单）不落实拍，改用纸色底 + 颗粒——这是节奏上的“呼吸位”，全片每 2–3 镜出现一次。</p>
+        <div class="kv">9 类镜头 ／ 3.4–6.4s ／ 纸色底：夜景 ≈ 1:2</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <h4>色板</h4>
+      <p>一个主色、一个强调色、两层中性。强调色只用来指“重点/危险/结论”，一屏最多两处。</p>
+      <div class="sw">
+        <i style="background:#0B0C0E"><span>NIGHT 0B0C0E</span></i>
+        <i style="background:#101112"><span>INK 101112</span></i>
+        <i style="background:#F4F0E8"><span>PAPER F4F0E8</span></i>
+        <i style="background:#22406B"><span>BLUE 22406B</span></i>
+        <i style="background:#D2402B"><span>RED D2402B</span></i>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <h4>字体</h4>
+      <p>正文与标题：PingFang SC / 思源黑体（系统字体，不加载网络字体，避免国内打开时闪字）。数字与元信息：等宽字体，字距 .16em 的大写小字就是“设计感”的来源——它们不承载信息，只承载秩序。</p>
+      <div class="kv">H1 112px / 700 · 金句 96px / 700 · 正文 24–28px / 400 · 元信息 13–15px 等宽</div>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="t">C · 怎么用</h3>
+    <h2 class="h">三条路，看你手上有什么</h2>
+    <div class="two">
+      <div class="card">
+        <h4>A 直接录屏</h4>
+        <p>全屏播放，QuickTime 录屏 1920×1080，逐镜录下来就是 B-roll。慢动作/加速在剪辑里做，别在网页里做。</p>
+      </div>
+      <div class="card">
+        <h4>B 我导出成 mp4</h4>
+        <p>说一句，我用无头浏览器按 25fps 逐帧截图再编码，给你每条 1080p 无声片段，直接拖进剪映时间线对口播。</p>
+      </div>
+      <div class="card">
+        <h4>C 只要素材链接</h4>
+        <p>上面表格里的“直链 mp4”就是 Mixkit 的原始文件地址，随时可下载；换成你自己的素材只要覆盖 <code>clips/&lt;镜名&gt;.mp4</code>。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>动效样片 v1 · 2026-11</span>
+    <span>Footage: Mixkit Free License · Graphics: original CSS/SVG</span>
+  </footer>
+</div>
+
+<script src="scenes.js"></script>
+<script src="app.js"></script>
+<script>
+  // 按舞台宽度算 --s，保证 1920×1080 版式在任意尺寸下等比
+  const st = document.getElementById("stage");
+  const fit = () => st.style.setProperty("--s", (st.clientWidth / 1920).toFixed(5));
+  new ResizeObserver(fit).observe(st); fit();
+</script>
+</body>
+</html>
