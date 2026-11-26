@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>后三篇 · 节奏改稿 v2</title>
+<style>
+:root{--ink:#111;--sub:#6b6b6b;--line:#e3e0da;--bg:#faf8f4;--red:#E8402A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:9;background:rgba(250,248,244,.95);backdrop-filter:blur(10px);
+border-bottom:1px solid var(--line);padding:18px 24px 0}
+h1.page{margin:0 0 4px;font-size:22px;font-weight:800;letter-spacing:.4px}
+p.sub{margin:0 0 12px;color:var(--sub);font-size:13px}
+.tabs{display:flex;gap:6px;overflow-x:auto}
+.tab{border:0;background:none;padding:10px 14px 12px;cursor:pointer;text-align:left;
+border-bottom:3px solid transparent;color:var(--sub);font-family:inherit;white-space:nowrap}
+.tab:hover{color:var(--ink)}.tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+.tab .n{display:block;font-size:15px;font-weight:700}
+.tab .m{display:block;font-size:12px;margin-top:2px;color:#9a948c}
+main{max-width:840px;margin:0 auto;padding:30px 24px 130px}
+.pane{display:none}.pane.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin:0 0 20px}
+.kicker{font-size:12px;letter-spacing:2px;color:#9a948c;font-weight:700;margin-bottom:12px;text-transform:uppercase}
+.lead{margin:0 0 16px;font-size:16px}
+h3{font-size:19px;font-weight:800;margin:34px 0 12px}
+h3:first-of-type{margin-top:6px}
+.card h3{margin-top:6px}
+.tc{display:inline-block;font-size:12px;font-weight:600;color:#8a8478;background:#f4f1ea;
+padding:2px 9px;border-radius:20px;margin-left:8px;vertical-align:2px;letter-spacing:.3px}
+p{margin:0 0 13px}
+p.note{font-size:14px;color:#8a8478;background:#f7f4ee;border-left:3px solid #ddd7cc;
+padding:9px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+ul.diag,ol.rules,ol.open{padding-left:20px;margin:0 0 6px}
+ul.diag li,ol.rules li,ol.open li{margin:0 0 11px}
+ul.diag b,ol.rules b{font-weight:700}
+ol.rules li{margin-bottom:14px}
+table.cmp{width:100%;border-collapse:collapse;margin:14px 0 0;font-size:14px}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+table.cmp th{background:#f6f3ed;font-weight:700;font-size:13px}
+table.cmp td.v1{color:#9a948c}table.cmp td.v2{font-weight:700}
+p.fine{font-size:13.5px;color:#8a8478;margin:16px 0 0;line-height:1.8}
+@media(max-width:600px){body{font-size:16px}main{padding:20px 14px 90px}.card{padding:18px 16px}}
+</style></head><body>
+<header>
+<h1 class="page">后三篇 · 节奏改稿 v2</h1>
+<p class="sub">照 Cleo Abram 那套讲法重写：诊断 → 六条规则 → 逐篇改动 → 全文</p>
+<div class="tabs"><button class="tab active" data-t="fde"><span class="n">① FDE 课程</span><span class="m">1094 字 · 成片 4:23</span></button><button class="tab" data-t="dou"><span class="n">② 小豆 Personal Agent</span><span class="m">1058 字 · 成片 4:15</span></button><button class="tab" data-t="loop"><span class="n">③ Loop Transformer</span><span class="m">1205 字 · 成片 4:47</span></button></div>
+</header>
+<main>
+<div class="card">
+<div class="kicker">先说清楚在学她什么</div>
+<p class="lead">你听出来的三件事——语气自然、问题抓人、讲得深——拆开其实是六个可以照做的动作。前 20 秒不给自己声音，是「自然」的来源；问句稀疏且长在章节交界，是「抓人」的来源；每章一条现象→机制→代价，是「深刻」的来源。</p>
+
+<div class="card">
+<h3>这六条，就是「像她那样讲」的全部可执行部分</h3>
+<ol class="rules">
+<li><b>前 20 秒不给自己的声音。</b>先用别人的声音和画面把事实垒起来，第 21 秒才开口。开口第一句是<b>私人反应</b>，可以是错的、可以是小气的：「我第一反应是，这不就是卖课吗。」</li>
+<li><b>句子的长度要长短交替。</b>中位 14–15 字，每三四句必须砸一句 10 字以内的短句。她的原声里，短句是用来落地的，不是用来耍酷的。</li>
+<li><b>问句要稀。</b>4 分钟只有 5–6 个，每一个都长在章节交界上，用来拖下一章，不用来装热闹。</li>
+<li><b>每章一条机制链：现象 → 为什么（机制）→ 代价。</b>只讲「是什么」是介绍，讲到「为什么」才叫干货。数字单独成句：「十万字，两份，显存直接翻倍。」</li>
+<li><b>至少三处人味：</b>替观众说出怀疑、承认自己一开始以为错了、承认自己不知道。三处都不能省——这是可信度的来源，不是装饰。</li>
+<li><b>结尾给尺子，不给答案。</b>最后一个问题必须是观众自己才能回答的具体问题，不是「你怎么看」。</li>
+</ol>
+<p class="fine">参数来自对 Cleo Abram 十期节目的实测（含那期 5:14 的短片）。你贴的这条是她的《What We Get Wrong About AI》。YouTube 现在拦自动取字幕，所以这版是对着她<b>已被量化的节奏参数</b>改的，不是逐句模仿这一条。</p>
+</div>
+
+</div>
+
+<section id="fde" class="pane active">
+  <div class="card">
+    <div class="kicker">诊断 · 对照实测</div>
+    <p class="lead">v1 标称 3:40，实测口播只有 543 字 ≈ 2:00——虚标 1 分 40 秒。 现在的口播 <b>1094 字</b>，按 4.5 字/秒折合 <b>4:03</b>，加上 20 秒冷开场，成片 <b>4:23</b>。</p>
+    <ul class="diag"><li>**一开口就是文案体。** v1 第一句是「Anthropic 砸了一亿美元，要养一万个人。」——砸、养，两个动词都很好，可它不是人说话，是广告词。听众第一秒感到的是被推销，不是被邀请。</li><li>**问句只有 2 个，全在钩子里。** 正片四分钟一次没问过。结构是靠「第一步、第二步」撑起来的，那是说明书，不是讲述。</li><li>**干货停在「是什么」。** 五步讲得清，但每一步都只说了怎么做，没说为什么这么做会死人。第四步到第五步之间直接跳了，最难的「熬过头三十天」一句带过。</li><li>**结尾是标语。**「那个人，现在是你吗？」——好听，但观众不用想就能点头，点完头什么也不会变。</li></ul>
+    <table class="cmp"><thead><tr><th>指标</th><th>v1</th><th>v2</th></tr></thead><tbody><tr><td>字数</td><td class='v1'>543 字</td><td class='v2'>1094 字</td></tr><tr><td>句数</td><td class='v1'>45 句</td><td class='v2'>75 句</td></tr><tr><td>中位句长</td><td class='v1'>11 字</td><td class='v2'>14 字</td></tr><tr><td>问句</td><td class='v1'>2</td><td class='v2'>6</td></tr><tr><td>「你」密度</td><td class='v1'>9.2‰</td><td class='v2'>9.1‰</td></tr><tr><td>但是/所以/因为</td><td class='v1'>2</td><td class='v2'>12</td></tr><tr><td>最长句</td><td class='v1'>30 字</td><td class='v2'>34 字</td></tr></tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="kicker">开场 · 0:00–0:20 逐秒</div>
+    <ol class="open"><li>0:00–0:06｜官方课程页静音录屏，字幕打出课程里的原话一句（不冒充原声）</li><li>0:06–0:13｜招聘页上 Forward Deployed Engineer 的岗位描述，用 TTS 念，画面角落标「我们念的」</li><li>0:13–0:20｜发布会或播客里提到「一万人」那句原声（需自行获取；拿不到就做数字大字卡 + 一记闷响）</li><li>0:20｜第一句人声：「这期我想认真聊一件事。」</li></ol>
+  </div>
+
+  <div class="card">
+    <div class="kicker">改了哪五处</div>
+    <ul class="diag"><li>**开场第 21 秒才说话，第一句是私人反应。**「我第一反应是，这不就是卖课吗。」——先把自己摆在观众那一侧，再往下讲。这句是整篇最重要的改动：它承认了怀疑，后面的话才有人听。</li><li>**把「AI 的产出单位不是模型，是被改写的流程」立成全片主梁。** 这句话一给，五步就不再是教程目录，而是「流程怎么被改」的五个台阶。</li><li>**第五步补上机制。** 加了「这一周最难，因为大家还没习惯多问一句」＋「熬过头三十天，这个流程就真的换了主人」——从动作升级成原因。</li><li>**加了一层判断，并标明是判断。**「一亿美元买的是这些人装进客户公司的那套默认架构」——渠道即标准。紧接一句「这个判断对不对？我也不知道」，把可信度交出去。</li><li>**结尾换成两问，第二问是硬的。**「谁敢在那张验收单上签字。没人签，这件事就还没开始。」——这问观众必须自己想，而且答案会让他不舒服。</li></ul>
+  </div>
+
+  <div class="card">
+    <div class="kicker">口播全文 · v2</div>
+    <h3>钩子 <span class="tc">0:20–0:49 · 134 字</span></h3><p>这期我想认真聊一件事。</p><p>Anthropic 花一亿美元，说要让一万个人学会用它的模型。</p><p>我第一反应是，这不就是卖课吗。</p><p>后来我把那十一门课翻了一遍，九个半小时。</p><p>一节教你怎么训练模型的都没有。</p><p>全是教你怎么把已经训好的模型，塞进一家公司里。</p><p>这个岗位有名字，叫 FDE，前线部署工程师。</p><p>一门&quot;装模型&quot;的课，凭什么值一亿美元？</p><p>这期就回答这一件事。</p><h3>为什么值钱 <span class="tc">0:49–1:29 · 179 字</span></h3><p>先说一个可能不太顺耳的结论。</p><p>企业现在不缺模型。</p><p>那缺什么？</p><p>因为模型能干的活，已经过剩了。</p><p>缺的是把它接进报销、接进客服工单、接进那套跑了二十年的老数据库的人。</p><p>所以这一亿美元买的不是智能。</p><p>是被改掉的流程。</p><p>这句话你可以记一下：AI 的产出单位不是模型，是被改写的流程。</p><p>所以流程改没改，不看演示，看验收单上有没有人签字。</p><p>这就解释了为什么它招的不是研究员。</p><p>研究员让模型变强，FDE 让公司变样。</p><p>两者不冲突，但价值不在一个地方。</p><h3>五步 <span class="tc">1:29–2:54 · 382 字</span></h3><p>那这门课到底教什么？</p><p>五个步骤，我拆给你听。</p><p>但先说清楚，五步不是并列的。</p><p>第一步和第五步决定成败，中间三步是手艺。</p><p>第一步，划边界。</p><p>哪些活全给 AI，哪些人机配合，哪些老老实实写死。</p><p>课里给了四个问题：分工、描述、甄别、把关。</p><p>为什么这一步最要命？</p><p>因为一上来把所有事都甩给它，看着最激进，其实最省事。</p><p>最省事的那一步，通常也是出事的那一步。</p><p>第二步，选模型。</p><p>别一上来就换最贵的。</p><p>先把思考力度调高试一遍，跑通了，再拿一批测试题换便宜的小模型。</p><p>这办法很土。</p><p>但它把&quot;感觉行&quot;变成了&quot;测过行&quot;。</p><p>第三步，进代码库。</p><p>读一遍、定方案、人点头、再动手、测试过才提交。</p><p>规矩死板得要命。</p><p>但是代码库这种地方，死板就是安全。</p><p>第四步，连数据。</p><p>MCP 当插座：能改的做成工具，只读的做成资源，常问的做成模板。</p><p>再把岗位套路打成 Skill，按需加载，权限白名单锁死。</p><p>到这一步，模型才算真的有了手。</p><p>第五步，交差。</p><p>先量旧账，再定验收，切一小块跑试点。</p><p>最后把工具塞进每周例会。</p><p>这一周最难，因为大家还没习惯多问一句&quot;这个能不能让 AI 先做&quot;。</p><p>但是熬过头三十天，这个流程就真的换了主人。</p><h3>反方 <span class="tc">2:54–3:52 · 261 字</span></h3><p>可是九个小时看完，不等于你会做。</p><p>课里每一步都写着&quot;人确认&quot;。</p><p>方案要人点头，验收要人拍板，出了事是人背。</p><p>所以这门课真正筛的不是技术。</p><p>是你敢不敢替客户做决定。</p><p>我一开始以为这是话术，后来发现它是成本结构。</p><p>模型的错误可以重跑，流程的错误要有人负责。</p><p>所以责任，是这套东西里唯一不能自动化的部分。</p><p>再往深说一层，这句是我的判断，不是官方说法。</p><p>一亿美元买的不只是人，是这些人在客户公司里装的那套默认架构。</p><p>谁的插座先被焊上，后来的模型就顺着谁的插座插。</p><p>所以这更像一次标准之争，只是它穿着培训的外衣。</p><p>这个判断对不对？我也不知道。</p><p>但是你能看一个信号：三年后那些公司换模型的时候，是换插头，还是连插座一起拔。</p><h3>收束 <span class="tc">3:52–4:23 · 138 字</span></h3><p>最后说点实在的。</p><p>十一门里，偏交付的三门只对合作伙伴开放。</p><p>核心八门，公开免费。</p><p>所以你现在就能看，一分钱不花。</p><p>尺子很简单。</p><p>别问&quot;AI 能干什么&quot;，这个问题已经没意义了。</p><p>问你公司里，第一个该被接进 AI 的流程是哪一个。</p><p>然后问第二句，这句更难：谁敢在那张验收单上签字。</p><p>没人签，这件事就还没开始。</p><p>模型不缺，缺焊它进流程的人。</p><p>那个人，现在是你吗？</p>
+  </div>
+</section>
+<section id="dou" class="pane">
+  <div class="card">
+    <div class="kicker">诊断 · 对照实测</div>
+    <p class="lead">v1 标称 4:18，实测 853 字 ≈ 3:12——虚标 1 分 06 秒。 现在的口播 <b>1058 字</b>，按 4.5 字/秒折合 <b>3:55</b>，加上 20 秒冷开场，成片 <b>4:15</b>。</p>
+    <ul class="diag"><li>**「你」密度 36.3‰，是她本人的 2.4 倍。** 通篇「你得给、它弹你、买单的是你」，读起来像 App 推广页。第二人称是武器，一分钟用十次就变成骚扰。</li><li>**问句 3 个全挤在开头 40 秒。** 钩子问完就不问了，后面四分钟是通报。观众没有可以跟着走的疑问，只能被动接收。</li><li>**三件事讲成了三个卖点。** 记忆、后台、电话，各一段，每段都在说「它能什么」，没有一段回答「凭什么能做到」。</li><li>**风险段是并列三道槛。** 拿不到、做不全、收不回——三条平行线，最后没有收成一个后果。</li></ul>
+    <table class="cmp"><thead><tr><th>指标</th><th>v1</th><th>v2</th></tr></thead><tbody><tr><td>字数</td><td class='v1'>853 字</td><td class='v2'>1058 字</td></tr><tr><td>句数</td><td class='v1'>56 句</td><td class='v2'>71 句</td></tr><tr><td>中位句长</td><td class='v1'>14 字</td><td class='v2'>14 字</td></tr><tr><td>问句</td><td class='v1'>3</td><td class='v2'>5</td></tr><tr><td>「你」密度</td><td class='v1'>36.3‰</td><td class='v2'>15.1‰</td></tr><tr><td>但是/所以/因为</td><td class='v1'>4</td><td class='v2'>11</td></tr><tr><td>最长句</td><td class='v1'>33 字</td><td class='v2'>35 字</td></tr></tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="kicker">开场 · 0:00–0:20 逐秒</div>
+    <ol class="open"><li>0:00–0:04｜应用商店搜「小豆」，结果为空，只剩「未找到」</li><li>0:04–0:09｜邀请码页面截图（打码），输入框空着</li><li>0:09–0:14｜评论区一条「字节疯了吧」，TTS 念（画面标「网友评论」）</li><li>0:14–0:20｜豆包图标与一个新图标并排，静音，只留环境音</li><li>0:20｜第一句人声：「十一月二十四号，字节上线了一个新 App，叫小豆。」</li></ol>
+  </div>
+
+  <div class="card">
+    <div class="kicker">改了哪五处</div>
+    <ul class="diag"><li>**把「你」压到 15.1‰，改用「人 / 自己 / 用户」。** 该刺激的地方才用「你」：金句、验收、结尾那一问。</li><li>**补上最硬的一条机制链：请求响应 → 事件驱动。**「每一轮动作的开关，都攥在用户手里……小豆把开关交出去了。」开关这个比喻一给，三件事就变成了同一件事。</li><li>**给代打电话找到了真正的位置。**「真实世界里大量长尾服务根本没有接口，只有一个电话号码」——所以语音不是花活，是最后一层兼容。这是全篇最能经得起内行怼的一句。</li><li>**三道槛收成一个结论。**「这不是产品缺陷，这是它的商业模式。」——把用户感受到的不方便，翻译成厂商的设计意图。</li><li>**结尾那问改成「那你愿意让它记住多少？」** 去掉一个「你」，问题反而更重：数量比意愿更难回答。</li></ul>
+  </div>
+
+  <div class="card">
+    <div class="kicker">口播全文 · v2</div>
+    <h3>钩子 <span class="tc">0:20–0:43 · 107 字</span></h3><p>十一月二十四号，字节上线了一个新 App，叫小豆。</p><p>我看到这名字的时候愣了一下。</p><p>豆包还在，用户比它多，模型比它好，生态比它全。</p><p>为什么还要再造一个？</p><p>我花了两天，把邀请制版本用了一遍，也把海外的同类翻了一圈。</p><p>我的答案是：它不是在跟豆包抢聊天。</p><p>它在抢一个开关。</p><h3>机制：开关 <span class="tc">0:43–1:12 · 130 字</span></h3><p>先看它把什么反过来了。</p><p>我们用过的 AI 聊天软件，都是被动的。</p><p>你问一句，它答一句。</p><p>手机一锁，它就停工。</p><p>所以每一轮动作的开关，都攥在用户手里。</p><p>这叫什么？请求响应。</p><p>你说一句，它动一下。</p><p>小豆把开关交出去了。</p><p>人不说话的时候，它在后台看、在算、等着那一下。</p><p>从&quot;人问它&quot;变成&quot;它找人&quot;。</p><p>所以这一个字的改动，后面所有的麻烦都跟着来。</p><h3>三件真事 <span class="tc">1:12–2:06 · 242 字</span></h3><p>具体三件事。</p><p>第一件，记忆。</p><p>换 AI 最劝退的，是重新交代一遍你是谁。</p><p>小豆能接过你在豆包里攒的偏好和工作背景。</p><p>一上来就认识你。</p><p>第二件，它替你盯着。</p><p>授权之后，它能接抖音、飞书、高德、日历、健康、自如、网盘，还有 Wind。</p><p>不用人问。</p><p>团购券快到期，它弹出来；关注的东西降价，它发过来；日程撞车，它提前标出来。</p><p>第三件，代打电话。</p><p>想订一家没开线上预约的餐厅，以前得自己翻号码。</p><p>现在你说一句，它自己找号、打过去、问清楚、订好，再把结果汇报给你。</p><p>第三件最值得说，因为它最难。</p><p>因为真实世界里，大量长尾服务根本没有接口，只有一个电话号码。</p><p>所以想让 AI 进这个世界，就得让它开口。</p><p>所以这不是花活，这是补最后一层兼容。</p><h3>三条路线 <span class="tc">2:06–2:48 · 187 字</span></h3><p>那为什么是大厂在做，而且各家做的不一样？</p><p>因为它们赌的不是同一个东西。</p><p>Meta 的 Muse 赌&quot;云端一台电脑&quot;。</p><p>给每个用户配一台云端虚拟电脑，跨周异步，App 关掉它还在里面干活。</p><p>但是代价是安全边界，海外实测已经踩过雷。</p><p>阿里的千问 Go 赌&quot;生态&quot;。</p><p>内嵌在主 App 里，绑淘宝、本地生活、出行，专治保价、退换货、航班理赔这些消费痛点。</p><p>字节的小豆赌&quot;独立产品&quot;。</p><p>把最激进的主动记忆、跨 App、代打电话，先放进一个独立 App 里试。</p><p>官方说过，跑通了会融回豆包。</p><p>它不是豆包的替代品。</p><p>因为它是豆包的试验田。</p><h3>三道槛 <span class="tc">2:48–3:48 · 274 字</span></h3><p>夸完了，说三道槛。</p><p>第一道，拿不到。</p><p>今天开的是邀请制，要邀请码，靠拉好友换额度。</p><p>为什么不敢全量放开？后台二十四小时盯任务、不停调工具跑推理，那个算力成本比聊天高一个数量级。</p><p>第二道，做不全。</p><p>代打电话现在只限境内生活服务。</p><p>商家口音、临时改价、要报验证码，这些突发情况演示里看不出来。</p><p>从演示惊艳到次次靠谱，中间还有很长的路。</p><p>第三道，最该警惕的：你交出去的，收不回来。</p><p>想让它好用，你得给飞书文档、抖音订单、日历、下单权限。</p><p>给得越多，它越懂人。</p><p>可一旦理解错了、电话里说错了话，买单的是你。</p><p>但是更麻烦的是，这套体验越好，人越不想换。</p><p>行为历史存在一家公司的服务器上，换一家，等于从零开始重新认识。</p><p>记忆越长，你越走不掉。</p><p>这不是产品缺陷，这是它的商业模式。</p><h3>收束 <span class="tc">3:48–4:15 · 118 字</span></h3><p>所以拿到邀请码，先别放权。</p><p>先拿三件小事试：查降价、整理飞书资料、问餐厅有没有空位。</p><p>每次只盯一件事——涉及花钱、涉及对外打电话的时候，它有没有把最后那道确认留给人。</p><p>摸清脾气，再慢慢加。</p><p>尺子就一句：</p><p>它替你做决定之前，还会不会问你一句。</p><p>记忆越长，你越走不掉。</p><p>那你愿意让它记住多少？</p>
+  </div>
+</section>
+<section id="loop" class="pane">
+  <div class="card">
+    <div class="kicker">诊断 · 对照实测</div>
+    <p class="lead">v1 标称 4:22，实测 1027 字 ≈ 3:48——基本对得上，是最扎实的一篇。 现在的口播 <b>1205 字</b>，按 4.5 字/秒折合 <b>4:27</b>，加上 20 秒冷开场，成片 <b>4:47</b>。</p>
+    <ul class="diag"><li>**17 个问句，密到像审问。** 平均每 13 秒一个反问，观众刚想跟就被下一个问题推走。问句的价值在稀疏，不在多。</li><li>**「你」只有 3.9‰，几乎不出现。** 讲得清楚，但没有一处把听众拽进来——这是一篇好讲解，不是一次好交谈。</li><li>**死穴出现得太晚。** 数值爆炸、显存翻倍这两个真好奇点，被埋在机制后面。</li><li>**「办公楼」比喻只用了一次。** 能撑起全片的比喻，只服务了定义段。</li></ul>
+    <table class="cmp"><thead><tr><th>指标</th><th>v1</th><th>v2</th></tr></thead><tbody><tr><td>字数</td><td class='v1'>1027 字</td><td class='v2'>1205 字</td></tr><tr><td>句数</td><td class='v1'>68 句</td><td class='v2'>77 句</td></tr><tr><td>中位句长</td><td class='v1'>15 字</td><td class='v2'>15 字</td></tr><tr><td>问句</td><td class='v1'>17</td><td class='v2'>6</td></tr><tr><td>「你」密度</td><td class='v1'>3.9‰</td><td class='v2'>4.1‰</td></tr><tr><td>但是/所以/因为</td><td class='v1'>5</td><td class='v2'>12</td></tr><tr><td>最长句</td><td class='v1'>36 字</td><td class='v2'>35 字</td></tr></tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="kicker">开场 · 0:00–0:20 逐秒</div>
+    <ol class="open"><li>0:00–0:06｜11/20 发布页缓推，日期与模型名清晰</li><li>0:06–0:12｜11/23 发布页，刻意用完全相同的版式</li><li>0:12–0:16｜技术论坛里一句「这不是循环网络的翻版吗」，TTS 念（标注不是原声）</li><li>0:16–0:20｜两张页面缩成两个小方块并排，一根线连起来，静音</li><li>0:20｜第一句人声：「十一月二十号那几天，我在时间线上连着刷到两条发布。」</li></ol>
+  </div>
+
+  <div class="card">
+    <div class="kicker">改了哪五处</div>
+    <ul class="diag"><li>**问句从 17 压到 6，剩下的每一个都留着接下一章。** 问句不再是修辞，是结构件。</li><li>**补上宏观的账：两条老路都到了钝处。**「再往上盖，边际收益在掉；再往宽铺，显存先撑不住。」——循环架构不是新发明，是被逼回来的。这一句让全片有了时代感。</li><li>**把「两个死穴」提前，并且给出可验证的门控细节。** 阀门自己决定开多大 + 训完自发分工（第一遍捋全局、第二遍写结论），这是可以复述给别人的干货。</li><li>**加了一句照妖镜。**「这个机制在继续训练的时候就打开了……以后看到谁说自己循环，先问这一句。」——观众带走的不只是知识，是一把能用的尺子。</li><li>**结尾从「取决于你等不等得起」推进到「你手上那个场景，等得起吗？」** 同一句话，从陈述变成提问，思考才落地。</li></ul>
+  </div>
+
+  <div class="card">
+    <div class="kicker">口播全文 · v2</div>
+    <h3>钩子 <span class="tc">0:20–0:38 · 83 字</span></h3><p>十一月二十号那几天，我在时间线上连着刷到两条发布。</p><p>一条是一个很小的开源模型，一条是智谱的新旗舰。</p><p>参数差了快三十倍，架构是同一个。</p><p>我第一反应是巧合。</p><p>但把两边的东西都看完之后，我觉得不是。</p><h3>三条路 <span class="tc">0:38–1:21 · 195 字</span></h3><p>先说背景，不然后面听不懂。</p><p>过去几年让模型变聪明，主要两条路。</p><p>第一条，往高里盖。</p><p>一层一层往上堆，每多一层，就多买一整套参数。</p><p>楼越高越聪明，也越贵。</p><p>第二条，往宽里铺，也就是 MoE。</p><p>每层坐一排专家，来一个字，只叫醒两三个。</p><p>省了算力，但是工位还得占着。</p><p>现在这两条路都到了钝的地方。</p><p>再往上盖，边际收益在掉。</p><p>再往宽铺，显存先撑不住。</p><p>第三条路就有人回去看了。</p><p>楼不盖那么高，中间挑一段，走完再走一遍。</p><p>同一组权重，用三次。</p><p>这条路叫循环架构。</p><p>它不新，三十年前就有人想过，但是没商用过。</p><h3>真实设计 <span class="tc">1:21–1:58 · 165 字</span></h3><p>看两个真实设计。</p><p>Inkling 2 Mini，物理上二十四层，中间十二层跑三遍。</p><p>二十四层的身子，四十八层的思考深度，参数一个没多存。</p><p>所以权重压下来只有二十个 G，三十二 G 的 Mac 就能跑，社区量化到五点四 G。</p><p>GLM-5.4 更巧。</p><p>它不从零训循环，因为以前试过，同等算力打不过普通模型。</p><p>它拿训好的底座，挑出二十八层，让这二十八层共享权重跑两遍。</p><p>参数没怎么涨，深度翻倍。</p><p>记住两个数：十二层跑三遍，二十八层跑两遍。</p><p>钥匙都在&quot;共享权重&quot;这四个字上。</p><h3>两个死穴 <span class="tc">1:58–3:48 · 494 字</span></h3><p>听到这儿你该皱眉了。</p><p>同一个地方走两遍，两个问题躲不开。</p><p>第一，数值不会越滚越大，最后炸掉吗？</p><p>第二，跑两遍要存两份状态，长文本显存不就爆了？</p><p>这两个坑，正是循环架构十几年没商用的原因。</p><p>GLM 的解法，一个很土，一个很聪明。</p><p>先说土的：阀门。</p><p>第一遍算完，不直接倒进第二遍。</p><p>每个字配一个门控，自己决定开多大。</p><p>像麦克风对着音箱，不加阀门，声音就会啸叫。</p><p>更有意思的是训完之后，它自己长出了分工。</p><p>第一遍阀门开得小，先捋全局；第二遍开大，把推理结果写进去。</p><p>遇到特别难的字，第一遍就多开一点。</p><p>再说聪明的：混合缓存。</p><p>先说缓存是什么。</p><p>它不是文字笔记，是每个字在每一层算出来的两组向量，生成新字时靠它们算注意力。</p><p>普通模型跑一遍，十万字存十万个位置，够了。</p><p>但因为循环两遍，第二遍每个字的状态都变了，按最直白的做法得再存一整套。</p><p>十万字，两份，显存直接翻倍。</p><p>GLM 怎么办？</p><p>它把第二遍要看的东西拆成远近两块。</p><p>远的，不重算，直接复用第一遍存好的重点位置。</p><p>近的，只对眼前一小段重新算，框跟着阅读进度往后滑。</p><p>算的时候，远近拼在一起算。</p><p>那新旧向量混着算，不会对不上吗？</p><p>能对上。同一组权重、同一个阀门，向量本来就在相近的空间里。</p><p>但是更关键的一点，很多人会漏掉：这个机制在继续训练的时候就打开了。</p><p>所以模型是真练出来的，不是推理时硬套上去的。</p><p>这句话是照妖镜，以后看到谁说自己&quot;循环&quot;，先问这一句。</p><h3>代价 <span class="tc">3:48–4:18 · 137 字</span></h3><p>但是它不是免费午餐。</p><p>它做了一笔很清醒的交换：用算力时间，换显存和参数。</p><p>层数没变，权重没多存，可一个字要在里面转两圈、三圈，计算量省不掉。</p><p>所以它最大的短板是慢。</p><p>GLM 给了好几档思考强度，但开发者反馈，开到高强度偶尔会在小任务上长考，甚至超时。</p><p>所以到今天，开源权重还没放出来，只能走官方入口。</p><p>这波更像方向验证，还不是终局。</p><h3>收束 <span class="tc">4:18–4:47 · 131 字</span></h3><p>但从端侧小模型到超大旗舰，正在殊途同归。</p><p>因为堆参数的边际收益越来越低，在架构上抠深度，会变成常规选项。</p><p>所以给你一把尺子。</p><p>下次看到&quot;参数没涨但更强&quot;，先别急着信。</p><p>问一句：它多花了多少时间？</p><p>延迟换来的深度，你的场景吃不吃得下。</p><p>它用时间换空间。</p><p>这笔账划不划算，取决于你等不等得起。</p><p>你手上那个场景，等得起吗？</p>
+  </div>
+</section>
+</main>
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');document.getElementById(b.dataset.t).classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});});
+</script></body></html>
