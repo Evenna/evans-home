@@ -1,0 +1,57 @@
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Bebas;src:url(fonts/bebas.ttf)}
+@font-face{font-family:JBM;src:url(fonts/jbm.ttf)}
+:root{--bg:#0D0E11;--fg:#F2EDE4;--dim:rgba(242,237,228,.55);--coral:#E5673F;--cool:#7FB2FF;--gold:#E9B44C;
+  --cn:"Noto Sans CJK SC",sans-serif;--en:Anton,"Noto Sans CJK SC",sans-serif;--mono:JBM,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);font-family:var(--cn);color:var(--fg)}
+.persp{position:absolute;inset:0;perspective:1500px;perspective-origin:50% 50%;transform-style:preserve-3d}
+.world{position:absolute;left:960px;top:540px;width:0;height:0;transform-style:preserve-3d}
+.n{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform,opacity}
+.flat{transform-style:flat}
+.vid{display:block;width:100%;height:100%;object-fit:cover}
+.panel{overflow:hidden;background:#111;box-shadow:0 40px 120px rgba(0,0,0,.55)}
+.panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,17,0) 40%,rgba(13,14,17,.55));pointer-events:none}
+.panel.clean::after{display:none}
+.cn{font-family:var(--cn);font-weight:900;letter-spacing:-.04em;line-height:1.08;white-space:nowrap}
+.en{font-family:var(--en);letter-spacing:.005em;line-height:.9;white-space:nowrap}
+.mono{font-family:var(--mono);font-size:18px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.co{color:var(--coral)}.go{color:var(--gold)}.cl{color:var(--cool)}
+.hl{background:var(--coral);color:var(--bg);padding:0 .14em;margin:0 .04em}
+.hlc{background:var(--fg);color:var(--bg);padding:0 .14em;margin:0 .04em}
+.word{display:inline-block;will-change:transform,opacity}
+.line{display:block;height:2px;background:var(--cool);transform-origin:0 50%}
+.box{border:2px solid rgba(242,237,228,.85)}
+/* 全局后期层 */
+.post{position:absolute;inset:0;pointer-events:none;z-index:50}
+.vign{background:radial-gradient(ellipse at 50% 48%,rgba(0,0,0,0) 58%,rgba(0,0,0,.42) 100%)}
+.grain{mix-blend-mode:overlay;opacity:.16;background-size:1920px 1080px}
+.leak{mix-blend-mode:screen;opacity:0}
+.flash{background:#fff;opacity:0;mix-blend-mode:normal}
+.bars{background:linear-gradient(#000 0 0) top/100% 0 no-repeat,linear-gradient(#000 0 0) bottom/100% 0 no-repeat}
+.hud{position:absolute;left:96px;top:64px;z-index:60}
+.hud2{position:absolute;left:96px;top:104px;z-index:60}
+.tc{position:absolute;right:96px;bottom:56px;z-index:60}
+.chk{display:inline-block;width:30px;height:30px;border-radius:50%;background:var(--cool);color:var(--bg);
+  font:900 20px/30px var(--cn);text-align:center;margin-right:18px}
+
+.hud,.hud2,.tc{background:rgba(13,14,17,.62);color:rgba(242,237,228,.85);padding:6px 12px;border-radius:3px;font-size:14px}
+.card{background:#0D0E11;color:#F2EDE4;border-radius:14px;box-shadow:0 30px 80px rgba(20,14,8,.35);overflow:hidden}
+.cream{background:#F6F1E4;color:#14100C;border-radius:14px;box-shadow:0 30px 80px rgba(20,14,8,.3)}
+.ink{color:#14100C}
+.sticker{background:#E5673F;color:#fff;border-radius:10px;padding:.08em .28em;box-shadow:0 18px 40px rgba(120,40,20,.35)}
+.talk{position:absolute;overflow:hidden}
+.talk img{position:absolute;display:block}
+.subsafe{position:absolute;left:0;right:0;bottom:0;height:150px;border-top:1px dashed rgba(229,103,63,.0)}
+
+.scene{position:absolute;inset:0}
+.talk{position:absolute;overflow:hidden;display:none}
+.talk img{position:absolute;max-width:none}
+.plate{z-index:0;background:#000}.pb{z-index:1}.cut{z-index:2}.pf{z-index:3}
+.plate.bd{box-shadow:0 0 0 4px #F2EDE4,0 30px 70px rgba(0,0,0,.5)}
+.sub{position:absolute;left:0;right:0;bottom:58px;text-align:center;z-index:70;font:700 42px/1.3 var(--cn);color:#fff;
+  text-shadow:0 2px 0 rgba(0,0,0,.55),0 0 18px rgba(0,0,0,.55);letter-spacing:.02em;padding:0 240px;white-space:normal}
+.glass{background:rgba(13,14,17,.78);backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);color:#F2EDE4}
+.paper{background:#F6F1E4;color:#14100C;border-radius:16px;box-shadow:0 26px 60px rgba(40,25,10,.28)}
+.ink{color:#14100C!important}

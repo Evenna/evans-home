@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><title>FDE 口播合成 · 源码实时预览</title>
+<link rel="stylesheet" href="engine.css">
+<style>
+html,body{background:#111;overflow:auto!important;margin:0}
+#wrap{position:relative;margin:0 auto;transform-origin:0 0}
+#bar{position:fixed;left:0;right:0;bottom:0;background:rgba(10,10,12,.92);color:#eee;font:14px/1 monospace;display:flex;gap:12px;align-items:center;padding:10px 16px;z-index:999}
+#bar input{flex:1}#bar button{font:inherit;padding:6px 14px;cursor:pointer}
+</style></head>
+<body><div id="wrap"><div id="stage"></div></div>
+<div id="bar"><button id="pp">▶ 播放</button><input id="sk" type="range" min="0" max="1" step="0.04" value="0"><span id="tc">0.00s</span><span id="sh"></span></div>
+<script src="frames.js"></script><script src="engine.js"></script><script src="v3lib.js"></script><script src="shots.js"></script>
+<script>
+(()=>{
+__init();
+const W=document.getElementById('wrap'),st=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,(innerHeight-60)/1080);st.style.transform=`scale(${s})`;st.style.transformOrigin='0 0';W.style.width=1920*s+'px';W.style.height=1080*s+'px'}
+addEventListener('resize',fit);fit();
+const sk=document.getElementById('sk'),tc=document.getElementById('tc'),pp=document.getElementById('pp'),sh=document.getElementById('sh');
+sk.max=__total;let T=+(new URLSearchParams(location.search).get('t')||0),play=false,last=0;
+function show(){__seek(T);sk.value=T;tc.textContent=T.toFixed(2)+'s / '+__total.toFixed(1)+'s';const s=__shots.filter(x=>x.t0<=T).pop();sh.textContent=s?`#${String(s.i+1).padStart(2,'0')} ${s.mode}`:''}
+sk.oninput=()=>{T=+sk.value;show()};
+pp.onclick=()=>{play=!play;pp.textContent=play?'❚❚ 暂停':'▶ 播放';last=performance.now()};
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();pp.click()}});
+(function loop(n){if(play){T+= (n-last)/1000;if(T>=__total){T=0}}last=n;show();requestAnimationFrame(loop)})(performance.now());
+})();
+</script></body></html>
