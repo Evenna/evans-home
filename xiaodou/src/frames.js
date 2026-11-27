@@ -1,0 +1,1 @@
+window.SEQ={"unlock":150,"resto":150,"clouds":140,"plane":150,"salepage":150,"dcnight":150,"callwoman":150};

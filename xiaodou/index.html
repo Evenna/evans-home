@@ -1,0 +1,465 @@
+<!doctype html><html lang=zh><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>小豆 · 竖版口播 + 动画 分镜与样片</title><style>
+body{margin:0;background:#0D0E11;color:#F2EDE4;font:15px/1.65 -apple-system,"PingFang SC","Noto Sans CJK SC",sans-serif}a{color:#7FB2FF}
+.w{max-width:1080px;margin:0 auto;padding:32px 20px 80px}h1{font-size:28px;margin:0 0 6px}h2{font-size:20px;margin:34px 0 10px}.d2{color:rgba(242,237,228,.55);font-size:13px}
+.top{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}video{width:360px;max-width:100%;aspect-ratio:9/16;border-radius:10px;background:#000}.top>div{flex:1;min-width:280px}
+.lg{display:flex;gap:14px;align-items:center;margin:10px 0}.tl{display:flex;height:16px;border-radius:3px;overflow:hidden;gap:1px;margin:8px 0}
+.box{background:rgba(242,237,228,.05);padding:14px 18px;border-radius:6px;margin-top:14px}
+table{width:100%;border-collapse:collapse;margin-top:10px}td{border-top:1px solid rgba(242,237,228,.12);padding:16px 10px;vertical-align:top}
+td.chh{font-weight:800;font-size:18px;color:#E9B44C;padding-top:30px}td.n{font:700 22px/1.3 monospace;width:66px}td img{width:200px;border-radius:6px;cursor:pointer;display:block}
+.pl{font-size:12px;display:block;margin-top:6px}.vo{font-weight:700;font-size:18px;margin:8px 0}ul{margin:0;padding-left:18px}
+dl{margin:0;display:grid;grid-template-columns:110px 1fr;gap:6px 12px}dt{color:rgba(242,237,228,.5);font-size:13px}dd{margin:0;color:rgba(242,237,228,.88)}
+.tag{display:inline-block;border:1px solid;border-radius:20px;padding:0 10px;font-size:12px;font-weight:700}
+@media(max-width:760px){td img{width:110px}dl{grid-template-columns:1fr}}</style><div class=w>
+<h1>小豆 Personal Agent · 竖版口播 + 动画</h1>
+<div class=d2>49 镜 · 4:22 · 1080×1920 25fps · risograph 插画风 · 口播用截图占位（真视频替换即可）· 字幕已烧入 · 无配音/配乐</div>
+<div class=top><video id=v src="xiaodou.mp4" controls playsinline preload=metadata></video><div>
+<div class=box><b>源代码</b>：<a href="src/player.html">在线实时预览（直接跑源码，可拖进度）</a> · <a href="https://github.com/Evenna/evans-home/tree/main/xiaodou/src">GitHub 源码目录</a> · <a href="https://github.com/Evenna/evans-home/blob/main/xiaodou/src/README.md">说明</a></div>
+<div class=box><b>怎么看这份分镜</b><br>每一镜都写了七件事：<b>景别/版式、关键帧（精确到镜内秒数）、字卡（字号/颜色/位置）、声音（含音效打点）、素材（点开可看）、拍摄注意</b>，加上口播原文和转场。点缩略图跳到成片对应位置，点「从这镜实时播放」直接跑源码。</div>
+<div class=box><b>和剧本的差异</b><br>按 4.4 字/秒核对了口播长度：#06 #21 #28 #36 #41 #42 #46 #47 #49 等原定时长说不完，已加长；#16 原 12s、#25 原 9s 口播用不满，已压到 7s / 5s。</div>
+</div></div>
+<h2>五种版式</h2><div class=lg><div><svg viewBox="0 0 54 96" width="54" height="96"><rect width="54" height="96" rx="5" fill="#2a2620"/><ellipse cx="27" cy="62" rx="15" ry="26" fill="#8a7e70"/><rect x="34" y="10" width="14" height="10" rx="2" fill="#7FB2FF"/></svg></div><div><b style="color:#7FB2FF">TALK · 口播全屏</b><br><span class=d2>人居中，头顶约 300px 空墙放日期、编号、小插画；字卡只放头顶两侧，绝不压脸。</span></div></div><div class=lg><div><svg viewBox="0 0 54 96" width="54" height="96"><rect width="54" height="96" rx="5" fill="#2a2620"/><text x="27" y="34" font-size="22" font-weight="900" fill="#E5673F" text-anchor="middle">字</text><ellipse cx="27" cy="66" rx="16" ry="28" fill="#8a7e70"/></svg></div><div><b style="color:#E5673F">DEPTH · 字在人身后</b><br><span class=d2>人物抠像放最前，背景压暗虚化，大字 / 便利贴夹在背景与人之间。用于开场点名、金句。</span></div></div><div class=lg><div><svg viewBox="0 0 54 96" width="54" height="96"><rect width="54" height="96" rx="5" fill="#2a2620"/><rect x="5" y="8" width="44" height="34" rx="3" fill="#E9B44C" opacity=".8"/><ellipse cx="27" cy="80" rx="13" ry="20" fill="#8a7e70"/></svg></div><div><b style="color:#E9B44C">LOW · 人在下半屏</b><br><span class=d2>口播窗口下沉，头顶落在屏幕约 45% 处；上半屏（y 250–800）放图解。竖屏最常用的讲解版式。</span></div></div><div class=lg><div><svg viewBox="0 0 54 96" width="54" height="96"><rect width="54" height="96" rx="5" fill="#2a2620"/><rect x="4" y="22" width="46" height="68" rx="3" fill="#9FD39A" opacity=".7"/><rect x="34" y="5" width="16" height="20" rx="3" fill="#2a2620" stroke="#F2EDE4"/><ellipse cx="42" cy="17" rx="4" ry="6" fill="#8a7e70"/></svg></div><div><b style="color:#9FD39A">PIP · 图解全屏 + 小窗</b><br><span class=d2>口播缩进右上 300×380 圆角小窗，图解占满。用于信息量大的界面 / 流程。</span></div></div><div class=lg><div><svg viewBox="0 0 54 96" width="54" height="96"><rect width="54" height="96" rx="5" fill="#2a2620"/><rect x="4" y="6" width="46" height="84" rx="3" fill="#F2EDE4" opacity=".55"/></svg></div><div><b style="color:#F2EDE4">FULL · 纯动画 / 实拍 B</b><br><span class=d2>人不出现，人声继续。冷开场、转折、金句屏和俯拍桌面镜头用。</span></div></div>
+<h2>全片版式时间线</h2><div class=tl><div style="flex:3;background:#F2EDE4" title="01 FULL"></div><div style="flex:3.5;background:#F2EDE4" title="02 FULL"></div><div style="flex:3.5;background:#F2EDE4" title="03 FULL"></div><div style="flex:3.5;background:#F2EDE4" title="04 FULL"></div><div style="flex:5;background:#F2EDE4" title="05 FULL"></div><div style="flex:4;background:#7FB2FF" title="06 TALK"></div><div style="flex:3;background:#E5673F" title="07 DEPTH"></div><div style="flex:6.4;background:#E9B44C" title="08 LOW"></div><div style="flex:3.2;background:#F2EDE4" title="09 FULL"></div><div style="flex:3.2;background:#7FB2FF" title="10 TALK"></div><div style="flex:4.6;background:#9FD39A" title="11 PIP"></div><div style="flex:4.4;background:#F2EDE4" title="12 FULL"></div><div style="flex:6;background:#F2EDE4" title="13 FULL"></div><div style="flex:6;background:#F2EDE4" title="14 FULL"></div><div style="flex:6;background:#E9B44C" title="15 LOW"></div><div style="flex:7;background:#E5673F" title="16 DEPTH"></div><div style="flex:6;background:#9FD39A" title="17 PIP"></div><div style="flex:4;background:#7FB2FF" title="18 TALK"></div><div style="flex:7;background:#F2EDE4" title="19 FULL"></div><div style="flex:4;background:#F2EDE4" title="20 FULL"></div><div style="flex:7.4;background:#E9B44C" title="21 LOW"></div><div style="flex:4;background:#7FB2FF" title="22 TALK"></div><div style="flex:6;background:#F2EDE4" title="23 FULL"></div><div style="flex:8;background:#9FD39A" title="24 PIP"></div><div style="flex:5;background:#7FB2FF" title="25 TALK"></div><div style="flex:4.8;background:#F2EDE4" title="26 FULL"></div><div style="flex:5;background:#9FD39A" title="27 PIP"></div><div style="flex:7.5;background:#F2EDE4" title="28 FULL"></div><div style="flex:4.1;background:#F2EDE4" title="29 FULL"></div><div style="flex:5;background:#E9B44C" title="30 LOW"></div><div style="flex:5;background:#F2EDE4" title="31 FULL"></div><div style="flex:5;background:#F2EDE4" title="32 FULL"></div><div style="flex:7.3;background:#E9B44C" title="33 LOW"></div><div style="flex:4;background:#7FB2FF" title="34 TALK"></div><div style="flex:6.2;background:#9FD39A" title="35 PIP"></div><div style="flex:10;background:#F2EDE4" title="36 FULL"></div><div style="flex:6;background:#E9B44C" title="37 LOW"></div><div style="flex:6.4;background:#9FD39A" title="38 PIP"></div><div style="flex:6;background:#F2EDE4" title="39 FULL"></div><div style="flex:6;background:#E9B44C" title="40 LOW"></div><div style="flex:6.6;background:#F2EDE4" title="41 FULL"></div><div style="flex:7.5;background:#9FD39A" title="42 PIP"></div><div style="flex:5;background:#F2EDE4" title="43 FULL"></div><div style="flex:5;background:#7FB2FF" title="44 TALK"></div><div style="flex:6;background:#E9B44C" title="45 LOW"></div><div style="flex:8;background:#F2EDE4" title="46 FULL"></div><div style="flex:5.3;background:#7FB2FF" title="47 TALK"></div><div style="flex:3;background:#F2EDE4" title="48 FULL"></div><div style="flex:3.6;background:#7FB2FF" title="49 TALK"></div></div><div class=d2>能看到脸 98s · 小窗 44s · 纯动画/实拍 B 120s</div>
+<div class=box><b>拍口播时注意</b><br>· 竖屏 4K，人居中，头顶留约 300px 空墙（日期、编号、插画放这里）。<br>· 背景干净不动，「字在人身后」两镜（#07 #16）要抠像，头发边缘越清楚越好。<br>· 实拍 B 三镜（#13 #14 #39）是俯拍黑桌：开关 ×2、钥匙串 ×1。<br>· 每句之间停半拍，#08 #25 #47 #49 的停顿剪辑不要剪掉。</div>
+<h2>逐镜分镜（49 镜）</h2><table><tr><td colspan=3 class=chh>01 · 钩子</td></tr><tr><td class=n>01<br><span class=d2>00:00.00<br>3.0s</span></td>
+<td><img src="st/s01.jpg" loading=lazy onclick="v.currentTime=0.05;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=0.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo><span class=d2>（无人声）</span></div>
+<dl><dt>景别 / 版式</dt><dd>纯动画。奶油底，手机框 620×1060 居中（屏幕 y 470–1530），顶部与底部各留一条给字卡。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 手机框从下方 80px 上浮入（0.3s ease-out），搜索框已在</li><li>0.4 打出「小」；0.7 打出「豆」，光标闪两下</li><li>1.2 结果区弹出纸折问号插画（0.32s 回弹）</li><li>1.4 灰字「未找到相关结果」淡入</li><li>1.9「搜不到」140px 番茄红从 1.5 倍砸到 1，画面轻震 6px</li><li>2.6 停住，留 0.4s 给观众读</li></ul></dd>
+<dt>字卡</dt><dd>「搜不到」思源黑体 Heavy 140px，番茄红 #E2553A，屏幕 y≈1680 居中</dd>
+<dt>声音</dt><dd>BGM-1 低频铺底 -30dB；打字 tick ×2（-22dB）；落字一声闷鼓（-20dB）<br><span class=d2>音效打点：1.9s 闷鼓</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/question.png" target=_blank>question</a><br>M01 应用商店搜索录屏（待录，选用）</dd>
+<dt>拍摄 / 注意</dt><dd>动画版可直接用。想更真实：录一段应用商店搜「小豆」的屏幕，打码商店标识与账号，替换手机框里的内容。</dd></dl></td></tr><tr><td class=n>02<br><span class=d2>00:03.00<br>3.5s</span></td>
+<td><img src="st/s02.jpg" loading=lazy onclick="v.currentTime=3.05;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=3.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：slide</span>
+<div class=vo><span class=d2>（无人声）</span></div>
+<dl><dt>景别 / 版式</dt><dd>纯动画。手机框同位置，换成邀请页：番茄红顶条 + 钥匙插画 + 6 格空邀请码。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 横向滑入（0.22s）</li><li>0.2 钥匙插画弹出，之后上下轻浮（幅度 8px）</li><li>0.6–1.1 6 个邀请码空格依次出现（间隔 0.08s）</li><li>1.3「邀请制公测」黄色胶囊从下弹入</li><li>1.6 右上「邀请制」110px 落下</li><li>全程镜头缓推 1.04 倍</li></ul></dd>
+<dt>字卡</dt><dd>「邀请制」110px 深蓝，屏幕右上 y≈330；手机内胶囊「邀请制公测」32px</dd>
+<dt>声音</dt><dd>BGM 在 0.0 全停，只剩房间底噪；胶囊弹入一声轻 pop（-24dB）</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/key.png" target=_blank>key</a><br>M02 官方邀请页截图（待截，选用）</dd>
+<dt>拍摄 / 注意</dt><dd>正式版可换官方邀请页截图（个人邀请码务必打码）。</dd></dl></td></tr><tr><td class=n>03<br><span class=d2>00:06.50<br>3.5s</span></td>
+<td><img src="st/s03.jpg" loading=lazy onclick="v.currentTime=6.55;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=6.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo><span class=d2>（无人声）</span></div>
+<dl><dt>景别 / 版式</dt><dd>纯动画，深蓝底。两枚 App 图标横排在画面正中（y 960）。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 「豆包」图标（天蓝）居中，轻呼吸</li><li>1.0 豆包图标向左让位到 x−220（0.5s）</li><li>1.1 「小豆」图标（番茄红）从右侧画外滑入，1.5s 落定 x+220，带一次回弹</li><li>1.7 两个名字胶囊在图标下方淡入</li></ul></dd>
+<dt>字卡</dt><dd>图标下名字胶囊 32px：「豆包」「小豆」</dd>
+<dt>声音</dt><dd>1.5s 落定时 S10 轻碰（玻璃杯轻敲，-20dB）<br><span class=d2>音效打点：1.5s S10 轻碰</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bean.png" target=_blank>bean</a><br>M03 豆包 / 小豆官方图标（待截）</dd>
+<dt>拍摄 / 注意</dt><dd>图标是示意，正式版换成两枚官方图标截图抠图。</dd></dl></td></tr><tr><td class=n>04<br><span class=d2>00:10.00<br>3.5s</span></td>
+<td><img src="st/s04.jpg" loading=lazy onclick="v.currentTime=10.05;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=10.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo><span class=d2>（无人声）</span></div>
+<dl><dt>景别 / 版式</dt><dd>纯动画，延续上一镜构图。两图标中间一道奶油色竖线把屏幕劈成两半。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 两图标保持 #03 的位置（无缝衔接）</li><li>0.3 竖线从屏幕顶端向下 0.4s 劈到底，画面轻震 4px</li><li>0.5 左半屏蒙一层淡天蓝、右半屏蒙一层淡番茄红（0.4s）</li><li>1.0 底部「豆包 ‖ 小豆」淡入</li></ul></dd>
+<dt>字卡</dt><dd>「豆包 ‖ 小豆」64px 奶油色，屏幕 y≈1660</dd>
+<dt>声音</dt><dd>0.3s S15 空气撕裂（-18dB，尾巴 0.6s）<br><span class=d2>音效打点：0.3s S15 撕裂</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bean.png" target=_blank>bean</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>05<br><span class=d2>00:13.50<br>5.0s</span></td>
+<td><img src="st/s05.jpg" loading=lazy onclick="v.currentTime=13.55;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=13.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：fade</span>
+<div class=vo><span class=d2>（无人声）</span></div>
+<dl><dt>景别 / 版式</dt><dd>纯动画。上下两张卡：上卡=豆包（一问一答，答完就停）；下卡=小豆（后台任务条自己往前走）。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 上卡淡入：用户气泡「附近有什么好吃的？」</li><li>0.6 AI 气泡回答；1.2 卡片右下出现灰字「等你下一句…」，卡片整体变灰</li><li>1.5 下卡从下方滑入：4 个节点「盯降价 → 发现 → 推送 → 完成」</li><li>1.8–3.3 番茄红进度点自己沿线走完（无人操作），每过一个节点该节点变黄</li><li>3.2 下卡左上角「无人操作」小标签闪一下</li><li>3.6「它不等你问」110px 砸入底部</li></ul></dd>
+<dt>字卡</dt><dd>「它不等你问」110px 深蓝，「不等」两字番茄红，屏幕 y≈1700</dd>
+<dt>声音</dt><dd>1.5s BGM-2 起（-26dB，轻快 pluck）；进度点每过一节点一声 tick<br><span class=d2>音效打点：1.8s tick；2.3s tick；2.8s tick；3.3s tick</span></dd>
+<dt>素材</dt><dd>—</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>06<br><span class=d2>00:18.50<br>4.0s</span></td>
+<td><img src="st/s06.jpg" loading=lazy onclick="v.currentTime=18.55;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=18.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>11 月 24 号，字节放了个新 App。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏（人物居中，头顶在屏幕 y≈340）。头顶右侧的空墙面放日期戳。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 硬切进口播（冷开场结束，第一次见人）</li><li>0.5 说到「11 月 24 号」：右上日期「11.24」Bebas 170px 盖章式弹入（0.3s 回弹，轻转 −4°）</li><li>1.6 说到「字节」：日期下方小胶囊「字节 · 新 App」淡入</li><li>3.6 两个元素 0.2s 淡出，给下一镜让位</li></ul></dd>
+<dt>字卡</dt><dd>「11.24」Bebas 170px 番茄红；胶囊「字节 · 新 App」32px 深蓝</dd>
+<dt>声音</dt><dd>BGM-2 继续 -26dB；盖章「啪」一声 -22dB<br><span class=d2>音效打点：0.5s 盖章</span></dd>
+<dt>素材</dt><dd>实拍 A（口播主机位）</dd>
+<dt>拍摄 / 注意</dt><dd>近景 50mm，人在画面正中，头顶留 300px 空墙（给字卡）。手里拿手机，屏幕朝镜头但别露内容（可贴磨砂膜或调暗）。</dd></dl></td></tr><tr><td class=n>07<br><span class=d2>00:22.50<br>3.0s</span></td>
+<td><img src="st/s07.jpg" loading=lazy onclick="v.currentTime=22.55;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=22.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E5673F;color:#E5673F">DEPTH · 字在人身后</span> <span class=d2>转场：cut</span>
+<div class=vo>你没看错，它叫小豆。</div>
+<dl><dt>景别 / 版式</dt><dd>口播推近到脸（1.0→1.22），背景压暗；「小豆」巨字放在人物身后，被头顶挡住一点。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.5 推近到脸（qio 缓动），背景压暗 + 轻虚化</li><li>0.6 说到「小豆」：身后「小豆」300px 番茄红从 1.5 倍砸到 1，轻震 6px</li><li>0.9 巨字右下方豆子小角色弹出（也在人身后）</li><li>全程人物抠像在最前</li></ul></dd>
+<dt>字卡</dt><dd>「小豆」思源黑体 Heavy 300px 番茄红，在人物身后，屏幕 y≈300</dd>
+<dt>声音</dt><dd>BGM-2；砸字一声低频 boom（-20dB）</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bean.png" target=_blank>bean</a><br>实拍 A；小豆图标（贴屏用）</dd>
+<dt>拍摄 / 注意</dt><dd>同机位，一次「把手机翻正给镜头看」的动作，屏幕上是小豆图标（后期可贴图替换）。这镜要抠像，头发边缘越干净越好（背景别太花）。</dd></dl></td></tr><tr><td class=n>08<br><span class=d2>00:25.50<br>6.4s</span></td>
+<td><img src="st/s08.jpg" loading=lazy onclick="v.currentTime=25.55;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=25.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>豆包还在。豆包有用户、有模型、有生态。那为什么还要再造一个？</div>
+<dl><dt>景别 / 版式</dt><dd>口播从全屏下沉到下半屏（人物头顶在 y≈870），上半屏（y 250–800）放图解。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播窗口下沉到下半屏（qio）</li><li>0.5 豆包图标在上半屏中央弹出</li><li>1.4 / 2.0 / 2.6 说到「用户/模型/生态」：三张胶囊依次从图标下方弹出，排成一行</li><li>3.2 停半拍（口播呼吸，别剪）</li><li>3.6 说到「为什么」：图标和胶囊整体变淡到 25%</li><li>3.9 右侧巨大番茄红「？」260px 砸入，轻震 6px</li></ul></dd>
+<dt>字卡</dt><dd>胶囊「有用户 / 有模型 / 有生态」34px；「？」Bebas 260px 番茄红</dd>
+<dt>声音</dt><dd>3.2s BGM 全停 1s（留白），3.9s 问号落下 BGM 回来</dd>
+<dt>素材</dt><dd>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景。说完前一句停半秒再抛问句，这半秒剪辑不要剪掉。</dd></dl></td></tr><tr><td class=n>09<br><span class=d2>00:31.90<br>3.2s</span></td>
+<td><img src="st/s09.jpg" loading=lazy onclick="v.currentTime=31.95;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=31.90" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>因为它不是来陪你聊天的。</div>
+<dl><dt>景别 / 版式</dt><dd>纯字幕镜（人声继续）。深蓝底，句子拆两行出现，「陪你聊天」被番茄红线划掉。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0「它不是来」84px 逐字上浮（每字 0.04s）</li><li>0.6「陪你聊天的」130px 逐字上浮</li><li>1.6 番茄红粗线从左到右 0.3s 划掉「陪你聊天」</li><li>1.9 被划掉的字变灰 40%</li></ul></dd>
+<dt>字卡</dt><dd>两行：「它不是来」84px 奶油色 /「陪你聊天的」130px 奶油色</dd>
+<dt>声音</dt><dd>1.6s S6 错误音极轻（-28dB）<br><span class=d2>音效打点：1.6s S6 错误音</span></dd>
+<dt>素材</dt><dd>—</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td colspan=3 class=chh>02 · 定义</td></tr><tr><td class=n>10<br><span class=d2>00:35.10<br>3.2s</span></td>
+<td><img src="st/s10.jpg" loading=lazy onclick="v.currentTime=35.15;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=35.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>先看它把什么反过来了。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏。头部右侧空墙放一个开关插画，说「反过来」时翻转 180°。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 硬切回口播</li><li>0.3 右侧开关插画弹出（宽 150px）</li><li>1.2 说到「反过来」：开关绕中心翻 180°（0.5s qio），同时「反过来」72px 在它下方弹出</li><li>2.9 淡出</li></ul></dd>
+<dt>字卡</dt><dd>「反过来」72px 深蓝 + 黄色高亮底</dd>
+<dt>声音</dt><dd>BGM-2′ 起 -24dB（换一个更亮的段落）；翻转一声 whoosh -24dB</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/toggle.png" target=_blank>toggle</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说「反过来」时手在胸前做一个翻掌手势（掌心向下→向上），手不要挡脸。</dd></dl></td></tr><tr><td class=n>11<br><span class=d2>00:38.30<br>4.6s</span></td>
+<td><img src="st/s11.jpg" loading=lazy onclick="v.currentTime=38.35;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=38.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>你用过所有 AI 聊天软件，都是被动的。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播缩进右上小窗（300×380）。中间一张聊天卡循环三轮「问→答→关」。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播从全屏缩进右上小窗</li><li>0.4 / 1.7 / 3.0 每轮：用户气泡弹出 → 0.5s 后 AI 气泡弹出 → 0.9s 后两者淡出</li><li>每一轮结束聊天卡暗一格（亮度 100%→80%→60%）</li><li>1.0 左上「被动」110px 灰色淡入</li></ul></dd>
+<dt>字卡</dt><dd>「被动」110px 灰（rgba 深蓝 45%），屏幕左上 y≈380</dd>
+<dt>声音</dt><dd>BGM-2′；每个气泡一声轻「啵」，音高逐轮降低</dd>
+<dt>素材</dt><dd>实拍 A（小窗）</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>12<br><span class=d2>00:42.90<br>4.4s</span></td>
+<td><img src="st/s12.jpg" loading=lazy onclick="v.currentTime=42.95;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=42.90" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>你问一句，它答一句。手机一锁，它就停工。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声继续）。手机里是聊天界面；说到「一锁」时锁屏从上方盖下来。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 手机框居中，里面一问一答两个气泡（0.2 / 0.8s 弹出）</li><li>2.2 说到「一锁」：深蓝锁屏从屏幕顶部 0.4s 落下盖住聊天，带锁+zzz 插画</li><li>2.6 锁屏上时间「23:41」淡入</li><li>2.9 底部「锁屏 = 停工」砸入</li></ul></dd>
+<dt>字卡</dt><dd>「锁屏 = 停工」88px，「停工」番茄红，屏幕 y≈1680</dd>
+<dt>声音</dt><dd>2.2s 锁屏咔哒声（-18dB）；之后 BGM 压低 4dB<br><span class=d2>音效打点：2.2s 锁屏咔哒</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/lockphone.png" target=_blank>lockphone</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>13<br><span class=d2>00:47.30<br>6.0s</span></td>
+<td><img src="st/s13.jpg" loading=lazy onclick="v.currentTime=47.35;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=47.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>每一轮动作的开关，都攥在你手里。</div>
+<dl><dt>景别 / 版式</dt><dd>实拍 B 俯拍（动画版用插画代替）：画面中心一个大开关，一只手指按下、松开 3 次。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 开关插画居中 360px，奶油底；上方照片框放实拍「手指点手机」素材</li><li>0.8 / 1.9 / 3.0 开关下压一次（缩到 0.9，0.15s 回弹），每次一声咔哒</li><li>3.6「开关在你手里」字卡从底部上浮</li><li>节奏均匀，配合口播重音「每一轮」「攥」</li></ul></dd>
+<dt>字卡</dt><dd>「开关在你手里」88px，「你」番茄红，屏幕 y≈1650</dd>
+<dt>声音</dt><dd>开关咔哒 ×3（-18dB，三下音量一致）；BGM-2′ -26dB<br><span class=d2>音效打点：0.8s 咔哒；1.9s 咔哒；3.0s 咔哒</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/unlock/001.jpg" target=_blank>unlock</a><br>插画 <a href="src/st/toggle.png" target=_blank>toggle</a><br>实拍 B（俯拍桌面）；mixkit unlock 片段</dd>
+<dt>拍摄 / 注意</dt><dd>实拍 B：俯拍，黑桌 + 金属拨动开关，手从画面下方伸进来按 3 下，节奏均匀（约 1.1s 一下）。拍 5 遍挑最稳的。</dd></dl></td></tr><tr><td class=n>14<br><span class=d2>00:53.30<br>6.0s</span></td>
+<td><img src="st/s14.jpg" loading=lazy onclick="v.currentTime=53.35;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=53.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>小豆把这个开关交出去了。</div>
+<dl><dt>景别 / 版式</dt><dd>延续上一镜构图（同机位）。手按到「开」后撤走，开关自己保持；一只豆子手从右边接过去。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 开关居中同位置</li><li>0.6 开关翻到「开」（rz 0→180）</li><li>1.0 手（handover 插画）从右下 0.5s 伸入，开关被交过去</li><li>2.2 手向画外撤出 0.5s，开关不动，静 1s（关键：手离开后它还在工作）</li><li>3.2「交出去了」110px 中偏下砸入，「交出去」黄色高亮底</li></ul></dd>
+<dt>字卡</dt><dd>「交出去了」110px 深蓝，屏幕 y≈1480</dd>
+<dt>声音</dt><dd>BGM-2′ 抬到 -22dB；交接一声软 whoosh</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/toggle.png" target=_blank>toggle</a>、<a href="src/st/handover.png" target=_blank>handover</a>、<a href="src/st/bean.png" target=_blank>bean</a><br>实拍 B</dd>
+<dt>拍摄 / 注意</dt><dd>同 #13 机位同道具。按到「开」后手 0.5s 撤出画面，开关保持不动停 1s。</dd></dl></td></tr><tr><td class=n>15<br><span class=d2>00:59.30<br>6.0s</span></td>
+<td><img src="st/s15.jpg" loading=lazy onclick="v.currentTime=59.35;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=59.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>它主打三件事：记得你、主动找你、替你去别的 App 里干活。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏三张小卡横排（大脑 / 铃铛 / 插头串三个 App），跟着口播依次点亮。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉到下半屏</li><li>0.3 三张卡灰着出现（30% 透明）</li><li>1.8 说「记得你」：第一张卡亮起 + 上浮 20px</li><li>2.8 说「主动找你」：第二张卡亮起，铃铛摇两下</li><li>4.0 说「替你去别的 App」：第三张亮起，三枚小图标被一根线串起</li><li>每张卡亮起时下方编号 01/02/03 Bebas 出现</li></ul></dd>
+<dt>字卡</dt><dd>卡下标签 40px：「记得 / 主动 / 代办」；编号 Bebas 80px</dd>
+<dt>声音</dt><dd>BGM-2′；轻点 ×3（音高逐级升）<br><span class=d2>音效打点：1.8s 轻点；2.8s 轻点；4.0s 轻点</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/brain.png" target=_blank>brain</a>、<a href="src/st/bell.png" target=_blank>bell</a>、<a href="src/st/plug.png" target=_blank>plug</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说「三件事」时伸出三根手指，手在胸前，不要举过下巴。</dd></dl></td></tr><tr><td class=n>16<br><span class=d2>01:05.30<br>7.0s</span></td>
+<td><img src="st/s16.jpg" loading=lazy onclick="v.currentTime=65.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=65.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E5673F;color:#E5673F">DEPTH · 字在人身后</span> <span class=d2>转场：cut</span>
+<div class=vo>第一件，记忆。换 AI 最劝退的，是重新交代一遍你是谁。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏轻推近。人物身后飘一圈便利贴（职业/偏好/习惯/作息/口味），说到「重新交代」时被一把收走。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 慢推 1.0→1.08（7s 线性）</li><li>0.3「01 记忆」Bebas+黑体左上弹入</li><li>1.0–1.8 五张便利贴在人身后依次贴上（各带 ±6° 随机角度）</li><li>4.2 说到「重新交代」：五张便利贴同时向画外右侧飞走（0.6s ease-in），留空</li><li>4.9「重新自我介绍」灰色字在底部淡入</li></ul></dd>
+<dt>字卡</dt><dd>左上「01 记忆」：01 Bebas 140px 番茄红 + 记忆 72px；底部「重新自我介绍」72px 灰</dd>
+<dt>声音</dt><dd>4.2s S12 纸张哗啦；BGM-2′ 降到 -28dB<br><span class=d2>音效打点：4.2s S12 纸张</span></dd>
+<dt>素材</dt><dd>实拍 A；便利贴道具（手写标签）</dd>
+<dt>拍摄 / 注意</dt><dd>原定 12s，口播只要 5.5s，已压到 7s（留 1s 呼吸）。实拍：桌上一摞写着「职业/偏好/习惯」的便利贴，说到「重新交代」时一把收走。</dd></dl></td></tr><tr><td colspan=3 class=chh>03 · 三个场景</td></tr><tr><td class=n>17<br><span class=d2>01:12.30<br>6.0s</span></td>
+<td><img src="st/s17.jpg" loading=lazy onclick="v.currentTime=72.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=72.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>小豆能接过你在豆包里攒的偏好和工作背景。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播右上小窗。左豆包图标、右小豆图标，中间一条传送带，标签从左流到右。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播缩进右上小窗</li><li>0.4 两个图标在 y≈960 两侧弹出</li><li>0.8 传送带虚线出现，开始滚动</li><li>1.0–2.6 五个标签胶囊（偏好 / 工作背景 / 常去 / 口味 / 日程）从左向右流过，到右端被小豆吸进去（缩小+淡出）</li><li>3.0 小豆图标轻弹一下，「一键继承」右上砸入</li></ul></dd>
+<dt>字卡</dt><dd>「一键继承」88px，屏幕右上（小窗下方 y≈700）</dd>
+<dt>声音</dt><dd>BGM-3 起 -24dB；每个标签被吸入一声「嗖」</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bean.png" target=_blank>bean</a></dd>
+<dt>拍摄 / 注意</dt><dd>无（纯界面动画）。</dd></dl></td></tr><tr><td class=n>18<br><span class=d2>01:18.30<br>4.0s</span></td>
+<td><img src="st/s18.jpg" loading=lazy onclick="v.currentTime=78.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=78.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>一上来就认识你。</div>
+<dl><dt>景别 / 版式</dt><dd>口播推近到特写（1.0→1.22）。头像右侧弹出一张「身份卡」插画，名字处已经填好。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.5 推到特写</li><li>0.6 右侧身份卡（idcard）弹出，旋转 −5°</li><li>1.2 卡上一个番茄红小勾 0.2s 画出</li><li>人物点头一次（实拍动作），动画不抢</li></ul></dd>
+<dt>字卡</dt><dd>无大字；身份卡上小胶囊「已认识」32px</dd>
+<dt>声音</dt><dd>BGM-3；勾一声 ding（-24dB）</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/idcard.png" target=_blank>idcard</a>、<a href="src/st/check.png" target=_blank>check</a><br>实拍 A（85mm）</dd>
+<dt>拍摄 / 注意</dt><dd>85mm 特写，点头一次幅度很小，眼神看镜头。</dd></dl></td></tr><tr><td class=n>19<br><span class=d2>01:22.30<br>7.0s</span></td>
+<td><img src="st/s19.jpg" loading=lazy onclick="v.currentTime=82.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=82.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>第二件，它会在后台替你盯着。</div>
+<dl><dt>景别 / 版式</dt><dd>纯界面（人声）。手机框里是授权列表：8 行应用名 + 开关，逐个打开。应用只写名字，不画 logo。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0「02 主动」左上弹入</li><li>0.3 手机框上浮入</li><li>1.0–3.4 8 个开关依次从灰打开成番茄红（间隔 0.3s），每行左侧色块随之亮起</li><li>3.8 手机整体轻缩 0.96，右侧眼睛插画（eye）弹出、轻浮——表示「后台盯着」</li><li>底部小字列出 8 个应用名</li></ul></dd>
+<dt>字卡</dt><dd>左上「02 主动」；手机内每行 44px 应用名；底部小字 36px：抖音 · 飞书 · 高德 · 日历 · 健康 · 自如 · 百度网盘 · Wind</dd>
+<dt>声音</dt><dd>BGM-3；开关声 ×8（每次音高 +1 半音）<br><span class=d2>音效打点：1.0s 开关；1.3s 开关；1.6s 开关；1.9s 开关；2.2s 开关；2.5s 开关；2.8s 开关；3.1s 开关</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/eye.png" target=_blank>eye</a></dd>
+<dt>拍摄 / 注意</dt><dd>不用真实授权页截图，按此动画即可。</dd></dl></td></tr><tr><td class=n>20<br><span class=d2>01:29.30<br>4.0s</span></td>
+<td><img src="st/s20.jpg" loading=lazy onclick="v.currentTime=89.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=89.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>不是等你问。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画。左对话框图标被划掉，右铃铛亮起摇摆。左右各占半屏。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 左对话气泡（灰）+ 右铃铛（暗）同时出现</li><li>0.6 番茄红线 0.3s 斜划过对话框</li><li>1.0 铃铛亮起（亮度 40%→100%）+ 摇 3 下</li><li>1.1 铃铛周围三道声波弧向外扩散</li></ul></dd>
+<dt>字卡</dt><dd>无字卡（画面即表达）</dd>
+<dt>声音</dt><dd>BGM-3；1.0s 一声铃（-20dB）<br><span class=d2>音效打点：1.0s 铃</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bell.png" target=_blank>bell</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>21<br><span class=d2>01:33.30<br>7.4s</span></td>
+<td><img src="st/s21.jpg" loading=lazy onclick="v.currentTime=93.35000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=93.30" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>团购券快到期，它弹你；关注的东西降价，它发你；日程撞车，它提前标出来。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏三张通知卡从顶部依次下拉叠放（最新的在最上）。通知卡本身就是字卡。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.4 通知 1：券插画「团购券今晚 24:00 到期」</li><li>2.6 通知 2：价签插画「你关注的耳机降了 ¥120」</li><li>4.8 通知 3：日历插画「周四 15:00 两个会撞了」</li><li>每张卡 0.35s 从顶部下拉（back 缓动），旧卡往下挤 170px 并变淡到 70%</li></ul></dd>
+<dt>字卡</dt><dd>通知卡：标题 46px + 副标 30px，宽 860</dd>
+<dt>声音</dt><dd>BGM-3；提示音 ×3（音高依次升高）<br><span class=d2>音效打点：0.4s 提示音；2.6s 提示音；4.8s 提示音</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/coupon.png" target=_blank>coupon</a>、<a href="src/st/pricetag.png" target=_blank>pricetag</a>、<a href="src/st/calendar.png" target=_blank>calendar</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说一句停半拍，方便剪辑对齐三个弹窗。</dd></dl></td></tr><tr><td class=n>22<br><span class=d2>01:40.70<br>4.0s</span></td>
+<td><img src="st/s22.jpg" loading=lazy onclick="v.currentTime=100.75000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=100.70" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>第三件，代打电话。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏。左上大编号「03」，右侧电话插画随她举手机的动作一起晃。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 硬切</li><li>0.2「03」Bebas 200px 左上砸入</li><li>0.5「代打电话」72px 编号下方上浮</li><li>0.8 电话插画右侧弹出，轻摇</li><li>3.7 全部淡出</li></ul></dd>
+<dt>字卡</dt><dd>「03」Bebas 200px 番茄红 + 「代打电话」72px</dd>
+<dt>声音</dt><dd>BGM-4 起 -22dB；一声短促拨号音</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/telephone.png" target=_blank>telephone</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说这句时把手机举到耳边又放下（动作预演），手机不要挡脸。</dd></dl></td></tr><tr><td class=n>23<br><span class=d2>01:44.70<br>6.0s</span></td>
+<td><img src="st/s23.jpg" loading=lazy onclick="v.currentTime=104.75000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=104.70" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>想订一家没开线上预约的餐厅，以前得自己翻号码。</div>
+<dl><dt>景别 / 版式</dt><dd>纯界面（人声）。上方实拍餐厅照片框；下方仿旧点评页：「在线预约」按钮是灰的，电话号码被红圈圈住。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 餐厅实拍照片框从上滑入（resto 素材播放）</li><li>0.5 下方页面卡上浮：店名 + 评分 + 灰掉的「在线预约 暂不支持」</li><li>2.0 灰按钮上一道斜线</li><li>2.8 电话号码行被番茄红手绘圈 0.4s 画出</li><li>3.5「只能打电话」底部上浮</li></ul></dd>
+<dt>字卡</dt><dd>「只能打电话」88px，屏幕 y≈1680</dd>
+<dt>声音</dt><dd>BGM-4；画圈一声马克笔擦纸<br><span class=d2>音效打点：2.8s 马克笔</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/resto/001.jpg" target=_blank>resto</a><br>mixkit resto（餐厅实拍）</dd>
+<dt>拍摄 / 注意</dt><dd>无（可换真实点评页截图，店名电话打码）。</dd></dl></td></tr><tr><td class=n>24<br><span class=d2>01:50.70<br>8.0s</span></td>
+<td><img src="st/s24.jpg" loading=lazy onclick="v.currentTime=110.75000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=110.70" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>现在你说一句，它自己找号码、打过去、问清楚、订好，再把结果汇报给你。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播右上小窗。顶部一条语音波形 → 中间竖排四步流程逐个点亮 → 底部结果卡「已预订 19:00」。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播缩进小窗</li><li>0.4 左上语音波形跳动 1s（代表「你说一句」）</li><li>1.6 / 2.6 / 3.6 / 4.6 四步依次点亮：找号 → 拨号 → 确认 → 汇报，竖线连接，每步亮起时图标弹一下</li><li>5.8 结果卡从底部弹出：「已预订 19:00 · 4 人 · 靠窗」</li><li>6.2 结果卡左侧番茄红勾</li></ul></dd>
+<dt>字卡</dt><dd>四步每步 52px；结果卡「已预订 19:00」64px</dd>
+<dt>声音</dt><dd>BGM-4；2.6s 拨号音短促；5.8s 成功音<br><span class=d2>音效打点：2.6s 拨号音；5.8s 成功音</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/signal.png" target=_blank>signal</a>、<a href="src/st/telephone.png" target=_blank>telephone</a>、<a href="src/st/question.png" target=_blank>question</a>、<a href="src/st/check.png" target=_blank>check</a><br>实拍 A（小窗）</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>25<br><span class=d2>01:58.70<br>5.0s</span></td>
+<td><img src="st/s25.jpg" loading=lazy onclick="v.currentTime=118.75000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=118.70" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>一个 AI 替你打电话，这件事比它听起来要重。</div>
+<dl><dt>景别 / 版式</dt><dd>口播特写，全片第一次「降温」：BGM 全停，画面无任何元素，只缓慢推近。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 特写 1.22→1.3 慢推（5s 线性）</li><li>0.0–5.0 无字卡、无插画</li><li>3.8 说完停 1s，中间轻呼一口气（实拍）</li></ul></dd>
+<dt>字卡</dt><dd>无字卡</dd>
+<dt>声音</dt><dd>BGM 全停，只留口播和房间底噪</dd>
+<dt>素材</dt><dd>实拍 A（85mm）</dd>
+<dt>拍摄 / 注意</dt><dd>原定 9s，口播 4.8s，压到 5s（结尾 1s 静止呼吸保留）。85mm 特写，说完停 1 秒，轻轻呼一口气，别笑。</dd></dl></td></tr><tr><td colspan=3 class=chh>04 · 三条路线</td></tr><tr><td class=n>26<br><span class=d2>02:03.70<br>4.8s</span></td>
+<td><img src="st/s26.jpg" loading=lazy onclick="v.currentTime=123.75000000000001;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=123.70" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>因为现在国内外大厂，其实在赌三件不同的事。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声）。背景一路分三岔插画（bg_routes），三枚骰子 / 筹码依次落在三条路口。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 bg_routes 全屏铺底，镜头从 1.08 缓拉到 1.0</li><li>0.3「三条路」左上 110px 落下</li><li>1.2 / 1.6 / 2.0 三枚骰子从上方落到三条岔路尽头，各弹一下</li><li>2.4 三个问号胶囊在骰子上方淡入（下一镜揭晓）</li></ul></dd>
+<dt>字卡</dt><dd>「三条路」110px 深蓝，屏幕左上 y≈330</dd>
+<dt>声音</dt><dd>BGM-5 起 -26dB；骰子落桌 ×3<br><span class=d2>音效打点：1.6s 骰子；1.9s 骰子；2.4s 骰子</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bg_routes.jpg" target=_blank>bg_routes</a>、<a href="src/st/dice.png" target=_blank>dice</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>27<br><span class=d2>02:08.50<br>5.0s</span></td>
+<td><img src="st/s27.jpg" loading=lazy onclick="v.currentTime=128.55000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=128.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>Meta 的 Muse 赌「云端一台电脑」。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播小窗。云端电脑插画浮在云海实拍素材上，旁边一只手撤走，屏幕里任务条继续跑。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 口播缩进小窗；clouds 实拍素材做底（照片框 960×960）</li><li>0.4 云端电脑插画弹出，轻浮</li><li>1.0 手（handover）在电脑旁，2.0 撤出画外</li><li>2.0 起屏幕里 3 条任务条继续自己增长（关键视觉：手走了它还在动）</li><li>2.6 底部「Muse · 云端电脑」上浮</li></ul></dd>
+<dt>字卡</dt><dd>「Muse · 云端电脑」72px，Muse 用 Bebas</dd>
+<dt>声音</dt><dd>BGM-5</dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/clouds/001.jpg" target=_blank>clouds</a><br>插画 <a href="src/st/cloudpc.png" target=_blank>cloudpc</a>、<a href="src/st/handover.png" target=_blank>handover</a><br>mixkit clouds（云海）</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>28<br><span class=d2>02:13.50<br>7.5s</span></td>
+<td><img src="st/s28.jpg" loading=lazy onclick="v.currentTime=133.55000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=133.50" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>给每个用户配一台云端虚拟电脑，跨周异步，你关掉 App 它还在里面干活。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声）。三周甘特图：W1 / W2 / W3 三列，任务条横跨三周持续延伸；中段一个手机图标被「关掉」，任务条不停。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 甘特网格淡入，三列表头 W1 W2 W3（Bebas）</li><li>0.5 任务条 1 开始延伸，3.5s 穿过三周</li><li>1.2 / 1.9 任务条 2、3 错开开始</li><li>2.8 说「关掉 App」：左侧手机插画变暗 + 番茄红「OFF」</li><li>3.0 起任务条照样继续长（重点）</li><li>4.5「跨周异步」右上砸入</li></ul></dd>
+<dt>字卡</dt><dd>「跨周异步」88px 右上；表头 W1/W2/W3 Bebas 80px</dd>
+<dt>声音</dt><dd>BGM-5；任务条延伸配细微电流声</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/phone.png" target=_blank>phone</a></dd>
+<dt>拍摄 / 注意</dt><dd>原定 5s，口播需 7.5s，已加长。</dd></dl></td></tr><tr><td class=n>29<br><span class=d2>02:21.00<br>4.1s</span></td>
+<td><img src="st/s29.jpg" loading=lazy onclick="v.currentTime=141.05000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=141.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>代价是安全边界，海外实测已经踩过雷。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画，深蓝底（降温）。云端电脑居中，外壳上一道番茄红裂缝 0.3s 裂开，带警示角标。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 云端电脑居中，轻浮</li><li>1.0 番茄红锯齿裂缝从左上到右下 0.3s 画出，画面轻震 6px</li><li>1.2 右上「!」警示三角弹出</li><li>1.6「安全边界」番茄红底部砸入</li></ul></dd>
+<dt>字卡</dt><dd>「安全边界」96px 番茄红，屏幕 y≈1650；红色只用于警示</dd>
+<dt>声音</dt><dd>1.0s S6 错误音（-20dB）<br><span class=d2>音效打点：1.0s S6 错误音</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/cloudpc.png" target=_blank>cloudpc</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>30<br><span class=d2>02:25.10<br>5.0s</span></td>
+<td><img src="st/s30.jpg" loading=lazy onclick="v.currentTime=145.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=145.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>阿里的千问 Go 赌「生态」。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏一个主 App 图标居中，向外长出三条线连到购物袋 / 餐厅 / 飞机三个图标。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.4 主图标「千问 Go」弹出</li><li>1.0 / 1.4 / 1.8 三条线依次从主图标画出，末端图标弹出（bag / restaurant / 飞机实拍小圆）</li><li>2.4「千问 Go · 生态」上浮在三条线下方</li></ul></dd>
+<dt>字卡</dt><dd>「千问 Go · 生态」72px，「生态」番茄红</dd>
+<dt>声音</dt><dd>BGM-5；连线到位 tick ×3<br><span class=d2>音效打点：1.4s tick；1.8s tick；2.2s tick</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/plane/001.jpg" target=_blank>plane</a><br>插画 <a href="src/st/bag.png" target=_blank>bag</a>、<a href="src/st/restaurant.png" target=_blank>restaurant</a><br>实拍 A；mixkit plane</dd>
+<dt>拍摄 / 注意</dt><dd>中景。</dd></dl></td></tr><tr><td class=n>31<br><span class=d2>02:30.10<br>5.0s</span></td>
+<td><img src="st/s31.jpg" loading=lazy onclick="v.currentTime=150.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=150.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>专治购物保价、退换货、航班理赔这些消费痛点。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声）。三张单据错落排列（价保 / 退货 / 理赔），依次被盖「已处理」印章。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 三张单据从下方错落上浮（间隔 0.12s，各带 ±4° 角度）</li><li>1.2 / 2.2 / 3.2 三枚番茄红印章 0.3s 从 1.6 倍砸下，每次轻震 4px</li><li>背景右上放一小框 salepage 实拍素材</li></ul></dd>
+<dt>字卡</dt><dd>单据标题 56px；印章「已处理」44px</dd>
+<dt>声音</dt><dd>盖章声 ×3（-18dB）<br><span class=d2>音效打点：1.2s 盖章；2.2s 盖章；3.2s 盖章</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/salepage/001.jpg" target=_blank>salepage</a><br>mixkit salepage</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>32<br><span class=d2>02:35.10<br>5.0s</span></td>
+<td><img src="st/s32.jpg" loading=lazy onclick="v.currentTime=155.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=155.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>字节的小豆赌「独立产品」。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声）。bg_field 空地全屏；一个印着小豆的独立盒子从天而降落在空地中央，远处是豆包大楼剪影（不在主 App 里）。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 bg_field 全屏，镜头微微下摇</li><li>0.6 盒子从画外上方 0.4s 落下，落地压扁回弹 + 一圈尘土</li><li>1.0 轻震 6px</li><li>1.6「小豆 · 独立」底部上浮</li></ul></dd>
+<dt>字卡</dt><dd>「小豆 · 独立」88px，「独立」番茄红</dd>
+<dt>声音</dt><dd>BGM-5；落地一声闷响<br><span class=d2>音效打点：1.0s 落地</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bg_field.jpg" target=_blank>bg_field</a>、<a href="src/st/bean.png" target=_blank>bean</a></dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>33<br><span class=d2>02:40.10<br>7.3s</span></td>
+<td><img src="st/s33.jpg" loading=lazy onclick="v.currentTime=160.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=160.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>官方也说了，跑通了会融回豆包。所以它不是豆包的替代，是豆包的试验田。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏左小豆盒子 → 弧形箭头 → 右豆包图标；最后「试验田」压在中间，下方一株幼苗长出。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.4 小豆盒子（左）+ 豆包图标（右）出现</li><li>1.0 弧形箭头 0.6s 从左画到右，箭头上方胶囊「跑通后」</li><li>3.0 说到「不是替代」：两图标间「≠ 替代」灰字淡入后被划掉</li><li>4.6 说到「试验田」：中央幼苗插画从土里长出（sy 0→1），「试验田」120px 砸入</li></ul></dd>
+<dt>字卡</dt><dd>「跑通后」胶囊 32px；「试验田」120px 深蓝 + 黄色高亮</dd>
+<dt>声音</dt><dd>BGM-5 降到 -30dB；4.6s 一声 ding<br><span class=d2>音效打点：4.6s ding</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/bean.png" target=_blank>bean</a>、<a href="src/st/seedling.png" target=_blank>seedling</a><br>实拍 A；官方说法出处 M05（新闻截图，选用）</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说「试验田」时停一下再说。</dd></dl></td></tr><tr><td colspan=3 class=chh>05 · 三道槛</td></tr><tr><td class=n>34<br><span class=d2>02:47.40<br>4.0s</span></td>
+<td><img src="st/s34.jpg" loading=lazy onclick="v.currentTime=167.45000000000005;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=167.40" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>夸完了，说三道槛。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏。她手掌往下压时，画面上方三道横杠依次落下，像三道栏杆。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 硬切，BGM 换</li><li>0.4「三道槛」左上 110px 落下</li><li>1.2 / 1.5 / 1.8 三道深蓝横杠在头顶空墙依次从上方落下（back 缓动），间距 70px</li><li>3.7 淡出</li></ul></dd>
+<dt>字卡</dt><dd>「三道槛」110px 深蓝，屏幕左上</dd>
+<dt>声音</dt><dd>BGM-6 起 -26dB（更沉的段落）；横杠落下 ×3 木头敲击<br><span class=d2>音效打点：1.6s 木头；1.9s 木头；2.1s 木头</span></dd>
+<dt>素材</dt><dd>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说「三道槛」时手掌往下压一次。</dd></dl></td></tr><tr><td class=n>35<br><span class=d2>02:51.40<br>6.2s</span></td>
+<td><img src="st/s35.jpg" loading=lazy onclick="v.currentTime=171.45000000000005;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=171.40" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>第一道，拿不到。今天开的是邀请制，要邀请码，靠拉好友换额度。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播小窗。手机里是邀请页，下方一条额度进度条随「拉好友」上涨。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0「① 拿不到」左上弹入；口播缩进小窗</li><li>0.5 手机框上浮，钥匙插画 + 6 格邀请码（回扣 #02）</li><li>2.4 提示条「邀请 3 位好友 +500 额度」弹出</li><li>2.8–3.4 三个好友头像圆点依次飞入</li><li>3.4 额度条 0.6s 从 0 涨到 500</li><li>4.2「邀请制」右上砸入</li></ul></dd>
+<dt>字卡</dt><dd>「① 拿不到」88px；「邀请制」88px 番茄红右上；提示条 34px</dd>
+<dt>声音</dt><dd>BGM-6；额度上涨一串 tick<br><span class=d2>音效打点：3.4s tick 串</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/key.png" target=_blank>key</a><br>M02 邀请页截图（选用）</dd>
+<dt>拍摄 / 注意</dt><dd>正式版可用 M02 官方邀请页截图（个人信息打码）。</dd></dl></td></tr><tr><td class=n>36<br><span class=d2>02:57.60<br>10.0s</span></td>
+<td><img src="st/s36.jpg" loading=lazy onclick="v.currentTime=177.65000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=177.60" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>为什么不敢全量放开？后台二十四小时盯任务、不停调工具跑推理，那个算力成本，比聊天高一个数量级。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声）。上半屏数据中心夜景实拍框（dcnight）；下半屏两根柱子对比：聊天（短）vs 后台任务（长，标 24h），末尾标「×10」。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 dcnight 实拍照片框从上滑入</li><li>0.6「为什么不敢全量放开？」88px 打在照片框下</li><li>2.6 左柱「聊天」0.5s 长到 120px</li><li>3.6 右柱「后台任务」1s 长到 600px（缓慢、有压迫感），柱旁时钟角标「24h」</li><li>4.8 柱顶「×10」Bebas 200px 番茄红砸下，闷响 + 轻震</li><li>6.5「成本高一个数量级」底部上浮</li></ul></dd>
+<dt>字卡</dt><dd>问句 64px；柱名 44px；「×10」Bebas 200px；底部「成本高一个数量级」72px</dd>
+<dt>声音</dt><dd>BGM-6；4.8s 一记闷响（-18dB）<br><span class=d2>音效打点：4.8s 闷响</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/dcnight/001.jpg" target=_blank>dcnight</a><br>插画 <a href="src/st/hourglass.png" target=_blank>hourglass</a><br>mixkit dcnight / racks（机房夜景）</dd>
+<dt>拍摄 / 注意</dt><dd>原定 7s，口播需 10s，已加长。×10 是「一个数量级」的示意，不是精确数据。</dd></dl></td></tr><tr><td class=n>37<br><span class=d2>03:07.60<br>6.0s</span></td>
+<td><img src="st/s37.jpg" loading=lazy onclick="v.currentTime=187.65000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=187.60" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>第二道，做不全。代打电话现在只限境内生活服务。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏一张抽象地图块（不用真实国界）：中间一块亮起（境内），四周灰；右侧「个人电话」图标被禁止符号盖住。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.3「② 做不全」左上弹入</li><li>0.8 3×3 圆角地块网格灰色淡入</li><li>2.2 中央一块 0.6s 展开成番茄红亮块，上标「境内生活服务」</li><li>3.4 右侧电话图标 + 禁止圈 0.3s 盖上</li><li>4.0「仅境内生活服务」字卡</li></ul></dd>
+<dt>字卡</dt><dd>「② 做不全」88px；「仅境内生活服务」64px 在地图下方</dd>
+<dt>声音</dt><dd>BGM-6；禁止圈一声短促 buzz<br><span class=d2>音效打点：3.4s buzz</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/telephone.png" target=_blank>telephone</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景。地图用抽象色块，不要出现任何真实国界或地图轮廓。</dd></dl></td></tr><tr><td class=n>38<br><span class=d2>03:13.60<br>6.4s</span></td>
+<td><img src="st/s38.jpg" loading=lazy onclick="v.currentTime=193.65000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=193.60" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>商家口音、临时改价、要报验证码，这些突发情况，演示里看不出来。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播小窗。横向通话波形持续滚动，中途插入三个突变标记（杂音 / 改价 / 验证码），每次波形抖动。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 口播缩进小窗；callwoman 实拍框左上（打电话的人）</li><li>0.4 中央 30 根波形柱开始平稳起伏</li><li>1.2 / 2.4 / 3.6 三个标记依次插入：番茄红竖线 + 胶囊「杂音」「改价」「验证码」，插入瞬间波形剧烈抖动 0.4s</li><li>4.6「突发情况」右上砸入</li></ul></dd>
+<dt>字卡</dt><dd>标记胶囊 34px；「突发情况」88px</dd>
+<dt>声音</dt><dd>BGM-6；每次抖动配一段电话杂音（-24dB）<br><span class=d2>音效打点：1.2s 杂音；2.4s 杂音；3.6s 杂音</span></dd>
+<dt>素材</dt><dd>实拍素材 <a href="src/seq/callwoman/001.jpg" target=_blank>callwoman</a><br>mixkit callwoman</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>39<br><span class=d2>03:20.00<br>6.0s</span></td>
+<td><img src="st/s39.jpg" loading=lazy onclick="v.currentTime=200.05000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=200.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>第三道，最该警惕的：你交出去的，收不回来。</div>
+<dl><dt>景别 / 版式</dt><dd>实拍 B 俯拍（动画版：深蓝桌面）。一串钥匙被手推远，手离开画面，钥匙停在远处。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 BGM 全停；「③」左上淡入</li><li>0.4 钥匙插画在画面下方，手（handover）在其后</li><li>1.2 手推钥匙 0.6s 推向画面上方远处（钥匙缩小到 0.6 模拟远离）</li><li>2.0 手撤出画外，静 1s</li><li>3.4「收不回来」番茄红 110px 中偏下砸入</li></ul></dd>
+<dt>字卡</dt><dd>「③」Bebas 120px；「收不回来」110px 番茄红，屏幕 y≈1450</dd>
+<dt>声音</dt><dd>BGM 全停；钥匙在桌面滑动的金属声<br><span class=d2>音效打点：1.2s 钥匙滑动</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/key.png" target=_blank>key</a>、<a href="src/st/handover.png" target=_blank>handover</a><br>实拍 B（俯拍桌面 + 钥匙串）</dd>
+<dt>拍摄 / 注意</dt><dd>实拍 B：俯拍黑桌，一只手把一串钥匙放下、推远，然后手离开画面，停 1s。</dd></dl></td></tr><tr><td class=n>40<br><span class=d2>03:26.00<br>6.0s</span></td>
+<td><img src="st/s40.jpg" loading=lazy onclick="v.currentTime=206.05000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=206.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>想让它好用，你得给飞书文档、抖音订单、日历、下单权限。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏一个透明盒子（虚线框），四张权限卡依次掉进去，盒子越来越满。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.4 透明盒子出现（奶油描边虚线 + 淡色玻璃）</li><li>1.4 / 2.2 / 3.0 / 3.8 四张卡（飞书文档 / 抖音订单 / 日历 / 下单）依次从上方落进盒子，层层叠起</li><li>4.4「权限 ×4」右侧弹出</li></ul></dd>
+<dt>字卡</dt><dd>卡片 40px；「权限 ×4」72px，×4 Bebas 番茄红</dd>
+<dt>声音</dt><dd>BGM-6 -30dB；卡入声 ×4<br><span class=d2>音效打点：1.8s 卡入；2.6s 卡入；3.4s 卡入；4.2s 卡入</span></dd>
+<dt>素材</dt><dd>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景。</dd></dl></td></tr><tr><td class=n>41<br><span class=d2>03:32.00<br>6.6s</span></td>
+<td><img src="st/s41.jpg" loading=lazy onclick="v.currentTime=212.05000000000004;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=212.00" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>给得越多，它越懂你。可一旦理解错了、电话里说错了话，买单的是你。</div>
+<dl><dt>景别 / 版式</dt><dd>纯动画（人声），深蓝底。延续 #40 的盒子：盖子合上，盒壁变成单向玻璃——里面一只眼睛能看你，你看不进去。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 满盒子居中（四张卡在里面）</li><li>1.0 说「越懂你」：盒子里眼睛插画亮起</li><li>2.6 盒盖从上方 0.4s 合上，一声闷扣</li><li>3.0 盒壁 0.6s 变暗成单向玻璃（深色 80%），只剩眼睛在里面透出光</li><li>4.6「买单的是你」番茄红砸入底部</li></ul></dd>
+<dt>字卡</dt><dd>「买单的是&lt;span&gt;你&lt;/span&gt;」96px，「你」番茄红；BGM 全停</dd>
+<dt>声音</dt><dd>2.6s 盒盖闷扣；3.0s 起 BGM 全停<br><span class=d2>音效打点：2.6s 闷扣</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/eye.png" target=_blank>eye</a></dd>
+<dt>拍摄 / 注意</dt><dd>原定 6s，口播需 6.6s，已加长。</dd></dl></td></tr><tr><td class=n>42<br><span class=d2>03:38.60<br>7.5s</span></td>
+<td><img src="st/s42.jpg" loading=lazy onclick="v.currentTime=218.65000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=218.60" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#9FD39A;color:#9FD39A">PIP · 图解全屏 + 小窗</span> <span class=d2>转场：cut</span>
+<div class=vo>而且当你的长期记忆全存在一家大厂里，以后想换别家，迁移成本高得吓人。</div>
+<dl><dt>景别 / 版式</dt><dd>图解全屏 + 口播小窗。一条由便利贴/标签串成的「记忆长链」从左延伸到右，末端被一把锁扣住；链条旁边是别家 App 的空位（虚线）。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 口播缩进小窗</li><li>0.4 链条从左往右 1.5s 延伸（12 节，交替颜色，每节带一个小标签：偏好/住址/口味…）</li><li>2.4 锁（vault 插画）在链条末端 0.3s 扣上，轻震 6px</li><li>3.6 说「换别家」：右下虚线 App 空位出现，一个箭头试图过去被挡住（番茄红×）</li><li>5.0「迁移成本」右上砸入</li></ul></dd>
+<dt>字卡</dt><dd>「迁移成本」88px 深蓝，「成本」番茄红</dd>
+<dt>声音</dt><dd>BGM-6；2.4s 锁扣声（-18dB）<br><span class=d2>音效打点：2.4s 锁扣</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/vault.png" target=_blank>vault</a></dd>
+<dt>拍摄 / 注意</dt><dd>原定 6s，口播需 7.5s，已加长。</dd></dl></td></tr><tr><td colspan=3 class=chh>06 · 收束</td></tr><tr><td class=n>43<br><span class=d2>03:46.10<br>5.0s</span></td>
+<td><img src="st/s43.jpg" loading=lazy onclick="v.currentTime=226.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=226.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>记忆越长，你越走不掉。</div>
+<dl><dt>景别 / 版式</dt><dd>金句独占一屏，深蓝底。字底是一条越来越长的链条剪影（与 #42 同素材回环）。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 BGM 全停</li><li>0.2「记忆越长，」逐字 0.5s 上浮</li><li>1.3「你越走不掉。」逐字上浮，「走不掉」番茄红</li><li>0.0–5.0 字下方链条剪影从左向右缓慢延伸（5s 线性），始终没到头</li></ul></dd>
+<dt>字卡</dt><dd>「记忆越长，你越走不掉。」两行 110px 奶油色，屏幕居中</dd>
+<dt>声音</dt><dd>BGM 全停，只留口播；可加极轻环境底噪</dd>
+<dt>素材</dt><dd>—</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>44<br><span class=d2>03:51.10<br>5.0s</span></td>
+<td><img src="st/s44.jpg" loading=lazy onclick="v.currentTime=231.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=231.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>所以拿到邀请码，先别放权。</div>
+<dl><dt>景别 / 版式</dt><dd>口播全屏。她把手机屏幕朝下扣在桌上；右上「先别放权」字卡 + 一个拨回「关」的开关。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 硬切，BGM-7 进（回暖）</li><li>1.0 右上开关插画从「开」拨回「关」（rz 180→0，0.4s）</li><li>2.0 说「先别放权」：字卡砸入，开关下方</li><li>实拍：2.0s 左右手机扣桌</li></ul></dd>
+<dt>字卡</dt><dd>「先别放权」96px，「别」番茄红，右上</dd>
+<dt>声音</dt><dd>BGM-7 起 -24dB；手机扣桌一声（实拍同期）</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/toggle.png" target=_blank>toggle</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，说「先别放权」时把手机屏幕朝下扣在桌上，动作干脆 0.3s。</dd></dl></td></tr><tr><td class=n>45<br><span class=d2>03:56.10<br>6.0s</span></td>
+<td><img src="st/s45.jpg" loading=lazy onclick="v.currentTime=236.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=236.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#E9B44C;color:#E9B44C">LOW · 人在下半屏</span> <span class=d2>转场：cut</span>
+<div class=vo>先拿三件小事试：查降价、整理飞书资料、问餐厅有没有空位。</div>
+<dl><dt>景别 / 版式</dt><dd>人物下半屏；上半屏一张待办清单卡，三条依次打勾，每条左侧绿色「低风险」标签。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.6 口播下沉</li><li>0.4 清单卡上浮</li><li>1.6 / 2.8 / 4.0 三条依次：番茄红勾 0.2s 画上 + 文字变成深蓝 100%</li><li>每条左侧 sage 色「低风险」胶囊常驻</li></ul></dd>
+<dt>字卡</dt><dd>清单 52px：查降价 / 整理飞书资料 / 问餐厅有没有空位</dd>
+<dt>声音</dt><dd>BGM-7；轻点 ×3<br><span class=d2>音效打点：1.6s 轻点；2.8s 轻点；4.0s 轻点</span></dd>
+<dt>素材</dt><dd>插画 <a href="src/st/check.png" target=_blank>check</a><br>实拍 A</dd>
+<dt>拍摄 / 注意</dt><dd>中景，可配合手指点三下。</dd></dl></td></tr><tr><td class=n>46<br><span class=d2>04:02.10<br>8.0s</span></td>
+<td><img src="st/s46.jpg" loading=lazy onclick="v.currentTime=242.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=242.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>每次盯一件事——涉及花钱和对外打电话的时候，它有没有把最后那道确认留给你。</div>
+<dl><dt>景别 / 版式</dt><dd>纯界面（人声）。两部手机并排：左下单页、右拨号页；整体压暗，只有两个「确认」按钮亮起。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 两部手机从两侧滑入</li><li>1.4 左手机：订单 ¥268 + 支付按钮；右手机：拨号「巷子里的小馆」</li><li>3.2 整个画面压暗到 35%</li><li>3.6 两个「确认」按钮 0.4s 亮起（白底，只有它们亮），外圈番茄红呼吸光</li><li>5.4「最后一道确认」底部上浮</li></ul></dd>
+<dt>字卡</dt><dd>按钮「需要你确认」40px；底部「最后一道确认」88px</dd>
+<dt>声音</dt><dd>BGM-7；按钮亮起一声柔和 ding<br><span class=d2>音效打点：3.6s ding</span></dd>
+<dt>素材</dt><dd>—</dd>
+<dt>拍摄 / 注意</dt><dd>原定 6s，口播需 8s，已加长。</dd></dl></td></tr><tr><td class=n>47<br><span class=d2>04:10.10<br>5.3s</span></td>
+<td><img src="st/s47.jpg" loading=lazy onclick="v.currentTime=250.15000000000003;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=250.10" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>尺子就一句：它替你做决定之前，还会不会问你一句。</div>
+<dl><dt>景别 / 版式</dt><dd>口播推近到特写；头顶右侧一把尺子插画，说「问你一句」时尺子旁出现一个问号。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0–0.5 推近到特写</li><li>0.6 尺子插画右上弹入（−8°）</li><li>3.4 说「问你一句」：问号插画弹出</li><li>最后 1s 她抬眼看镜头，画面不加任何元素</li></ul></dd>
+<dt>字卡</dt><dd>无大字卡（这一句让人脸说话）</dd>
+<dt>声音</dt><dd>BGM-7 降 4dB</dd>
+<dt>素材</dt><dd>插画 <a href="src/st/ruler.png" target=_blank>ruler</a>、<a href="src/st/question.png" target=_blank>question</a><br>实拍 A（85mm）</dd>
+<dt>拍摄 / 注意</dt><dd>原定 3s，口播需 5.3s，已加长。85mm 特写，最后抬眼看镜头。</dd></dl></td></tr><tr><td class=n>48<br><span class=d2>04:15.40<br>3.0s</span></td>
+<td><img src="st/s48.jpg" loading=lazy onclick="v.currentTime=255.45000000000005;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=255.40" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#F2EDE4;color:#F2EDE4">FULL · 纯动画 / 实拍 B</span> <span class=d2>转场：cut</span>
+<div class=vo>记忆越长，你越走不掉。</div>
+<dl><dt>景别 / 版式</dt><dd>金句二次出现（同 #43 版式），字更小、位置偏上；链条剪影已经很长。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 链条剪影直接全长出现</li><li>0.1 金句逐字上浮 0.4s，88px，位于 y≈-300</li></ul></dd>
+<dt>字卡</dt><dd>「记忆越长，你越走不掉。」88px 奶油色，偏上</dd>
+<dt>声音</dt><dd>BGM-7 -20dB</dd>
+<dt>素材</dt><dd>—</dd>
+<dt>拍摄 / 注意</dt><dd>无。</dd></dl></td></tr><tr><td class=n>49<br><span class=d2>04:18.40<br>3.6s</span></td>
+<td><img src="st/s49.jpg" loading=lazy onclick="v.currentTime=258.45000000000005;v.play();scrollTo(0,0)"><a class=pl href="src/player.html?t=258.40" target=_blank>▶ 从这镜实时播放</a></td>
+<td><span class=tag style="border-color:#7FB2FF;color:#7FB2FF">TALK · 口播全屏</span> <span class=d2>转场：cut</span>
+<div class=vo>你愿意让它记住你多少？</div>
+<dl><dt>景别 / 版式</dt><dd>口播特写；问句说完后 1s 压黑。片尾小字「关注曼塔」。</dd>
+<dt>关键帧（秒 = 镜内时间）</dt><dd><ul><li>0.0 特写</li><li>2.4 问句说完，画面 1s 压黑（dim 0→1）</li><li>3.0「关注曼塔」32px 在黑场中淡入</li></ul></dd>
+<dt>字卡</dt><dd>片尾小字「关注曼塔」32px 奶油色</dd>
+<dt>声音</dt><dd>BGM-7 淡出 2s</dd>
+<dt>素材</dt><dd>实拍 A（85mm）</dd>
+<dt>拍摄 / 注意</dt><dd>原定 2s，口播需 2.8s + 压黑，已加长到 3.6s。85mm 特写，同 #47 机位，问完看镜头不动。</dd></dl></td></tr></table></div>
