@@ -1,0 +1,92 @@
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Bebas;src:url(fonts/bebas.ttf)}
+@font-face{font-family:JBM;src:url(fonts/jbm.ttf)}
+/* v6 · FDE 暗色高级风（竖版）。沿用 v5 变量名，换成 FDE 调色：
+   --navy = 前景（暖白）  --cream = 底色（墨黑）  --tom = coral  --but = gold  --sky = cool  --sage = mint  --ink = 深色字（放在亮底上） */
+:root{--bg:#0D0E11;--navy:#F2EDE4;--fg:#F2EDE4;--cream:#0D0E11;--paper:#16181D;--ink:#0D0E11;--dim:rgba(242,237,228,.55);
+  --tom:#E5673F;--coral:#E5673F;--but:#E9B44C;--gold:#E9B44C;--sky:#7FB2FF;--cool:#7FB2FF;--sage:#8FD3B4;
+  --cn:"Noto Sans CJK SC",sans-serif;--sf:"Noto Serif CJK SC",serif;--en:Anton,"Noto Sans CJK SC",sans-serif;--mono:JBM,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:var(--cn);color:var(--fg)}
+.scene{position:absolute;inset:0}
+/* 氛围底：缓慢漂移的两团冷暖光 + 极淡网格 */
+.amb{position:absolute;inset:-10%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at var(--ax,30%) var(--ay,28%),rgba(229,103,63,.16),rgba(229,103,63,0) 38%),
+             radial-gradient(circle at var(--bx,75%) var(--by,74%),rgba(127,178,255,.13),rgba(127,178,255,0) 40%)}
+.grid{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(242,237,228,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(242,237,228,.045) 1px,transparent 1px);
+  background-size:90px 90px;background-position:45px 0;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 30%,transparent 75%)}
+.persp{position:absolute;inset:0;perspective:1800px;perspective-origin:50% 50%;transform-style:preserve-3d}
+.world{position:absolute;left:540px;top:960px;width:0;height:0;transform-style:preserve-3d}
+.n{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform,opacity}
+.vid{display:block;width:100%;height:100%;object-fit:cover}
+/* 实拍框：无边、圆角、底部压暗渐变 + 细描边 */
+.panel{overflow:hidden;background:#111;border-radius:22px;box-shadow:0 50px 120px rgba(0,0,0,.6),0 0 0 1px rgba(242,237,228,.1)}
+.panel .vid{filter:saturate(.82) contrast(1.06) brightness(.92)}
+.panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,17,0) 45%,rgba(13,14,17,.6));pointer-events:none}
+.panel.nt::after{display:none}
+/* 图标（替代插画贴纸）：玻璃方块 + 线性图标 */
+.icn{position:relative;display:flex;align-items:center;justify-content:center;border-radius:22%;
+  background:linear-gradient(160deg,rgba(242,237,228,.10),rgba(242,237,228,.02));
+  box-shadow:inset 0 0 0 1.5px rgba(242,237,228,.16),0 30px 70px rgba(0,0,0,.55);backdrop-filter:blur(10px)}
+.icn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 30% 20%,var(--ic,rgba(229,103,63,.35)),transparent 60%);opacity:.9}
+.icn svg{position:relative;width:58%;height:58%;stroke:currentColor;stroke-width:1.4;fill:none}
+.icn.bare{background:none;box-shadow:none;backdrop-filter:none}.icn.bare::before{display:none}
+.icn.bare svg{width:100%;height:100%}
+.cn{font-family:var(--cn);font-weight:900;letter-spacing:-.04em;line-height:1.08;white-space:nowrap}
+.sf{font-family:var(--cn);font-weight:900;letter-spacing:-.04em;line-height:1.08;white-space:nowrap}
+.en{font-family:var(--en);letter-spacing:.005em;line-height:.9;white-space:nowrap}
+.mono{font-family:var(--mono);font-size:20px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;color:var(--dim)}
+.co{color:var(--coral)}.cl{color:var(--cool)}.go{color:var(--gold)}
+.hl{background:var(--coral);color:var(--bg);padding:0 .14em;margin:0 .04em}
+.hlc{background:var(--fg);color:var(--bg);padding:0 .14em;margin:0 .04em}
+.word{display:inline-block;will-change:transform,opacity}
+/* 胶囊：细描边 mono 风 */
+.pill{display:inline-block;background:rgba(242,237,228,.08);color:var(--fg);border-radius:50px;padding:10px 28px;font:700 32px/1.2 var(--cn);white-space:nowrap;box-shadow:inset 0 0 0 1.5px rgba(242,237,228,.22);backdrop-filter:blur(8px)}
+.pill.t{background:var(--coral);color:var(--bg);box-shadow:none}.pill.y{background:var(--gold);color:var(--bg);box-shadow:none}
+.pill.g{background:var(--sage);color:var(--bg);box-shadow:none}.pill.s{background:var(--cool);color:var(--bg);box-shadow:none}
+.pill.o{background:transparent;box-shadow:inset 0 0 0 2px rgba(242,237,228,.6);color:var(--fg)}
+/* 卡片：深色玻璃 / 反白 */
+.card{background:linear-gradient(170deg,#1B1D23,#111317);border-radius:26px;box-shadow:0 40px 100px rgba(0,0,0,.55),inset 0 0 0 1px rgba(242,237,228,.09);color:var(--fg)}
+.cardn{background:var(--fg);border-radius:26px;box-shadow:0 40px 100px rgba(0,0,0,.55);color:var(--bg)}
+.bgfill{width:1080px;height:1920px}
+.line{height:3px;border-radius:2px;background:var(--fg);transform-origin:0 50%}
+.dash{border-top:3px dashed rgba(242,237,228,.6);height:0}
+.dot{width:26px;height:26px;border-radius:50%;background:var(--coral);box-shadow:0 0 24px rgba(229,103,63,.6)}
+.icon{width:150px;height:150px;border-radius:38px;display:flex;align-items:center;justify-content:center;font:900 44px var(--cn);box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.box{border:2px solid rgba(242,237,228,.85);border-radius:14px;width:96px;height:120px;background:#15171C}
+/* 后期 */
+.post{position:absolute;inset:0;pointer-events:none;z-index:50}
+.vign{background:radial-gradient(ellipse at 50% 48%,rgba(0,0,0,0) 55%,rgba(0,0,0,.5) 100%)}
+.grain{mix-blend-mode:overlay;opacity:.16;background-size:1080px 1920px}
+.ptex{display:none}
+.leak{mix-blend-mode:screen;opacity:0}
+.flash{background:#fff;opacity:0}
+.hud{position:absolute;left:66px;top:162px;z-index:60;color:rgba(242,237,228,.7);font-size:18px;padding-left:22px}
+.hud::before{content:"";position:absolute;left:0;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;background:var(--coral);box-shadow:0 0 12px var(--coral)}
+.hud:empty{display:none}
+.hud2{position:absolute;right:66px;top:162px;z-index:60;color:rgba(242,237,228,.45);font-size:18px}
+.tc{position:absolute;right:66px;bottom:160px;z-index:60;color:rgba(242,237,228,.38);font-size:16px}
+/* 口播层 */
+.talk{position:absolute;overflow:hidden;display:none}
+.talk img{position:absolute;max-width:none;display:block}
+.plate{z-index:0;background:#000}.pb{z-index:1}.cut{z-index:2}.pf{z-index:3}
+.plate.bd{box-shadow:0 0 0 3px rgba(242,237,228,.9),0 40px 90px rgba(0,0,0,.6)}
+.sub{position:absolute;left:0;right:0;bottom:300px;text-align:center;z-index:70;font:800 50px/1.3 var(--cn);color:#fff;
+  text-shadow:0 2px 0 rgba(0,0,0,.6),0 0 22px rgba(0,0,0,.7);letter-spacing:.02em;padding:0 80px;white-space:nowrap}
+/* 手机 / 通知 / 列表 */
+.phn{position:relative;background:#121418;border:10px solid #2A2D34;border-radius:72px;box-shadow:0 50px 120px rgba(0,0,0,.6),inset 0 0 0 1px rgba(242,237,228,.06);overflow:hidden}
+.phn .nt{position:absolute;left:50%;top:18px;width:150px;height:34px;margin-left:-75px;background:#000;border-radius:20px}
+.app{border-radius:44px;display:flex;align-items:center;justify-content:center;font:900 92px/1 var(--cn);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.app .icn{background:none;box-shadow:none}.app .icn::before{display:none}.app .icn svg{stroke:var(--bg);stroke-width:1.6}
+.ntf{background:rgba(27,29,35,.92);border-radius:30px;box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 0 0 1px rgba(242,237,228,.1);display:flex;gap:24px;align-items:center;padding:26px 30px;color:var(--fg)}
+.ntf .icn{width:110px;height:110px;flex:none}
+.row{display:flex;align-items:center;gap:22px;height:92px;padding:0 30px;border-bottom:1px solid rgba(242,237,228,.1);font:700 40px var(--cn)}
+.sw{margin-left:auto;width:96px;height:54px;border-radius:30px;background:rgba(242,237,228,.18);position:relative}
+.sw i{position:absolute;top:6px;left:6px;width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.stamp{border:6px solid var(--coral);color:var(--coral);border-radius:10px;padding:6px 20px;font:900 56px var(--cn);letter-spacing:.1em}
+/* 抽象背景（替代 bg_* 插画） */
+.abg{width:1080px;height:1400px;position:relative}
+.abg svg{width:100%;height:100%}
